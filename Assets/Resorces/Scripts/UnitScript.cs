@@ -4,7 +4,7 @@
 /// Program script also known as a unit.
 /// Parent script for all programs
 /// </summary>
-public class ProgramScript : MonoBehaviour {
+public class UnitScript : MonoBehaviour {
 	#region programName
 
 	private string programName;

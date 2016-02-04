@@ -27,7 +27,7 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-	public ProgramScript programInstalled;
+	public UnitScript programInstalled;
 	private GridBlock programHeadLocation;
 
 	private Collider2D selectionBox;
