@@ -279,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridBlock: {fileID: 172680, guid: a7a9e18a8a100644b97259c44d90daf7, type: 2}
   gridStartPoint: {fileID: 1096941442}
-  gridSize: 10
+  gridSize: 20
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 

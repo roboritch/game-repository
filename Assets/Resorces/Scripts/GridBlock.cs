@@ -27,6 +27,12 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
+	#region display
+	public GridBlockSpriteDisplay displayScript;
+
+
+	#endregion
+
 	public UnitScript programInstalled;
 	private GridBlock programHeadLocation;
 
