@@ -12,6 +12,9 @@ public class MiddleMouseMove : MonoBehaviour {
 	private float cPosX;
 	private float cPosY;
 
+	public Camera cam;
+	public float zoomSpeed;
+	public bool invertZoom;
 
 	// Use this for initialization
 	void Start() {
@@ -27,6 +30,7 @@ public class MiddleMouseMove : MonoBehaviour {
 		#region mouse scrolling
 		cPosX = Input.mousePosition.x;
 		cPosY = Input.mousePosition.y;
+
 		if(Input.GetMouseButtonDown(2) || Input.GetMouseButton(2)) {
 			//lots of code but best implementation
 			//invertions can be changed at any time
@@ -40,9 +44,14 @@ public class MiddleMouseMove : MonoBehaviour {
 				transform.Translate((cPosX - lPosX) * scrollingSpeed, (cPosY - lPosY) * scrollingSpeed, 0f);
 			}
 		}
+		if(invertZoom) {
+			cam.orthographicSize += zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
+		} else {
+			cam.orthographicSize -= zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
+		}
 
 
-
+			
 		lPosX = cPosX;
 		lPosY = cPosY;
 		#endregion
