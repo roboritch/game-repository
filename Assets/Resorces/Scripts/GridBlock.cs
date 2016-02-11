@@ -27,8 +27,19 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-	#region display
-	public GridBlockSpriteDisplay displayScript;
+	#region sprites
+
+	public GridBlockSpriteDisplay spriteCreateDestroy;
+
+	/// <summary>
+	/// Displaies the conections.
+	/// </summary>
+	/// <param name="unit">Unit.</param>
+	void displayConections(UnitScript unit) {
+		/*TODO call this every time a unit changes size or moves to 
+		 * correctily display the conections in a single program */
+		 
+	}
 
 
 	#endregion
@@ -101,7 +112,7 @@ public class GridBlock : MonoBehaviour {
 	}
 
 	public void toggleSpaceOnline() { 
-		if(!online){
+		if(!online) {
 			//TODO tell spaces around this one that it is active
 			transform.GetComponent<MeshFilter>().mesh = basicMesh;
 			online = !online;
