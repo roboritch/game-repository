@@ -1222,13 +1222,14 @@ MonoBehaviour:
   gridBlock: {fileID: 172680, guid: a7a9e18a8a100644b97259c44d90daf7, type: 2}
   gridStartPoint: {fileID: 1096941442}
   gridSize: 10
+  spritePrefab: {fileID: 194436, guid: 1dc88005f815d9542b0abff156a3632c, type: 2}
   sprite_unit: {fileID: 21300000, guid: dffb9a61a01734746ac644de141a4e6c, type: 3}
   sprite_unitConecter: {fileID: 0}
   sprite_defaultSpace: {fileID: 21300000, guid: e910e4f78038dbf4fbcbdad898836d40,
     type: 3}
-  color_defaultSpaceColor: {r: 0, g: 0, b: 0, a: 0}
+  color_defaultSpaceColor: {r: 0.492, g: 0.492, b: 0.492, a: 0.5882353}
   sprite_spawnSpace: {fileID: 0}
-  color_spawnSpaceColor: {r: 0, g: 0, b: 0, a: 0}
+  color_spawnSpaceColor: {r: 0.283745, g: 0.7071573, b: 0.847, a: 0.5882353}
   sprite_move: {fileID: 0}
   color_move: {r: 0, g: 0, b: 0, a: 0}
   sprite_attack: {fileID: 0}

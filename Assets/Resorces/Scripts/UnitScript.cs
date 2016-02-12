@@ -78,6 +78,28 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
+	#region sprite information
+
+	/// <summary>
+	/// Gets the color of the unit.
+	/// must be overiden by new unit with that units color
+	/// </summary>
+	/// <returns>The unit color.</returns>
+	public virtual Color getUnitColor() {
+		return Color.white;
+	}
+
+	/// <summary>
+	/// The head sprite.
+	/// must be set from child unit
+	/// </summary>
+	public Sprite headSprite;
+
+	public virtual Sprite getUnitHeadSprite() {
+		return headSprite;
+	}
+
+	#endregion
 
 	// Use this for initialization
 	void Start() {
