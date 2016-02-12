@@ -9,7 +9,7 @@ public class UnitScript : MonoBehaviour {
 
 	private string programName;
 
-	protected void setProgramamName(string name) {
+	protected void setProgramName(string name) {
 		programName = name;
 	}
 
@@ -54,20 +54,39 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>
 	/// The current length must be modifyed by the attack method
 	/// </summary>
-	private int length = 1;
+
+	private int currentLength=1;
+
+	public int CurrentLength {
+		get{ return currentLength; }
+	}
+	public void setCurrentLength(int value){
+		currentLength = value;
+	}
 	// length starts at one unless otherwise specified
 
 	public virtual void receiveDamage(int damageAmount) {
-
+		if(CurrentLength>damageAmount){
+			setCurrentLength(CurrentLength - damageAmount);}
+		else {
+			setCurrentLength(0);
+			GridBlockSpriteDisplay.DestroyObject;}//removes sprite
+			
 	}
 
 	#endregion
 
 	#region programAttack
+	private int attackDamage;
+	public int AttackDamage {
+		get{ return attackDamage; }
+	}
+	public void setAttackDamage(int value){
+		attackDamage = value;
+	}
 
-
-	public virtual void attack() { //TODO  program attack
-
+	public virtual void attack(UnitScript target) { //TODO  program attack
+		target.receiveDamage(AttackDamage);
 	}
 
 	#endregion
