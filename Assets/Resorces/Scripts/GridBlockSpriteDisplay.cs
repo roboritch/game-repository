@@ -78,9 +78,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			return;
 		}
 
+		if(attachedGridBlock.right != null)
 		checkRight();
+		if(attachedGridBlock.up != null)
 		checkAbove();
+		if(attachedGridBlock.left != null)
 		attachedGridBlock.left.spriteDisplayScript.checkRight(); // check left
+		if(attachedGridBlock.down != null)
 		attachedGridBlock.down.spriteDisplayScript.checkAbove(); // check right
 	}
 
