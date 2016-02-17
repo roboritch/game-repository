@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GUIScript : MonoBehaviour {
 
@@ -47,11 +48,28 @@ public class GUIScript : MonoBehaviour {
 
 	//TODO setup unit acting
 	#region unit acting
+	public GameObject unitActingPrefab;
+	public Queue<UnitActingScript> actingQueue;
+	public Transform currentProgramStartPosition;
+
+
+	public void addToUnitActing(){
+		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
+		temp.transform.SetParent(currentProgramStartPosition);
+		temp.transform.localPosition.Set(0, actingQueue.Count*50f,0);//each unit acting image is 50f apart
+		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite,currentlySelectedUnit.getUnitColor);
+		if(actingQueue.Count == 0){
+			temp.setCurrentlyActing();
+		}
+		temp.setUnit(temp);
+		actingQueue.Enqueue(temp);
+
+	}
 
 	#endregion
 
 	void Start() {
-		
+		actingQueue = new Queue<UnitActingScript>();
 	}
 
 

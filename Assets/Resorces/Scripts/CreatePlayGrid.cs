@@ -6,6 +6,9 @@ public class CreatePlayGrid : MonoBehaviour {
 	public int gridSize;
 	public GridBlock[,] gameGrid;
 
+	public GUIScript gui;
+
+
 	//all the default sprites and colors
 	//each unit's script holds there own sprite and color
 

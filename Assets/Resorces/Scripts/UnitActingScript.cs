@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class UnitActingScript : MonoBehaviour {
 	public Image unitColor;
 	public Image unitHeadSprite;
+	private UnitScript unit;
 	public bool enemy; // TODO add some identifyer for enemy units
 
 	public void setUnitSprite(Sprite unitHead,Color color){
@@ -20,6 +21,9 @@ public class UnitActingScript : MonoBehaviour {
 		//TODO add some animation to show that this unit is acting 
 	}
 		
+	public void setUnit(UnitScript u){
+		unit = u;
+	}
 
 	// Use this for initialization
 	void Start () {
