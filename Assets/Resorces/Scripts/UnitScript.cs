@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Program script also known as a unit.
@@ -64,14 +65,14 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region sprite information
-
+	public Color unitColor;
 	/// <summary>
 	/// Gets the color of the unit.
 	/// must be overiden by new unit with that units color
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor() {
-		return Color.white;
+		return unitColor;
 	}
 
 	/// <summary>
@@ -109,7 +110,7 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region Action queue
-
+	public Queue<ActionScript> action;
 	//TODO add action queue 
 	/*each action will be a child of the ActionScript */
 
@@ -123,7 +124,7 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 	// Use this for initialization
 	void Start() {
-
+		action = new Queue<ActionScript>();
 	}
 
 	// Update is called once per frame
