@@ -148,7 +148,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	#endregion
 
-	#region set actions
+
 
 	/// <summary>
 	/// displays the action.
@@ -173,8 +173,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		actionSprites[actionID].removeSprite();
 		actionUsed[actionID] = false;
 	}
-
-	#region
+		
 
 
 	// Update is called once per frame

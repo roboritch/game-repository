@@ -106,7 +106,7 @@ public class UnitScript : MonoBehaviour {
 	public void displayActionAsButtion(string actionDiscription,GameObject button){
 		
 	}
-
+	#endregion
 
 	#region Action queue
 
