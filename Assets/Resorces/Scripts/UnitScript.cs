@@ -99,12 +99,12 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Displaies the action as buttion.
+	/// Displays the action as button.
 	/// Each unit will have it's own button prefabs
 	/// </summary>
 	/// <param name="actionDiscription">The Action's discription.</param>
 	/// <param name="button">button that will be displayed on the gui</param>
-	public void displayActionAsButtion(string actionDiscription,GameObject button){
+	public void displayActionAsButton(string actionDiscription,GameObject button){
 		
 	}
 	#endregion
