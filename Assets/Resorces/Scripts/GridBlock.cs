@@ -21,9 +21,21 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-	#region mesh types
 
-	public Mesh basicMesh, spawnMesh, emptyMesh;
+	#region sprites
+
+	public GridBlockSpriteDisplay spriteDisplayScript;
+
+	/// <summary>
+	/// Displaies the conections.
+	/// </summary>
+	/// <param name="unit">Unit.</param>
+	void displayConections(UnitScript unit) {
+		/*TODO call this every time a unit changes size or moves to 
+		 * correctily display the conections in a single program */
+		 
+	}
+
 
 	#endregion
 
@@ -38,6 +50,7 @@ public class GridBlock : MonoBehaviour {
 			gridManager = value;
 		}
 	}
+
 
 	#region mouseDown and mouseOver
 
@@ -95,15 +108,15 @@ public class GridBlock : MonoBehaviour {
 	}
 
 	public void toggleSpaceOnline() { 
-		if(!online){
+		if(online == false) {
 			//TODO tell spaces around this one that it is active
-			transform.GetComponent<MeshFilter>().mesh = basicMesh;
+			transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
 			online = !online;
-			return;
+		} else {
+			//TODO tell spaces around this one that it is not active
+			transform.GetComponent<SpriteControler>().removeSprite();
+			online = !online;
 		}
-		//TODO tell spaces around this one that it is not active
-		transform.GetComponent<MeshFilter>().mesh = emptyMesh;
-		online = !online;
 	}
 
 
@@ -111,13 +124,19 @@ public class GridBlock : MonoBehaviour {
 	/// Sets gridblock as a spawn.
 	/// </summary>
 	public void setSpawn() {
+		if(!online) {
+			return;
+		}
 		spawnSpot = true;
-		transform.GetComponent<MeshFilter>().mesh = spawnMesh;
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_spawnSpace, gridManager.color_spawnSpaceColor);
 	}
 
 	public void removeSpawn() {
+		if(!online) {
+			return;
+		}
 		spawnSpot = false;
-		transform.GetComponent<MeshFilter>().mesh = basicMesh;
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
 	}
 
 
@@ -125,7 +144,7 @@ public class GridBlock : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-
+		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
 	}
 
 	// Update is called once per frame
