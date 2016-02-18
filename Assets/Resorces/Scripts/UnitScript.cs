@@ -7,19 +7,15 @@ using System.Collections.Generic;
 /// </summary>
 public class UnitScript : MonoBehaviour {
 	#region programName
-
 	private string programName;
-
-	protected void setProgramamName(string name) {
-		programName = name;
+	public string ProgramName {
+		get {
+			return programName;
+		}
+		set{
+			programName = value;
+		}
 	}
-
-	public string getProgramName() {
-		return programName;
-	}
-
-
-
 	#endregion
 
 	#region maxProgramLength
