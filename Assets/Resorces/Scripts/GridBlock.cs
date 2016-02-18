@@ -51,6 +51,7 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+
 	#region mouseDown and mouseOver
 
 	void OnMouseDown() { // UNDONE need to add colider to gridblock prefab
