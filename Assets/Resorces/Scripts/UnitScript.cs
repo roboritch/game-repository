@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Program script also known as a unit.
@@ -9,7 +10,7 @@ public class UnitScript : MonoBehaviour {
 
 	private string programName;
 
-	protected void setProgramName(string name) {
+	protected void setProgramamName(string name) {
 		programName = name;
 	}
 
@@ -54,53 +55,85 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>
 	/// The current length must be modifyed by the attack method
 	/// </summary>
-
-	private int currentLength=1;
-
+	private int currentLength = 1;
 	public int CurrentLength {
 		get{ return currentLength; }
-	}
-	public void setCurrentLength(int value){
-		currentLength = value;
+		set{ currentLength = value; }
 	}
 	// length starts at one unless otherwise specified
-
+	//TODO check allies
 	public virtual void receiveDamage(int damageAmount) {
-		if(CurrentLength>damageAmount){
-			setCurrentLength(CurrentLength - damageAmount);}
-		else {
-			setCurrentLength(0);
-			GridBlockSpriteDisplay.DestroyObject;}//removes sprite
-			
+		if (CurrentLength > damageAmount) {
+			CurrentLength = CurrentLength - damageAmount;
+
+		} else{
+			//TODO destroy unit
+		}
 	}
 
 	#endregion
 
-	#region programAttack
-	private int attackDamage;
-	public int AttackDamage {
-		get{ return attackDamage; }
-	}
-	public void setAttackDamage(int value){
-		attackDamage = value;
+	#region sprite information
+	public Color unitColor;
+	/// <summary>
+	/// Gets the color of the unit.
+	/// must be overiden by new unit with that units color
+	/// </summary>
+	/// <returns>The unit color.</returns>
+	public virtual Color getUnitColor() {
+		return unitColor;
 	}
 
-	public virtual void attack(UnitScript target) { //TODO  program attack
-		target.receiveDamage(AttackDamage);
+	/// <summary>
+	/// The head sprite.
+	/// must be set from child unit
+	/// </summary>
+	public Sprite headSprite;
+
+	public virtual Sprite getUnitHeadSprite() {
+		return headSprite;
 	}
 
 	#endregion
 
-	#region programMovment
+	#region Actions
+	private CreatePlayGrid grid;
+	/// <summary>
+	/// Sets the grid conection.
+	/// this must be set when the unit is created
+	/// </summary>
+	/// <param name="playGrid">Play grid.</param>
+	public void setGridConection(CreatePlayGrid playGrid){
+		grid = playGrid;
+	}
 
-	//TODO enable program movent
+	/// <summary>
+	/// Displays the action as button.
+	/// Each unit will have it's own button prefabs
+	/// </summary>
+	/// <param name="actionDiscription">The Action's discription.</param>
+	/// <param name="button">button that will be displayed on the gui</param>
+	public void displayActionAsButton(string actionDiscription,GameObject button){
 
+	}
 	#endregion
 
+	#region Action queue
+	public Queue<ActionScript> action;
+	//TODO add action queue 
+	/*each action will be a child of the ActionScript */
 
+	public void resetActionQueue(){
+		/*TODO this function must remove every action from the queue
+		while calling each action to remove there displayed images */ 
+	}
+
+
+
+	#endregion
 	// Use this for initialization
 	void Start() {
-
+		action = new Queue<ActionScript>();
 	}
 
 	// Update is called once per frame
