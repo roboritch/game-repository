@@ -27,6 +27,8 @@ public class GUIScript : MonoBehaviour {
 	public Button[] buttons; // buttons the unit passes to this script
 	private int MAX_BUTTONS = 6;
 	public Button resetUnitActions;
+
+
 	public void resetUnitAction(){
 		//currentlySelectedUnit.resetActionQueue(); TODO get this working in unitScript
 	}
