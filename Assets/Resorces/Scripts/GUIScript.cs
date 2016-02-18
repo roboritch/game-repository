@@ -27,6 +27,8 @@ public class GUIScript : MonoBehaviour {
 	public Button[] buttons; // buttons the unit passes to this script
 	private int MAX_BUTTONS = 6;
 	public Button resetUnitActions;
+
+
 	public void resetUnitAction(){
 		//currentlySelectedUnit.resetActionQueue(); TODO get this working in unitScript
 	}
@@ -57,11 +59,11 @@ public class GUIScript : MonoBehaviour {
 		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
 		temp.transform.SetParent(currentProgramStartPosition);
 		temp.transform.localPosition.Set(0, actingQueue.Count*50f,0);//each unit acting image is 50f apart
-		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite,currentlySelectedUnit.getUnitColor);
+		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite(),currentlySelectedUnit.getUnitColor());
 		if(actingQueue.Count == 0){
 			temp.setCurrentlyActing();
 		}
-		temp.setUnit(temp);
+		temp.setUnit(currentlySelectedUnit);
 		actingQueue.Enqueue(temp);
 
 	}

@@ -48,7 +48,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		for(int x = 0; x < MAX_ACTIONS_ON_THIS_BLOCK; x++) {
 			actionSprites[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			actionSprites[x].transform.SetParent(transform);
-			actionSprites[x].transform.localPosition.Set(0, 0, 0.3f);
+			actionSprites[x].transform.localPosition.Set(0, 0, 0.3f + x*0.05f);
 			actionSprites[x].name = "Action Sprite";
 		}
 
@@ -146,6 +146,10 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	}
 
 
+	#endregion
+
+
+
 	/// <summary>
 	/// displays the action.
 	/// </summary>
@@ -169,9 +173,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		actionSprites[actionID].removeSprite();
 		actionUsed[actionID] = false;
 	}
-
-	#endregion
-
+		
 
 
 	// Update is called once per frame

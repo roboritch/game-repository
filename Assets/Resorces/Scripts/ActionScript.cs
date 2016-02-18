@@ -7,8 +7,25 @@ using System.Collections;
 /// and exicuted in sequece with other actions
 /// </summary>
 public class ActionScript : MonoBehaviour {
-	public UnitScript unit;
-	public int actionID;
+	private UnitScript unit; // this should be the instance of the unit that  
+	private int actionID;  //set for each desplay of the action 
+						   //each move, attack or action must be a seprate instance of this script 
+	public int ActionID {
+		get {
+			return actionID;
+		}
+		set {
+			actionID = value;
+		}
+	}
+
+
+	#region button infromation
+	public string actionName;
+	public string actionDescription;
+	public GameObject buttonPrefab;
+
+	#endregion
 
 	/// <summary>
 	/// preform this action when called by the units action queue.

@@ -18,6 +18,7 @@ public class UnitActingScript : MonoBehaviour {
 	}
 		
 	public void setCurrentlyActing(){
+
 		//TODO add some animation to show that this unit is acting 
 	}
 		
