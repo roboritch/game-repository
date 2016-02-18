@@ -63,22 +63,64 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
-	#region programAttack
+	#region sprite information
 
+	/// <summary>
+	/// Gets the color of the unit.
+	/// must be overiden by new unit with that units color
+	/// </summary>
+	/// <returns>The unit color.</returns>
+	public virtual Color getUnitColor() {
+		return Color.white;
+	}
 
-	public virtual void attack() { //TODO  program attack
+	/// <summary>
+	/// The head sprite.
+	/// must be set from child unit
+	/// </summary>
+	public Sprite headSprite;
 
+	public virtual Sprite getUnitHeadSprite() {
+		return headSprite;
 	}
 
 	#endregion
 
-	#region programMovment
+	#region Actions
+	private CreatePlayGrid grid;
+	/// <summary>
+	/// Sets the grid conection.
+	/// this must be set when the unit is created
+	/// </summary>
+	/// <param name="playGrid">Play grid.</param>
+	public void setGridConection(CreatePlayGrid playGrid){
+		grid = playGrid;
+	}
 
-	//TODO enable program movent
+	/// <summary>
+	/// Displaies the action as buttion.
+	/// Each unit will have it's own button prefabs
+	/// </summary>
+	/// <param name="actionDiscription">The Action's discription.</param>
+	/// <param name="button">button that will be displayed on the gui</param>
+	public void displayActionAsButtion(string actionDiscription,GameObject button){
+		
+	}
+
+
+	#region Action queue
+
+	//TODO add action queue 
+	/*each action will be a child of the ActionScript */
+
+	public void resetActionQueue(){
+		/*TODO this function must remove every action from the queue
+		while calling each action to remove there displayed images */ 
+	}
+
+
 
 	#endregion
-
-
 	// Use this for initialization
 	void Start() {
 
