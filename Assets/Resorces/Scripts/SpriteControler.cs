@@ -30,4 +30,13 @@ public class SpriteControler : MonoBehaviour {
 		SR.sprite = sprite;
 		SR.color = color;
 	}
+
+	public Color getColor() {
+		return SR.color;
+	}
+
+	public void removeSprite() {
+		SR.sprite = null;
+	}
+
 }
