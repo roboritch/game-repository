@@ -7,19 +7,15 @@ using System.Collections.Generic;
 /// </summary>
 public class UnitScript : MonoBehaviour {
 	#region programName
-
 	private string programName;
-
-	protected void setProgramamName(string name) {
-		programName = name;
+	public string ProgramName {
+		get {
+			return programName;
+		}
+		set{
+			programName = value;
+		}
 	}
-
-	public string getProgramName() {
-		return programName;
-	}
-
-
-
 	#endregion
 
 	#region maxProgramLength
@@ -99,12 +95,12 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Displaies the action as buttion.
+	/// Displays the action as button.
 	/// Each unit will have it's own button prefabs
 	/// </summary>
 	/// <param name="actionDiscription">The Action's discription.</param>
 	/// <param name="button">button that will be displayed on the gui</param>
-	public void displayActionAsButtion(string actionDiscription,GameObject button){
+	public void displayActionAsButton(string actionDiscription,GameObject button){
 		
 	}
 	#endregion
@@ -125,6 +121,7 @@ public class UnitScript : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		action = new Queue<ActionScript>();
+
 	}
 
 	// Update is called once per frame
