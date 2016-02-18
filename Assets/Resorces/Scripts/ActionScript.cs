@@ -24,7 +24,6 @@ public class ActionScript : MonoBehaviour {
 	public string actionName;
 	public string actionDescription;
 	public GameObject buttonPrefab;
-
 	#endregion
 
 	/// <summary>
