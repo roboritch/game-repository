@@ -14,7 +14,6 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#region sprites
 
-	public GridBlockSpriteDisplay spriteDisplay;
 
 	//all this must be setup in the inspector
 	public GameObject spritePrefab;
@@ -49,7 +48,6 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		spriteDisplay = GetComponent<GridBlockSpriteDisplay>(); 
 
 		/*
 		 * all grid spaces are represented by a game object

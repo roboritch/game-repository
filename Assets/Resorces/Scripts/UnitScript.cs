@@ -121,6 +121,7 @@ public class UnitScript : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		action = new Queue<ActionScript>();
+
 	}
 
 	// Update is called once per frame
