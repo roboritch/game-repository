@@ -148,8 +148,6 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	#endregion
 
-
-
 	/// <summary>
 	/// displays the action.
 	/// </summary>
