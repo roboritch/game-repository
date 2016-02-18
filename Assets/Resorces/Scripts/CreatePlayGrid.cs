@@ -6,16 +6,51 @@ public class CreatePlayGrid : MonoBehaviour {
 	public int gridSize;
 	public GridBlock[,] gameGrid;
 
+	public GUIScript gui;
+
+
+	//all the default sprites and colors
+	//each unit's script holds there own sprite and color
+
+	#region sprites
+
+	public GridBlockSpriteDisplay spriteDisplay;
+
+	//all this must be setup in the inspector
+	public GameObject spritePrefab;
+
+	public Sprite sprite_unit;
+	public Sprite sprite_unitConecter;
+
+	public Sprite sprite_defaultSpace;
+	public Color color_defaultSpaceColor;
+
+	public Sprite sprite_spawnSpace;
+	public Color color_spawnSpaceColor;
+
+	public Sprite sprite_move;
+	public Color color_move;
+
+	public Sprite sprite_attack;
+	public Color color_attack;
+
+	#endregion
+
+
 
 	//use regions to improve readability of large code sections
 
 	#region edit
+
 	public bool editModeOn = true;
 	public GameObject gridEditMenu;
+
 	#endregion
 
 	// Use this for initialization
 	void Start() {
+		spriteDisplay = GetComponent<GridBlockSpriteDisplay>(); 
+
 		/*
 		 * all grid spaces are represented by a game object
 		 * setup the game grid array */
