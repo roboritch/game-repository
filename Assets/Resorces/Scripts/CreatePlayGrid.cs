@@ -27,8 +27,12 @@ public class CreatePlayGrid : MonoBehaviour {
 	public Sprite sprite_spawnSpace;
 	public Color color_spawnSpaceColor;
 
-	public Sprite sprite_move;
+	public Sprite sprite_moveTo;
 	public Color color_move;
+
+	public Sprite sprite_moveLine;
+
+	public Sprite sptite_moveCircle;
 
 	public Sprite sprite_attack;
 	public Color color_attack;
