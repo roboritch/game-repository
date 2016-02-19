@@ -41,14 +41,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   programLengthModifiable: 1
   unitColor: {r: 0, g: 0, b: 0, a: 0}
-  headSprite: {fileID: 0}
+  headSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: headSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184858}
