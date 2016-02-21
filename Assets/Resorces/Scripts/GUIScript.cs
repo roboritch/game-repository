@@ -6,30 +6,60 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
 
 	#region unit selection
+
 	private UnitScript currentlySelectedUnit;
+
 	/// <summary>
 	/// Sets the unit as selected.
 	/// The gridblock should call this after it is clicked
 	/// Passing null will deselect a unit
 	/// </summary>
 	/// <param name="u">Unit.</param>
-	public void setUnitAsSelected(UnitScript u){
+	public void setUnitAsSelected(UnitScript u) {
 		currentlySelectedUnit = u;
 	}
-	public UnitScript getCurUnit(){
+
+	public UnitScript getCurUnit() {
 		return currentlySelectedUnit;
 	}
+
 	#endregion
 
 	#region buttons
+
 	//all this must be set in the inspecter
 	//if there are null pointer exeptions check the refrences in unity
-	public Button[] buttons; // buttons the unit passes to this script
+	public ActionScript[] actions;
+	public Transform[] buttonLocations;
+	// buttons the unit passes to this script
 	private int MAX_BUTTONS = 6;
 	public Button resetUnitActions;
 
+	public void setButtons(GameObject[] buttonPrefabs) {
+		if(buttonPrefabs.Length > MAX_BUTTONS) {
+			Debug.LogWarning("too many buttons to set!");
+			return;
+		}
 
-	public void resetUnitAction(){
+		GameObject temp;
+		for(int x = 0; x < buttonPrefabs.Length; x++) {
+			temp = Instantiate(buttonPrefabs[x]) as GameObject;
+			actions[x] = temp.GetComponent<ActionScript>();
+			temp.transform.SetParent(buttonLocations[x].transform);
+		}
+
+	}
+
+	public void resetButtions() {
+		for(int x = 0; x < actions.Length; x++) {
+			if(actions != null) {
+				Destroy(actions[x].gameObject);
+				actions[x] = null;
+			}
+		}
+	}
+
+	public void resetUnitAction() {
 		//currentlySelectedUnit.resetActionQueue(); TODO get this working in unitScript
 	}
 
@@ -37,6 +67,7 @@ public class GUIScript : MonoBehaviour {
 	#endregion
 
 	#region unit infromation text var
+
 	//the currently selected unit will change these themselves
 	public defaultTextHolder attack;
 	public defaultTextHolder currentSize;
@@ -45,22 +76,25 @@ public class GUIScript : MonoBehaviour {
 	public defaultTextHolder extraInfo1;
 	public defaultTextHolder extraInfo2;
 	public defaultTextHolder extraInfo3;
+
 	#endregion
 
 
 	//TODO setup unit acting
+
 	#region unit acting
+
 	public GameObject unitActingPrefab;
 	public Queue<UnitActingScript> actingQueue;
 	public Transform currentProgramStartPosition;
 
 
-	public void addToUnitActing(){
+	public void addToUnitActing() {
 		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
 		temp.transform.SetParent(currentProgramStartPosition);
-		temp.transform.localPosition.Set(0, actingQueue.Count*50f,0);//each unit acting image is 50f apart
-		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite(),currentlySelectedUnit.getUnitColor());
-		if(actingQueue.Count == 0){
+		temp.transform.localPosition.Set(0, actingQueue.Count * 50f, 0);//each unit acting image is 50f apart
+		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite(), currentlySelectedUnit.getUnitColor());
+		if(actingQueue.Count == 0) {
 			temp.setCurrentlyActing();
 		}
 		temp.setUnit(currentlySelectedUnit);

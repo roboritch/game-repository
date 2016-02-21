@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Create play grid.
+/// This script also holds all prefabs and assent refrences since there is only one instance of this class
+/// </summary>
 public class CreatePlayGrid : MonoBehaviour {
 	public GameObject gridBlock;
 	public Transform gridStartPoint;
@@ -13,7 +17,6 @@ public class CreatePlayGrid : MonoBehaviour {
 	//each unit's script holds there own sprite and color
 
 	#region sprites
-
 
 	//all this must be setup in the inspector
 	public GameObject spritePrefab;
@@ -39,7 +42,11 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
+	#region units
 
+	public GameObject unit1;
+
+	#endregion
 
 	//use regions to improve readability of large code sections
 

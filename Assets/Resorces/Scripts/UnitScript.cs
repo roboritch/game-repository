@@ -7,15 +7,18 @@ using System.Collections.Generic;
 /// </summary>
 public class UnitScript : MonoBehaviour {
 	#region programName
+
 	private string programName;
+
 	public string ProgramName {
 		get {
 			return programName;
 		}
-		set{
+		set {
 			programName = value;
 		}
 	}
+
 	#endregion
 
 	#region maxProgramLength
@@ -61,7 +64,9 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region sprite information
+
 	public Color unitColor;
+
 	/// <summary>
 	/// Gets the color of the unit.
 	/// must be overiden by new unit with that units color
@@ -84,13 +89,17 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region Actions
+
 	private CreatePlayGrid grid;
+	public GameObject[] buttonPrefabs;
+
+
 	/// <summary>
 	/// Sets the grid conection.
 	/// this must be set when the unit is created
 	/// </summary>
 	/// <param name="playGrid">Play grid.</param>
-	public void setGridConection(CreatePlayGrid playGrid){
+	public void setGridConection(CreatePlayGrid playGrid) {
 		grid = playGrid;
 	}
 
@@ -100,24 +109,26 @@ public class UnitScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="actionDiscription">The Action's discription.</param>
 	/// <param name="button">button that will be displayed on the gui</param>
-	public void displayActionAsButton(string actionDiscription,GameObject button){
+	public void displayActionAsButton(string actionDiscription, GameObject button) {
 		
 	}
+
 	#endregion
 
 	#region Action queue
+
 	public Queue<ActionScript> action;
-	//TODO add action queue 
+	//TODO add action queue
 	/*each action will be a child of the ActionScript */
 
-	public void resetActionQueue(){
+	public void resetActionQueue() {
 		/*TODO this function must remove every action from the queue
 		while calling each action to remove there displayed images */ 
 	}
 
 
-
 	#endregion
+
 	// Use this for initialization
 	void Start() {
 		action = new Queue<ActionScript>();

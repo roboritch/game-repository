@@ -21,7 +21,6 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-
 	#region sprites
 
 	public GridBlockSpriteDisplay spriteDisplayScript;
@@ -54,11 +53,21 @@ public class GridBlock : MonoBehaviour {
 
 	#region mouseDown and mouseOver
 
-	void OnMouseDown() { // UNDONE need to add colider to gridblock prefab
+	void OnMouseDown() { 
 		if(gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log("mouse down on grid block");
 			gridManager.contextMenuUp = true;
 			displayEditRightClickMenu();
+		}
+
+		//Set the buttons up in the gui for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+		if(programInstalled != null) {
+			gridManager.gui.setButtons(programInstalled.buttonPrefabs);
+		}
+
+		if(spawnSpot && programInstalled != null) {
+			//TODO create unit selection gui
 		}
 	}
 
@@ -139,6 +148,14 @@ public class GridBlock : MonoBehaviour {
 		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
 	}
 
+
+	#endregion
+
+	#region create unit
+
+	public void spawnUnit(UnitScript unit) {
+		
+	}
 
 	#endregion
 
