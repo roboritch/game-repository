@@ -5,8 +5,8 @@ public class SpriteControler : MonoBehaviour {
 
 	public SpriteRenderer SR;
 
-	// Use this for initialization
-	void Start() {
+
+	void Awake() {
 		SR = transform.GetComponent<SpriteRenderer>();
 	}
 
@@ -31,7 +31,7 @@ public class SpriteControler : MonoBehaviour {
 		SR.color = color;
 	}
 
-	public void setColor(Color c){
+	public void setColor(Color c) {
 		SR.color = c;
 	}
 
