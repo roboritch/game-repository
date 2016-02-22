@@ -39,7 +39,6 @@ public class GridBlock : MonoBehaviour {
 	#endregion
 
 	public UnitScript programInstalled;
-	private GridBlock programHeadLocation;
 
 	private Collider2D selectionBox;
 	private CreatePlayGrid gridManager;
@@ -67,8 +66,14 @@ public class GridBlock : MonoBehaviour {
 		}
 
 		if(spawnSpot && programInstalled != null) {
-			//TODO create unit selection gui
+			//gridManager.gui.
 		}
+	}
+
+	public void createUnit(UnitScript unit) {
+		programInstalled = unit;
+		gridManager.gui.setButtons(unit.buttonPrefabs);
+			
 	}
 
 	void OnMouseOver() {
@@ -119,7 +124,7 @@ public class GridBlock : MonoBehaviour {
 	public void toggleSpaceOnline() { 
 		if(online == false) {
 			//TODO tell spaces around this one that it is active
-			transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
+			transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 			online = !online;
 		} else {
 			//TODO tell spaces around this one that it is not active
@@ -137,7 +142,7 @@ public class GridBlock : MonoBehaviour {
 			return;
 		}
 		spawnSpot = true;
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_spawnSpace, gridManager.color_spawnSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
 	}
 
 	public void removeSpawn() {
@@ -145,7 +150,7 @@ public class GridBlock : MonoBehaviour {
 			return;
 		}
 		spawnSpot = false;
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 	}
 
 

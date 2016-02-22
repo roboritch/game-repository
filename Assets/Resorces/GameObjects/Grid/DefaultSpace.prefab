@@ -12,7 +12,6 @@ GameObject:
   - 65: {fileID: 6564680}
   - 114: {fileID: 11490358}
   - 114: {fileID: 11447604}
-  - 114: {fileID: 11445542}
   m_Layer: 0
   m_Name: DefaultSpace
   m_TagString: Untagged
@@ -44,17 +43,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.995202, y: 1.9952017, z: 0.08143199}
   m_Center: {x: 0, y: 0, z: 1.1}
---- !u!114 &11445542
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 172680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36701161f5ecc374fb6d871ebd8d82b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11447604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8587cf82497389d4e915109df86eb426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conectionLocation: 0.5
 --- !u!114 &11490358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,10 +74,7 @@ MonoBehaviour:
   programHead: 0
   spawnSpot: 0
   online: 1
-  basicMesh: {fileID: 4300002, guid: c0890dc315791cf4eb38c3c4e59cca39, type: 3}
-  spawnMesh: {fileID: 4300002, guid: 17a483ba7f5f7a44392164b0975235ae, type: 3}
-  emptyMesh: {fileID: 4300002, guid: 20b0881c88079834993540cd04607a11, type: 3}
-  spriteCreateDestroy: {fileID: 0}
+  spriteDisplayScript: {fileID: 0}
   programInstalled: {fileID: 0}
 --- !u!212 &21280972
 SpriteRenderer:

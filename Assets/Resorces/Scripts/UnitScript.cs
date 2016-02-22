@@ -63,9 +63,9 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
-	#region sprite information
+	#region basic unit information
 
-	public Color unitColor;
+	public UnitInformationStruct unitInfo;
 
 	/// <summary>
 	/// Gets the color of the unit.
@@ -73,17 +73,15 @@ public class UnitScript : MonoBehaviour {
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor() {
-		return unitColor;
+		return unitInfo.unitColor;
 	}
 
 	/// <summary>
 	/// The head sprite.
 	/// must be set from child unit
 	/// </summary>
-	public Sprite headSprite;
-
 	public virtual Sprite getUnitHeadSprite() {
-		return headSprite;
+		return unitInfo.unitHeadSprite;
 	}
 
 	#endregion
@@ -138,5 +136,10 @@ public class UnitScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 
+	}
+
+	public void destroyUnit() {
+		//TODO make sure there are no refrences to this unit before it is destroyed
+		Destroy(gameObject);
 	}
 }

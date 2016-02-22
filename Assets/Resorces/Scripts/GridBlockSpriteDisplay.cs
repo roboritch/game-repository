@@ -20,6 +20,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	#endregion
 
 	#region spriteControlers
+
 	private SpriteControler unitSprite;
 	private SpriteControler headSprite;
 	private SpriteControler[] actionSprites;
@@ -51,18 +52,18 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		for(int x = 0; x < MAX_ACTIONS_ON_THIS_BLOCK; x++) {
 			actionSprites[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			actionSprites[x].transform.SetParent(transform);
-			actionSprites[x].transform.localPosition.Set(0, 0, 0.3f + x*0.05f);
+			actionSprites[x].transform.localPosition.Set(0, 0, 0.3f + x * 0.05f);
 			actionSprites[x].name = "Action Sprite " + x;
 		}
 
 		movmentDirections = new SpriteControler[4];
-		string[] directionNames = {"up","right","down","left"};
+		string[] directionNames = { "up", "right", "down", "left" };
 		for(int x = 0; x < 4; x++) {
 			movmentDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			movmentDirections[x].transform.SetParent(transform);
 			movmentDirections[x].transform.localPosition.Set(0, 0, 2.5f);
 			movmentDirections[x].name = "Movment Direction " + directionNames[x];
-			movmentDirections[x].setSprite(spriteInfo.sprite_moveLine); // sprites for this controler are always the same
+			movmentDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine); // sprites for this controler are always the same
 			movmentDirections[x].setColor(Color.clear); //The color for this sprite is Alpha only
 		}
 
@@ -99,13 +100,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		}
 
 		if(attachedGridBlock.right != null)
-		checkRight();
+			checkRight();
 		if(attachedGridBlock.up != null)
-		checkAbove();
+			checkAbove();
 		if(attachedGridBlock.left != null)
-		attachedGridBlock.left.spriteDisplayScript.checkRight(); // check left
+			attachedGridBlock.left.spriteDisplayScript.checkRight(); // check left
 		if(attachedGridBlock.down != null)
-		attachedGridBlock.down.spriteDisplayScript.checkAbove(); // check right
+			attachedGridBlock.down.spriteDisplayScript.checkAbove(); // check right
 	}
 
 
@@ -115,7 +116,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkRight() {
 		if(attachedGridBlock.programInstalled == attachedGridBlock.right.programInstalled) {
-			rightConection.setSprite(spriteInfo.sprite_unitConecter, unitSprite.getColor());
+			rightConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			rightConection.removeSprite();
 		}
@@ -127,7 +128,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkAbove() {
 		if(attachedGridBlock.programInstalled == attachedGridBlock.up.programInstalled) {
-			aboveConection.setSprite(spriteInfo.sprite_unitConecter, unitSprite.getColor());
+			aboveConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			aboveConection.removeSprite();
 		}
@@ -149,7 +150,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			unitSprite.removeSprite();
 			headSprite.removeSprite();
 		} else {
-			unitSprite.setSprite(spriteInfo.sprite_unit, attachedGridBlock.programInstalled.getUnitColor());
+			unitSprite.setSprite(spriteInfo.spritesAndColors.sprite_unit, attachedGridBlock.programInstalled.getUnitColor());
 		}
 	}
 
@@ -169,6 +170,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	#endregion
 
 	#region action display
+
 	/// <summary>
 	/// displays the action.
 	/// </summary>
@@ -192,16 +194,18 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		actionSprites[actionID].removeSprite();
 		actionUsed[actionID] = false;
 	}
+
 	#endregion
 
 	#region movment display
+
 	//vars are complex read descriptions for more info
 	private SpriteControler[] movmentDirections;
 	/// <summary>
 	/// unit movment overlap
 	/// The number of units ready to move over this block.
 	/// </summary>
-	private int[] UMO = {0,0,0,0}; 
+	private int[] UMO = { 0, 0, 0, 0 };
 	private SpriteControler movmentCirlcle;
 
 
@@ -214,66 +218,66 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// <param name="cameFrom">block this unit is coming from.</param>
 	/// <param name="isGoingTo">block this unit is going to.</param>
 	/// <param name="display">is the unit moving over this block now or is this just a display?</param>
-	public void displayMoveOnCreate(GridBlock cameFrom,GridBlock isGoingTo,bool display){
+	public void displayMoveOnCreate(GridBlock cameFrom, GridBlock isGoingTo, bool display) {
 		int umoModifyer;
-		if(display){
+		if(display) {
 			umoModifyer = 1;
-		}else{
+		} else {
 			umoModifyer = -1;
 		}
 
 		SpriteControler moveArmIn;
 		SpriteControler moveArmOut;
 
-		if(cameFrom==attachedGridBlock.up){
+		if(cameFrom == attachedGridBlock.up) {
 			moveArmIn = movmentDirections[0];
 			UMO[0] += umoModifyer;
 			moveArmIn.setColor(UMO_ColorConverter(UMO[0]));
-		}else if(cameFrom==attachedGridBlock.right){
+		} else if(cameFrom == attachedGridBlock.right) {
 			moveArmIn = movmentDirections[1];
 			UMO[1] += umoModifyer;
 			moveArmIn.setColor(UMO_ColorConverter(UMO[1]));
-		}else if(cameFrom == attachedGridBlock.down){
+		} else if(cameFrom == attachedGridBlock.down) {
 			moveArmIn = movmentDirections[2];
 			UMO[2] += umoModifyer;
 			moveArmIn.setColor(UMO_ColorConverter(UMO[2]));
-		}else if(cameFrom == attachedGridBlock.left){
+		} else if(cameFrom == attachedGridBlock.left) {
 			moveArmIn = movmentDirections[3];
 			UMO[3] += umoModifyer;
 			moveArmIn.setColor(UMO_ColorConverter(UMO[3]));
-		}else{
+		} else {
 			moveArmIn = null;
 		}
 
-		if(isGoingTo == attachedGridBlock.up){
+		if(isGoingTo == attachedGridBlock.up) {
 			moveArmOut = movmentDirections[0];
 			UMO[0] += umoModifyer;
 			moveArmOut.setColor(UMO_ColorConverter(UMO[0]));
-		}else if(isGoingTo == attachedGridBlock.right){
+		} else if(isGoingTo == attachedGridBlock.right) {
 			moveArmOut = movmentDirections[1];
 			UMO[1] += umoModifyer;
 			moveArmOut.setColor(UMO_ColorConverter(UMO[1]));
-		}else if(isGoingTo == attachedGridBlock.down){
+		} else if(isGoingTo == attachedGridBlock.down) {
 			moveArmOut = movmentDirections[2];
 			UMO[2] += umoModifyer;
 			moveArmOut.setColor(UMO_ColorConverter(UMO[2]));
-		}else if(isGoingTo == attachedGridBlock.left){
+		} else if(isGoingTo == attachedGridBlock.left) {
 			moveArmOut = movmentDirections[3];
 			UMO[3] += umoModifyer;
 			moveArmOut.setColor(UMO_ColorConverter(UMO[3]));
-		}else{
+		} else {
 			moveArmOut = null;
 		}
 
-		if(UMO[0] == 0 && UMO[1] == 0 && UMO[2] == 0 && UMO[3] == 0){
+		if(UMO[0] == 0 && UMO[1] == 0 && UMO[2] == 0 && UMO[3] == 0) {
 			movmentCirlcle.setColor(Color.clear);
-		}else{
+		} else {
 			movmentCirlcle.setColor(Color.white);
 		}
 	}
 
-	private Color UMO_ColorConverter(int numberOverlap){
-		switch(numberOverlap){
+	private Color UMO_ColorConverter(int numberOverlap) {
+		switch(numberOverlap) {
 		case 0:
 			return Color.clear;
 		case 1:
