@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Text;
+using System.IO;
 
 /// <summary>
 /// Action script.
@@ -7,9 +9,11 @@ using System.Collections;
 /// and exicuted in sequece with other actions
 /// </summary>
 public class ActionScript : MonoBehaviour {
-	private UnitScript unit; // this should be the instance of the unit that  
-	private int actionID;  //set for each desplay of the action 
-						   //each move, attack or action must be a seprate instance of this script 
+	private UnitScript unit;
+	// this should be the instance of the unit that
+	private int actionID;
+	//set for each desplay of the action
+	//each move, attack or action must be a seprate instance of this script
 	public int ActionID {
 		get {
 			return actionID;
@@ -21,29 +25,35 @@ public class ActionScript : MonoBehaviour {
 
 
 	#region button infromation
+
 	public string actionName;
-	public string actionDescription;
-	public GameObject buttonPrefab;
+	public TextAsset descriptionTextFile;
+
+	public string getDiscription() {
+		return descriptionTextFile.text;
+	}
+
+
 	#endregion
 
 	/// <summary>
 	/// preform this action when called by the units action queue.
 	/// </summary>
-	public virtual void act(){
+	public virtual void act() {
 		
 	}
 
 	/// <summary>
 	/// calls the gui to display this action on the game.
 	/// </summary>
-	public virtual void display(){
+	public virtual void display() {
 		
 	}
 
 	/// <summary>
 	/// calls this to get the gui to remove all displayed images of this action
 	/// </summary>
-	public virtual void removeDisplay(){
+	public virtual void removeDisplay() {
 		
 	}
 

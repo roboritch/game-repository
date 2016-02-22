@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Create play grid.
+/// This script also holds all prefabs and assent refrences since there is only one instance of this class
+/// </summary>
 public class CreatePlayGrid : MonoBehaviour {
 	public GameObject gridBlock;
 	public Transform gridStartPoint;
@@ -14,32 +18,18 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#region sprites
 
-
 	//all this must be setup in the inspector
 	public GameObject spritePrefab;
 
-	public Sprite sprite_unit;
-	public Sprite sprite_unitConecter;
-
-	public Sprite sprite_defaultSpace;
-	public Color color_defaultSpaceColor;
-
-	public Sprite sprite_spawnSpace;
-	public Color color_spawnSpaceColor;
-
-	public Sprite sprite_moveTo;
-	public Color color_move;
-
-	public Sprite sprite_moveLine;
-
-	public Sprite sptite_moveCircle;
-
-	public Sprite sprite_attack;
-	public Color color_attack;
+	public SpritesAndColors spritesAndColors;
 
 	#endregion
 
+	#region units
 
+	public UnitInformationStruct[] units;
+
+	#endregion
 
 	//use regions to improve readability of large code sections
 
@@ -115,10 +105,33 @@ public class CreatePlayGrid : MonoBehaviour {
 	#endregion
 
 
-
-
 	// Update is called once per frame
 	void Update() {
 
 	}
+}
+
+/// <summary>
+/// struct filled with all the sprites and colors
+/// </summary>
+[System.Serializable]
+public struct SpritesAndColors {
+	public Sprite sprite_unit;
+	public Sprite sprite_unitConecter;
+
+	public Sprite sprite_defaultSpace;
+	public Color color_defaultSpaceColor;
+
+	public Sprite sprite_spawnSpace;
+	public Color color_spawnSpaceColor;
+
+	public Sprite sprite_moveTo;
+	public Color color_move;
+
+	public Sprite sprite_moveLine;
+
+	public Sprite sptite_moveCircle;
+
+	public Sprite sprite_attack;
+	public Color color_attack;
 }

@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 487512}
   - 114: {fileID: 11409624}
   m_Layer: 0
-  m_Name: BasicUnit
+  m_Name: Unit1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 391.6391, y: 41.4772, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,8 +40,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   programLengthModifiable: 1
-  unitColor: {r: 0, g: 0, b: 0, a: 0}
-  headSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
+  unitInfo:
+    unit: {fileID: 0}
+    unitHeadSprite: {fileID: 0}
+    unitColor: {r: 0, g: 0, b: 0, a: 0}
+  buttonPrefabs:
+  - {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -50,10 +54,42 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: buttonPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: headSprite
       value: 
       objectReference: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: buttonPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184858}
