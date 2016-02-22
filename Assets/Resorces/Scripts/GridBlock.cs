@@ -159,7 +159,7 @@ public class GridBlock : MonoBehaviour {
 	#region create unit
 
 	public void spawnUnit(UnitScript unit) {
-		
+		//TODO THIS!	
 	}
 
 	#endregion
