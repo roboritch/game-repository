@@ -123,11 +123,17 @@ public class GridBlock : MonoBehaviour {
 
 	public void toggleSpaceOnline() { 
 		if(online == false) {
-			//TODO tell spaces around this one that it is active
+			up.down = this;
+			down.up = this;
+			left.right = this;
+			right.left = this;
 			transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 			online = !online;
 		} else {
-			//TODO tell spaces around this one that it is not active
+			up.down = null;
+			down.up = null;
+			left.right = null;
+			right.left = null;
 			transform.GetComponent<SpriteControler>().removeSprite();
 			online = !online;
 		}
