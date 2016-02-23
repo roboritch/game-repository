@@ -6,4 +6,5 @@ public struct UnitInformationStruct {
 	public GameObject unit;
 	public Sprite unitHeadSprite;
 	public Color unitColor;
+	public int maxLength;
 }

@@ -49,6 +49,8 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	public GridLocation gridlocation;
+
 
 	#region mouseDown and mouseOver
 
@@ -123,11 +125,17 @@ public class GridBlock : MonoBehaviour {
 
 	public void toggleSpaceOnline() { 
 		if(online == false) {
-			//TODO tell spaces around this one that it is active
+			up.down = this;
+			down.up = this;
+			left.right = this;
+			right.left = this;
 			transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 			online = !online;
 		} else {
-			//TODO tell spaces around this one that it is not active
+			up.down = null;
+			down.up = null;
+			left.right = null;
+			right.left = null;
 			transform.GetComponent<SpriteControler>().removeSprite();
 			online = !online;
 		}
@@ -159,7 +167,11 @@ public class GridBlock : MonoBehaviour {
 	#region create unit
 
 	public void spawnUnit(UnitScript unit) {
-		
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		programInstalled = unit;
+		programHead = true;
+		unit.spawnUnit(gridlocation);
 	}
 
 	#endregion
@@ -173,4 +185,9 @@ public class GridBlock : MonoBehaviour {
 	void Update() {
 
 	}
+}
+
+public struct GridLocation {
+	public int x;
+	public int y;
 }

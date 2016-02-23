@@ -21,7 +21,18 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
-	#region maxProgramLength
+	#region unit length
+
+	public LinkedList<GridLocation> blockList;
+
+	/// <summary>
+	/// Spawns the unit.
+	/// </summary>
+	/// <param name="startLocation">Start location.</param>
+	public virtual void spawnUnit(GridLocation startLocation) {
+		maxProgramLength = unitInfo.maxLength;
+		blockList.AddLast(startLocation);
+	}
 
 	private int maxProgramLength;
 
@@ -31,34 +42,17 @@ public class UnitScript : MonoBehaviour {
 		}
 	}
 
-	public bool programLengthModifiable = true;
-
 	/// <summary>
-	/// Sets the length of the program.
+	/// modifyes the max length of the program
+	/// does not shrink the current size of the unit
 	/// </summary>
-	/// <returns><c>true</c>, if program length was set, <c>false</c> otherwise.</returns>
 	/// <param name="value">Value.</param>
-	public bool setMaxProgramLength(int value) {
-		if(programLengthModifiable) {
-			maxProgramLength = value;
-			return true;
-		} else {
-			return false;
-		}
+	public void setMaxProgramLength(int value) {
+		maxProgramLength = value;
 	}
 
-	#endregion
-
-	#region currentLength
-
-	/// <summary>
-	/// The current length must be modifyed by the attack method
-	/// </summary>
-	private int length = 1;
-	// length starts at one unless otherwise specified
-
 	public virtual void receiveDamage(int damageAmount) {
-
+		
 	}
 
 	#endregion
@@ -130,7 +124,6 @@ public class UnitScript : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		action = new Queue<ActionScript>();
-
 	}
 
 	// Update is called once per frame
@@ -140,6 +133,7 @@ public class UnitScript : MonoBehaviour {
 
 	public void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
+
 		Destroy(gameObject);
 	}
 }

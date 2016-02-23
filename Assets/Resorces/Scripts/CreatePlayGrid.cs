@@ -11,7 +11,7 @@ public class CreatePlayGrid : MonoBehaviour {
 	public GridBlock[,] gameGrid;
 
 	public GUIScript gui;
-
+	public Transform unitObjectHolder;
 
 	//all the default sprites and colors
 	//each unit's script holds there own sprite and color
@@ -40,6 +40,8 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
+	#region start
+
 	// Use this for initialization
 	void Start() {
 
@@ -57,6 +59,8 @@ public class CreatePlayGrid : MonoBehaviour {
 				tempObject.transform.SetParent(transform); // parent the grid space to this object
 				gameGrid[x, y] = tempObject.GetComponent<GridBlock>(); //a pointer the grid block script from the tempObject is stored in the array for easy access
 				gameGrid[x, y].GridManager = this; // each space has a refrence to this script for easy access
+				gameGrid[x, y].gridlocation.x = x;
+				gameGrid[x, y].gridlocation.y = y;
 			}
 		}
 		//setup refrences from one grid block to another to improve unit interaction
@@ -77,6 +81,8 @@ public class CreatePlayGrid : MonoBehaviour {
 			}
 		}
 	}
+
+	#endregion
 
 	#region levelSaving
 
