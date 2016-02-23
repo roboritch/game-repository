@@ -189,6 +189,33 @@ RectTransform:
   m_AnchoredPosition: {x: 35.3, y: -112.886536}
   m_SizeDelta: {x: 69.5, y: 226.8}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &438301246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 438301247}
+  m_Layer: 0
+  m_Name: Unit Object Holder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &438301247
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 438301246}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1384402567}
+  m_RootOrder: 0
 --- !u!1 &453592226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1940,7 @@ MonoBehaviour:
   gridStartPoint: {fileID: 1096941442}
   gridSize: 10
   gui: {fileID: 602568644}
+  unitObjectHolder: {fileID: 438301247}
   spritePrefab: {fileID: 194436, guid: 1dc88005f815d9542b0abff156a3632c, type: 2}
   spritesAndColors:
     sprite_unit: {fileID: 21300000, guid: dffb9a61a01734746ac644de141a4e6c, type: 3}
@@ -1935,6 +1963,7 @@ MonoBehaviour:
   - unit: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
     unitColor: {r: 1, g: 1, b: 1, a: 1}
+    maxLength: 3
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 
@@ -1998,7 +2027,8 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 2.842171e-14, z: 2.842171e-14, w: 0.7071067}
   m_LocalPosition: {x: 10, y: 0, z: 10}
   m_LocalScale: {x: 20, y: 20, z: 20}
-  m_Children: []
+  m_Children:
+  - {fileID: 438301247}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &1390173392

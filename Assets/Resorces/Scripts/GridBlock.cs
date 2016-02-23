@@ -49,6 +49,8 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	public GridLocation gridlocation;
+
 
 	#region mouseDown and mouseOver
 
@@ -165,7 +167,11 @@ public class GridBlock : MonoBehaviour {
 	#region create unit
 
 	public void spawnUnit(UnitScript unit) {
-		//TODO THIS!	
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		programInstalled = unit;
+		programHead = true;
+		unit.spawnUnit(gridlocation);
 	}
 
 	#endregion
@@ -179,4 +185,9 @@ public class GridBlock : MonoBehaviour {
 	void Update() {
 
 	}
+}
+
+public struct GridLocation {
+	public int x;
+	public int y;
 }
