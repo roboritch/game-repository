@@ -94,7 +94,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// before a change and by any new unit segments
 	/// </summary>
 	public void checkConection() {
-		if(attachedGridBlock.programInstalled == null) {
+		if(attachedGridBlock.unitInstalled == null) {
 			Debug.LogWarning("this block has no program to check conections on");
 			return;
 		}
@@ -115,7 +115,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// only to be called by another GridBlockSpriteDisplay script
 	/// </summary>
 	public void checkRight() {
-		if(attachedGridBlock.programInstalled == attachedGridBlock.right.programInstalled) {
+		if(attachedGridBlock.unitInstalled == attachedGridBlock.right.unitInstalled) {
 			rightConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			rightConection.removeSprite();
@@ -127,7 +127,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	///  only to be called by another GridBlockSpriteDisplay script
 	/// </summary>
 	public void checkAbove() {
-		if(attachedGridBlock.programInstalled == attachedGridBlock.up.programInstalled) {
+		if(attachedGridBlock.unitInstalled == attachedGridBlock.up.unitInstalled) {
 			aboveConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			aboveConection.removeSprite();
@@ -146,11 +146,11 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// If no unit is found the units sprite and the head sprite will be removed from this location
 	/// </summary>
 	public void checkUnitSprite() {
-		if(attachedGridBlock.programInstalled == null) {
+		if(attachedGridBlock.unitInstalled == null) {
 			unitSprite.removeSprite();
 			headSprite.removeSprite();
 		} else {
-			unitSprite.setSprite(spriteInfo.spritesAndColors.sprite_unit, attachedGridBlock.programInstalled.getUnitColor());
+			unitSprite.setSprite(spriteInfo.spritesAndColors.sprite_unit, attachedGridBlock.unitInstalled.getUnitColor());
 			checkHeadSprite();
 		}
 	}
@@ -160,8 +160,8 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// removes head sprite if it is not.
 	/// </summary>
 	public void checkHeadSprite() {
-		if(attachedGridBlock.programInstalled.getBlockHeadLocation() == attachedGridBlock.gridlocation) {
-			headSprite.setSprite(attachedGridBlock.programInstalled.getUnitHeadSprite());
+		if(attachedGridBlock.unitInstalled.getBlockHeadLocation() == attachedGridBlock.gridlocation) {
+			headSprite.setSprite(attachedGridBlock.unitInstalled.getUnitHeadSprite());
 		} else {
 			headSprite.removeSprite();
 		}

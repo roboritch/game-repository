@@ -16,7 +16,10 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setUnitAsSelected(UnitScript u) {
-		currentlySelectedUnit = u;
+		if(currentlySelectedUnit != u){ //if another or no unit is selected
+			currentlySelectedUnit = u;
+			setButtons(u.getButtonPrefabs());
+		}
 	}
 
 	public UnitScript getCurUnit() {
@@ -29,7 +32,7 @@ public class GUIScript : MonoBehaviour {
 
 	//all this must be set in the inspecter
 	//if there are null pointer exeptions check the refrences in unity
-	public ActionScript[] actions;
+	public ActionButtonInfo[] actionButtonInfo;
 	public Transform[] buttonLocations;
 	// buttons the unit passes to this script
 	private int MAX_BUTTONS = 6;
@@ -42,10 +45,11 @@ public class GUIScript : MonoBehaviour {
 			return;
 		}
 
+		actionButtonInfo = new ActionButtonInfo[buttonPrefabs.Length];
 		GameObject temp;
 		for(int x = 0; x < buttonPrefabs.Length; x++) {
 			temp = Instantiate(buttonPrefabs[x]) as GameObject;
-			actions[x] = temp.GetComponent<ActionScript>();
+			actionButtonInfo[x] = temp.GetComponent<ActionButtonInfo>();
 			temp.transform.SetParent(buttonLocations[x].transform);
 		}
 	}
@@ -55,14 +59,13 @@ public class GUIScript : MonoBehaviour {
 	/// Resets the buttions.
 	/// </summary>
 	public void resetButtions() {
-		for(int x = 0; x < actions.Length; x++) {
-			if(actions != null) {
-				foreach(GameObject child in actions[x].transform) {
+		if(actionButtonInfo != null)
+		for(int x = 0; x < actionButtonInfo.Length; x++) {
+				foreach(GameObject child in actionButtonInfo[x].transform) {
 					Destroy(child.gameObject);
 				}
-				Destroy(actions[x].gameObject);
-				actions[x] = null;
-			}
+				Destroy(actionButtonInfo[x].gameObject);
+				actionButtonInfo = null;
 		}
 	}
 

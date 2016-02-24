@@ -40,7 +40,7 @@ public class GridBlock : MonoBehaviour {
 
 	#region simple block vars
 
-	public UnitScript programInstalled;
+	public UnitScript unitInstalled;
 	private CreatePlayGrid gridManager;
 
 	private Collider2D selectionBox;
@@ -70,11 +70,11 @@ public class GridBlock : MonoBehaviour {
 
 		//Set the buttons up in the gui for the installed unit when this grid block is selected
 		//all prev buttons are removed when this method is called
-		if(programInstalled != null) {
-			gridManager.gui.setButtons(programInstalled.getButtonPrefabs());
+		if(unitInstalled != null && Input.GetMouseButton(0)) { // only on left click
+			gridManager.gui.setUnitAsSelected(unitInstalled);
 		}
 
-		if(spawnSpot && programInstalled == null) {
+		if(spawnSpot && unitInstalled == null && Input.GetMouseButton(0)) {
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 	}
@@ -170,7 +170,7 @@ public class GridBlock : MonoBehaviour {
 	public void spawnUnit(UnitScript unit) {
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
-		programInstalled = unit;
+		unitInstalled = unit;
 		unit.spawnUnit(gridManager, gridlocation);
 	}
 
