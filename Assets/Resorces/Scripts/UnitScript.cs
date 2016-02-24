@@ -7,7 +7,6 @@ using System.Collections.Generic;
 /// </summary>
 public class UnitScript : MonoBehaviour {
 	#region programName
-
 	private string programName;
 
 	public string ProgramName {
@@ -18,7 +17,6 @@ public class UnitScript : MonoBehaviour {
 			programName = value;
 		}
 	}
-
 	#endregion
 
 	#region unit length
