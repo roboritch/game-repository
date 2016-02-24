@@ -25,13 +25,18 @@ public class UnitScript : MonoBehaviour {
 
 	public LinkedList<GridLocation> blockList;
 
+	public GridLocation getBlockHeadLocation() {
+		return blockList.First.Value;
+	}
+
 	/// <summary>
-	/// Spawns the unit.
+	/// called when the grid block creats the unit
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
 	public virtual void spawnUnit(GridLocation startLocation) {
+		actionList = new LinkedList<ActionScript>();
 		maxProgramLength = unitInfo.maxLength;
-		blockList.AddLast(startLocation);
+		blockList.AddLast(startLocation.copy());
 	}
 
 	private int maxProgramLength;
@@ -80,10 +85,24 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
-	#region Actions
+	#region display posible actions
 
+	/// <summary>
+	/// The grid the unit is on (the level).
+	/// </summary>
 	private CreatePlayGrid grid;
-	public GameObject[] buttonPrefabs;
+
+
+	[SerializeField] // use this to make private fields visible in the inspector
+	#pragma warning disable
+	private GameObject[] buttonPrefabs;
+
+	/// <summary>
+	/// Used by the gui to display this units posible actions
+	/// </summary>
+	public GameObject[] getButtonPrefabs() {
+		return buttonPrefabs;
+	}
 
 
 	/// <summary>
@@ -101,29 +120,62 @@ public class UnitScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="actionDiscription">The Action's discription.</param>
 	/// <param name="button">button that will be displayed on the gui</param>
-	public void displayActionAsButton(string actionDiscription, GameObject button) {
+	public void displayActionsAsButton(string actionDiscription, GameObject button) {
 		
 	}
 
 	#endregion
 
-	#region Action queue
+	#region Action List
 
-	public Queue<ActionScript> action;
-	//TODO add action queue
+	/// <summary>
+	/// A list of all the actions the user has selected for this unit
+	/// </summary>
+	private LinkedList<ActionScript> actionList;
 	/*each action will be a child of the ActionScript */
 
-	public void resetActionQueue() {
+
+	public void startActing() {
+		invokeNextAction();
+	}
+
+	private void invokeNextAction() {
+		ActionScript action = actionList.First.Value;
+		action.act();
+		getReadyToPreformAnotherAction(action.actionTime());
+	}
+
+	private void getReadyToPreformAnotherAction(float timeTillNextAction) {
+		Invoke("invokeNextAction", timeTillNextAction);
+	}
+
+	public void undoAction() {
+		actionList.Last.Value.removeDisplay(grid.gui);
+		actionList.RemoveLast();
+	}
+
+	public void addActionToQueue(ActionScript action) {
+		action.display(grid.gui);
+		actionList.AddLast(action);
+	}
+
+
+	public void resetActionQueue(GUIScript gui) {
 		/*TODO this function must remove every action from the queue
 		while calling each action to remove there displayed images */ 
+		foreach(ActionScript actions in actionList) {
+			actions.removeDisplay(gui);
+		}
 	}
 
 
 	#endregion
 
+
+
 	// Use this for initialization
 	void Start() {
-		action = new Queue<ActionScript>();
+
 	}
 
 	// Update is called once per frame
