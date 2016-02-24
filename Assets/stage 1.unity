@@ -810,10 +810,6 @@ Prefab:
       propertyPath: m_Name
       value: Unit Selection
       objectReference: {fileID: 0}
-    - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
-      propertyPath: unitDisplayPrefab
-      value: 
-      objectReference: {fileID: 109088, guid: 636e26f55852ca640826ff3d30a3fa7d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
   m_IsPrefabParent: 0
