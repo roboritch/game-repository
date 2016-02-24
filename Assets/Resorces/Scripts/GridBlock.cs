@@ -12,24 +12,18 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-	#region block static properties
+	#region block properties
 
-	public bool full = false;
-	public bool programHead = false;
-	public bool spawnSpot = false;
-	public bool online = true;
-
-	#endregion
-
-	#region mesh types
-
-	public Mesh basicMesh, spawnMesh, emptyMesh;
+	[SerializeField]
+	private bool spawnSpot = false;
+	[SerializeField]
+	private bool online = true;
 
 	#endregion
 
 	#region sprites
 
-	public GridBlockSpriteDisplay spriteCreateDestroy;
+	public GridBlockSpriteDisplay spriteDisplayScript;
 
 	/// <summary>
 	/// Displaies the conections.
@@ -44,11 +38,13 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
+	#region simple block vars
+
 	public UnitScript programInstalled;
-	private GridBlock programHeadLocation;
+	private CreatePlayGrid gridManager;
 
 	private Collider2D selectionBox;
-	private CreatePlayGrid gridManager;
+
 
 	public CreatePlayGrid GridManager {
 		set {
@@ -56,13 +52,30 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Location of this grid block on the play grid
+	/// </summary>
+	public GridLocation gridlocation;
+
+	#endregion
+
 	#region mouseDown and mouseOver
 
-	void OnMouseDown() { // UNDONE need to add colider to gridblock prefab
+	void OnMouseDown() { 
 		if(gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log("mouse down on grid block");
 			gridManager.contextMenuUp = true;
 			displayEditRightClickMenu();
+		}
+
+		//Set the buttons up in the gui for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+		if(programInstalled != null) {
+			gridManager.gui.setButtons(programInstalled.getButtonPrefabs());
+		}
+
+		if(spawnSpot && programInstalled == null) {
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 	}
 
@@ -112,15 +125,21 @@ public class GridBlock : MonoBehaviour {
 	}
 
 	public void toggleSpaceOnline() { 
-		if(!online) {
-			//TODO tell spaces around this one that it is active
-			transform.GetComponent<MeshFilter>().mesh = basicMesh;
+		if(online == false) {
+			up.down = this;
+			down.up = this;
+			left.right = this;
+			right.left = this;
+			transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 			online = !online;
-			return;
+		} else {
+			up.down = null;
+			down.up = null;
+			left.right = null;
+			right.left = null;
+			transform.GetComponent<SpriteControler>().removeSprite();
+			online = !online;
 		}
-		//TODO tell spaces around this one that it is not active
-		transform.GetComponent<MeshFilter>().mesh = emptyMesh;
-		online = !online;
 	}
 
 
@@ -128,21 +147,38 @@ public class GridBlock : MonoBehaviour {
 	/// Sets gridblock as a spawn.
 	/// </summary>
 	public void setSpawn() {
+		if(!online) {
+			return;
+		}
 		spawnSpot = true;
-		transform.GetComponent<MeshFilter>().mesh = spawnMesh;
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
 	}
 
 	public void removeSpawn() {
+		if(!online) {
+			return;
+		}
 		spawnSpot = false;
-		transform.GetComponent<MeshFilter>().mesh = basicMesh;
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 	}
 
 
 	#endregion
 
+	#region create unit
+
+	public void spawnUnit(UnitScript unit) {
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		programInstalled = unit;
+		unit.spawnUnit(gridManager, gridlocation);
+	}
+
+	#endregion
+
 	// Use this for initialization
 	void Start() {
-
+		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
 	}
 
 	// Update is called once per frame
@@ -150,3 +186,35 @@ public class GridBlock : MonoBehaviour {
 
 	}
 }
+
+#region gridLocation
+/// <summary>
+/// Grid location.
+/// implements ==, != and = operations
+/// </summary>
+#pragma warning disable
+public struct GridLocation {
+	public int x;
+	public int y;
+
+	/// <summary>
+	/// Copy this instance.
+	/// Not the same as = (refrence copy).
+	/// </summary>
+	public GridLocation copy() {
+		GridLocation a;
+		a.x = x;
+		a.y = y;
+		return a;
+	}
+
+	public static bool operator ==(GridLocation a, GridLocation b) {
+		return a.x == b.x && a.y == b.y;
+	}
+
+	public static bool operator !=(GridLocation a, GridLocation b) {
+		return !(a == b);
+	}
+
+}
+#endregion

@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Create play grid.
+/// This script also holds all prefabs and assent refrences since there is only one instance of this class
+/// </summary>
 public class CreatePlayGrid : MonoBehaviour {
 	public GameObject gridBlock;
 	public Transform gridStartPoint;
 	public int gridSize;
 	public GridBlock[,] gameGrid;
 
+	public GUIScript gui;
+
+	public Transform unitObjectHolder;
+
 	//all the default sprites and colors
 	//each unit's script holds there own sprite and color
 
 	#region sprites
 
-	public Sprite sprite_unit;
-	public Sprite sprite_unitConecter;
+	//all this must be setup in the inspector
+	public GameObject spritePrefab;
 
-	public Sprite sprite_defaultSpace;
-	public Color color_defaultSpaceColor;
-
-	public Sprite sprite_spawnSpace;
-	public Color color_spawnSpaceColor;
-
-	public Sprite sprite_move;
-	public Color color_move;
-
-	public Sprite sprite_attack;
-	public Color color_attack;
+	public SpritesAndColors spritesAndColors;
 
 	#endregion
 
+	#region units
 
+	public UnitInformationStruct[] units;
+
+	#endregion
 
 	//use regions to improve readability of large code sections
 
@@ -39,8 +41,11 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
+	#region start
+
 	// Use this for initialization
 	void Start() {
+
 		/*
 		 * all grid spaces are represented by a game object
 		 * setup the game grid array */
@@ -55,6 +60,8 @@ public class CreatePlayGrid : MonoBehaviour {
 				tempObject.transform.SetParent(transform); // parent the grid space to this object
 				gameGrid[x, y] = tempObject.GetComponent<GridBlock>(); //a pointer the grid block script from the tempObject is stored in the array for easy access
 				gameGrid[x, y].GridManager = this; // each space has a refrence to this script for easy access
+				gameGrid[x, y].gridlocation.x = x;
+				gameGrid[x, y].gridlocation.y = y;
 			}
 		}
 		//setup refrences from one grid block to another to improve unit interaction
@@ -75,6 +82,8 @@ public class CreatePlayGrid : MonoBehaviour {
 			}
 		}
 	}
+
+	#endregion
 
 	#region levelSaving
 
@@ -103,10 +112,35 @@ public class CreatePlayGrid : MonoBehaviour {
 	#endregion
 
 
-
-
 	// Update is called once per frame
 	void Update() {
 
 	}
 }
+
+#region sprites and colors
+/// <summary>
+/// struct filled with all the sprites and colors
+/// </summary>
+[System.Serializable]
+public struct SpritesAndColors {
+	public Sprite sprite_unit;
+	public Sprite sprite_unitConecter;
+
+	public Sprite sprite_defaultSpace;
+	public Color color_defaultSpaceColor;
+
+	public Sprite sprite_spawnSpace;
+	public Color color_spawnSpaceColor;
+
+	public Sprite sprite_moveTo;
+	public Color color_move;
+
+	public Sprite sprite_moveLine;
+
+	public Sprite sptite_moveCircle;
+
+	public Sprite sprite_attack;
+	public Color color_attack;
+}
+#endregion

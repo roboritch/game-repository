@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8587cf82497389d4e915109df86eb426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conectionLocation: 0.5
 --- !u!114 &11490358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,10 +74,7 @@ MonoBehaviour:
   programHead: 0
   spawnSpot: 0
   online: 1
-  basicMesh: {fileID: 4300002, guid: c0890dc315791cf4eb38c3c4e59cca39, type: 3}
-  spawnMesh: {fileID: 4300002, guid: 17a483ba7f5f7a44392164b0975235ae, type: 3}
-  emptyMesh: {fileID: 4300002, guid: 20b0881c88079834993540cd04607a11, type: 3}
-  spriteCreateDestroy: {fileID: 0}
+  spriteDisplayScript: {fileID: 0}
   programInstalled: {fileID: 0}
 --- !u!212 &21280972
 SpriteRenderer:

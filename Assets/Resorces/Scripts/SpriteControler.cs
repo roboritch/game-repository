@@ -3,10 +3,10 @@ using System.Collections;
 
 public class SpriteControler : MonoBehaviour {
 
-	SpriteRenderer SR;
+	public SpriteRenderer SR;
 
-	// Use this for initialization
-	void Start() {
+
+	void Awake() {
 		SR = transform.GetComponent<SpriteRenderer>();
 	}
 
@@ -30,4 +30,19 @@ public class SpriteControler : MonoBehaviour {
 		SR.sprite = sprite;
 		SR.color = color;
 	}
+
+	public void setColor(Color c) {
+		SR.color = c;
+	}
+
+	public Color getColor() {
+		return SR.color;
+	}
+
+
+
+	public void removeSprite() {
+		SR.sprite = null;
+	}
+
 }
