@@ -33,11 +33,22 @@ public class UnitScript : MonoBehaviour {
 	/// called when the grid block creats the unit
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(GridLocation startLocation) {
-		actionList = new LinkedList<ActionScript>();
+	public virtual void spawnUnit(CreatePlayGrid gm, GridLocation startLocation) {
+		grid = gm;
+		blockList = new LinkedList<GridLocation>();
 		maxProgramLength = unitInfo.maxLength;
 		blockList.AddLast(startLocation.copy());
+		checkAllDisplay();
 	}
+
+	private void checkAllDisplay() {
+		foreach(GridLocation loc in  blockList) {
+			grid.gameGrid[loc.x, loc.y].spriteDisplayScript.checkUnitSprite();
+			grid.gameGrid[loc.x, loc.y].spriteDisplayScript.checkConection();
+		}
+
+	}
+
 
 	private int maxProgramLength;
 

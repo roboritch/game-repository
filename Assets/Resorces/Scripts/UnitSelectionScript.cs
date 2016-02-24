@@ -59,18 +59,24 @@ public class UnitSelectionScript : MonoBehaviour {
 				unitSelections[i].onClick.AddListener(() => {
 					this.createThisUnit(i); // call this when button is pressed
 				});
-
 			}
 		}
+		gameObject.SetActive(false);
 	}
 
 	void Start() {
 		setUpUnits();
 	}
 
+	public void enableOnGridBlock(GridBlock gb) {
+		gameObject.SetActive(true);
+		currentGridblock = gb;
+	}
+
 	public void createThisUnit(int unitNumberFromSelection) {
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>()); // send to gridBlockforCreation
+		gameObject.SetActive(false);
 	}
 
 }

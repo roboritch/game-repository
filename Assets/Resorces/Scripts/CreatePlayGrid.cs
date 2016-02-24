@@ -11,6 +11,7 @@ public class CreatePlayGrid : MonoBehaviour {
 	public GridBlock[,] gameGrid;
 
 	public GUIScript gui;
+
 	public Transform unitObjectHolder;
 
 	//all the default sprites and colors
@@ -117,6 +118,7 @@ public class CreatePlayGrid : MonoBehaviour {
 	}
 }
 
+#region sprites and colors
 /// <summary>
 /// struct filled with all the sprites and colors
 /// </summary>
@@ -141,3 +143,4 @@ public struct SpritesAndColors {
 	public Sprite sprite_attack;
 	public Color color_attack;
 }
+#endregion
