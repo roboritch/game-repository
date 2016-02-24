@@ -74,14 +74,9 @@ public class GridBlock : MonoBehaviour {
 			gridManager.gui.setButtons(programInstalled.getButtonPrefabs());
 		}
 
-		if(spawnSpot && programInstalled != null) {
-			//TODO bring up unit selection for this block
+		if(spawnSpot && programInstalled == null) {
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
-	}
-
-	public void createUnit(UnitScript unit) {
-		programInstalled = unit;
-		programInstalled.spawnUnit(gridlocation);
 	}
 
 	void OnMouseOver() {
@@ -176,7 +171,7 @@ public class GridBlock : MonoBehaviour {
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		programInstalled = unit;
-		unit.spawnUnit(gridlocation);
+		unit.spawnUnit(gridManager, gridlocation);
 	}
 
 	#endregion

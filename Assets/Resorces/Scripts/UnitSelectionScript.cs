@@ -8,8 +8,15 @@ using UnityEngine.Events;
 /// Do not create or destroy this object, move it of and on screen insted
 /// </summary>
 public class UnitSelectionScript : MonoBehaviour {
+	
 	[SerializeField]
 	#pragma warning disable
+	/// <summary>
+	/// This is a problem point as the infromation from the unit must be manualy
+	/// placed into this from the unit prefab in the inspecter
+	/// We could fix this if we move to an XML system, but that has it's own problems
+	/// We will work with manual copying.
+	/// </summary>
 	private UnitInformationStruct[] unitInfo;
 	private Button[] unitSelections;
 	/// <summary>
@@ -40,30 +47,36 @@ public class UnitSelectionScript : MonoBehaviour {
 				}
 				temp = Instantiate(unitDisplayPrefab) as GameObject;
 				temp.transform.SetParent(transform);
-				float size = temp.GetComponent<RectTransform>().sizeDelta.x; //width = hight
-				temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(5f + (size + 5f) * x, -5f - (size - 5f) * y);
+				RectTransform rct = temp.GetComponent<RectTransform>(); //transform used in gui
+				float size = rct.sizeDelta.x; //width = hight
+				rct.anchoredPosition = new Vector2(5f + (size + 5f) * x, -5f - (size - 5f) * y);
 				int i = y * 4 + x; //index number read left to right
 				unitSelections[i] = temp.GetComponent<Button>();
 				Image img = unitSelections[i].GetComponent<Image>();
 				img.sprite = defaultUnitSprite;
 				img.color = unitInfo[i].unitColor; 
 				unitSelections[i].transform.GetChild(0).GetComponent<Image>().sprite = unitInfo[i].unitHeadSprite;
-
 				unitSelections[i].onClick.AddListener(() => {
-					createThisUnit(i);
+					this.createThisUnit(i); // call this when button is pressed
 				});
-
 			}
 		}
+		gameObject.SetActive(false);
 	}
 
 	void Start() {
 		setUpUnits();
 	}
 
+	public void enableOnGridBlock(GridBlock gb) {
+		gameObject.SetActive(true);
+		currentGridblock = gb;
+	}
+
 	public void createThisUnit(int unitNumberFromSelection) {
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>()); // send to gridBlockforCreation
+		gameObject.SetActive(false);
 	}
 
 }
