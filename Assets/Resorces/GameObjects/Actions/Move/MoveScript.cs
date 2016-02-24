@@ -17,12 +17,12 @@ public class MoveScript : ActionScript {
 		base.act();
 	}
 
-	public override void display() {
-		base.display();
+	public override void display(GUIScript gui) {
+		base.display(gui);
 	}
 
-	public override void removeDisplay() {
-		base.removeDisplay();
+	public override void removeDisplay(GUIScript gui) {
+		base.removeDisplay(gui);
 	}
 
 }

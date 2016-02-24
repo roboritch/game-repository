@@ -12,12 +12,12 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-	#region block static properties
+	#region block properties
 
-	public bool full = false;
-	public bool programHead = false;
-	public bool spawnSpot = false;
-	public bool online = true;
+	[SerializeField]
+	private bool spawnSpot = false;
+	[SerializeField]
+	private bool online = true;
 
 	#endregion
 
@@ -49,8 +49,10 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Location of this grid block on the play grid
+	/// </summary>
 	public GridLocation gridlocation;
-
 
 	#region mouseDown and mouseOver
 
@@ -64,18 +66,17 @@ public class GridBlock : MonoBehaviour {
 		//Set the buttons up in the gui for the installed unit when this grid block is selected
 		//all prev buttons are removed when this method is called
 		if(programInstalled != null) {
-			gridManager.gui.setButtons(programInstalled.buttonPrefabs);
+			gridManager.gui.setButtons(programInstalled.getButtonPrefabs());
 		}
 
 		if(spawnSpot && programInstalled != null) {
-			//gridManager.gui.
+			//TODO bring up unit selection for this block
 		}
 	}
 
 	public void createUnit(UnitScript unit) {
 		programInstalled = unit;
-		gridManager.gui.setButtons(unit.buttonPrefabs);
-			
+		programInstalled.spawnUnit(gridlocation);
 	}
 
 	void OnMouseOver() {
@@ -170,7 +171,6 @@ public class GridBlock : MonoBehaviour {
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		programInstalled = unit;
-		programHead = true;
 		unit.spawnUnit(gridlocation);
 	}
 
@@ -187,7 +187,32 @@ public class GridBlock : MonoBehaviour {
 	}
 }
 
+/// <summary>
+/// Grid location.
+/// implements ==, != and = operations
+/// </summary>
+#pragma warning disable
 public struct GridLocation {
 	public int x;
 	public int y;
+
+	/// <summary>
+	/// Copy this instance.
+	/// Not the same as = (refrence copy).
+	/// </summary>
+	public GridLocation copy() {
+		GridLocation a;
+		a.x = x;
+		a.y = y;
+		return a;
+	}
+
+	public static bool operator ==(GridLocation a, GridLocation b) {
+		return a.x == b.x && a.y == b.y;
+	}
+
+	public static bool operator !=(GridLocation a, GridLocation b) {
+		return !(a == b);
+	}
+
 }
