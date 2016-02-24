@@ -38,10 +38,13 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
+	#region simple block vars
+
 	public UnitScript programInstalled;
+	private CreatePlayGrid gridManager;
 
 	private Collider2D selectionBox;
-	private CreatePlayGrid gridManager;
+
 
 	public CreatePlayGrid GridManager {
 		set {
@@ -53,6 +56,8 @@ public class GridBlock : MonoBehaviour {
 	/// Location of this grid block on the play grid
 	/// </summary>
 	public GridLocation gridlocation;
+
+	#endregion
 
 	#region mouseDown and mouseOver
 
@@ -187,6 +192,7 @@ public class GridBlock : MonoBehaviour {
 	}
 }
 
+#region gridLocation
 /// <summary>
 /// Grid location.
 /// implements ==, != and = operations
@@ -216,3 +222,4 @@ public struct GridLocation {
 	}
 
 }
+#endregion

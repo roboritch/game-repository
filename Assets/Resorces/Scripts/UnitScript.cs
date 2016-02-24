@@ -161,8 +161,6 @@ public class UnitScript : MonoBehaviour {
 
 
 	public void resetActionQueue(GUIScript gui) {
-		/*TODO this function must remove every action from the queue
-		while calling each action to remove there displayed images */ 
 		foreach(ActionScript actions in actionList) {
 			actions.removeDisplay(gui);
 		}

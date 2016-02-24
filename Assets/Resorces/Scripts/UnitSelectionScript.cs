@@ -8,16 +8,22 @@ using UnityEngine.Events;
 /// Do not create or destroy this object, move it of and on screen insted
 /// </summary>
 public class UnitSelectionScript : MonoBehaviour {
-	public UnitInformationStruct[] unitInfo;
-	public Button[] unitSelections;
+	[SerializeField]
+	#pragma warning disable
+	private UnitInformationStruct[] unitInfo;
+	private Button[] unitSelections;
 	/// <summary>
 	/// if it is not posible to set a unit disable it's selection with this
 	/// </summary>
-	public bool[] disabledUnits;
+	[SerializeField]
+	private bool[] disabledUnits;
 
 	public GameObject unitDisplayPrefab;
 
 	public GridBlock currentGridblock;
+
+	[SerializeField]
+	private Sprite defaultUnitSprite;
 
 	/// <summary>
 	/// Sets up a 4 by y grid of units so the user can choose which one to place in a spawn spot.
@@ -35,15 +41,24 @@ public class UnitSelectionScript : MonoBehaviour {
 				temp = Instantiate(unitDisplayPrefab) as GameObject;
 				temp.transform.SetParent(transform);
 				float size = temp.GetComponent<RectTransform>().sizeDelta.x; //width = hight
-				temp.transform.localPosition.Set(5f + (size + 5f) * x, -5f - (size - 5f) * y, 0);
+				temp.transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(5f + (size + 5f) * x, -5f - (size - 5f) * y);
 				int i = y * 4 + x; //index number read left to right
 				unitSelections[i] = temp.GetComponent<Button>();
+				Image img = unitSelections[i].GetComponent<Image>();
+				img.sprite = defaultUnitSprite;
+				img.color = unitInfo[i].unitColor; 
+				unitSelections[i].transform.GetChild(0).GetComponent<Image>().sprite = unitInfo[i].unitHeadSprite;
+
 				unitSelections[i].onClick.AddListener(() => {
 					createThisUnit(i);
 				});
 
 			}
 		}
+	}
+
+	void Start() {
+		setUpUnits();
 	}
 
 	public void createThisUnit(int unitNumberFromSelection) {
