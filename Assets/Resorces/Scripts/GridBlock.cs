@@ -193,7 +193,7 @@ public class GridBlock : MonoBehaviour {
 		unit.transform.position = new Vector3 ();
 		unit.transform.SetParent (gridManager.unitObjectHolder);
 		unitInstalled = unit;
-		unit.spawnUnit (gridManager, gridlocation);
+		unit.spawnUnit (gridManager, this);
 	}
 
 	#endregion

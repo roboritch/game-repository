@@ -9,7 +9,7 @@ using System.IO;
 /// and exicuted in sequece with other actions
 /// </summary>
 public class ActionScript{
-	private UnitScript unit;
+	protected UnitScript unit;
 	// this should be the instance of the unit that
 	private int actionID;
 	//set for each desplay of the action

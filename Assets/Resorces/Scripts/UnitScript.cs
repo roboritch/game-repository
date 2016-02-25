@@ -23,9 +23,9 @@ public class UnitScript : MonoBehaviour {
 
 	#region unit length
 
-	public LinkedList<GridLocation> blockList;
+	public LinkedList<GridBlock> blockList;
 
-	public GridLocation getBlockHeadLocation() {
+	public GridBlock getBlockHeadLocation() {
 		return blockList.First.Value;
 	}
 
@@ -33,18 +33,18 @@ public class UnitScript : MonoBehaviour {
 	/// called when the grid block creats the unit
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(CreatePlayGrid gm, GridLocation startLocation) {
+	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation) {
 		grid = gm;
-		blockList = new LinkedList<GridLocation>();
+		blockList = new LinkedList<GridBlock>();
 		maxProgramLength = unitInfo.maxLength;
-		blockList.AddLast(startLocation.copy());
+		blockList.AddLast(startLocation);
 		checkAllDisplay();
 	}
 
 	private void checkAllDisplay() {
-		foreach(GridLocation loc in  blockList) {
-			grid.gameGrid[loc.x, loc.y].spriteDisplayScript.checkUnitSprite();
-			grid.gameGrid[loc.x, loc.y].spriteDisplayScript.checkConection();
+		foreach(GridBlock loc in  blockList) {
+			loc.spriteDisplayScript.checkUnitSprite();
+			loc.spriteDisplayScript.checkConection();
 		}
 
 	}
