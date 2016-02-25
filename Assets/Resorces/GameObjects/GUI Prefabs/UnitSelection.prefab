@@ -59,7 +59,12 @@ MonoBehaviour:
   unitInfo:
   - unit: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
-    unitColor: {r: 1, g: 1, b: 1, a: 1}
+    unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
+    maxLength: 0
+  disabledUnits: 
+  unitDisplayPrefab: {fileID: 109088, guid: 636e26f55852ca640826ff3d30a3fa7d, type: 2}
+  currentGridblock: {fileID: 0}
+  defaultUnitSprite: {fileID: 0}
 --- !u!222 &22290914
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -80,7 +85,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -325, y: -54}
+  m_AnchoredPosition: {x: -550, y: 225.11}
   m_SizeDelta: {x: 140.4, y: 73.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &100100000

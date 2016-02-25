@@ -39,11 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5336d9f01b977cb4682724ef3f8c90a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  programLengthModifiable: 1
   unitInfo:
-    unit: {fileID: 0}
-    unitHeadSprite: {fileID: 0}
-    unitColor: {r: 0, g: 0, b: 0, a: 0}
+    unit: {fileID: 184858}
+    unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
+    unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
+    maxLength: 3
   buttonPrefabs:
   - {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
 --- !u!1001 &100100000
@@ -90,6 +90,40 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unit
+      value: 
+      objectReference: {fileID: 184858}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitHeadSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitColor.r
+      value: 0.72794116
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitColor.g
+      value: 0.7410751
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.maxLength
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184858}

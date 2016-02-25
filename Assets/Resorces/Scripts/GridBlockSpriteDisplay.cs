@@ -39,12 +39,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 		unitSprite = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		unitSprite.transform.SetParent(transform);
-		unitSprite.transform.localPosition.Set(0, 0, 0.1f);
+		unitSprite.transform.localPosition = new Vector3(0, 0, 0.1f);
 		unitSprite.name = "Unit Sprite";
 
 		headSprite = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		headSprite.transform.SetParent(transform);
-		headSprite.transform.localPosition.Set(0, 0, 0.2f);
+		headSprite.transform.localPosition = new Vector3(0, 0, 0.2f);
 		headSprite.name = "Head Sprite";
 
 		actionSprites = new SpriteControler[MAX_ACTIONS_ON_THIS_BLOCK];
@@ -52,7 +52,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		for(int x = 0; x < MAX_ACTIONS_ON_THIS_BLOCK; x++) {
 			actionSprites[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			actionSprites[x].transform.SetParent(transform);
-			actionSprites[x].transform.localPosition.Set(0, 0, 0.3f + x * 0.05f);
+			actionSprites[x].transform.localPosition = new Vector3(0, 0, 0.3f + x * 0.05f);
 			actionSprites[x].name = "Action Sprite " + x;
 		}
 
@@ -61,7 +61,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		for(int x = 0; x < 4; x++) {
 			movmentDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			movmentDirections[x].transform.SetParent(transform);
-			movmentDirections[x].transform.localPosition.Set(0, 0, 2.5f);
+			movmentDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
 			movmentDirections[x].name = "Movment Direction " + directionNames[x];
 			movmentDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine); // sprites for this controler are always the same
 			movmentDirections[x].setColor(Color.clear); //The color for this sprite is Alpha only
@@ -69,18 +69,18 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 		movmentCirlcle = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		movmentCirlcle.transform.SetParent(transform);
-		movmentCirlcle.transform.localPosition.Set(0, 0, 2.5f);
+		movmentCirlcle.transform.localPosition = new Vector3(0, 0, 2.5f);
 		movmentCirlcle.name = "Movment Circle";
 
 
 		rightConection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		rightConection.transform.SetParent(transform);
-		rightConection.transform.localPosition.Set(0, conectionLocation, 0.1f);
+		rightConection.transform.localPosition = new Vector3(0, conectionLocation, 0.1f);
 		rightConection.name = "Right Conection";
 
 		aboveConection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		aboveConection.transform.SetParent(transform);
-		aboveConection.transform.localPosition.Set(conectionLocation, 0, 0.1f);
+		aboveConection.transform.localPosition = new Vector3(conectionLocation, 0, 0.1f);
 		aboveConection.name = "Above Conection";
 	}
 
@@ -151,6 +151,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			headSprite.removeSprite();
 		} else {
 			unitSprite.setSprite(spriteInfo.spritesAndColors.sprite_unit, attachedGridBlock.programInstalled.getUnitColor());
+			checkHeadSprite();
 		}
 	}
 
@@ -159,7 +160,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// removes head sprite if it is not.
 	/// </summary>
 	public void checkHeadSprite() {
-		if(attachedGridBlock.programHead) {
+		if(attachedGridBlock.programInstalled.getBlockHeadLocation() == attachedGridBlock.gridlocation) {
 			headSprite.setSprite(attachedGridBlock.programInstalled.getUnitHeadSprite());
 		} else {
 			headSprite.removeSprite();

@@ -67,7 +67,7 @@ public class GUIScript : MonoBehaviour {
 	}
 
 	public void resetUnitAction() {
-		//currentlySelectedUnit.resetActionQueue(); TODO get this working in unitScript
+		currentlySelectedUnit.resetActionQueue(this);
 	}
 
 
@@ -113,6 +113,8 @@ public class GUIScript : MonoBehaviour {
 	#region new unit selection
 
 	public UnitSelectionScript unitSelectionScript;
+
+
 
 	#endregion
 

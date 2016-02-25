@@ -5,7 +5,7 @@ using System.IO;
 
 /// <summary>
 /// Action script.
-/// Each unit has a set of actions, these actions can be placed into a queue 
+/// Each unit has a set of actions, these actions can be placed into a list 
 /// and exicuted in sequece with other actions
 /// </summary>
 public class ActionScript : MonoBehaviour {
@@ -24,6 +24,9 @@ public class ActionScript : MonoBehaviour {
 	}
 
 
+
+
+
 	#region button infromation
 
 	public string actionName;
@@ -37,24 +40,31 @@ public class ActionScript : MonoBehaviour {
 	#endregion
 
 	/// <summary>
-	/// preform this action when called by the units action queue.
+	/// preform this action when called by the units action list.
 	/// </summary>
 	public virtual void act() {
 		
 	}
 
 	/// <summary>
+	/// The amount of time it takes to animate the unit preforming this action
+	/// </summary>
+	/// <returns>The time.</returns>
+	public virtual float actionTime() {
+		return 1.0f;
+	}
+
+	/// <summary>
 	/// calls the gui to display this action on the game.
 	/// </summary>
-	public virtual void display() {
+	public virtual void display(GUIScript gui) {
 		
 	}
 
 	/// <summary>
 	/// calls this to get the gui to remove all displayed images of this action
 	/// </summary>
-	public virtual void removeDisplay() {
+	public virtual void removeDisplay(GUIScript gui) {
 		
 	}
-
 }

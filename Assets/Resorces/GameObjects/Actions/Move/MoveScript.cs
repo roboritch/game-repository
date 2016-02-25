@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//TODO Move Action
 public class MoveScript : ActionScript {
 
 	// Use this for initialization
@@ -17,12 +18,12 @@ public class MoveScript : ActionScript {
 		base.act();
 	}
 
-	public override void display() {
-		base.display();
+	public override void display(GUIScript gui) {
+		base.display(gui);
 	}
 
-	public override void removeDisplay() {
-		base.removeDisplay();
+	public override void removeDisplay(GUIScript gui) {
+		base.removeDisplay(gui);
 	}
 
 }
