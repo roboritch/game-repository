@@ -182,10 +182,9 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	/// Displays head if this this the correct head location.
 	/// removes head sprite if it is not.
 	/// </summary>
-	private void updateHeadSprite ()
-	{
-		if (attachedGridBlock.unitInstalled.getBlockHeadLocation () == attachedGridBlock.gridlocation) {
-			headSprite.setSprite (attachedGridBlock.unitInstalled.getUnitHeadSprite ());
+	public void checkHeadSprite() {
+		if(attachedGridBlock.unitInstalled.getBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation) {
+			headSprite.setSprite(attachedGridBlock.unitInstalled.getUnitHeadSprite());
 		} else {
 			headSprite.removeSprite ();
 		}
