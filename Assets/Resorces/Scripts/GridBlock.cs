@@ -21,7 +21,6 @@ public class GridBlock : MonoBehaviour {
 
 	#endregion
 
-
 	#region sprites
 
 	public GridBlockSpriteDisplay spriteDisplayScript;
@@ -40,7 +39,6 @@ public class GridBlock : MonoBehaviour {
 	#endregion
 
 	public UnitScript programInstalled;
-	private GridBlock programHeadLocation;
 
 	private Collider2D selectionBox;
 	private CreatePlayGrid gridManager;
@@ -51,15 +49,33 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	public GridLocation gridlocation;
+
 
 	#region mouseDown and mouseOver
 
-	void OnMouseDown() { // UNDONE need to add colider to gridblock prefab
+	void OnMouseDown() { 
 		if(gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log("mouse down on grid block");
 			gridManager.contextMenuUp = true;
 			displayEditRightClickMenu();
 		}
+
+		//Set the buttons up in the gui for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+		if(programInstalled != null) {
+			gridManager.gui.setButtons(programInstalled.buttonPrefabs);
+		}
+
+		if(spawnSpot && programInstalled != null) {
+			//gridManager.gui.
+		}
+	}
+
+	public void createUnit(UnitScript unit) {
+		programInstalled = unit;
+		gridManager.gui.setButtons(unit.buttonPrefabs);
+			
 	}
 
 	void OnMouseOver() {
@@ -109,11 +125,17 @@ public class GridBlock : MonoBehaviour {
 
 	public void toggleSpaceOnline() { 
 		if(online == false) {
-			//TODO tell spaces around this one that it is active
-			transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
+			up.down = this;
+			down.up = this;
+			left.right = this;
+			right.left = this;
+			transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 			online = !online;
 		} else {
-			//TODO tell spaces around this one that it is not active
+			up.down = null;
+			down.up = null;
+			left.right = null;
+			right.left = null;
 			transform.GetComponent<SpriteControler>().removeSprite();
 			online = !online;
 		}
@@ -128,7 +150,7 @@ public class GridBlock : MonoBehaviour {
 			return;
 		}
 		spawnSpot = true;
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_spawnSpace, gridManager.color_spawnSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
 	}
 
 	public void removeSpawn() {
@@ -136,9 +158,21 @@ public class GridBlock : MonoBehaviour {
 			return;
 		}
 		spawnSpot = false;
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 	}
 
+
+	#endregion
+
+	#region create unit
+
+	public void spawnUnit(UnitScript unit) {
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		programInstalled = unit;
+		programHead = true;
+		unit.spawnUnit(gridlocation);
+	}
 
 	#endregion
 
@@ -151,4 +185,9 @@ public class GridBlock : MonoBehaviour {
 	void Update() {
 
 	}
+}
+
+public struct GridLocation {
+	public int x;
+	public int y;
 }
