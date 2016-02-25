@@ -125,10 +125,10 @@ public class GridBlock : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Prints the state of the space for level saving.
-	/// " " = offline
-	/// "o" = spawn spot
-	/// "x" = other
+	/// <para>Prints the state of the space for level saving.</para>
+	/// <para>" " = offline</para>
+	/// <para>"o" = spawn spot</para>
+	/// <para>"x" = other</para>
 	/// </summary>
 	public string printSpaceState ()
 	{
