@@ -9,8 +9,7 @@ using UnityEngine;
 /// Can be online or offline (occupiable or not).
 /// Can be a spawn spot.
 /// </summary>
-public class GridBlock : MonoBehaviour
-{
+public class GridBlock : MonoBehaviour {
 	#region adjacent blocks
 
 	/// <summary>Upper adjacent block.</summary>
@@ -40,8 +39,7 @@ public class GridBlock : MonoBehaviour
 
 	/// <summary>Display the conections.</summary>
 	/// <param name="unit">Unit.</param>
-	void displayConections (UnitScript unit)
-	{
+	void displayConections (UnitScript unit) {
 		/*TODO call this every time a unit changes size or moves to 
 		 * correctily display the conections in a single program */
 		 
@@ -74,8 +72,7 @@ public class GridBlock : MonoBehaviour
 	#region mouse events
 
 	/// <summary>Raises the mouse down event.</summary>
-	void OnMouseDown ()
-	{ 
+	void OnMouseDown () { 
 		if (gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log ("mouse down on grid block");
 			gridManager.contextMenuUp = true;
@@ -105,8 +102,7 @@ public class GridBlock : MonoBehaviour
 	#region edit mode
 
 	/// <summary>Displays the edit right click menu.</summary>
-	public void displayEditRightClickMenu ()
-	{ //UNDONE display menu on right click
+	public void displayEditRightClickMenu () { //UNDONE display menu on right click
 		GameObject contextMenu = Instantiate (gridManager.gridEditMenu) as GameObject;
 		contextMenu.GetComponent<ContextCanvas> ().space = this;
 
@@ -193,8 +189,7 @@ public class GridBlock : MonoBehaviour
 
 	/// <summary>Spawns a given unit.</summary>
 	/// <param name="unit">Unit.</param>
-	public void spawnUnit (UnitScript unit)
-	{
+	public void spawnUnit (UnitScript unit) {
 		unit.transform.position = new Vector3 ();
 		unit.transform.SetParent (gridManager.unitObjectHolder);
 		unitInstalled = unit;
@@ -205,33 +200,28 @@ public class GridBlock : MonoBehaviour
 
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
-	void Start ()
-	{
+	void Start () {
 		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay> ();
 	}
 
 	// Update is called once per frame.
 	/// <summary>Update this instance.</summary>
-	void Update ()
-	{
+	void Update () {
 
 	}
 
 	/// <summary>Sets the sprite to default.</summary>
-	private void setSpriteDefault ()
-	{
+	private void setSpriteDefault () {
 		transform.GetComponent<SpriteControler> ().setSprite (gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
 	}
 
 	/// <summary>Sets the sprite to spawn.</summary>
-	private void setSpriteSpawn ()
-	{
+	private void setSpriteSpawn () {
 		transform.GetComponent<SpriteControler> ().setSprite (gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
 	}
 
 	/// <summary>Removes the sprite.</summary>
-	private void setSpriteNone ()
-	{
+	private void setSpriteNone () {
 		transform.GetComponent<SpriteControler> ().removeSprite ();
 	}
 }
@@ -242,8 +232,7 @@ public class GridBlock : MonoBehaviour
 /// implements ==, != and = operations
 /// </summary>
 #pragma warning disable
-public struct GridLocation
-{
+public struct GridLocation {
 	/// <summary>X coordinate of grid location.</summary>
 	public int x;
 	/// <summary>Y coordinate of grid location.</summary>
