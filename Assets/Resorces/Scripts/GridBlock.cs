@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class GridBlock : MonoBehaviour {
 	#region adjacent blocks
-
+	/// <summary>Upper adjacent block.</summary>
 	public GridBlock up;
+	/// <summary>Lower adjacent block.</summary>
 	public GridBlock down;
+	/// <summary>Left adjacent block.</summary>
 	public GridBlock left;
+	/// <summary>Right adjacent block.</summary>
 	public GridBlock right;
 
 	#endregion
 
 	#region block static properties
-
-	public bool full = false;
-	public bool programHead = false;
+	/// <summary>Spawn spot flag.</summary>
 	public bool spawnSpot = false;
+	/// <summary>Whether this grid block 'exists'.</summary>
 	public bool online = true;
 
 	#endregion
@@ -26,9 +28,7 @@ public class GridBlock : MonoBehaviour {
 
 	public GridBlockSpriteDisplay spriteDisplayScript;
 
-	/// <summary>
-	/// Displays the conections.
-	/// </summary>
+	/// <summary>Displays the conections.</summary>
 	/// <param name="unit">Unit.</param>
 	void displayConections(UnitScript unit) {
 		/*TODO call this every time a unit changes size or moves to 
@@ -52,8 +52,9 @@ public class GridBlock : MonoBehaviour {
 	}
 
 
-	#region mouseDown and mouseOver
+	#region mouse events
 
+	/// <summary>Raises the mouse down event.</summary>
 	void OnMouseDown() { // UNDONE need to add collider to gridblock prefab
 		if(gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log("mouse down on grid block");
@@ -62,6 +63,7 @@ public class GridBlock : MonoBehaviour {
 		}
 	}
 
+	/// <summary>Raises the mouse over event.</summary>
 	void OnMouseOver() {
 
 	}
@@ -70,6 +72,7 @@ public class GridBlock : MonoBehaviour {
 
 	#region edit mode
 
+	/// <summary>Display the right click menu.</summary>
 	public void displayEditRightClickMenu() { //UNDONE display menu on right click
 		GameObject contextMenu = Instantiate(gridManager.gridEditMenu) as GameObject;
 		contextMenu.GetComponent<ContextCanvas>().space = this;
@@ -85,69 +88,79 @@ public class GridBlock : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// removes the current context menu for this block and alows new context menus
-	/// to be created for other blocks
+	/// Removes the current context menu for this block and allows new context menus
+	/// to be created for other blocks.
 	/// </summary>
 	internal void ExitContextMenu() {
 		gridManager.contextMenuUp = false;
 	}
 
-	/// <summary>
-	/// Prints the state of the space for level saving.
-	/// </summary>
+	/// <summary>Prints the state of the space for level saving.</summary>
 	public string printSpaceState() {
-		if(online == false) {
+		if(online == false)
 			return " ";
-		}
-		if(spawnSpot) {
+		if(spawnSpot) 
 			return "o";
-		}
-
 		return "x";
 		//TODO make level saver
 	}
 
+	/// <summary>Toggles the online state.</summary>
 	public void toggleSpaceOnline() { 
 		if(online == false) {
 			//TODO tell spaces around this one that it is active
-			transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
-			online = !online;
+			setSpriteDefault();
 		} else {
 			//TODO tell spaces around this one that it is not active
 			transform.GetComponent<SpriteControler>().removeSprite();
-			online = !online;
 		}
+		//toggle state
+		online = !online;
 	}
 
 
-	/// <summary>
-	/// Sets gridblock as a spawn.
-	/// </summary>
-	public void setSpawn() {
-		if(!online) {
-			return;
-		}
+	/// <summary>Sets the spawn flag and updates sprite.</summary>
+	public boolean setSpawn() {
+		//fail to add spawn flag if not active
+		if(!online)
+			return false;
 		spawnSpot = true;
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_spawnSpace, gridManager.color_spawnSpaceColor);
+		setSpriteSpawn();
+		return true;
 	}
 
-	public void removeSpawn() {
-		if(!online) {
-			return;
-		}
+	/// <summary>Removes the spawn flag and updates sprite.</summary>
+	/// <returns>The spawn.</returns>
+	public boolean removeSpawn() {
+		//fail to remove spawn flag if not active
+		if(!online)
+			return false;
 		spawnSpot = false;
+		setSpriteDefault();
+		return true;
+	}
+
+	/// <summary>Sets the sprite to default.</summary>
+	private void setSpriteDefault(){
 		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_defaultSpace, gridManager.color_defaultSpaceColor);
+	}
+
+	/// <summary>Sets the sprite to spawn.</summary>
+	private void setSpriteSpawn(){
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.sprite_spawnSpace, gridManager.color_spawnSpaceColor);
 	}
 
 
 	#endregion
 
 	// Use this for initialization
+	/// <summary>Start this instance.</summary>
 	void Start() {
 		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
 	}
 
 	// Update is called once per frame
+	/// <summary>Update this instance.</summary>
 	void Update() {
 
 	}
