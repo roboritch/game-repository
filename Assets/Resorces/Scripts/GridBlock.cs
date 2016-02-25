@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 public class GridBlock : MonoBehaviour {
-	#region adjasent blocks
+	#region adjacent blocks
 
 	public GridBlock up;
 	public GridBlock down;
@@ -27,12 +27,12 @@ public class GridBlock : MonoBehaviour {
 	public GridBlockSpriteDisplay spriteDisplayScript;
 
 	/// <summary>
-	/// Displaies the conections.
+	/// Displays the conections.
 	/// </summary>
 	/// <param name="unit">Unit.</param>
 	void displayConections(UnitScript unit) {
 		/*TODO call this every time a unit changes size or moves to 
-		 * correctily display the conections in a single program */
+		 * correctly display the conections in a single program */
 		 
 	}
 
@@ -54,7 +54,7 @@ public class GridBlock : MonoBehaviour {
 
 	#region mouseDown and mouseOver
 
-	void OnMouseDown() { // UNDONE need to add colider to gridblock prefab
+	void OnMouseDown() { // UNDONE need to add collider to gridblock prefab
 		if(gridManager.editModeOn && !gridManager.contextMenuUp) {
 			Debug.Log("mouse down on grid block");
 			gridManager.contextMenuUp = true;
