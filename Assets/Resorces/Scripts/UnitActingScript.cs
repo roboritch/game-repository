@@ -10,29 +10,29 @@ public class UnitActingScript : MonoBehaviour {
 	public Image unitColor;
 	public Image unitHeadSprite;
 	private UnitScript unit;
-	public bool enemy; // TODO add some identifyer for enemy units
+	public bool enemy;
+	// TODO add some identifyer for enemy units
 
-	public void setUnitSprite(Sprite unitHead,Color color){
+	public void setUnitSprite(Sprite unitHead, Color color) {
 		unitColor.color = color;
 		unitHeadSprite.sprite = unitHead;
 	}
-		
-	public void setCurrentlyActing(){
 
+	public void setCurrentlyActing() {
 		//TODO add some animation to show that this unit is acting 
 	}
-		
-	public void setUnit(UnitScript u){
+
+	public void setUnit(UnitScript u) {
 		unit = u;
 	}
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start() {
+		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
 	
 	}
 }
