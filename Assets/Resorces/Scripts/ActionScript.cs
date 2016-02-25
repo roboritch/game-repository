@@ -8,7 +8,7 @@ using System.IO;
 /// Each unit has a set of actions, these actions can be placed into a list 
 /// and exicuted in sequece with other actions
 /// </summary>
-public class ActionScript : MonoBehaviour {
+public class ActionScript{
 	private UnitScript unit;
 	// this should be the instance of the unit that
 	private int actionID;
@@ -22,23 +22,7 @@ public class ActionScript : MonoBehaviour {
 			actionID = value;
 		}
 	}
-
-
-
-
-
-	#region button infromation
-
-	public string actionName;
-	public TextAsset descriptionTextFile;
-
-	public string getDiscription() {
-		return descriptionTextFile.text;
-	}
-
-
-	#endregion
-
+		
 	/// <summary>
 	/// preform this action when called by the units action list.
 	/// </summary>

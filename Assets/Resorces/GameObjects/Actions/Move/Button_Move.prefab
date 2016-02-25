@@ -11,7 +11,7 @@ GameObject:
   - 222: {fileID: 22232050}
   - 114: {fileID: 11451400}
   - 114: {fileID: 11404292}
-  - 114: {fileID: 11480282}
+  - 114: {fileID: 11404026}
   m_Layer: 5
   m_Name: Button_Move
   m_TagString: Untagged
@@ -36,6 +36,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &11404026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f88b6d7804bd0d4fb26a477a1eb9867, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: Move
+  discription: {fileID: 4900000, guid: e99d4e89c67815a4bb59e02d167db9fd, type: 3}
 --- !u!114 &11404292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,19 +150,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11480282
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9487944c13305546a88d2da7a817561, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionName: Move
-  descriptionTextFile: {fileID: 4900000, guid: e99d4e89c67815a4bb59e02d167db9fd, type: 3}
 --- !u!222 &22232050
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -243,6 +243,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Colors.m_ColorMultiplier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: discription
+      value: 
+      objectReference: {fileID: 4900000, guid: e99d4e89c67815a4bb59e02d167db9fd, type: 3}
+    - target: {fileID: 0}
+      propertyPath: actionName
+      value: Move
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
