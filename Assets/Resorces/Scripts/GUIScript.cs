@@ -51,6 +51,10 @@ public class GUIScript : MonoBehaviour {
 			temp = Instantiate(buttonPrefabs[x]) as GameObject;
 			actionButtonInfo[x] = temp.GetComponent<ActionButtonInfo>();
 			temp.transform.SetParent(buttonLocations[x].transform);
+			RectTransform rt = temp.GetComponent<RectTransform>();
+			rt.sizeDelta = new Vector2();
+			rt.anchoredPosition = new Vector2();
+
 		}
 	}
 
