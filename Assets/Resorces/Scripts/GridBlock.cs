@@ -217,7 +217,7 @@ public class GridBlock : MonoBehaviour {
 
 	/// <summary>Sets the sprite to spawn.</summary>
 	private void setSpriteSpawn () {
-		transform.GetComponent<SpriteControler> ().setSprite (gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
+//		transform.GetComponent<SpriteControler> ().setSprite (gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
 	}
 
 	/// <summary>Removes the sprite.</summary>
