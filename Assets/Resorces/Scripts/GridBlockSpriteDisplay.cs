@@ -165,8 +165,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	/// head sprite, or removes both sprites if no unit is present.
 	/// The unit information must be setup on the grid block before this is called.
 	/// </summary>
-	public void updateUnitSprite ()
-	{
+	public void updateUnitSprite () {
 		if (attachedGridBlock.unitInstalled == null) {
 			unitSprite.removeSprite ();
 			headSprite.removeSprite ();
