@@ -43,7 +43,7 @@ public class UnitScript : MonoBehaviour {
 
 	private void checkAllDisplay() {
 		foreach(GridBlock loc in  blockList) {
-			loc.spriteDisplayScript.checkUnitSprite();
+			loc.spriteDisplayScript.updateUnitSprite();
 			loc.spriteDisplayScript.checkConection();
 		}
 
