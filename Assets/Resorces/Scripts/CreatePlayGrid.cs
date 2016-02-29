@@ -64,8 +64,6 @@ public class CreatePlayGrid : MonoBehaviour {
 				gameGrid[x, y].gridlocation.y = y;
 			}
 		}
-		gameGrid[2,2].setSpawn(); // temp for presentation
-
 		//setup refrences from one grid block to another to improve unit interaction
 		for(int x = 0; x < gridSize; x++) {
 			for(int y = 0; y < gridSize; y++) {
