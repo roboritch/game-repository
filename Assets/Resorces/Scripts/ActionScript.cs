@@ -10,10 +10,13 @@ using System.IO;
 /// </summary>
 public class ActionScript{
 	protected UnitScript unit;
-	// this should be the instance of the unit that
+	/// <summary>
+	/// Some actions may require more than one action Id
+	/// </summary>
 	private int actionID;
 	//set for each desplay of the action
 	//each move, attack or action must be a seprate instance of this script
+
 	public int ActionID {
 		get {
 			return actionID;
