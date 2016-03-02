@@ -1,0 +1,1 @@
+Attack another unit. An attack will decrease the size of the enemy unit.
