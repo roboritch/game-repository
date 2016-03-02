@@ -150,16 +150,30 @@ public class UnitScript : MonoBehaviour {
 		invokeNextAction();
 	}
 
+	/// <summary>
+	/// Invokes the next action.
+	/// All actions will run till the actionList is empty
+	/// </summary>
 	private void invokeNextAction() {
 		ActionScript action = actionList.First.Value;
 		action.act();
-		getReadyToPreformAnotherAction(action.actionTime());
+		actionList.RemoveFirst();
+		if(actionList.First != null) // only preform another action if there is one
+			getReadyToPreformAnotherAction(action.actionTime());
 	}
 
+	/// <summary>
+	/// The next action will be preformed after the animation has 
+	/// been completed on the last action.
+	/// </summary>
+	/// <param name="timeTillNextAction">Time till next action.</param>
 	private void getReadyToPreformAnotherAction(float timeTillNextAction) {
 		Invoke("invokeNextAction", timeTillNextAction);
 	}
 
+	/// <summary>
+	/// removes the last action added to the actionList
+	/// </summary>
 	public void undoAction() {
 		actionList.Last.Value.removeDisplay(grid.gui);
 		actionList.RemoveLast();
