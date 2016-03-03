@@ -1925,7 +1925,7 @@ MonoBehaviour:
     sprite_spawnSpace: {fileID: 21300000, guid: e910e4f78038dbf4fbcbdad898836d40,
       type: 3}
     color_spawnSpaceColor: {r: 0.72794116, g: 0.6922085, b: 0.49243078, a: 0}
-    sprite_moveTo: {fileID: 21300000, guid: 5485e2f56028a3c4cb54f5caa167377e, type: 3}
+    sprite_moveTo: {fileID: 21300000, guid: 73aa437f045c59847a5bf5b8c1e08ab0, type: 3}
     color_move: {r: 0.15451899, g: 0.25530925, b: 0.809, a: 0.416}
     sprite_moveLine: {fileID: 21300000, guid: e0756714aeb3f1c44a028cc11f84e91c, type: 3}
     sptite_moveCircle: {fileID: 21300000, guid: 6127c40afa6a4f143931a1e0088ae8ae,

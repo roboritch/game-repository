@@ -1,32 +1,39 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿	using UnityEngine;
+	using System.Collections.Generic;
 
-/// <summary>
-/// Program script also known as a unit.
-/// Parent script for all programs
-/// </summary>
-public class UnitScript : MonoBehaviour {
-	#region programName
+	/// <summary>
+	/// Program script also known as a unit.
+	/// Parent script for all programs
+	/// </summary>
+	public class UnitScript : MonoBehaviour {
+		#region programName
 
-	private string programName;
+		private string programName;
 
-	public string ProgramName {
-		get {
-			return programName;
+		public string ProgramName {
+			get {
+				return programName;
+			}
+			set {
+				programName = value;
+			}
 		}
-		set {
-			programName = value;
-		}
-	}
 
-	#endregion
+		#endregion
 
 	#region unit length
 
 	public LinkedList<GridBlock> blockList;
+	public GridBlock virtualBlockHead; //blockhead location after a move action is queued
 
 	public GridBlock getBlockHeadLocation() {
-		return blockList.First.Value;
+		if(virtualBlockHead==null){
+			virtualBlockHead = blockList.First.Value;}
+		if (virtualBlockHead != blockList.First.Value) {
+			return virtualBlockHead;
+		} else {
+			return blockList.First.Value;
+		}
 	}
 
 	/// <summary>
