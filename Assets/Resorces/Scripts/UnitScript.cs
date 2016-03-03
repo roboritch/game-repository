@@ -208,8 +208,11 @@ public class UnitScript : MonoBehaviour{
   /// A list of all the actions the user has selected for this unit.
   /// </summary>
   private LinkedList<ActionScript> actionList;
+	public ActionScript tempAction;
   /*each action will be a child of the ActionScript */
-
+	public ActionScript getLastAction(){
+		return actionList.Last.Value;
+	}
 
   public void startActing(){
     invokeNextAction();

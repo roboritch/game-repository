@@ -38,6 +38,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	/// <summary>The right sprite controller conection.</summary>
 	private SpriteControler rightConection;
 
+
 	#endregion
 
 	#region script startup
@@ -324,10 +325,23 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 			return Color.blue;
 		}
 	}
+	public bool moveDisplayOn=false;
+	public Direction dir;
+	public UnitScript unitMoving;
 	public void moveAction(UnitScript unit){
 		if(unit.getBlockHeadLocation().right!=null){
-			//unit.getBlockHeadLocation ().right.spriteDisplayScript.moveDisplay (spriteInfo.spritesAndColors.sprite_moveTo);
-	}
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveDisplayOn = true;
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.unitMoving = unit;
+			dir = Direction.RIGHT;
+		}
+		if(unit.getBlockHeadLocation().left!=null){
+			unit.getBlockHeadLocation ().left.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			unit.getBlockHeadLocation ().left.spriteDisplayScript.moveDisplayOn = true;
+			dir=Direction.LEFT;
+		}
+		if(unit.getBlockHeadLocation()){}
+
 	}
 
 	#endregion
