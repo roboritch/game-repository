@@ -182,19 +182,19 @@
 	/// removes the last action added to the actionList
 	/// </summary>
 	public void undoAction() {
-		actionList.Last.Value.removeDisplay(grid.gui);
+		actionList.Last.Value.removeDisplay();
 		actionList.RemoveLast();
 	}
 
 	public void addActionToQueue(ActionScript action) {
-		action.display(grid.gui);
+		action.display();
 		actionList.AddLast(action);
 	}
 
 
 	public void resetActionQueue(GUIScript gui) {
 		foreach(ActionScript actions in actionList) {
-			actions.removeDisplay(gui);
+			actions.removeDisplay();
 		}
 	}
 

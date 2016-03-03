@@ -9,6 +9,5 @@ public class WallScript : UnitScript {
 
 		
 	}
-
-	#endregion
+	
 
