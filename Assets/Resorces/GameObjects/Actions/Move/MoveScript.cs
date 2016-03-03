@@ -3,7 +3,7 @@ using System.Collections;
 
 //TODO Move Action
 public class MoveScript : ActionScript {
-
+	public Direction moveDir;
 	// Use this for initialization
 	void Start() {
 

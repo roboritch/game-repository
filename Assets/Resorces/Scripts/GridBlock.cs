@@ -21,6 +21,22 @@ public class GridBlock : MonoBehaviour {
 	/// <summary>Right adjacent block.</summary>
 	public GridBlock right;
 
+	public Collider gridBlockCollider;
+	public GridBlock getAdj(Direction dir){
+		switch (dir) {
+		case Direction.UP:
+			return up;
+			break;
+		case Direction.DOWN:
+			return down;
+			break;
+		case Direction.LEFT:
+			return left;
+			break;
+		default:
+			return right;
+			break;
+		}}
 	#endregion
 
 	#region block properties
@@ -89,7 +105,10 @@ public class GridBlock : MonoBehaviour {
 		if (spawnSpot && unitInstalled == null && Input.GetMouseButton (0)) {
 			gridManager.gui.unitSelectionScript.enableOnGridBlock (this);
 		}
-	}
+		if(spriteDisplayScript.moveDisplayOn==true && spriteDisplayScript.unitMoving.tempAction is MoveScript){
+			((MoveScript)spriteDisplayScript.unitMoving.tempAction).moveDir=spriteDisplayScript.dir;
+		}
+		}
 
 	/// <summary>Raises the mouse over event.</summary>
 	void OnMouseOver ()
@@ -207,7 +226,7 @@ public class GridBlock : MonoBehaviour {
 	// Update is called once per frame.
 	/// <summary>Update this instance.</summary>
 	void Update () {
-
+		
 	}
 
 	/// <summary>Sets the sprite to default.</summary>
@@ -259,3 +278,7 @@ public struct GridLocation {
 
 }
 #endregion
+public enum Direction
+{
+	UP,DOWN,LEFT,RIGHT
+}
