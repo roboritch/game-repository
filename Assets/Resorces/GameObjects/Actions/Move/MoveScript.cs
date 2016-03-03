@@ -22,8 +22,16 @@ public class MoveScript : ActionScript {
 		else {
 			unit.blockList.RemoveLast();
 			unit.blockList.AddFirst();
-			//a.spriteDisplayScript.updateUnitSprite;
+
 		}
 	}
-		
+
+	public override void display() {
+		;
+	}
+
+	public override void removeDisplay() {
+		base.removeDisplay(gui);
+	}
+
 }
