@@ -28,7 +28,7 @@ public class AttackScript : ActionScript{
   /// Calls the GUI to display this action on the game.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void display(GUIScript gui){
+  public override void display(){
     
   }
 
@@ -36,7 +36,7 @@ public class AttackScript : ActionScript{
   /// Calls this to get the GUI to remove all displayed images of this action.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void removeDisplay(GUIScript gui){
+  public override void removeDisplay(){
     
   }
 

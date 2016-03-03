@@ -326,7 +326,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	}
 	public void moveAction(UnitScript unit){
 		if(unit.getBlockHeadLocation().right!=null){
-			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveDisplay (spriteInfo.spritesAndColors.sprite_moveTo);
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.displayAction (spriteInfo.spritesAndColors.sprite_moveTo);
 	}
 	}
 

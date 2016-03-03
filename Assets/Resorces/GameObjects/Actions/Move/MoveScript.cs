@@ -14,7 +14,6 @@ public class MoveScript : ActionScript {
 	
 	}
 	public override void act() {
-		
 		if (unit.blockList.Count < unit.MaxProgramLength) {
 			unit.blockList.AddFirst ();
 
