@@ -230,22 +230,27 @@ public class UnitScript : MonoBehaviour{
 			getReadyToPreformAnotherAction(action.actionTime());
   }
 
-  /// <summary>
-  /// The next action will be performed after the animation has 
-  /// been completed on the last action.
-  /// </summary>
-  /// <param name="timeTillNextAction">Time until next action.</param>
-  private void getReadyToPreformAnotherAction(float timeTillNextAction){
-    Invoke("invokeNextAction", timeTillNextAction);
-  }
+	/// <summary>
+	/// The next action will be preformed after the animation has 
+	/// been completed on the last action.
+	/// </summary>
+	/// <param name="timeTillNextAction">Time till next action.</param>
+	private void getReadyToPreformAnotherAction(float timeTillNextAction) {
+		Invoke("invokeNextAction", timeTillNextAction);
+	}
 
-  /// <summary>
-  /// Removes the last action added to the actionList.
-  /// </summary>
-  public void undoAction(){
-    actionList.Last.Value.removeDisplay();
-    actionList.RemoveLast();
-  }
+	/// <summary>
+	/// removes the last action added to the actionList
+	/// </summary>
+	public void undoAction() {
+		actionList.Last.Value.removeDisplay();
+		actionList.RemoveLast();
+	}
+
+	public void addActionToQueue(ActionScript action) {
+		action.display();
+		actionList.AddLast(action);
+	}
 
   public void addActionToQueue(ActionScript action){
     action.display();
