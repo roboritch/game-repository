@@ -21,7 +21,7 @@ public class UnitScript : MonoBehaviour{
 
   #endregion
 
-  #region unit length
+  #region Unit Block Management
 
   private LinkedList<GridBlock> blockList;
   //Block head location after a move action is queued.
@@ -132,13 +132,9 @@ public class UnitScript : MonoBehaviour{
     maxProgramLength = value;
   }
 
-  public virtual void receiveDamage(int damageAmount){
-		
-  }
-
   #endregion
 
-  #region basic unit information
+  #region Basic Unit Information
 
   public UnitInformationStruct unitInfo;
 
@@ -161,7 +157,7 @@ public class UnitScript : MonoBehaviour{
 
   #endregion
 
-  #region display posible actions
+  #region Display Possible Actions
 
   /// <summary>
   /// The grid the unit is on (the level).
