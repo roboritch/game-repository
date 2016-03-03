@@ -14,7 +14,7 @@ public class ActionButtonInfo : MonoBehaviour{
 	/// </summary>
 	/// <returns>The new instance of action.</returns>
 	public virtual ActionScript getNewInstanceOfAction(){
-		return new ActionScript();
+		return null;
 	}
 
 	public string descriptionText(){

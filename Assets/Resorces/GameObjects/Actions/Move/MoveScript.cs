@@ -13,24 +13,23 @@ public class MoveScript : ActionScript {
 	void Update() {
 	
 	}
-//public override void act() {
-//		
-//		if (unit.blockList.Count < unit.MaxProgramLength) {
-//			unit.blockList.AddFirst ();
-//
-//		}
-//		else {
-//			unit.blockList.AddFirst ();
-//			unit.blockList.RemoveLast();
-//		}
-//	}
+	public override void act() {
+		
+		if (unit.blockList.Count < unit.MaxProgramLength) {
+			unit.blockList.AddFirst ();
 
-	public override void display(GUIScript gui) {
-		base.display(gui);
+		}
+		else {
+			unit.blockList.RemoveLast();
+			unit.blockList.AddFirst();
+
+		}
 	}
 
-	public override void removeDisplay(GUIScript gui) {
-		base.removeDisplay(gui);
+	public override void display() {
+	}
+
+	public override void removeDisplay() {
 	}
 
 }

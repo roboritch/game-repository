@@ -31,6 +31,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	/// <summary>The action sprites of this block's unit.</summary>
 	private SpriteControler[] actionSprites;
 	/// <summary>actions used on this block.</summary>
+	private SpriteControler moveSprite;
 	private bool[] actionUsed;
 	/// <summary>The above sprite controller conection.</summary>
 	private SpriteControler aboveConection;
@@ -99,6 +100,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 		aboveConection.transform.SetParent (transform);
 		aboveConection.transform.localPosition = new Vector3 (conectionLocation, 0, 0.1f);
 		aboveConection.name = "Above Conection";
+
+		moveSprite = Instantiate (spriteInfo.spritePrefab).GetComponent<SpriteControler> ();
+		moveSprite.transform.SetParent (transform);
+		moveSprite.transform.localPosition = new Vector3 (0, 0, 0.2f);
+		moveSprite.name = "Move Sprite";
+
 	}
 
 	#endregion
@@ -317,7 +324,11 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 			return Color.blue;
 		}
 	}
-
+	public void moveAction(UnitScript unit){
+		if(unit.getBlockHeadLocation().right!=null){
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveDisplay (spriteInfo.spritesAndColors.sprite_moveTo);
+	}
+	}
 
 	#endregion
 
