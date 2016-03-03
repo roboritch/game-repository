@@ -27,11 +27,9 @@ public class MoveScript : ActionScript {
 	}
 
 	public override void display() {
-		;
 	}
 
 	public override void removeDisplay() {
-		base.removeDisplay(gui);
 	}
 
 }
