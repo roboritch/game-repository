@@ -326,8 +326,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 	}
 	public void moveAction(UnitScript unit){
 		if(unit.getBlockHeadLocation().right!=null){
-			unit.getBlockHeadLocation ().right.spriteDisplayScript.displayAction (spriteInfo.spritesAndColors.sprite_moveTo);
-	}
+			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+		}
+		if(unit.getBlockHeadLocation().left!=null){
+			unit.getBlockHeadLocation ().left.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+		}
+		if(unit.getBlockHeadLocation()){}
 	}
 
 	#endregion
