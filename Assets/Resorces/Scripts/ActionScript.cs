@@ -35,8 +35,8 @@ public abstract class ActionScript{
   }
 
   /// <summary>Calls the GUI to display this action on the game. </summary>
-  public abstract void display(GUIScript gui);
+  public abstract void display();
 
   /// <summary>Calls this to get the GUI to remove all displayed images of this action.</summary>
-  public abstract void removeDisplay(GUIScript gui);
+  public abstract void removeDisplay();
 }
