@@ -2,19 +2,20 @@
 using System.Collections;
 
 //TODO Move Action
-public class MoveScript : ActionScript {
+public class MoveScript : ActionScript{
 
-	// Use this for initialization
-	void Start() {
+  // Use this for initialization
+  void Start(){
 
-	}
+  }
 	
-	// Update is called once per frame
-	void Update() {
+  // Update is called once per frame
+  void Update(){
 	
-	}
-//public override void act() {
-//		
+  }
+
+  public override void act(){
+		
 //		if (unit.blockList.Count < unit.MaxProgramLength) {
 //			unit.blockList.AddFirst ();
 //
@@ -23,14 +24,12 @@ public class MoveScript : ActionScript {
 //			unit.blockList.AddFirst ();
 //			unit.blockList.RemoveLast();
 //		}
-//	}
+  }
 
-	public override void display(GUIScript gui) {
-		base.display(gui);
-	}
+  public override void display(GUIScript gui){
+  }
 
-	public override void removeDisplay(GUIScript gui) {
-		base.removeDisplay(gui);
-	}
+  public override void removeDisplay(GUIScript gui){
+  }
 
 }
