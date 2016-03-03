@@ -102,10 +102,6 @@ public class CreatePlayGrid : MonoBehaviour {
 			}
 			levelFile += "\n";
 		}
-		if(!System.IO.File.Exists(filepath)) {
-			System.IO.File.CreateText(filepath);
-		}
-		System.IO.File.WriteAllText(filepath, levelFile);
 
 	}
 
