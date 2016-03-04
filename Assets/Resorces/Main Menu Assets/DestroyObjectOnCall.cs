@@ -5,7 +5,7 @@ using System.Collections;
 public class DestroyObjectOnCall : MonoBehaviour {
 
 	public void destroy(){
-		Destroy(this);
+		Destroy(transform.parent.gameObject);
 	}
 
 	void Update(){
