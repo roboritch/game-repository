@@ -253,11 +253,11 @@ public class UnitScript : MonoBehaviour{
 	}
 		
 
-  public void resetActionQueue(GUIScript gui){
-    foreach (ActionScript actions in actionList){
-      actions.removeDisplay();
-    }
-  }
+	public void resetActionQueue(GUIScript gui){
+		foreach (ActionScript actions in actionList){
+			actions.removeDisplay();
+		}
+	}
 
 
   #endregion
