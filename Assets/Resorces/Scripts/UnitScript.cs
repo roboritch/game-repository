@@ -251,18 +251,13 @@ public class UnitScript : MonoBehaviour{
 		action.display();
 		actionList.AddLast(action);
 	}
+		
 
-  public void addActionToQueue(ActionScript action){
-    action.display();
-    actionList.AddLast(action);
-  }
-
-
-  public void resetActionQueue(GUIScript gui){
-    foreach (ActionScript actions in actionList){
-      actions.removeDisplay();
-    }
-  }
+	public void resetActionQueue(GUIScript gui){
+		foreach (ActionScript actions in actionList){
+			actions.removeDisplay();
+		}
+	}
 
 
   #endregion
