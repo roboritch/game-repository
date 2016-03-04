@@ -325,22 +325,41 @@ public class GridBlockSpriteDisplay : MonoBehaviour
 			return Color.blue;
 		}
 	}
+	/// <summary>
+	/// checks all directions next to unit and draw move sprite if available 
+	/// </summary>
 	public bool moveDisplayOn=false;
 	public Direction dir;
 	public UnitScript unitMoving;
 	public void moveAction(UnitScript unit){
-		if(unit.getBlockHeadLocation().right!=null){
-			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			unit.getBlockHeadLocation ().right.spriteDisplayScript.moveDisplayOn = true;
-			unit.getBlockHeadLocation ().right.spriteDisplayScript.unitMoving = unit;
+		GridBlock up = unit.getBlockHeadLocation ().up;
+		GridBlock down = unit.getBlockHeadLocation ().down;
+		GridBlock left = unit.getBlockHeadLocation ().left;
+		GridBlock right = unit.getBlockHeadLocation ().right;
+		if(right!=null){
+			right.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			right.spriteDisplayScript.moveDisplayOn = true;
+			right.spriteDisplayScript.unitMoving = unit;
 			dir = Direction.RIGHT;
 		}
-		if(unit.getBlockHeadLocation().left!=null){
-			unit.getBlockHeadLocation ().left.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			unit.getBlockHeadLocation ().left.spriteDisplayScript.moveDisplayOn = true;
+		if(left!=null){
+			left.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			left.spriteDisplayScript.moveDisplayOn = true;
+			left.spriteDisplayScript.unitMoving = unit;
 			dir=Direction.LEFT;
 		}
-		if(unit.getBlockHeadLocation()){}
+		if(up!=null){
+			up.spriteDisplayScript.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			up.spriteDisplayScript.moveDisplayOn = true;
+			up.spriteDisplayScript.unitMoving = unit;
+			dir=Direction.UP;
+		}
+		if (down != null) {
+			down.spriteDisplayScript.moveSprite.setSprite (spriteInfo.spritesAndColors.sprite_moveTo);
+			down.spriteDisplayScript.moveDisplayOn = true;
+			down.spriteDisplayScript.unitMoving = unit;
+			dir = Direction.DOWN;
+		}
 
 	}
 
