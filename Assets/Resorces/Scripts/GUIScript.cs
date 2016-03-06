@@ -16,7 +16,7 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setUnitAsSelected(UnitScript u) {
-		if(currentlySelectedUnit != u){ //if another or no unit is selected
+		if(currentlySelectedUnit != u) { //if another or no unit is selected
 			currentlySelectedUnit = u;
 			setButtons(u.getButtonPrefabs());
 		}
@@ -61,9 +61,9 @@ public class GUIScript : MonoBehaviour {
 			});
 		}
 	}
-		
-	private void runDisplayForThisActionButton(int ABINumber){
-		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber];
+
+	private void runDisplayForThisActionButton(int ABINumber) {
+		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction();
 		currentlySelectedUnit.tempAction.display();
 	}
 
@@ -74,13 +74,13 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	public void resetButtions() {
 		if(actionButtonInfo != null)
-		for(int x = 0; x < actionButtonInfo.Length; x++) {
+			for(int x = 0; x < actionButtonInfo.Length; x++) {
 				foreach(GameObject child in actionButtonInfo[x].transform) {
 					Destroy(child.gameObject);
 				}
 				Destroy(actionButtonInfo[x].gameObject);
 				actionButtonInfo = null;
-		}
+			}
 	}
 
 	public void resetUnitAction() {
