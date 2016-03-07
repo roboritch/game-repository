@@ -2,13 +2,29 @@
 using System.Collections;
 
 //TODO Move Action
-/// <summary> Attack script.</summary>
+/// <summary> Move script.</summary>
 public class MoveScript : ActionScript{
 
   /// <summary>
   /// The direction to move.
   /// </summary>
-  public Direction moveDir;
+  private Direction moveDir;
+
+  /// <summary>
+  /// Sets the move direction.
+  /// </summary>
+  /// <param name="moveDir">Move dir.</param>
+  public void setMoveDir(Direction moveDir){
+    this.moveDir = moveDir;
+  }
+
+  /// <summary>
+  /// Gets the move direction.
+  /// </summary>
+  /// <returns>The move dir.</returns>
+  public Direction getMoveDir(){
+    return moveDir;
+  }
 
   // Use this for initialization
   /// <summary>Start this instance.</summary>
@@ -22,6 +38,9 @@ public class MoveScript : ActionScript{
 
   }
 
+  /// <summary>
+  /// Perform this action when called by the unit's action list.
+  /// </summary>
   public override void act(){
     unit.addBlock(unit.getBlockHeadLocation().getAdj(moveDir));
   }
