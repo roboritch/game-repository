@@ -213,6 +213,7 @@ public class GridBlock : MonoBehaviour{
   // Use this for initialization.
   /// <summary>Start this instance.</summary>
   void Start(){
+		gridBlockCollider = GetComponent<Collider>();
     spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
   }
 

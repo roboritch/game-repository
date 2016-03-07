@@ -59,11 +59,13 @@ public class GUIScript : MonoBehaviour {
 			RectTransform rt = temp.GetComponent<RectTransform>();
 			rt.sizeDelta = new Vector2();
 			rt.anchoredPosition = new Vector2();
-			temp.GetComponent<Button>().onClick.AddListener(() => { 
-				this.runDisplayForThisActionButton(x); 
+			int localx = x; //this must be used or the last vertion of x will be called
+			temp.GetComponent<Button>().onClick.AddListener(() => {
+				this.runDisplayForThisActionButton(localx);
 			});
 		}
 	}
+
 
 	private void runDisplayForThisActionButton(int ABINumber) {
 		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction();
