@@ -47,7 +47,7 @@ public class UnitScript : MonoBehaviour{
   }
 
   /// <summary>
-  /// Move the unit's head by adding a unit block to the given new location.
+  /// Move the unit's head by adding a unit block to the given new location. Will remove the last block if the unit is already at its max length.
   /// </summary>
   /// <returns>Success of unit's move action.</returns>
   /// <param name="newLocation">The block to move unit head to.</param>
