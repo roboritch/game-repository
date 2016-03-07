@@ -28,8 +28,8 @@ public class AttackScript : ActionScript{
   }
 
   public override void act(){
-    if (unit != null){
-      unit.removeBlock(attackStrength);
+    if (attackLocation.unitInstalled != null){
+      attackLocation.unitInstalled.removeBlock(attackStrength);
     }
   }
 
