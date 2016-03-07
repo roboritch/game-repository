@@ -3,7 +3,7 @@ using System.Collections;
 
 //TODO Move Action
 public class MoveScript : ActionScript {
-
+	public Direction moveDir;
 	// Use this for initialization
 	void Start() {
 
@@ -15,13 +15,13 @@ public class MoveScript : ActionScript {
 	}
 	public override void act() {
 		
-		if (unit.blockList.Count < unit.MaxProgramLength) {
-			unit.blockList.AddFirst ();
+		if (unit.getLength() < unit.MaxProgramLength) {
+			unit.addBlock (unit.getBlockHeadLocation().getAdj(moveDir));
 
 		}
 		else {
-			unit.blockList.RemoveLast();
-			unit.blockList.AddFirst();
+			unit.removeBlock();
+			unit.addBlock(unit.getBlockHeadLocation().getAdj(moveDir));
 
 		}
 	}

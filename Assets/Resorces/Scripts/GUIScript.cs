@@ -16,7 +16,7 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setUnitAsSelected(UnitScript u) {
-		if(currentlySelectedUnit != u){ //if another or no unit is selected
+		if(currentlySelectedUnit != u) { //if another or no unit is selected
 			currentlySelectedUnit = u;
 			setButtons(u.getButtonPrefabs());
 		}
@@ -30,9 +30,10 @@ public class GUIScript : MonoBehaviour {
 
 	#region buttons
 
+
+	public ActionButtonInfo[] actionButtonInfo;
 	//all this must be set in the inspecter
 	//if there are null pointer exeptions check the refrences in unity
-	public ActionButtonInfo[] actionButtonInfo;
 	public Transform[] buttonLocations;
 	// buttons the unit passes to this script
 	private int MAX_BUTTONS = 6;
@@ -49,14 +50,23 @@ public class GUIScript : MonoBehaviour {
 		GameObject temp;
 		for(int x = 0; x < buttonPrefabs.Length; x++) {
 			temp = Instantiate(buttonPrefabs[x]) as GameObject;
-			actionButtonInfo[x] = temp.GetComponent<ActionButtonInfo>();
+			//to get an action when the button is pressed that action must be stored with the buttons
+			actionButtonInfo[x] = temp.GetComponent<ActionButtonInfo>(); 
 			temp.transform.SetParent(buttonLocations[x].transform);
 			RectTransform rt = temp.GetComponent<RectTransform>();
 			rt.sizeDelta = new Vector2();
 			rt.anchoredPosition = new Vector2();
-
+			temp.GetComponent<Button>().onClick.AddListener(() => { 
+				this.runDisplayForThisActionButton(x); 
+			});
 		}
 	}
+
+	private void runDisplayForThisActionButton(int ABINumber) {
+		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction();
+		currentlySelectedUnit.tempAction.display();
+	}
+
 
 	/// <summary>
 	/// Only needs to be called when no new button are being set
@@ -64,13 +74,13 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	public void resetButtions() {
 		if(actionButtonInfo != null)
-		for(int x = 0; x < actionButtonInfo.Length; x++) {
+			for(int x = 0; x < actionButtonInfo.Length; x++) {
 				foreach(GameObject child in actionButtonInfo[x].transform) {
 					Destroy(child.gameObject);
 				}
 				Destroy(actionButtonInfo[x].gameObject);
 				actionButtonInfo = null;
-		}
+			}
 	}
 
 	public void resetUnitAction() {

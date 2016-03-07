@@ -5,6 +5,16 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
+  /// <summary>
+  /// The attack grid block location.
+  /// </summary>
+  GridBlock attackLocation;
+
+  /// <summary>
+  /// The attack strength; the number of blocks removed by this attack.
+  /// </summary>
+  int attackStrength;
+
   // Use this for initialization
   /// <summary>Start this instance.</summary>
   void Start(){
@@ -17,18 +27,18 @@ public class AttackScript : ActionScript{
 
   }
 
-  public override void act() {
+  public override void act(){
   
-          if (unit != null) {
-              unit.blockList.RemoveLast();
-          }
-      }
+    if (unit != null){
+      unit.removeBlock(attackStrength);
+    }
+  }
 
   /// <summary>
   /// Calls the GUI to display this action on the game.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void display(GUIScript gui){
+  public override void display(){
     
   }
 
@@ -36,7 +46,7 @@ public class AttackScript : ActionScript{
   /// Calls this to get the GUI to remove all displayed images of this action.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void removeDisplay(GUIScript gui){
+  public override void removeDisplay(){
     
   }
 

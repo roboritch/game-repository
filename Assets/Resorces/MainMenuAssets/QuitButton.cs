@@ -8,16 +8,15 @@ public class QuitButton : MonoBehaviour {
 	/// Brings up a quit confermation menu
 	/// </summary>
 	public void quitConfirm(){
-		Button quit = Instantiate(confirmationMenu).GetComponent<Button>();
+		//get the first button in the child of the confirmation menu
+		RectTransform quitMenu = Instantiate(confirmationMenu).GetComponent<RectTransform>();
+		Button quit = quitMenu.GetChild(1).GetComponent<Button>();
 		quit.onClick.AddListener(() => { 
 			this.quit(); // call this when confirm button is pressed
 		});
-
-		RectTransform trans = quit.GetComponent<RectTransform>();
-		trans.SetParent(transform.parent); // perent to canvis
-		trans.localPosition = new Vector3(); //display in the center
-		trans.anchoredPosition = new Vector2();
-
+		quitMenu.SetParent(transform.parent); // tha canvas
+		quitMenu.anchoredPosition = new Vector2(0,0);
+		quitMenu.sizeDelta = new Vector2(0,-300);
 	}
 
 	private void quit(){
