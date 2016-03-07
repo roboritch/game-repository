@@ -8,12 +8,44 @@ public class AttackScript : ActionScript{
   /// <summary>
   /// The attack grid block location.
   /// </summary>
-  GridBlock attackLocation;
+  private GridBlock attackLocation;
 
   /// <summary>
   /// The attack strength; the number of blocks removed by this attack.
   /// </summary>
-  int attackStrength;
+  private int attackStrength;
+
+  /// <summary>
+  /// Sets the attack location.
+  /// </summary>
+  /// <param name="attackLocation">Attack location.</param>
+  public void setAttackLocation(GridBlock attackLocation){
+    this.attackLocation = attackLocation;
+  }
+
+  /// <summary>
+  /// Gets the attack location.
+  /// </summary>
+  /// <returns>The attack location.</returns>
+  public GridBlock getAttackLocation(){
+    return attackLocation;
+  }
+
+  /// <summary>
+  /// Sets the attack strength.
+  /// </summary>
+  /// <param name="attackStrength">Attack strength.</param>
+  public void setAttackStrength(int attackStrength){
+    this.attackStrength = attackStrength;
+  }
+
+  /// <summary>
+  /// Gets the attack strength.
+  /// </summary>
+  /// <returns>The attack strength.</returns>
+  public int getAttackStrength(){
+    return attackStrength;
+  }
 
   // Use this for initialization
   /// <summary>Start this instance.</summary>
@@ -27,10 +59,12 @@ public class AttackScript : ActionScript{
 
   }
 
+  /// <summary>
+  /// Perform this action when called by the unit's action list.
+  /// </summary>
   public override void act(){
-    if (unit != null){
-      unit.removeBlock(attackStrength);
-    }
+    if (attackLocation.unitInstalled != null)
+      attackLocation.unitInstalled.removeBlock(attackStrength);
   }
 
   /// <summary>
