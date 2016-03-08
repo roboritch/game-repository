@@ -328,42 +328,52 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
   public bool moveDisplayOn = false;
   public Direction dir;
   public UnitScript unitMoving;
-
+//temp keeps the up,down,left,right blocks' spriteDisplay for removing the move sprite
+	public GridBlockSpriteDisplay tempUp;
+	public GridBlockSpriteDisplay tempDown;
+	public GridBlockSpriteDisplay tempLeft;
+	public GridBlockSpriteDisplay tempRight;
   public void moveAction(UnitScript unit){
     GridBlock up = unit.getBlockHeadLocation().up;
     GridBlock down = unit.getBlockHeadLocation().down;
     GridBlock left = unit.getBlockHeadLocation().left;
     GridBlock right = unit.getBlockHeadLocation().right;
     if (right != null){
-      GridBlockSpriteDisplay sds = right.spriteDisplayScript;
-      sds.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      sds.moveDisplayOn = true;
-      sds.unitMoving = unit;
+      GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
+	tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+      tempRight.moveDisplayOn = true;
+      tempRight.unitMoving = unit;
       dir = Direction.RIGHT;
     }
     if (left != null){
-      GridBlockSpriteDisplay sds = left.spriteDisplayScript;
-      sds.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      sds.moveDisplayOn = true;
-      sds.unitMoving = unit;
+      GridBlockSpriteDisplay tempLeft = left.spriteDisplayScript;
+      tempLeft.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+      tempLeft.moveDisplayOn = true;
+      tempLeft.unitMoving = unit;
       dir = Direction.LEFT;
     }
     if (up != null){
-      GridBlockSpriteDisplay sds = up.spriteDisplayScript;
-      sds.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      sds.moveDisplayOn = true;
-      sds.unitMoving = unit;
+      GridBlockSpriteDisplay tempUp = up.spriteDisplayScript;
+      tempUp.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+      tempUp.moveDisplayOn = true;
+      tempUp.unitMoving = unit;
       dir = Direction.UP;
     }
     if (down != null){
-      GridBlockSpriteDisplay sds = down.spriteDisplayScript;
-      sds.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      sds.moveDisplayOn = true;
-      sds.unitMoving = unit;
+      GridBlockSpriteDisplay tempDown = down.spriteDisplayScript;
+      tempDown.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+      tempDown.moveDisplayOn = true;
+      tempDown.unitMoving = unit;
       dir = Direction.DOWN;
     }
 
   }
+	public void removeMoveSprite(){
+		tempUp.moveSprite.removeSprite ();
+		tempDown.moveSprite.removeSprite ();
+		tempLeft.moveSprite.removeSprite ();
+		tempRight.moveSprite.removeSprite ();
+	}
 
   #endregion
 
