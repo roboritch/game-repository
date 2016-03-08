@@ -21,7 +21,7 @@ public class UnitScript : MonoBehaviour{
 
   #endregion
 
-  #region unit length
+  #region Unit Block Management
 
   private LinkedList<GridBlock> blockList;
   //Block head location after a move action is queued.
@@ -47,7 +47,7 @@ public class UnitScript : MonoBehaviour{
   }
 
   /// <summary>
-  /// Move the unit's head by adding a unit block to the given new location.
+  /// Move the unit's head by adding a unit block to the given new location. Will remove the last block if the unit is already at its max length.
   /// </summary>
   /// <returns>Success of unit's move action.</returns>
   /// <param name="newLocation">The block to move unit head to.</param>
@@ -70,7 +70,7 @@ public class UnitScript : MonoBehaviour{
   /// <summary>
   /// Remove one block from this unit, destroying it if all blocks are removed.
   /// </summary>
-  /// <returns>Wether the unit was destroyed.</returns>
+  /// <returns>Whether the unit was destroyed.</returns>
   public bool removeBlock(){
     return removeBlock(1);
   }
@@ -78,9 +78,9 @@ public class UnitScript : MonoBehaviour{
   /// <summary>
   /// Removes a number of last blocks from this unit, destroying it if all blocks are removed.
   /// </summary>
-  /// <returns>Wether the unit was destroyed.</returns>
+  /// <returns>Whether the unit was destroyed.</returns>
   /// <param name="amount">The amount of blocks to remove.</param>
-  public bool removeBlock(int amount){
+  public virtual bool removeBlock(int amount){
     //check if unit will be destroyed by amount of blocks removed
     if (amount >= getLength()){
       //destroy the unit
@@ -132,13 +132,9 @@ public class UnitScript : MonoBehaviour{
     maxProgramLength = value;
   }
 
-  public virtual void receiveDamage(int damageAmount){
-		
-  }
-
   #endregion
 
-  #region basic unit information
+  #region Basic Unit Information
 
   public UnitInformationStruct unitInfo;
 
@@ -161,7 +157,7 @@ public class UnitScript : MonoBehaviour{
 
   #endregion
 
-  #region display posible actions
+  #region Display Possible Actions
 
   /// <summary>
   /// The grid the unit is on (the level).
@@ -208,11 +204,11 @@ public class UnitScript : MonoBehaviour{
   /// A list of all the actions the user has selected for this unit.
   /// </summary>
   private LinkedList<ActionScript> actionList;
-	public ActionScript tempAction;
+  public ActionScript tempAction;
   /*each action will be a child of the ActionScript */
-	public ActionScript getLastAction(){
-		return actionList.Last.Value;
-	}
+  public ActionScript getLastAction(){
+    return actionList.Last.Value;
+  }
 
   public void startActing(){
     invokeNextAction();
@@ -230,34 +226,34 @@ public class UnitScript : MonoBehaviour{
 			getReadyToPreformAnotherAction(action.actionTime());
   }
 
-	/// <summary>
-	/// The next action will be preformed after the animation has 
-	/// been completed on the last action.
-	/// </summary>
-	/// <param name="timeTillNextAction">Time till next action.</param>
-	private void getReadyToPreformAnotherAction(float timeTillNextAction) {
-		Invoke("invokeNextAction", timeTillNextAction);
-	}
+  /// <summary>
+  /// The next action will be preformed after the animation has 
+  /// been completed on the last action.
+  /// </summary>
+  /// <param name="timeTillNextAction">Time till next action.</param>
+  private void getReadyToPreformAnotherAction(float timeTillNextAction){
+    Invoke("invokeNextAction", timeTillNextAction);
+  }
 
-	/// <summary>
-	/// removes the last action added to the actionList
-	/// </summary>
-	public void undoAction() {
-		actionList.Last.Value.removeDisplay();
-		actionList.RemoveLast();
-	}
+  /// <summary>
+  /// removes the last action added to the actionList
+  /// </summary>
+  public void undoAction(){
+    actionList.Last.Value.removeDisplay();
+    actionList.RemoveLast();
+  }
 
-	public void addActionToQueue(ActionScript action) {
-		action.display();
-		actionList.AddLast(action);
-	}
-		
+  public void addActionToQueue(ActionScript action){
+    action.display();
+    actionList.AddLast(action);
+  }
 
-	public void resetActionQueue(GUIScript gui){
-		foreach (ActionScript actions in actionList){
-			actions.removeDisplay();
-		}
-	}
+
+  public void resetActionQueue(GUIScript gui){
+    foreach (ActionScript actions in actionList){
+      actions.removeDisplay();
+    }
+  }
 
 
   #endregion
