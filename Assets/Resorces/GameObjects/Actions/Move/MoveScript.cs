@@ -42,6 +42,7 @@ public class MoveScript : ActionScript{
   /// Perform this action when called by the unit's action list.
   /// </summary>
   public override void act(){
+	display ();
     unit.addBlock(unit.getBlockHeadLocation().getAdj(moveDir));
   }
 
@@ -50,7 +51,7 @@ public class MoveScript : ActionScript{
   /// </summary>
   /// <param name="gui">GUI.</param>
   public override void display(){
-
+	unit.getBlockHeadLocation ().spriteDisplayScript.moveAction (unit);
   }
 
   /// <summary>
@@ -58,7 +59,7 @@ public class MoveScript : ActionScript{
   /// </summary>
   /// <param name="gui">GUI.</param>
   public override void removeDisplay(){
-
+		unit.getBlockHeadLocation ().spriteDisplayScript.removeMoveSprite (unit);
   }
 
 }

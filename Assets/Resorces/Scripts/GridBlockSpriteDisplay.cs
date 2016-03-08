@@ -364,6 +364,16 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
     }
 
   }
+	public void removeMoveSprite(UnitScript unit){
+		GridBlock up = unit.getBlockHeadLocation().up;
+		GridBlock down = unit.getBlockHeadLocation().down;
+		GridBlock left = unit.getBlockHeadLocation().left;
+		GridBlock right = unit.getBlockHeadLocation().right;
+		up.spriteDisplayScript.moveSprite.removeSprite ();
+		down.spriteDisplayScript.moveSprite.removeSprite ();
+		left.spriteDisplayScript.moveSprite.removeSprite ();
+		right.spriteDisplayScript.moveSprite.removeSprite ();
+	}
 
   #endregion
 
