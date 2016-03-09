@@ -373,6 +373,10 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
 		tempDown.moveSprite.removeSprite ();
 		tempLeft.moveSprite.removeSprite ();
 		tempRight.moveSprite.removeSprite ();
+		tempUp.moveDisplayOn = false;
+		tempDown.moveDisplayOn = false;
+		tempRight.moveDisplayOn = false;
+		tempLeft.moveDisplayOn = false;
 	}
 
   #endregion
