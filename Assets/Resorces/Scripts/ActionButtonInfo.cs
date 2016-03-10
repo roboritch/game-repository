@@ -13,7 +13,7 @@ public class ActionButtonInfo : MonoBehaviour{
 	/// The action type must be set through a new child of this object.
 	/// </summary>
 	/// <returns>The new instance of action.</returns>
-	public virtual ActionScript getNewInstanceOfAction(){
+	public virtual ActionScript getNewInstanceOfAction(UnitScript unit){
 		return null;
 	}
 

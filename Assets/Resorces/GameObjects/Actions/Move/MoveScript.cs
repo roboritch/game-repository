@@ -48,9 +48,7 @@ public class MoveScript : ActionScript
 	/// </summary>
 	public override void act ()
 	{
-		display ();
 		unit.addBlock (unit.getBlockHeadLocation ().getAdj (moveDir));
-		removeDisplay ();
 	}
 
 	/// <summary>
@@ -70,5 +68,7 @@ public class MoveScript : ActionScript
 	{
 		unit.getBlockHeadLocation ().spriteDisplayScript.removeMoveSprite ();
 	}
-
+	public override void setUnit(UnitScript newUnit){
+		unit = newUnit;
+	}
 }

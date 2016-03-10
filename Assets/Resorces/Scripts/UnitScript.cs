@@ -6,6 +6,25 @@ using System.Collections.Generic;
 /// Parent script for all programs.
 /// </summary>
 public class UnitScript : MonoBehaviour{
+  /// <summary>A list of this unit's blocks.</summary>
+  private LinkedList<GridBlock> blockList;
+  /// <summary>Block head location after a move action is queued.</summary>
+  public GridBlock virtualBlockHead;
+  /// <summary>Maximum amount of unit blocks.</summary>
+  private int maxProgramLength;
+  /// <summary>The unit info.</summary>
+  public UnitInformationStruct unitInfo;
+  /// <summary>The grid the unit is on (the level).</summary>
+  private CreatePlayGrid grid;
+  // Use this to make private fields visible in the inspector.
+  [SerializeField]
+  #pragma warning disable
+  private GameObject[] buttonPrefabs;
+  /// <summary>A list of all the actions the user has selected for this unit.</summary>
+  private LinkedList<ActionScript> actionList;
+  /// <summary>The temp action.</summary>
+  public ActionScript tempAction;
+
   #region programName
 
   private string programName;
@@ -23,19 +42,10 @@ public class UnitScript : MonoBehaviour{
 
   #region Unit Block Management
 
-  private LinkedList<GridBlock> blockList;
-  //Block head location after a move action is queued.
-  public GridBlock virtualBlockHead;
-
   public GridBlock getBlockHeadLocation(){
-    if (virtualBlockHead == null){
+    if (virtualBlockHead == null)
       virtualBlockHead = blockList.First.Value;
-    }
-    if (virtualBlockHead != blockList.First.Value){
-      return virtualBlockHead;
-    } else{
-      return blockList.First.Value;
-    }
+    return virtualBlockHead;
   }
 
   /// <summary>
@@ -114,9 +124,6 @@ public class UnitScript : MonoBehaviour{
 
   }
 
-
-  private int maxProgramLength;
-
   public int MaxProgramLength {
     get {
       return maxProgramLength;
@@ -135,8 +142,6 @@ public class UnitScript : MonoBehaviour{
   #endregion
 
   #region Basic Unit Information
-
-  public UnitInformationStruct unitInfo;
 
   /// <summary>
   /// Gets the color of the unit.
@@ -158,16 +163,6 @@ public class UnitScript : MonoBehaviour{
   #endregion
 
   #region Display Possible Actions
-
-  /// <summary>
-  /// The grid the unit is on (the level).
-  /// </summary>
-  private CreatePlayGrid grid;
-
-
-  [SerializeField] // Use this to make private fields visible in the inspector.
-	#pragma warning disable
-	private GameObject[] buttonPrefabs;
 
   /// <summary>
   /// Used by the GUI to display this unit's possible actions.
@@ -200,11 +195,6 @@ public class UnitScript : MonoBehaviour{
 
   #region Action List
 
-  /// <summary>
-  /// A list of all the actions the user has selected for this unit.
-  /// </summary>
-  private LinkedList<ActionScript> actionList;
-  public ActionScript tempAction;
   /*each action will be a child of the ActionScript */
   public ActionScript getLastAction(){
     return actionList.Last.Value;
@@ -244,7 +234,6 @@ public class UnitScript : MonoBehaviour{
   }
 
   public void addActionToQueue(ActionScript action){
-    action.display();
     actionList.AddLast(action);
   }
 
