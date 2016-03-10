@@ -28,14 +28,9 @@ public class UnitScript : MonoBehaviour{
   public GridBlock virtualBlockHead;
 
   public GridBlock getBlockHeadLocation(){
-    if (virtualBlockHead == null){
+    if (virtualBlockHead == null)
       virtualBlockHead = blockList.First.Value;
-    }
-    if (virtualBlockHead != blockList.First.Value){
-      return virtualBlockHead;
-    } else{
-      return blockList.First.Value;
-    }
+    return virtualBlockHead;
   }
 
   /// <summary>
