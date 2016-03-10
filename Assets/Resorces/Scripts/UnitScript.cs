@@ -234,7 +234,6 @@ public class UnitScript : MonoBehaviour{
   }
 
   public void addActionToQueue(ActionScript action){
-    action.display();
     actionList.AddLast(action);
   }
 

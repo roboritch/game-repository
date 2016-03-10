@@ -105,7 +105,10 @@ public class GridBlock : MonoBehaviour{
       gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
     }
     if (spriteDisplayScript.moveDisplayOn == true && spriteDisplayScript.unitMoving.tempAction is MoveScript){
-      ((MoveScript)spriteDisplayScript.unitMoving.tempAction).setMoveDir(spriteDisplayScript.dir);
+			spriteDisplayScript.removeMoveSprite ();
+			((MoveScript)spriteDisplayScript.unitMoving.tempAction).setMoveDir(spriteDisplayScript.dir);
+			//spriteDisplayScript.unitMoving.addActionToQueue (spriteDisplayScript.unitMoving.tempAction);
+
     }
   }
 

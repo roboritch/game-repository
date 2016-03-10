@@ -82,5 +82,8 @@ public class AttackScript : ActionScript{
   public override void removeDisplay(){
     
   }
+	public override void setUnit(UnitScript newUnit){
+		unit = newUnit;
+	}
 
 }
