@@ -7,12 +7,15 @@ public class GUIScript : MonoBehaviour {
 
 	#region unit selection
 
+  /// <summary>
+  /// The currently selected unit.
+  /// </summary>
 	private UnitScript currentlySelectedUnit;
 
 	/// <summary>
 	/// Sets the unit as selected.
-	/// The gridblock should call this after it is clicked
-	/// Passing null will deselect a unit
+	/// The gridblock should call this after it is clicked.
+	/// Passing null will deselect a unit.
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setUnitAsSelected(UnitScript u) {
@@ -32,17 +35,17 @@ public class GUIScript : MonoBehaviour {
 
 
 	public ActionButtonInfo[] actionButtonInfo;
-	//all this must be set in the inspecter
-	//if there are null pointer exeptions check the refrences in unity
+	//All this must be set in the inspector.
+	//If there are null pointer exeptions check the refrences in unity.
 	public Transform[] buttonLocations;
-	// buttons the unit passes to this script
+	//Maximum number of buttons to set.
 	private int MAX_BUTTONS = 6;
 	public Button resetUnitActions;
 
 	public void setButtons(GameObject[] buttonPrefabs) {
 		resetButtions();
 		if(buttonPrefabs.Length > MAX_BUTTONS) {
-			Debug.LogWarning("too many buttons to set!");
+			Debug.LogWarning("Too many buttons to set!");
 			return;
 		}
 
@@ -50,34 +53,35 @@ public class GUIScript : MonoBehaviour {
 		GameObject temp;
 		for(int x = 0; x < buttonPrefabs.Length; x++) {
 			temp = Instantiate(buttonPrefabs[x]) as GameObject;
-			//to get an action when the button is pressed that action must be stored with the buttons
+			//To get an action when the button is pressed that action must be stored with the buttons.
 			actionButtonInfo[x] = temp.GetComponent<ActionButtonInfo>(); 
 			temp.transform.SetParent(buttonLocations[x].transform);
 			RectTransform rt = temp.GetComponent<RectTransform>();
 			rt.sizeDelta = new Vector2();
 			rt.anchoredPosition = new Vector2();
-			temp.GetComponent<Button>().onClick.AddListener(() => { 
-				this.runDisplayForThisActionButton(x); 
+			int localx = x; //this must be used or the last vertion of x will be called
+			temp.GetComponent<Button>().onClick.AddListener(() => {
+				this.runDisplayForThisActionButton(localx);
 			});
 		}
 	}
 
+
 	private void runDisplayForThisActionButton(int ABINumber) {
-		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction();
+		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit);
 		currentlySelectedUnit.tempAction.display();
 	}
 
 
 	/// <summary>
-	/// Only needs to be called when no new button are being set
-	/// Resets the buttions.
+	/// Only needs to be called when no new buttons are being set.
+	/// Resets the buttons.
 	/// </summary>
 	public void resetButtions() {
 		if(actionButtonInfo != null)
 			for(int x = 0; x < actionButtonInfo.Length; x++) {
-				foreach(GameObject child in actionButtonInfo[x].transform) {
+				foreach(GameObject child in actionButtonInfo[x].transform)
 					Destroy(child.gameObject);
-				}
 				Destroy(actionButtonInfo[x].gameObject);
 				actionButtonInfo = null;
 			}
@@ -93,7 +97,7 @@ public class GUIScript : MonoBehaviour {
 
 	#region unit infromation text vars
 
-	//the currently selected unit will change these themselves
+	//The currently selected unit will change these themselves.
 	public defaultTextHolder attack;
 	public defaultTextHolder currentSize;
 	public defaultTextHolder maxSize;
@@ -116,11 +120,11 @@ public class GUIScript : MonoBehaviour {
 	public void addToUnitActing() {
 		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
 		temp.transform.SetParent(currentProgramStartPosition);
-		temp.transform.localPosition.Set(0, actingQueue.Count * 50f, 0);//each unit acting image is 50f apart
+    //Each unit acting image is 50f apart.
+		temp.transform.localPosition.Set(0, actingQueue.Count * 50f, 0);
 		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite(), currentlySelectedUnit.getUnitColor());
-		if(actingQueue.Count == 0) {
+		if(actingQueue.Count == 0)
 			temp.setCurrentlyActing();
-		}
 		temp.setUnit(currentlySelectedUnit);
 		actingQueue.Enqueue(temp);
 	}
@@ -135,12 +139,18 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
+  /// <summary>
+  /// Start this instance.
+  /// </summary>
 	void Start() {
 		actingQueue = new Queue<UnitActingScript>();
 	}
 
 
 	// Update is called once per frame
+  /// <summary>
+  /// Update this instance.
+  /// </summary>
 	void Update() {
 	
 	}

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class Exit : MonoBehaviour {
 	public GameObject confirmationMenu;
 	/// <summary>
-	/// Brings up a quit confermation menu
+	/// Brings up a quit confirmation menu.
 	/// </summary>
 	public void quitConfirm(){
-		//get the first button in the child of the confirmation menu
+		//Get the first button in the child of the confirmation menu.
 		RectTransform quitMenu = Instantiate(confirmationMenu).GetComponent<RectTransform>();
 		Button quit = quitMenu.GetChild(1).GetComponent<Button>();
 		quit.onClick.AddListener(() => { 
