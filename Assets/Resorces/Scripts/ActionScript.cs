@@ -39,4 +39,5 @@ public abstract class ActionScript{
 
   /// <summary>Calls this to get the GUI to remove all displayed images of this action.</summary>
   public abstract void removeDisplay();
+	public abstract void setUnit (UnitScript unit);
 }
