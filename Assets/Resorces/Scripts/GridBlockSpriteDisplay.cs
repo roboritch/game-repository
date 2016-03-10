@@ -369,14 +369,22 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
 
   }
 	public void removeMoveSprite(){
-		tempUp.moveSprite.removeSprite ();
-		tempDown.moveSprite.removeSprite ();
-		tempLeft.moveSprite.removeSprite ();
-		tempRight.moveSprite.removeSprite ();
-		tempUp.moveDisplayOn = false;
-		tempDown.moveDisplayOn = false;
-		tempRight.moveDisplayOn = false;
-		tempLeft.moveDisplayOn = false;
+		if (tempUp != null) {
+			tempUp.moveSprite.removeSprite ();
+			tempUp.moveDisplayOn = false;
+		}
+		if (tempDown != null) {
+			tempDown.moveSprite.removeSprite ();
+			tempDown.moveDisplayOn = false;
+		}
+		if (tempLeft != null) {
+			tempLeft.moveSprite.removeSprite ();
+			tempLeft.moveDisplayOn = false;
+		}
+		if (tempRight != null) {
+			tempRight.moveSprite.removeSprite ();
+			tempRight.moveDisplayOn = false;
+		}
 	}
 
   #endregion
