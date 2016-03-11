@@ -69,7 +69,7 @@ public class GUIScript : MonoBehaviour {
 
 	private void runDisplayForThisActionButton(int ABINumber) {
 		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit);
-		currentlySelectedUnit.tempAction.display();
+		currentlySelectedUnit.tempAction.displayUserSelection();
 	}
 
 

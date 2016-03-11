@@ -5,6 +5,9 @@ using System.Collections;
 setup to display all unit actions after they are created.
 More will need to be done to display the options for the currently
 selected unit.*/
+using System;
+
+
 /// <summary>Grid block sprite display.</summary>
 public class GridBlockSpriteDisplay : MonoBehaviour{
 
@@ -249,7 +252,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
   /// <param name="cameFrom">Block this unit is coming from.</param>
   /// <param name="isGoingTo">Block this unit is going to.</param>
   /// <param name="display">Is the unit moving over this block now or is this just a display?</param>
-  public void displayMoveOnCreate(GridBlock cameFrom, GridBlock isGoingTo, bool display){
+  public void displayMoveOnQueue(GridBlock cameFrom, GridBlock isGoingTo, bool display){
     int umoModifyer;
     if (display){
       umoModifyer = 1;
@@ -322,71 +325,68 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
     }
   }
 
-  /// <summary>
-  /// Draws all available unit move sprites.
-  /// </summary>
-  public bool moveDisplayOn = false;
-  public Direction dir;
-  public UnitScript unitMoving;
-//temp keeps the up,down,left,right blocks' spriteDisplay for removing the move sprite
+	/// <summary>
+	/// Display the move sprite over this gridblock.
+	/// </summary>
+	public void displayMoveSprite(){
+		moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+	}
+
+	/// <summary>
+	/// Removes the move sprite from this display.
+	/// </summary>
+	public void removeMoveSprite(){
+		moveSprite.removeSprite();
+	}
+	#region old move code
+	/// <summary>
+	/// Draws all available unit move sprites.
+	/// </summary>
+	public bool moveDisplayOn = false;
+	public Direction dir;
+	public UnitScript unitMoving;
+	//temp keeps the up,down,left,right blocks' spriteDisplay for removing the move sprite
 	public GridBlockSpriteDisplay tempUp;
 	public GridBlockSpriteDisplay tempDown;
 	public GridBlockSpriteDisplay tempLeft;
 	public GridBlockSpriteDisplay tempRight;
-  public void moveAction(UnitScript unit){
-    GridBlock up = unit.getBlockHeadLocation().up;
-    GridBlock down = unit.getBlockHeadLocation().down;
-    GridBlock left = unit.getBlockHeadLocation().left;
-    GridBlock right = unit.getBlockHeadLocation().right;
-    if (right != null){
-      GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
-	tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      tempRight.moveDisplayOn = true;
-      tempRight.unitMoving = unit;
-      dir = Direction.RIGHT;
-    }
-    if (left != null){
-      GridBlockSpriteDisplay tempLeft = left.spriteDisplayScript;
-      tempLeft.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      tempLeft.moveDisplayOn = true;
-      tempLeft.unitMoving = unit;
-      dir = Direction.LEFT;
-    }
-    if (up != null){
-      GridBlockSpriteDisplay tempUp = up.spriteDisplayScript;
-      tempUp.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      tempUp.moveDisplayOn = true;
-      tempUp.unitMoving = unit;
-      dir = Direction.UP;
-    }
-    if (down != null){
-      GridBlockSpriteDisplay tempDown = down.spriteDisplayScript;
-      tempDown.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-      tempDown.moveDisplayOn = true;
-      tempDown.unitMoving = unit;
-      dir = Direction.DOWN;
-    }
+	[Obsolete("Move script will handle refrences",true)]
+	public void moveAction(UnitScript unit){
+		GridBlock up = unit.getBlockHeadLocation().up;
+		GridBlock down = unit.getBlockHeadLocation().down;
+		GridBlock left = unit.getBlockHeadLocation().left;
+		GridBlock right = unit.getBlockHeadLocation().right;
+		if (right != null){
+			GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
+			tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			tempRight.moveDisplayOn = true;
+			tempRight.unitMoving = unit;
+			dir = Direction.RIGHT;
+		}
+		if (left != null){
+			GridBlockSpriteDisplay tempLeft = left.spriteDisplayScript;
+			tempLeft.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			tempLeft.moveDisplayOn = true;
+			tempLeft.unitMoving = unit;
+			dir = Direction.LEFT;
+		}
+		if (up != null){
+			GridBlockSpriteDisplay tempUp = up.spriteDisplayScript;
+			tempUp.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			tempUp.moveDisplayOn = true;
+			tempUp.unitMoving = unit;
+			dir = Direction.UP;
+		}
+		if (down != null){
+			GridBlockSpriteDisplay tempDown = down.spriteDisplayScript;
+			tempDown.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
+			tempDown.moveDisplayOn = true;
+			tempDown.unitMoving = unit;
+			dir = Direction.DOWN;
+		}
 
-  }
-	public void removeMoveSprite(){
-		if (tempUp != null) {
-			tempUp.moveSprite.removeSprite ();
-			tempUp.moveDisplayOn = false;
-		}
-		if (tempDown != null) {
-			tempDown.moveSprite.removeSprite ();
-			tempDown.moveDisplayOn = false;
-		}
-		if (tempLeft != null) {
-			tempLeft.moveSprite.removeSprite ();
-			tempLeft.moveDisplayOn = false;
-		}
-		if (tempRight != null) {
-			tempRight.moveSprite.removeSprite ();
-			tempRight.moveDisplayOn = false;
-		}
 	}
-
+	#endregion
   #endregion
 
   // Update is called once per frame.

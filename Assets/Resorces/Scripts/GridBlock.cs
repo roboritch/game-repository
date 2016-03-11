@@ -64,8 +64,10 @@ public class GridBlock : MonoBehaviour{
 
   #region simple block vars
 
-  /// <summary>The unit currently occupying this space.</summary>
-  public UnitScript unitInstalled;
+	/// <summary>The unit currently occupying this space.</summary>
+	public UnitScript unitInstalled;
+	/// <summary> The action waiting for user input on this block. </summary>
+	public ActionScript actionWaitingForUserInput;
   /// <summary>The game's grid manager.</summary>
   private CreatePlayGrid gridManager;
   /// <summary>Collision box of this space.</summary>
@@ -105,10 +107,7 @@ public class GridBlock : MonoBehaviour{
       gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
     }
     if (spriteDisplayScript.moveDisplayOn == true && spriteDisplayScript.unitMoving.tempAction is MoveScript){
-			spriteDisplayScript.removeMoveSprite ();
-			((MoveScript)spriteDisplayScript.unitMoving.tempAction).setMoveDir(spriteDisplayScript.dir);
-			//spriteDisplayScript.unitMoving.addActionToQueue (spriteDisplayScript.unitMoving.tempAction);
-
+			((MoveScript)actionWaitingForUserInput).userHasSelectedTheirActionLocation(this);
     }
   }
 

@@ -15,7 +15,7 @@ public class UnitScript : MonoBehaviour{
   /// <summary>The unit info.</summary>
   public UnitInformationStruct unitInfo;
   /// <summary>The grid the unit is on (the level).</summary>
-  private CreatePlayGrid grid;
+  public CreatePlayGrid grid;
   // Use this to make private fields visible in the inspector.
   [SerializeField]
   #pragma warning disable
@@ -213,7 +213,7 @@ public class UnitScript : MonoBehaviour{
     action.act();
     actionList.RemoveFirst();
     if (actionList.First != null) // only preform another action if there is one
-			getReadyToPreformAnotherAction(action.actionTime());
+			getReadyToPreformAnotherAction(action.getActionTime());
   }
 
   /// <summary>
@@ -229,7 +229,7 @@ public class UnitScript : MonoBehaviour{
   /// removes the last action added to the actionList
   /// </summary>
   public void undoAction(){
-    actionList.Last.Value.removeDisplay();
+		actionList.Last.Value.removeDisplayFinishedDisplay();
     actionList.RemoveLast();
   }
 
@@ -240,7 +240,7 @@ public class UnitScript : MonoBehaviour{
 
   public void resetActionQueue(GUIScript gui){
     foreach (ActionScript actions in actionList){
-      actions.removeDisplay();
+			actions.removeDisplayFinishedDisplay();
     }
   }
 
