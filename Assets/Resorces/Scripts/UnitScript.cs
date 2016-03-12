@@ -233,7 +233,7 @@ public class UnitScript : MonoBehaviour{
   /// removes the last action added to the actionList
   /// </summary>
   public void undoAction(){
-		actionList.Last.Value.removeDisplayFinishedDisplay();
+		actionList.Last.Value.removeActionRepresentationDisplay();
     actionList.RemoveLast();
   }
 
@@ -244,7 +244,7 @@ public class UnitScript : MonoBehaviour{
 
   public void resetActionQueue(GUIScript gui){
     foreach (ActionScript actions in actionList){
-			actions.removeDisplayFinishedDisplay();
+			actions.removeActionRepresentationDisplay();
     }
   }
 
