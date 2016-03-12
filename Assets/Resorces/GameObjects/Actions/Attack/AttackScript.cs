@@ -70,7 +70,7 @@ public class AttackScript : ActionScript{
 
 	}
 
-	public override void userHasSelectedTheirActionLocation (GridBlock blockSelected) {
+	public override void userSelectedAction (GridBlock blockSelected) {
 		throw new System.NotImplementedException ();
 	}
 

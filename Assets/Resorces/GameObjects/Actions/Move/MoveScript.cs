@@ -44,7 +44,7 @@ public class MoveScript : ActionScript {
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act () {
-		unit.addBlock (unit.getBlockHeadLocation ().getAdj (moveDir));
+		unit.addBlock (unit.getVirtualBlockHeadLocation ().getAdj (moveDir));
 	}
 
 	#region user selection
@@ -53,7 +53,7 @@ public class MoveScript : ActionScript {
 	/// </summary>
 	/// <param name="gui">GUI.</param>
 	public override void displayUserSelection () {
-		unitBlock = unit.getBlockHeadLocation();
+		unitBlock = unit.getVirtualBlockHeadLocation();
 		checkAndDisplayPossibleUserActions();
 	}
 
@@ -67,15 +67,19 @@ public class MoveScript : ActionScript {
 			}
 		}
 	}
-
-	public override void userHasSelectedTheirActionLocation (GridBlock blockSelected) {
+	/// <summary>
+	/// This is called when a user has selected their actions location.
+	/// This tells other blocks to stop waiting for input
+	/// </summary>
+	/// <param name="blockSelected">Block selected.</param>
+	public override void userSelectedAction(GridBlock blockSelected) {
 		int selectedBlock;
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			if(adjBlocks[i] == blockSelected){
 				selectedBlock = i;
-				break;
 			}
 		}
+		removeUserSelectionDisplay();
 		displayFinishedAction();
 	}
 	#endregion
@@ -95,14 +99,16 @@ public class MoveScript : ActionScript {
 	}
 	#endregion
 
-
 	public override void displayFinishedAction() {
-		
+		//TODO this
+		locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
 	}
 
 	public override void removeUserSelectionDisplay() {
-		unit.getBlockHeadLocation ().spriteDisplayScript.removeMoveSprite ();
-
+		for (int i = 0; i < adjBlocks.Length; i++) {
+			adjBlocks[i].actionWaitingForUserInput = null;
+			adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+		}
 	}
 
 	public override void removeDisplayFinishedDisplay() {

@@ -54,7 +54,7 @@ public abstract class ActionScript{
 	/// This is called when a user has selected their action location.
 	/// </summary>
 	/// <param name="blockSelected">Block selected.</param>
-	public abstract void userHasSelectedTheirActionLocation(GridBlock blockSelected);
+	public abstract void userSelectedAction(GridBlock blockSelected);
 
 	public abstract SerializedCompeatedAction serializeAction();
 

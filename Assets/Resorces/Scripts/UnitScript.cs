@@ -42,7 +42,11 @@ public class UnitScript : MonoBehaviour{
 
   #region Unit Block Management
 
-  public GridBlock getBlockHeadLocation(){
+	public GridBlock getCurrentBlockHeadLocation(){
+		return blockList.First.Value;
+	}
+
+  public GridBlock getVirtualBlockHeadLocation(){
     if (virtualBlockHead == null)
       virtualBlockHead = blockList.First.Value;
     return virtualBlockHead;

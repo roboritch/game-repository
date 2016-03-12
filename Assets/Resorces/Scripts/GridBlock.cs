@@ -21,6 +21,20 @@ public class GridBlock : MonoBehaviour{
   /// <summary>Right adjacent block.</summary>
   public GridBlock right;
 
+	public GridBlock getAdjTranslated(int dir){
+		if(dir == (int)Direction.UP){
+			return up;
+		}else if(dir == (int)Direction.LEFT){
+			return left;
+		}else if(dir == (int)Direction.DOWN){
+			return down;
+		}else if(dir == (int)Direction.RIGHT){
+			return right;
+		}
+		return null;
+	}
+
+
   public Collider gridBlockCollider;
 
   public GridBlock getAdj(Direction dir){
@@ -107,7 +121,7 @@ public class GridBlock : MonoBehaviour{
       gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
     }
     if (spriteDisplayScript.moveDisplayOn == true && spriteDisplayScript.unitMoving.tempAction is MoveScript){
-			((MoveScript)actionWaitingForUserInput).userHasSelectedTheirActionLocation(this);
+			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
     }
   }
 
@@ -271,9 +285,9 @@ public struct GridLocation{
 
 }
 #endregion
-public enum Direction{
-  UP,
-DOWN,
-LEFT,
-RIGHT
+public enum Direction : int{
+  UP = 0,
+DOWN = 2,
+LEFT = 3,
+RIGHT = 1
 }
