@@ -47,7 +47,7 @@ public abstract class ActionScript{
 	/// <summary> Displaies the finished action that the user has chosen. </summary>
 	public abstract void displayFinishedAction();
 	/// <summary>Calls this to get the GUI to remove displayed images during reset or when action is compleated.</summary>
-	public abstract void removeDisplayFinishedDisplay();
+	public abstract void removeActionRepresentationDisplay();
 	/// <summary> Removes the user selection display this can be called when the action is selected or when it is canceld. </summary>
 	public abstract void removeUserSelectionDisplay();
 	/// <summary>
