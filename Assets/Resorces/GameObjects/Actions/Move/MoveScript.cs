@@ -99,9 +99,9 @@ public class MoveScript : ActionScript {
 	}
 	#endregion
 
+	private SpriteControler[] moveDirectionArms;
 	public override void displayFinishedAction() {
-		//TODO this
-		locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
+		moveDirectionArms = locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
 	}
 
 	public override void removeUserSelectionDisplay() {
@@ -111,7 +111,8 @@ public class MoveScript : ActionScript {
 		}
 	}
 
-	public override void removeDisplayFinishedDisplay() {
-		
+	public override void removeActionRepresentationDisplay() {
+		moveDirectionArms[0].setColor(Color.clear);
+		moveDirectionArms[1].setColor(Color.clear);
 	}
 }

@@ -86,7 +86,7 @@ public class AttackScript : ActionScript{
   /// Calls this to get the GUI to remove all displayed images of this action.
   /// </summary>
   /// <param name="gui">GUI.</param>
-	public override void removeDisplayFinishedDisplay(){
+	public override void removeActionRepresentationDisplay(){
     
   }
 
