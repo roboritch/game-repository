@@ -14,7 +14,7 @@ public class ActionButtonInfo : MonoBehaviour{
 	/// </summary>
 	/// <returns>The new instance of action.</returns>
 	public virtual ActionScript getNewInstanceOfAction(UnitScript unit){
-		return null;
+		throw new System.AccessViolationException("this should never be called");
 	}
 
 	public string descriptionText(){

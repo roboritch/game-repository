@@ -3,8 +3,23 @@ using System.Collections;
 
 //TODO Move Action
 /// <summary> Move script.</summary>
-public class MoveScript : ActionScript
-{
+public class MoveScript : ActionScript {
+
+	/// <summary>
+	/// The block the unit is on when this script is called to display user selection.
+	/// </summary>
+	private GridBlock unitBlock; 
+	// up,right,down,left clockwise
+	private GridBlock[] adjBlocks = new GridBlock[4];
+	/// <summary>
+	/// This is the location the action will be preformed on
+	/// </summary>
+	private GridBlock locationToPreformAction;
+
+	//u is passed to the base constructor
+	public MoveScript (UnitScript u) : base(u) {
+		
+	}
 
 	/// <summary>
 	/// The direction to move.
@@ -15,8 +30,7 @@ public class MoveScript : ActionScript
 	/// Sets the move direction.
 	/// </summary>
 	/// <param name="moveDir">Move dir.</param>
-	public void setMoveDir (Direction moveDir)
-	{
+	public void setMoveDir (Direction moveDir){
 		this.moveDir = moveDir;
 	}
 
@@ -24,51 +38,81 @@ public class MoveScript : ActionScript
 	/// Gets the move direction.
 	/// </summary>
 	/// <returns>The move dir.</returns>
-	public Direction getMoveDir ()
-	{
+	public Direction getMoveDir () {
 		return moveDir;
 	}
 
-	// Use this for initialization
-	/// <summary>Start this instance.</summary>
-	void Start ()
-	{
-
+	/// <summary> Perform this action when called by the unit's action list. </summary>
+	public override void act () {
+		unit.addBlock (unit.getVirtualBlockHeadLocation ().getAdj (moveDir));
 	}
 
-	// Update is called once per frame
-	/// <summary> Update this instance. </summary>
-	void Update ()
-	{
-
-	}
-
-	/// <summary>
-	/// Perform this action when called by the unit's action list.
-	/// </summary>
-	public override void act ()
-	{
-		unit.addBlock (unit.getBlockHeadLocation ().getAdj (moveDir));
-	}
-
+	#region user selection
 	/// <summary>
 	/// Calls the GUI to display this action on the game.
 	/// </summary>
 	/// <param name="gui">GUI.</param>
-	public override void display ()
-	{
-		unit.getBlockHeadLocation ().spriteDisplayScript.moveAction (unit);
+	public override void displayUserSelection () {
+		unitBlock = unit.getVirtualBlockHeadLocation();
+		checkAndDisplayPossibleUserActions();
 	}
 
-	/// <summary>
-	/// Calls this to get the GUI to remove all displayed images of this action.
-	/// </summary>
-	/// <param name="gui">GUI.</param>
-	public override void removeDisplay ()
-	{
-		unit.getBlockHeadLocation ().spriteDisplayScript.removeMoveSprite ();
+	private void checkAndDisplayPossibleUserActions(){
+		for (int i = 0; i < adjBlocks.Length; i++) {
+			if(adjBlocks[i] != null){ // only display if that location is valid
+				if(adjBlocks[i].unitInstalled == null){
+					adjBlocks[i].spriteDisplayScript.displayMoveSprite();
+					adjBlocks[i].actionWaitingForUserInput = this;
+				}
+			}
+		}
 	}
-	public override void setUnit(UnitScript newUnit){
-		unit = newUnit;
+	/// <summary>
+	/// This is called when a user has selected their actions location.
+	/// This tells other blocks to stop waiting for input
+	/// </summary>
+	/// <param name="blockSelected">Block selected.</param>
+	public override void userSelectedAction(GridBlock blockSelected) {
+		int selectedBlock;
+		for (int i = 0; i < adjBlocks.Length; i++) {
+			if(adjBlocks[i] == blockSelected){
+				selectedBlock = i;
+			}
+		}
+		removeUserSelectionDisplay();
+		displayFinishedAction();
+	}
+	#endregion
+
+	#region action save and load
+	public override void loadAction (SerializedCompeatedAction s) {
+		locationToPreformAction = unit.grid.gameGrid[s.locationToPreformAction.x,s.locationToPreformAction.y];
+	}
+
+	public override SerializedCompeatedAction serializeAction () {
+		if(locationToPreformAction == null){
+			Debug.LogError("Action is not set yet!");
+		}
+		SerializedCompeatedAction temp = new SerializedCompeatedAction();
+		temp.locationToPreformAction = locationToPreformAction.gridlocation;
+		return temp;
+	}
+	#endregion
+
+	private SpriteControler[] moveDirectionArms;
+	public override void displayFinishedAction() {
+		moveDirectionArms = locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
+	}
+
+	public override void removeUserSelectionDisplay() {
+		for (int i = 0; i < adjBlocks.Length; i++) {
+			adjBlocks[i].actionWaitingForUserInput = null;
+			adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+		}
+	}
+
+	public override void removeActionRepresentationDisplay() {
+		moveDirectionArms[0].setColor(Color.clear);
+		moveDirectionArms[1].setColor(Color.clear);
 	}
 }
