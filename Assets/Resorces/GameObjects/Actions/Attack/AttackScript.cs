@@ -5,6 +5,12 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
+	public AttackScript (UnitScript u) : base (u){
+	
+	}
+
+
+
   /// <summary>
   /// The attack grid block location.
   /// </summary>
@@ -46,19 +52,7 @@ public class AttackScript : ActionScript{
   public int getAttackStrength(){
     return attackStrength;
   }
-
-  // Use this for initialization
-  /// <summary>Start this instance.</summary>
-  void Start(){
-
-  }
-
-  // Update is called once per frame
-  /// <summary> Update this instance. </summary>
-  void Update(){
-
-  }
-
+		
   /// <summary>
   /// Perform this action when called by the unit's action list.
   /// </summary>
@@ -67,23 +61,45 @@ public class AttackScript : ActionScript{
       attackLocation.unitInstalled.removeBlock(attackStrength);
   }
 
+
+	public override void removeUserSelectionDisplay () {
+		
+	}
+
+	public override void displayFinishedAction () {
+
+	}
+
+	public override void userSelectedAction (GridBlock blockSelected) {
+		throw new System.NotImplementedException ();
+	}
+
   /// <summary>
   /// Calls the GUI to display this action on the game.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void display(){
-    
-  }
+	public override void displayUserSelection(){
+	
+	}
 
   /// <summary>
   /// Calls this to get the GUI to remove all displayed images of this action.
   /// </summary>
   /// <param name="gui">GUI.</param>
-  public override void removeDisplay(){
+	public override void removeActionRepresentationDisplay(){
     
   }
-	public override void setUnit(UnitScript newUnit){
-		unit = newUnit;
+
+	public override void loadAction (SerializedCompeatedAction s)
+	{
+		throw new System.NotImplementedException ();
 	}
+
+	public override SerializedCompeatedAction serializeAction ()
+	{
+		throw new System.NotImplementedException ();
+	}
+
+
 
 }
