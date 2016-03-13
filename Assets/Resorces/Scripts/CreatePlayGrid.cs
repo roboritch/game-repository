@@ -26,6 +26,10 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
+	#region animations
+	public Animations animations;
+	#endregion
+
 	#region units
 
 	public UnitInformationStruct[] units;
@@ -138,5 +142,12 @@ public struct SpritesAndColors {
 
 	public Sprite sprite_attack;
 	public Color color_attack;
+}
+#endregion
+
+#region animations
+[System.Serializable]
+public struct Animations {
+	public GameObject unitSpawn;
 }
 #endregion
