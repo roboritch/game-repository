@@ -13,15 +13,17 @@ public class GridBlock : MonoBehaviour{
   #region adjacent blocks
 
   /// <summary>Upper adjacent block.</summary>
-  public GridBlock up;
+  private GridBlock up;
   /// <summary>Lower adjacent block.</summary>
-  public GridBlock down;
+  private GridBlock down;
   /// <summary>Left adjacent block.</summary>
-  public GridBlock left;
+  private GridBlock left;
   /// <summary>Right adjacent block.</summary>
-  public GridBlock right;
+  private GridBlock right;
 
-	public GridBlock getAdjTranslated(int dir){
+  public Collider gridBlockCollider;
+
+	public GridBlock getAdj(int dir){
 		if(dir == (int)Direction.UP){
 			return up;
 		}else if(dir == (int)Direction.LEFT){
@@ -32,10 +34,7 @@ public class GridBlock : MonoBehaviour{
 			return right;
 		}
 		return null;
-	}
-
-
-  public Collider gridBlockCollider;
+  }
 
   public GridBlock getAdj(Direction dir){
     switch (dir){
@@ -47,6 +46,23 @@ public class GridBlock : MonoBehaviour{
         return left;
       default:
         return right;
+    }
+  }
+
+  public void setAdj(Direction dir, GridBlock block){
+    switch (dir){
+      case Direction.UP:
+         up = block;
+        break;
+      case Direction.DOWN:
+        down = block;
+        break;
+      case Direction.LEFT:
+        left = block;
+        break;
+      default:
+        right = block;
+        break;
     }
   }
 
