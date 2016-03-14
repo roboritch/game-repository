@@ -333,10 +333,11 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	[Obsolete("Move script will handle refrences", true)]
 	public void moveAction(UnitScript unit) {
-    GridBlock up = unit.getVirtualBlockHeadLocation().getAdj(Direction.UP);
-    GridBlock down = unit.getVirtualBlockHeadLocation().getAdj(Direction.DOWN);
-    GridBlock left = unit.getVirtualBlockHeadLocation().getAdj(Direction.LEFT);
-    GridBlock right = unit.getVirtualBlockHeadLocation().getAdj(Direction.RIGHT);
+    GridBlock virtualHeadBlock = unit.getVirtualBlockHeadLocation();
+    GridBlock up = virtualHeadBlock.getAdj(Direction.UP);
+    GridBlock down = virtualHeadBlock.getAdj(Direction.DOWN);
+    GridBlock left = virtualHeadBlock.getAdj(Direction.LEFT);
+    GridBlock right = virtualHeadBlock.getAdj(Direction.RIGHT);
 		if(right != null) {
 			GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
 			tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
