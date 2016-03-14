@@ -77,7 +77,7 @@ public class SquareParticleFill : MonoBehaviour {
 
 		if(numberP == numberOfParticles){
 			if(!timeHasBeenFound && particles[numberOfParticles-1].position == endLocations[widthOfParticals-1,widthOfParticals-1]){
-				//Destroy(gameObject);
+				Destroy(gameObject);
 				/*Debug.Log("Time to compleat is " + time); //uncoment this to find time
 				timeHasBeenFound = true;*/
 			}	
