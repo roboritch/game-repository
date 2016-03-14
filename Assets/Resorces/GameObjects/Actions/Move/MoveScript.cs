@@ -71,7 +71,7 @@ public class MoveScript : ActionScript {
 	private void checkAndDisplayPossibleUserActions(){
 
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			adjBlocks[i] = unitBlock.getAdjTranslated(i);
+			adjBlocks[i] = unitBlock.getAdj(i);
 			if(possibleMoveLocation(adjBlocks[i])){ // only display if that location is valid
 				if(adjBlocks[i].unitInstalled == null){
 					adjBlocks[i].spriteDisplayScript.displayMoveSprite();
