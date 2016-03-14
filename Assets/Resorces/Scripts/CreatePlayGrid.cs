@@ -72,16 +72,16 @@ public class CreatePlayGrid : MonoBehaviour {
 		for(int x = 0; x < gridSize; x++) {
 			for(int y = 0; y < gridSize; y++) {
 				if(y + 1 < gridSize) {
-					gameGrid[x, y].up = gameGrid[x, y + 1];
+          gameGrid[x, y].setAdj(Direction.UP, gameGrid[x, y + 1]);
 				}
 				if(y - 1 >= 0) {
-					gameGrid[x, y].down = gameGrid[x, y - 1];
+          gameGrid[x, y].setAdj(Direction.DOWN, gameGrid[x, y - 1]);
 				}
 				if(x + 1 < gridSize) {
-					gameGrid[x, y].left = gameGrid[x + 1, y];
+          gameGrid[x, y].setAdj(Direction.LEFT, gameGrid[x + 1, y]);
 				}
 				if(x - 1 >= 0) {
-					gameGrid[x, y].right = gameGrid[x - 1, y];
+          gameGrid[x, y].setAdj(Direction.RIGHT, gameGrid[x - 1, y]);
 				}
 			}
 		}

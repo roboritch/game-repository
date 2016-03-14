@@ -131,14 +131,14 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			return;
 		}
 
-		if(attachedGridBlock.right != null)
+    if(attachedGridBlock.getAdj(Direction.RIGHT) != null)
 			checkRight();
-		if(attachedGridBlock.up != null)
+    if(attachedGridBlock.getAdj(Direction.UP) != null)
 			checkAbove();
-		if(attachedGridBlock.left != null)
-			attachedGridBlock.left.spriteDisplayScript.checkRight(); // check left
-		if(attachedGridBlock.down != null)
-			attachedGridBlock.down.spriteDisplayScript.checkAbove(); // check down
+    if(attachedGridBlock.getAdj(Direction.LEFT) != null)
+      attachedGridBlock.getAdj(Direction.LEFT).spriteDisplayScript.checkRight(); // check left
+    if(attachedGridBlock.getAdj(Direction.DOWN) != null)
+      attachedGridBlock.getAdj(Direction.DOWN).spriteDisplayScript.checkAbove(); // check down
 	}
 
 
@@ -147,7 +147,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// Only to be called by another GridBlockSpriteDisplay script.
 	/// </summary>
 	public void checkRight() {
-		if(attachedGridBlock.unitInstalled == attachedGridBlock.right.unitInstalled) {
+    if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.RIGHT).unitInstalled) {
 			rightConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			rightConection.removeSprite();
@@ -159,7 +159,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// Only to be called by another GridBlockSpriteDisplay script.
 	/// </summary>
 	public void checkAbove() {
-		if(attachedGridBlock.unitInstalled == attachedGridBlock.up.unitInstalled) {
+    if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.UP).unitInstalled) {
 			aboveConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			aboveConection.removeSprite();
@@ -259,7 +259,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 		GridBlock tempAdj;
 		for(int i = 0; i < 4; i++) { //
-			tempAdj = cameFrom.getAdjTranslated(i);
+			tempAdj = cameFrom.getAdj(i);
 			if(tempAdj == isGoingTo) {
 				moveArmIn = movmentDirections[i];
 				i+=2;
@@ -333,10 +333,11 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	[Obsolete("Move script will handle refrences", true)]
 	public void moveAction(UnitScript unit) {
-		GridBlock up = unit.getVirtualBlockHeadLocation().up;
-		GridBlock down = unit.getVirtualBlockHeadLocation().down;
-		GridBlock left = unit.getVirtualBlockHeadLocation().left;
-		GridBlock right = unit.getVirtualBlockHeadLocation().right;
+    GridBlock virtualHeadBlock = unit.getVirtualBlockHeadLocation();
+    GridBlock up = virtualHeadBlock.getAdj(Direction.UP);
+    GridBlock down = virtualHeadBlock.getAdj(Direction.DOWN);
+    GridBlock left = virtualHeadBlock.getAdj(Direction.LEFT);
+    GridBlock right = virtualHeadBlock.getAdj(Direction.RIGHT);
 		if(right != null) {
 			GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
 			tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
