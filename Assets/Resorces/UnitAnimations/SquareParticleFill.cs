@@ -82,8 +82,9 @@ public class SquareParticleFill : MonoBehaviour {
 
 		if(numberP == numberOfParticles){
 			if(!timeHasBeenFound && particles[numberOfParticles-1].position == endLocations[widthOfParticals-1,widthOfParticals-1]){
-				Debug.Log("Time to compleat is " + time);
-				timeHasBeenFound = true;
+				Destroy(gameObject);
+				/*Debug.Log("Time to compleat is " + time); //uncoment this to find time
+				timeHasBeenFound = true;*/
 			}	
 		}
 
@@ -119,8 +120,10 @@ public class SquareParticleFill : MonoBehaviour {
 		bottom = (bottomLeft + bottomRight) * 0.5f;
 
 		midpoint = (top + bottom) * 0.5f; 
+		Vector3 newMidpoint;
+		newMidpoint = new Vector3(midpoint.x,midpoint.z,0);
 
-		transform.localPosition -= midpoint;
+		transform.localPosition -= newMidpoint;
 
 		//randomize the end locations for a better effect
 		Vector3 endTemp;

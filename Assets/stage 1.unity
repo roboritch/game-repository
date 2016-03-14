@@ -1924,7 +1924,7 @@ MonoBehaviour:
     color_defaultSpaceColor: {r: 0.8161765, g: 0.8161765, b: 0.8161765, a: 1}
     sprite_spawnSpace: {fileID: 21300000, guid: e910e4f78038dbf4fbcbdad898836d40,
       type: 3}
-    color_spawnSpaceColor: {r: 0.72794116, g: 0.6922085, b: 0.49243078, a: 0}
+    color_spawnSpaceColor: {r: 0.72794116, g: 0.6922085, b: 0.49243078, a: 0.403}
     sprite_moveTo: {fileID: 21300000, guid: 73aa437f045c59847a5bf5b8c1e08ab0, type: 3}
     color_move: {r: 0.15451899, g: 0.25530925, b: 0.809, a: 0.416}
     sprite_moveLine: {fileID: 21300000, guid: e0756714aeb3f1c44a028cc11f84e91c, type: 3}
@@ -1932,6 +1932,8 @@ MonoBehaviour:
       type: 3}
     sprite_attack: {fileID: 0}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
+  animations:
+    unitSpawn: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
   units:
   - unit: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}

@@ -85,6 +85,8 @@ public class CreatePlayGrid : MonoBehaviour {
 				}
 			}
 		}
+		gameGrid[2,2].setSpawn(); // 2,2 is alwayes spawn for Debug
+
 	}
 
 	#endregion
