@@ -22,13 +22,7 @@ public class SquareParticleFill : MonoBehaviour {
 		numberOfParticles = widthOfParticals*widthOfParticals;
 		PS.maxParticles = numberOfParticles;
 
-		widthOfParticals = 8;
-		emissionRate = 20f;
-		moveOverTimeMultiplyer = 1;
-		particleMoveAmount = 0.1f;
-
-
-		setParticleStartLocations();
+		Invoke("setParticleStartLocations",0.1f); // let the Instanteating script do some setup first
 
 		InvokeRepeating("moveParticls",0.2f,0.02f);
 	}
@@ -49,10 +43,11 @@ public class SquareParticleFill : MonoBehaviour {
 		return timeFound;
 	}
 
-
+	#pragma warning disable
 	[SerializeField] private int widthOfParticals;
 	[SerializeField] private float emissionRate;
 	[SerializeField] private float moveOverTimeMultiplyer;
+	#pragma warning disable
 	[SerializeField] private float particleMoveAmount;
 	/// <summary>
 	/// Move all the alive particles to there positions on the unit
@@ -82,7 +77,7 @@ public class SquareParticleFill : MonoBehaviour {
 
 		if(numberP == numberOfParticles){
 			if(!timeHasBeenFound && particles[numberOfParticles-1].position == endLocations[widthOfParticals-1,widthOfParticals-1]){
-				Destroy(gameObject);
+				//Destroy(gameObject);
 				/*Debug.Log("Time to compleat is " + time); //uncoment this to find time
 				timeHasBeenFound = true;*/
 			}	
@@ -95,6 +90,7 @@ public class SquareParticleFill : MonoBehaviour {
 	private ParticleSystem.Particle[] particles; // container for the particles in the system
 	private Vector3[,] endLocations; // end location of each particle
 
+	[SerializeField] private float offsetAmount;
 	private void setParticleStartLocations(){
 		endLocations = new Vector3[widthOfParticals,widthOfParticals];
 		Vector3 particelStartLocation = new Vector3(); // bottem left partical of the unit
@@ -102,13 +98,19 @@ public class SquareParticleFill : MonoBehaviour {
 		for (x = 0; x < widthOfParticals; x++) {
 			for (y = 0; y < widthOfParticals; y++) {
 				endLocations[x,y] = particelStartLocation;
-				endLocations[x,y] += new Vector3(x*0.5f,0,y*0.5f); // 0.5 is the offset amount
+				float posX,posY;
+				posX = x*offsetAmount;
+				posX -= ((widthOfParticals -1f)*offsetAmount)/2f;
+				posY = y*offsetAmount;
+				posY -= ((widthOfParticals -1f)*offsetAmount)/2f;
+					
+				endLocations[x,y] += new Vector3(posX,0,posY); // 0.5 is the offset amount
 			}
 		}
 
 		//This finds the middle of all the particals so the partical
 		//system can be centered over the unit
-		Vector3 topRight,bottomRight,topLeft,bottomLeft,top,bottom,midpoint;
+/*		Vector3 topRight,bottomRight,topLeft,bottomLeft,top,bottom,midpoint;
 		int floor  = Mathf.FloorToInt(widthOfParticals/2f);
 		int ceil  = floor+1;
 		topLeft = endLocations[floor,ceil];
@@ -121,9 +123,9 @@ public class SquareParticleFill : MonoBehaviour {
 
 		midpoint = (top + bottom) * 0.5f; 
 		Vector3 newMidpoint;
-		newMidpoint = new Vector3(midpoint.x,midpoint.z,0);
-
-		transform.localPosition -= newMidpoint;
+		newMidpoint = new Vector3(-midpoint.x,midpoint.z,0);
+*/
+		//transform.localPosition = newMidpoint;
 
 		//randomize the end locations for a better effect
 		Vector3 endTemp;
