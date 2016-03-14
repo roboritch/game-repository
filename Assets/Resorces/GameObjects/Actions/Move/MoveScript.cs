@@ -54,12 +54,25 @@ public class MoveScript : ActionScript {
 	/// <param name="gui">GUI.</param>
 	public override void displayUserSelection () {
 		unitBlock = unit.getVirtualBlockHeadLocation();
+
 		checkAndDisplayPossibleUserActions();
 	}
 
+
+	private bool possibleMoveLocation(GridBlock block){
+		bool canMove = true;
+		if(block == null)
+			return false;
+		canMove = block.unitInstalled == null; // true if no unit installed
+		return canMove;
+	}
+
+
 	private void checkAndDisplayPossibleUserActions(){
+
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			if(adjBlocks[i] != null){ // only display if that location is valid
+			adjBlocks[i] = unitBlock.getAdjTranslated(i);
+			if(possibleMoveLocation(adjBlocks[i])){ // only display if that location is valid
 				if(adjBlocks[i].unitInstalled == null){
 					adjBlocks[i].spriteDisplayScript.displayMoveSprite();
 					adjBlocks[i].actionWaitingForUserInput = this;
@@ -106,8 +119,10 @@ public class MoveScript : ActionScript {
 
 	public override void removeUserSelectionDisplay() {
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			adjBlocks[i].actionWaitingForUserInput = null;
-			adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+			if(adjBlocks != null){
+				adjBlocks[i].actionWaitingForUserInput = null;
+				adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+			}
 		}
 	}
 
