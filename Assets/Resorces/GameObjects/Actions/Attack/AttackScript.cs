@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//TODO Move Action
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
