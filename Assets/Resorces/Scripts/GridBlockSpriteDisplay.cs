@@ -259,7 +259,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 		GridBlock tempAdj;
 		for(int i = 0; i < 4; i++) { //
-			tempAdj = cameFrom.getAdjTranslated(i);
+			tempAdj = cameFrom.getAdj(i);
 			if(tempAdj == isGoingTo) {
 				moveArmIn = movmentDirections[i];
 				i+=2;

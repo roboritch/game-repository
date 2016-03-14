@@ -21,7 +21,7 @@ public class GridBlock : MonoBehaviour{
   /// <summary>Right adjacent block.</summary>
   public GridBlock right;
 
-	public GridBlock getAdjTranslated(int dir){
+	public GridBlock getAdj(int dir){
 		if(dir == (int)Direction.UP){
 			return up;
 		}else if(dir == (int)Direction.LEFT){
