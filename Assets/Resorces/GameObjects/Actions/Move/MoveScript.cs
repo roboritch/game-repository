@@ -121,7 +121,7 @@ public class MoveScript : ActionScript {
 
 	public override void removeUserSelectionDisplay() {
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			if(adjBlocks != null){
+			if(adjBlocks[i] != null){
 				adjBlocks[i].actionWaitingForUserInput = null;
 				adjBlocks[i].spriteDisplayScript.removeMoveSprite();
 			}
