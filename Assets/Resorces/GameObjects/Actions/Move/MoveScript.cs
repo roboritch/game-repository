@@ -86,10 +86,9 @@ public class MoveScript : ActionScript {
 	/// </summary>
 	/// <param name="blockSelected">Block selected.</param>
 	public override void userSelectedAction(GridBlock blockSelected) {
-		int selectedBlock;
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			if(adjBlocks[i] == blockSelected){
-				selectedBlock = i;
+				locationToPreformAction = adjBlocks[i];
 			}
 		}
 		removeUserSelectionDisplay();
@@ -113,7 +112,7 @@ public class MoveScript : ActionScript {
 	#endregion
 
 	private SpriteControler[] moveDirectionArms;
-	public override void displayFinishedAction() {
+	public override void displayFinishedAction() { //TODO test past this section
 		moveDirectionArms = locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
 	}
 

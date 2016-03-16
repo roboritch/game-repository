@@ -82,7 +82,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			movmentDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			movmentDirections[x].transform.SetParent(transform);
 			movmentDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
-			movmentDirections[x].transform.Rotate(0.0f, 90.0f * x, 0.0f); //UNDONE check to see if rotation is correct
+
+			//rotating each movment arm
+			Quaternion rot = movmentDirections[x].transform.localRotation;
+			rot.eulerAngles = new Vector3(0.0f, 0.0f,90.0f * x); //UNDONE check to see if rotation is correct
+			movmentDirections[x].transform.localRotation = rot;
+
 			movmentDirections[x].name = "Movment Direction " + directionNames[x];
 			// Sprites for this controller are always the same.
 			movmentDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine);
