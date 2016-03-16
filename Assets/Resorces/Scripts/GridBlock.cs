@@ -136,7 +136,7 @@ public class GridBlock : MonoBehaviour{
     if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
       gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
     }
-    if (spriteDisplayScript.moveDisplayOn == true && spriteDisplayScript.unitMoving.tempAction is MoveScript){
+		if (actionWaitingForUserInput is MoveScript){
 			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
     }
   }

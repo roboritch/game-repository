@@ -82,7 +82,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			movmentDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 			movmentDirections[x].transform.SetParent(transform);
 			movmentDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
-			movmentDirections[x].transform.Rotate(0.0f, 90.0f * x, 0.0f); //UNDONE check to see if rotation is correct
+
+			//rotating each movment arm
+			Quaternion rot = movmentDirections[x].transform.localRotation;
+			rot.eulerAngles = new Vector3(0.0f, 0.0f,-90.0f * x); //UNDONE check to see if rotation is correct
+			movmentDirections[x].transform.localRotation = rot;
+
 			movmentDirections[x].name = "Movment Direction " + directionNames[x];
 			// Sprites for this controller are always the same.
 			movmentDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine);
@@ -257,14 +262,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		SpriteControler moveArmIn = null;
 		SpriteControler moveArmOut = null;
 
-		GridBlock tempAdj;
-		for(int i = 0; i < 4; i++) { //
-			tempAdj = cameFrom.getAdj(i);
-			if(tempAdj == isGoingTo) {
-				moveArmIn = movmentDirections[i];
+		for(int i = 0; i < 4; i++) {
+			if(isGoingTo.getAdj(i) == cameFrom) {
+				moveArmOut = cameFrom.spriteDisplayScript.movmentDirections[i];
 				i+=2;
 				if(i > 3){i -= 4;}// faster than mod 4
-				moveArmOut = tempAdj.spriteDisplayScript.movmentDirections[i];
+				moveArmIn = isGoingTo.spriteDisplayScript.movmentDirections[i];
 				break;
 			}
 		}

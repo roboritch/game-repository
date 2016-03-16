@@ -54,12 +54,25 @@ public class MoveScript : ActionScript {
 	/// <param name="gui">GUI.</param>
 	public override void displayUserSelection () {
 		unitBlock = unit.getVirtualBlockHeadLocation();
+
 		checkAndDisplayPossibleUserActions();
 	}
 
+
+	private bool possibleMoveLocation(GridBlock block){
+		bool canMove = true;
+		if(block == null)
+			return false;
+		canMove = block.unitInstalled == null; // true if no unit installed
+		return canMove;
+	}
+
+
 	private void checkAndDisplayPossibleUserActions(){
+
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			if(adjBlocks[i] != null){ // only display if that location is valid
+			adjBlocks[i] = unitBlock.getAdj(i);
+			if(possibleMoveLocation(adjBlocks[i])){ // only display if that location is valid
 				if(adjBlocks[i].unitInstalled == null){
 					adjBlocks[i].spriteDisplayScript.displayMoveSprite();
 					adjBlocks[i].actionWaitingForUserInput = this;
@@ -73,14 +86,16 @@ public class MoveScript : ActionScript {
 	/// </summary>
 	/// <param name="blockSelected">Block selected.</param>
 	public override void userSelectedAction(GridBlock blockSelected) {
-		int selectedBlock;
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			if(adjBlocks[i] == blockSelected){
-				selectedBlock = i;
+				locationToPreformAction = adjBlocks[i];
+
 			}
 		}
 		removeUserSelectionDisplay();
 		displayFinishedAction();
+		unit.virtualBlockHead = locationToPreformAction;
+
 	}
 	#endregion
 
@@ -100,14 +115,16 @@ public class MoveScript : ActionScript {
 	#endregion
 
 	private SpriteControler[] moveDirectionArms;
-	public override void displayFinishedAction() {
+	public override void displayFinishedAction() { //TODO test past this section
 		moveDirectionArms = locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(),locationToPreformAction);
 	}
 
 	public override void removeUserSelectionDisplay() {
 		for (int i = 0; i < adjBlocks.Length; i++) {
-			adjBlocks[i].actionWaitingForUserInput = null;
-			adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+			if(adjBlocks[i] != null){
+				adjBlocks[i].actionWaitingForUserInput = null;
+				adjBlocks[i].spriteDisplayScript.removeMoveSprite();
+			}
 		}
 	}
 

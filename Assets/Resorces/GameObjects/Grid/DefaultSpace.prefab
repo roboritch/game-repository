@@ -12,6 +12,7 @@ GameObject:
   - 65: {fileID: 6564680}
   - 114: {fileID: 11490358}
   - 114: {fileID: 11447604}
+  - 114: {fileID: 11455326}
   m_Layer: 0
   m_Name: DefaultSpace
   m_TagString: Untagged
@@ -55,6 +56,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conectionLocation: 0.5
+  movmentDirections: []
+  moveDisplayOn: 0
+  dir: 0
+  unitMoving: {fileID: 0}
+  tempUp: {fileID: 0}
+  tempDown: {fileID: 0}
+  tempLeft: {fileID: 0}
+  tempRight: {fileID: 0}
+--- !u!114 &11455326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36701161f5ecc374fb6d871ebd8d82b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SR: {fileID: 0}
 --- !u!114 &11490358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,12 +91,11 @@ MonoBehaviour:
   down: {fileID: 0}
   left: {fileID: 0}
   right: {fileID: 0}
-  full: 0
-  programHead: 0
+  gridBlockCollider: {fileID: 0}
   spawnSpot: 0
   online: 1
   spriteDisplayScript: {fileID: 0}
-  programInstalled: {fileID: 0}
+  unitInstalled: {fileID: 0}
 --- !u!212 &21280972
 SpriteRenderer:
   m_ObjectHideFlags: 1
