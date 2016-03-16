@@ -19,9 +19,12 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setUnitAsSelected(UnitScript u) {
-		if(currentlySelectedUnit != u) { //if another or no unit is selected
+		if (currentlySelectedUnit != u) { //if another or no unit is selected
 			currentlySelectedUnit = u;
-			setButtons(u.getButtonPrefabs());
+			if (u != null)
+				setButtons (u.getButtonPrefabs ());
+			else 
+				resetButtions ();	
 		}
 	}
 
