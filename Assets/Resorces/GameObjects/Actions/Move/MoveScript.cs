@@ -89,10 +89,13 @@ public class MoveScript : ActionScript {
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			if(adjBlocks[i] == blockSelected){
 				locationToPreformAction = adjBlocks[i];
+
 			}
 		}
 		removeUserSelectionDisplay();
 		displayFinishedAction();
+		unit.virtualBlockHead = locationToPreformAction;
+
 	}
 	#endregion
 
