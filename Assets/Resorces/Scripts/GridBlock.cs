@@ -132,6 +132,7 @@ public class GridBlock : MonoBehaviour{
       gridManager.gui.setUnitAsSelected(unitInstalled);
     }
 
+
     //if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
     if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
       gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
@@ -139,6 +140,9 @@ public class GridBlock : MonoBehaviour{
 		if (actionWaitingForUserInput is MoveScript){
 			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
     }
+//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+//			gridManager.gui.setUnitAsSelected (null);
+//		}
   }
 
   /// <summary>Raises the mouse over event.</summary>

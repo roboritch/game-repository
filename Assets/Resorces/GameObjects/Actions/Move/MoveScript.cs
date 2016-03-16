@@ -44,7 +44,7 @@ public class MoveScript : ActionScript {
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act () {
-		unit.addBlock (unit.getVirtualBlockHeadLocation ().getAdj (moveDir));
+		unit.addBlock (unit.getCurrentBlockHeadLocation ().getAdj (moveDir));
 	}
 
 	#region user selection

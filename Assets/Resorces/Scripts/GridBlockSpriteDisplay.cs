@@ -320,60 +320,6 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		moveSprite.removeSprite();
 	}
 
-	#region old move code
-
-	/// <summary>
-	/// Draws all available unit move sprites.
-	/// </summary>
-	public bool moveDisplayOn = false;
-	public Direction dir;
-	public UnitScript unitMoving;
-	//temp keeps the up,down,left,right blocks' spriteDisplay for removing the move sprite
-	public GridBlockSpriteDisplay tempUp;
-	public GridBlockSpriteDisplay tempDown;
-	public GridBlockSpriteDisplay tempLeft;
-	public GridBlockSpriteDisplay tempRight;
-
-	[Obsolete("Move script will handle refrences", true)]
-	public void moveAction(UnitScript unit) {
-    GridBlock virtualHeadBlock = unit.getVirtualBlockHeadLocation();
-    GridBlock up = virtualHeadBlock.getAdj(Direction.UP);
-    GridBlock down = virtualHeadBlock.getAdj(Direction.DOWN);
-    GridBlock left = virtualHeadBlock.getAdj(Direction.LEFT);
-    GridBlock right = virtualHeadBlock.getAdj(Direction.RIGHT);
-		if(right != null) {
-			GridBlockSpriteDisplay tempRight = right.spriteDisplayScript;
-			tempRight.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			tempRight.moveDisplayOn = true;
-			tempRight.unitMoving = unit;
-			dir = Direction.RIGHT;
-		}
-		if(left != null) {
-			GridBlockSpriteDisplay tempLeft = left.spriteDisplayScript;
-			tempLeft.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			tempLeft.moveDisplayOn = true;
-			tempLeft.unitMoving = unit;
-			dir = Direction.LEFT;
-		}
-		if(up != null) {
-			GridBlockSpriteDisplay tempUp = up.spriteDisplayScript;
-			tempUp.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			tempUp.moveDisplayOn = true;
-			tempUp.unitMoving = unit;
-			dir = Direction.UP;
-		}
-		if(down != null) {
-			GridBlockSpriteDisplay tempDown = down.spriteDisplayScript;
-			tempDown.moveSprite.setSprite(spriteInfo.spritesAndColors.sprite_moveTo);
-			tempDown.moveDisplayOn = true;
-			tempDown.unitMoving = unit;
-			dir = Direction.DOWN;
-		}
-
-	}
-
-	#endregion
-
 	#endregion
 
 	// Update is called once per frame.
