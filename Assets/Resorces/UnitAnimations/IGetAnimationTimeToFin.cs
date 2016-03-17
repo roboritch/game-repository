@@ -1,0 +1,3 @@
+﻿interface IGetAnimationTimeToFin{
+	float getAnimationTime();
+}
