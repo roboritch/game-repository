@@ -30,7 +30,7 @@ public class ContextCanvas : MonoBehaviour {
 	/// removes the space from the game grid
 	/// </summary>
 	public void RemoveSpace() {
-		space.toggleSpaceOnline();
+		space.toggleSpaceAvailable();
 	}
 
 	/// <summary>

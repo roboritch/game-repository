@@ -192,7 +192,7 @@ public class GridBlock : MonoBehaviour{
   }
 
   /// <summary>Toggle the online state of this block.</summary>
-  public void toggleSpaceOnline(){ 
+  public void toggleSpaceAvailable(){ 
     if (available == false){
       up.down = this;
       down.up = this;
