@@ -73,7 +73,7 @@ public class GridBlock : MonoBehaviour{
   /// <summary>Whether this block is a spawn spot.</summary>
   [SerializeField] private bool spawnSpot = false;
   /// <summary>Whether this block is an occupiable space.</summary>
-  [SerializeField] private bool online = true;
+  [SerializeField] private bool available = true;
 
   #endregion
 
@@ -129,8 +129,9 @@ public class GridBlock : MonoBehaviour{
     //set the buttons up in the GUI for the installed unit when this grid block is selected
     //all prev buttons are removed when this method is called
     if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-      gridManager.gui.setUnitAsSelected(unitInstalled);
+      gridManager.gui.setSelectedUnit(unitInstalled);
     }
+
 
     //if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
     if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
@@ -139,6 +140,9 @@ public class GridBlock : MonoBehaviour{
 		if (actionWaitingForUserInput is MoveScript){
 			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
     }
+//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+//			gridManager.gui.setUnitAsSelected (null);
+//		}
   }
 
   /// <summary>Raises the mouse over event.</summary>
@@ -179,7 +183,7 @@ public class GridBlock : MonoBehaviour{
   /// <para>"x" = other</para>
   /// </summary>
   public string printSpaceState(){
-    if (online == false)
+    if (available == false)
       return " ";
     if (spawnSpot)
       return "o";
@@ -188,8 +192,8 @@ public class GridBlock : MonoBehaviour{
   }
 
   /// <summary>Toggle the online state of this block.</summary>
-  public void toggleSpaceOnline(){ 
-    if (online == false){
+  public void toggleSpaceAvailable(){ 
+    if (available == false){
       up.down = this;
       down.up = this;
       left.right = this;
@@ -202,14 +206,14 @@ public class GridBlock : MonoBehaviour{
       right.left = null;
       setSpriteNone();
     }
-    online = !online;
+    available = !available;
   }
 
 
   /// <summary>Sets gridblock as a spawn spot.</summary>
   public void setSpawn(){
     //fail to set spawn if block is offline
-    if (!online)
+    if (!available)
       return;
     spawnSpot = true;
     //set spawn sprite
@@ -219,7 +223,7 @@ public class GridBlock : MonoBehaviour{
   /// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
   public void removeSpawn(){
     //fail to remove spawn if block is offline
-    if (!online)
+    if (!available)
       return;
     spawnSpot = false;
     //set default sprite

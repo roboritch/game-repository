@@ -123,7 +123,7 @@ public class UnitScript : MonoBehaviour {
 
 	private float spawnAnimation(){
 		GameObject animationObj = Instantiate(grid.animations.unitSpawn) as GameObject;
-		animationObj.transform.SetParent(getCurrentBlockHeadLocation().transform);
+		animationObj.transform.SetParent(getCurrentBlockHeadLocation().transform,true);
 		animationObj.transform.localPosition = new Vector3();
 		SquareParticleFill anim = animationObj.GetComponent<SquareParticleFill>();
 		anim.setParticalColor(getUnitColor());
