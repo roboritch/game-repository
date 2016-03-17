@@ -18,13 +18,13 @@ public class GUIScript : MonoBehaviour {
 	/// Passing null will deselect a unit.
 	/// </summary>
 	/// <param name="u">Unit.</param>
-	public void setUnitAsSelected(UnitScript u) {
+	public void setSelectedUnit(UnitScript u) {
 		if (currentlySelectedUnit != u) { //if another or no unit is selected
 			currentlySelectedUnit = u;
 			if (u != null)
 				setButtons (u.getButtonPrefabs ());
 			else 
-				resetButtions ();	
+				resetButton ();	
 		}
 	}
 
@@ -46,7 +46,7 @@ public class GUIScript : MonoBehaviour {
 	public Button resetUnitActions;
 
 	public void setButtons(GameObject[] buttonPrefabs) {
-		resetButtions();
+		resetButton();
 		if(buttonPrefabs.Length > MAX_BUTTONS) {
 			Debug.LogWarning("Too many buttons to set!");
 			return;
@@ -80,7 +80,7 @@ public class GUIScript : MonoBehaviour {
 	/// Only needs to be called when no new buttons are being set.
 	/// Resets the buttons.
 	/// </summary>
-	public void resetButtions() {
+	public void resetButton() {
 		if(actionButtonInfo != null)
 			for(int x = 0; x < actionButtonInfo.Length; x++) {
 				foreach(GameObject child in actionButtonInfo[x].transform)
