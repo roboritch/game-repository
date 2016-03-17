@@ -38,9 +38,9 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// <summary>State of actions used on this block.</summary>
 	private bool[] actionUsed;
 	/// <summary>The above sprite controller connection.</summary>
-	private SpriteControler aboveConection;
+	private SpriteControler aboveConnection;
 	/// <summary>The right sprite controller connection.</summary>
-	private SpriteControler rightConection;
+	private SpriteControler rightConnection;
 
 
 	#endregion
@@ -76,42 +76,42 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		}
 
 		//Initialize movement directions.
-		movmentDirections = new SpriteControler[4];
+		movementDirections = new SpriteControler[4];
 		string[] directionNames = { "up", "right", "down", "left" };
 		for(int x = 0; x < 4; x++) {
-			movmentDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
-			movmentDirections[x].transform.SetParent(transform);
-			movmentDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
+			movementDirections[x] = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
+			movementDirections[x].transform.SetParent(transform);
+			movementDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
 
 			//rotating each movment arm
-			Quaternion rot = movmentDirections[x].transform.localRotation;
+			Quaternion rot = movementDirections[x].transform.localRotation;
 			rot.eulerAngles = new Vector3(0.0f, 0.0f,-90.0f * x); //UNDONE check to see if rotation is correct
-			movmentDirections[x].transform.localRotation = rot;
+			movementDirections[x].transform.localRotation = rot;
 
-			movmentDirections[x].name = "Movment Direction " + directionNames[x];
+			movementDirections[x].name = "Movment Direction " + directionNames[x];
 			// Sprites for this controller are always the same.
-			movmentDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine);
+			movementDirections[x].setSprite(spriteInfo.spritesAndColors.sprite_moveLine);
 			//The color for this sprite is Alpha only.
-			movmentDirections[x].setColor(Color.clear);
+			movementDirections[x].setColor(Color.clear);
 		}
 
 		//Initialize movement circle.
-		movmentCirlcle = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
-		movmentCirlcle.transform.SetParent(transform);
-		movmentCirlcle.transform.localPosition = new Vector3(0, 0, 2.5f);
-		movmentCirlcle.name = "Movement Circle";
+		movementCircle = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
+		movementCircle.transform.SetParent(transform);
+		movementCircle.transform.localPosition = new Vector3(0, 0, 2.5f);
+		movementCircle.name = "Movement Circle";
 
 		//Initialize right connection.
-		rightConection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
-		rightConection.transform.SetParent(transform);
-		rightConection.transform.localPosition = new Vector3(0, conectionLocation, 0.1f);
-		rightConection.name = "Right Conection";
+		rightConnection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
+		rightConnection.transform.SetParent(transform);
+		rightConnection.transform.localPosition = new Vector3(0, conectionLocation, 0.1f);
+		rightConnection.name = "Right Conection";
 
 		//Initialize above connection.
-		aboveConection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
-		aboveConection.transform.SetParent(transform);
-		aboveConection.transform.localPosition = new Vector3(conectionLocation, 0, 0.1f);
-		aboveConection.name = "Above Conection";
+		aboveConnection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
+		aboveConnection.transform.SetParent(transform);
+		aboveConnection.transform.localPosition = new Vector3(conectionLocation, 0, 0.1f);
+		aboveConnection.name = "Above Conection";
 
 		//Initialize move sprite.
 		moveSprite = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
@@ -153,9 +153,9 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkRight() {
     if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.RIGHT).unitInstalled) {
-			rightConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
+			rightConnection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
-			rightConection.removeSprite();
+			rightConnection.removeSprite();
 		}
 	}
 
@@ -165,9 +165,9 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkAbove() {
     if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.UP).unitInstalled) {
-			aboveConection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
+			aboveConnection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
-			aboveConection.removeSprite();
+			aboveConnection.removeSprite();
 		}
 	}
 
@@ -240,13 +240,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	#region movment display
 
 	//vars are complex read descriptions for more info
-	public SpriteControler[] movmentDirections;
+	public SpriteControler[] movementDirections;
 	/// <summary>
 	/// Unit movment overlap.
 	/// The number of units ready to move over this block.
 	/// </summary>
 	private int[] UMO = { 0, 0, 0, 0 };
-	private SpriteControler movmentCirlcle;
+	private SpriteControler movementCircle;
 
 
 	//TODO work on unit overlap
@@ -264,10 +264,10 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 		for(int i = 0; i < 4; i++) {
 			if(isGoingTo.getAdj(i) == cameFrom) {
-				moveArmOut = cameFrom.spriteDisplayScript.movmentDirections[i];
+				moveArmOut = cameFrom.spriteDisplayScript.movementDirections[i];
 				i+=2;
 				if(i > 3){i -= 4;}// faster than mod 4
-				moveArmIn = isGoingTo.spriteDisplayScript.movmentDirections[i];
+				moveArmIn = isGoingTo.spriteDisplayScript.movementDirections[i];
 				break;
 			}
 		}
