@@ -111,29 +111,6 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
-	#region unit acting
-
-	public GameObject unitActingPrefab;
-	public Queue<UnitActingScript> actingQueue;
-	public Transform currentProgramStartPosition;
-
-	/// <summary>
-	/// Adds to unit acting queue.
-	/// </summary>
-	public void addToUnitActing() {
-		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
-		temp.transform.SetParent(currentProgramStartPosition);
-    //Each unit acting image is 50f apart.
-		temp.transform.localPosition.Set(0, actingQueue.Count * 50f, 0);
-		temp.setUnitSprite(currentlySelectedUnit.getUnitHeadSprite(), currentlySelectedUnit.getUnitColor());
-		if(actingQueue.Count == 0)
-			temp.setCurrentlyActing();
-		temp.setUnit(currentlySelectedUnit);
-		actingQueue.Enqueue(temp);
-	}
-
-	#endregion
-
 	#region new unit selection
 
 	public UnitSelectionScript unitSelectionScript;
@@ -142,18 +119,24 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
-  /// <summary>
-  /// Start this instance.
-  /// </summary>
-	void Start() {
-		actingQueue = new Queue<UnitActingScript>();
+	private UnitActingQueue unitActingQueue;
+	public void unitIsActing(UnitScript unit){
+		unitActingQueue.addToUnitActing(unit);
+	}
+
+	public void unitIsDoneActing(UnitScript unit){
+		unitActingQueue.currentUnitDoneActing(unit);
+	}
+
+	void Start(){
+		unitActingQueue = GetComponentInChildren<UnitActingQueue>();
 	}
 
 
 	// Update is called once per frame
-  /// <summary>
-  /// Update this instance.
-  /// </summary>
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	void Update() {
 	
 	}

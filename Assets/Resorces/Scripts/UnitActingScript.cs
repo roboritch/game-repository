@@ -7,32 +7,51 @@ using UnityEngine.UI;
 /// Many of these are controled by the game gui script
 /// </summary>
 public class UnitActingScript : MonoBehaviour {
-	public Image unitColor;
-	public Image unitHeadSprite;
+	private Image unitColor;
+	private Image unitHeadSprite;
 	private UnitScript unit;
+	public RectTransform location;
 	public bool enemy;
-	// TODO add some identifyer for enemy units
 
-	public void setUnitSprite(Sprite unitHead, Color color) {
-		unitColor.color = color;
-		unitHeadSprite.sprite = unitHead;
+	void Awake(){
+		location = GetComponent<RectTransform>();
+		unitColor = GetComponent<Image>();
+		unitHeadSprite = GetComponentInChildren<Image>();
 	}
 
 	public void setCurrentlyActing() {
+		unit.startActing();
 		//TODO add some animation to show that this unit is acting 
 	}
 
 	public void setUnit(UnitScript u) {
 		unit = u;
+		unitColor.color = unit.getUnitColor();
+		unitHeadSprite.sprite = unit.getUnitHeadSprite();
+		//TODO set enamy using unit params
 	}
 
-	// Use this for initialization
-	void Start() {
-		
+	/// <summary>
+	/// enable disable images
+	/// </summary>
+	/// <param name="state">If set to <c>true</c> state.</param>
+	public void setVisible(bool state){
+		unitColor.enabled = state;
+		unitHeadSprite.enabled = state;
 	}
-	
-	// Update is called once per frame
-	void Update() {
-	
+
+	/// <summary>
+	/// Destroy this object.
+	/// </summary>
+	public void destroyThis(){
+		Destroy(gameObject);
+	}
+
+	/// <summary>
+	/// returns the unit attached to this script
+	/// </summary>
+	/// <returns>The unit.</returns>
+	public UnitScript getUnit(){
+		return unit;
 	}
 }
