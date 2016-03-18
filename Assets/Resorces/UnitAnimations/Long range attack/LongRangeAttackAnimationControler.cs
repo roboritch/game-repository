@@ -85,47 +85,51 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 		for (int i = 0; i < pNumb; i++) { // simple sort
 			orderOfParticlesByDistance[i] = i;
 			particleDistance[i] = particles[i].position.x;
-			int offset = 0;
-			if(i>0)
-				while(particleDistance[i-offset] < particleDistance[i-offset-1]){ //move current particle down the list
-					int temp1 = orderOfParticlesByDistance[i-offset-1];
-					float temp2 = particleDistance[i-offset-1];
-
-					orderOfParticlesByDistance[i-offset-1] = orderOfParticlesByDistance[i-offset];
-					particleDistance[i-offset-1] = particleDistance[i-offset];
-
-					orderOfParticlesByDistance[i-offset] = temp1;
-					particleDistance[i-offset] = temp2;
-
-					offset++;
-					if(offset == i){
-						break;
-					}
-				}
 		}
+
+		int offset = 1;
+		while(particleDistance[offset] < particleDistance[offset-1]){ //move current particle down the list
+			int temp1 = orderOfParticlesByDistance[offset-1];
+			float temp2 = particleDistance[offset-1];
+
+			orderOfParticlesByDistance[offset-1] = orderOfParticlesByDistance[offset];
+			particleDistance[offset-1] = particleDistance[offset];
+
+			orderOfParticlesByDistance[offset] = temp1;
+			particleDistance[offset] = temp2;
+
+			offset++;
+		}
+		currentSizeIndex = pNumb -1;
 	}
 
 
 	private int[] orderOfParticlesByDistance;
-	private float currentSizeIncrease = 0;
-
+	private float currentSizeIncrease = 0f;
+	private float maxParticalSize = 1f;
 	private int currentSizeIndex = 0;
 	private void increaseSizeByDistance(){
-		bool needAnotherIteration = false;
-		currentSizeIncrease += 0.01f;
+		currentSizeIncrease += 0.5f;
 		int pNumb;
 		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[PS.maxParticles];
 		pNumb = PS.GetParticles(particles);
-		particles[orderOfParticlesByDistance[currentSizeIndex]].startSize = particleSize[i] + currentSizeIncrease; //TODO change i to CSI of particle order
-		
 
-		if(!needAnotherIteration){
-			CancelInvoke("increaseSizeByDistance");
+		if(particles[orderOfParticlesByDistance[currentSizeIndex]].startSize > maxParticalSize){
+			currentSizeIncrease = 0f;
+
+			particles[orderOfParticlesByDistance[currentSizeIndex]].startSize = 0f;
+			PS.SetParticles(particles, pNumb);
+
+			currentSizeIndex--;
+			if(currentSizeIndex-1 == pNumb){
+				CancelInvoke("increaseSizeByDistance");
+			}
+			return;
 		}
 
+		particles[orderOfParticlesByDistance[currentSizeIndex]].startSize = particleSize[currentSizeIndex] + currentSizeIncrease; //TODO change i to CSI of particle order
 		PS.SetParticles(particles, pNumb);
 	}
-			
 	#endregion
 
 
