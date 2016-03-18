@@ -214,6 +214,7 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	public void startActing() {
+		
 		invokeNextAction();
 	}
 
@@ -225,8 +226,12 @@ public class UnitScript : MonoBehaviour {
 		ActionScript action = actionList.First.Value;
 		action.act();
 		actionList.RemoveFirst();
-		if(actionList.First != null) // only preform another action if there is one
+		if(actionList.First != null){ // only preform another action if there is one
 			getReadyToPreformAnotherAction(action.getActionTime());
+		}else{
+			//TODO send info that this unit is done acting
+			grid.gui.unitIsDoneActing(this);
+		}
 	}
 
 	/// <summary>
