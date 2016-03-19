@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 public class GUIScript : MonoBehaviour {
 
-	#region unit selection
+	#region unit selection and timer
 
   /// <summary>
   /// The currently selected unit.
   /// </summary>
 	private UnitScript currentlySelectedUnit;
+	private TimerDisplay timer;
 
 	/// <summary>
 	/// Sets the unit as selected.
@@ -21,11 +22,20 @@ public class GUIScript : MonoBehaviour {
 	public void setSelectedUnit(UnitScript u) {
 		if (currentlySelectedUnit != u) { //if another or no unit is selected
 			currentlySelectedUnit = u;
-			if (u != null)
-				setButtons (u.getButtonPrefabs ());
-			else 
-				resetButton ();	
+			if(u != null){
+				setButtons(u.getButtonPrefabs());
+				timer.setUnitUsingTimer(u);
+				timer.show();
+			} else { 
+				resetButton();
+				timer.hide();
+			}
 		}
+	}
+
+	public void updateTimer(){
+		if(currentlySelectedUnit != null)	
+			timer.setTimer();
 	}
 
 	public UnitScript getCurUnit() {
@@ -129,7 +139,11 @@ public class GUIScript : MonoBehaviour {
 	}
 
 	void Start(){
+		InvokeRepeating("updateTimer",0f,0.2f);
 		unitActingQueue = GetComponentInChildren<UnitActingQueue>();
+		if(timer == null){
+			timer = GameObject.Find("Unit Timer").GetComponent<TimerDisplay>();
+		}
 	}
 
 

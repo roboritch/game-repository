@@ -7,4 +7,5 @@ public struct UnitInformationStruct {
 	public Sprite unitHeadSprite;
 	public Color unitColor;
 	public int maxLength;
+	public float timeTillAct;
 }
