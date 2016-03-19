@@ -29,7 +29,7 @@ public class TimerDisplay : MonoBehaviour {
 	[SerializeField] private Transform barStart;
 
 	[SerializeField] private float loadingBarLength = 10f;
-	[SerializeField] private float loadingBitSize = 0.8f;
+	[SerializeField] private float loadingBitSize = 0.4f;
 	[SerializeField] private float barWhitespace = 0.2f;
 	private int numberOfTimeSlices;
 

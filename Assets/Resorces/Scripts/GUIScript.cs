@@ -32,7 +32,7 @@ public class GUIScript : MonoBehaviour {
 			}
 		}
 	}
-
+		
 	public void updateTimer(){
 		if(currentlySelectedUnit != null)	
 			timer.setTimer();
@@ -42,10 +42,16 @@ public class GUIScript : MonoBehaviour {
 		return currentlySelectedUnit;
 	}
 
+	public void userWantsUnitToAct(){
+		if(currentlySelectedUnit != null)
+			currentlySelectedUnit.startActing();
+		else
+			Debug.LogWarning("no unit selected"); //give user feedback
+	}
+
 	#endregion
 
 	#region buttons
-
 
 	public ActionButtonInfo[] actionButtonInfo;
 	//All this must be set in the inspector.
@@ -78,8 +84,7 @@ public class GUIScript : MonoBehaviour {
 			});
 		}
 	}
-
-
+		
 	private void runDisplayForThisActionButton(int ABINumber) {
 		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit);
 		currentlySelectedUnit.tempAction.displayUserSelection();
@@ -91,20 +96,20 @@ public class GUIScript : MonoBehaviour {
 	/// Resets the buttons.
 	/// </summary>
 	public void resetButton() {
-		if(actionButtonInfo != null)
+		if(actionButtonInfo != null){
 			for(int x = 0; x < actionButtonInfo.Length; x++) {
-				foreach(GameObject child in actionButtonInfo[x].transform)
+				foreach(Transform child in actionButtonInfo[x].transform.GetComponentsInChildren<Transform>())
 					Destroy(child.gameObject);
 				Destroy(actionButtonInfo[x].gameObject);
-				actionButtonInfo = null;
 			}
+			actionButtonInfo = null;
+		}
 	}
 
 	public void resetUnitAction() {
-		currentlySelectedUnit.resetActionQueue(this);
+		if(currentlySelectedUnit != null)
+			currentlySelectedUnit.resetActionQueue();
 	}
-
-
 
 	#endregion
 

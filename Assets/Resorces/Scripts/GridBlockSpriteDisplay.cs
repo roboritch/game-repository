@@ -205,7 +205,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 			headSprite.removeSprite();
 		}
 	}
-
+		
 
 	#endregion
 

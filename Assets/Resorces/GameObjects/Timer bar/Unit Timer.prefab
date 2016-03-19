@@ -68,12 +68,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1906c68ef49e2488fc0dad531a1cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBars: 8
+  maxBars: 11
   bar: {fileID: 180656, guid: 46dd0d3a1207a0e41897411ec7c06be6, type: 2}
   barStart: {fileID: 406468}
-  loadingBarLength: 10
+  loadingBarLength: 9.5
   loadingBitSize: 1
-  barWhitespace: 0.2
+  barWhitespace: 0
   timerLocationOffset: {x: -1.99, y: -1, z: 0.75}
 --- !u!212 &21256806
 SpriteRenderer:
