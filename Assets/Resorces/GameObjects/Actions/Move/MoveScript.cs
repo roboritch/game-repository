@@ -18,33 +18,12 @@ public class MoveScript : ActionScript {
 
 	//u is passed to the base constructor
 	public MoveScript (UnitScript u) : base(u) {
-		
-	}
-
-	/// <summary>
-	/// The direction to move.
-	/// </summary>
-	private Direction moveDir;
-
-	/// <summary>
-	/// Sets the move direction.
-	/// </summary>
-	/// <param name="moveDir">Move dir.</param>
-	public void setMoveDir (Direction moveDir){
-		this.moveDir = moveDir;
-	}
-
-	/// <summary>
-	/// Gets the move direction.
-	/// </summary>
-	/// <returns>The move dir.</returns>
-	public Direction getMoveDir () {
-		return moveDir;
+		actionTime = 1f; 
 	}
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act () {
-		unit.addBlock (unit.getCurrentBlockHeadLocation ().getAdj (moveDir));
+		bool itMoved = unit.addBlock(locationToPreformAction,false);
 	}
 
 	#region user selection
@@ -54,7 +33,6 @@ public class MoveScript : ActionScript {
 	/// <param name="gui">GUI.</param>
 	public override void displayUserSelection () {
 		unitBlock = unit.getVirtualBlockHeadLocation();
-
 		checkAndDisplayPossibleUserActions();
 	}
 
@@ -69,7 +47,6 @@ public class MoveScript : ActionScript {
 
 
 	private void checkAndDisplayPossibleUserActions(){
-
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			adjBlocks[i] = unitBlock.getAdj(i);
 			if(possibleMoveLocation(adjBlocks[i])){ // only display if that location is valid
@@ -89,13 +66,12 @@ public class MoveScript : ActionScript {
 		for (int i = 0; i < adjBlocks.Length; i++) {
 			if(adjBlocks[i] == blockSelected){
 				locationToPreformAction = adjBlocks[i];
-
 			}
 		}
 		removeUserSelectionDisplay();
 		displayFinishedAction();
 		unit.virtualBlockHead = locationToPreformAction;
-
+		unit.addActionToQueue(this);
 	}
 	#endregion
 

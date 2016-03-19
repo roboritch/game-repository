@@ -119,27 +119,34 @@ public class GridBlock : MonoBehaviour{
   #region mouse events
 
   /// <summary>Raises the mouse down event.</summary>
-  void OnMouseDown(){ 
-    if (gridManager.editModeOn && !gridManager.contextMenuUp){
-      Debug.Log("mouse down on grid block");
-      gridManager.contextMenuUp = true;
-      displayEditRightClickMenu();
-    }
+	void OnMouseDown(){ 
+		if (gridManager.editModeOn && !gridManager.contextMenuUp){
+			Debug.Log("mouse down on grid block");
+			gridManager.contextMenuUp = true;
+			displayEditRightClickMenu();
+    	}
+			
+		//set the buttons up in the GUI for the installed unit when this grid block is selected
+    	//all prev buttons are removed when this method is called
+		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(unitInstalled);
+		}
 
-    //set the buttons up in the GUI for the installed unit when this grid block is selected
-    //all prev buttons are removed when this method is called
-    if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-      gridManager.gui.setSelectedUnit(unitInstalled);
-    }
+		if(unitInstalled == null && Input.GetMouseButton(0)){
+			if(gridManager.gui.getCurUnit() != null)
+				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+
+			gridManager.gui.setSelectedUnit(null);	
+		}
 
 
-    //if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
-    if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
-      gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-    }
-		if (actionWaitingForUserInput is MoveScript){
-			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
-    }
+		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
+		if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+	    }
+			if (actionWaitingForUserInput is MoveScript){
+				((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
+		}
 //		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
 //			gridManager.gui.setUnitAsSelected (null);
 //		}
@@ -233,16 +240,20 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region create unit
+  #region unit control
 
-  /// <summary>Spawns a given unit.</summary>
-  /// <param name="unit">Unit.</param>
-  public void spawnUnit(UnitScript unit){
-    unit.transform.position = new Vector3();
-    unit.transform.SetParent(gridManager.unitObjectHolder);
-    unitInstalled = unit;
-    unit.spawnUnit(gridManager, this);
-  }
+ 	/// <summary>Spawns a given unit.</summary>
+	/// <param name="unit">Unit.</param>
+	public void spawnUnit(UnitScript unit){
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		unitInstalled = unit;
+		unit.spawnUnit(gridManager, this);
+	}
+
+	public void removeUnit(){
+		unitInstalled = null;
+	}
 
   #endregion
 

@@ -23,7 +23,7 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 	/// <summary>The temp action.</summary>
-	public ActionScript tempAction;
+
 
 	#region programName
 
@@ -65,7 +65,8 @@ public class UnitScript : MonoBehaviour {
 	/// </summary>
 	/// <returns>Success of unit's move action.</returns>
 	/// <param name="newLocation">The block to move unit head to.</param>
-	public bool addBlock(GridBlock newLocation) {
+	public bool addBlock(GridBlock newLocation,bool animate) {
+		bool movedSuccess;
 		//check if grid space is already occupied
 		if(newLocation.unitInstalled == null) {
 			//check if unit is already at its max length
@@ -75,10 +76,19 @@ public class UnitScript : MonoBehaviour {
 			}
 			//add a new unit block to given location
 			blockList.AddFirst(newLocation);
-			return true;
+			movedSuccess = true;
 		} else {
-			return false;
+			movedSuccess = false;
 		}
+		if(animate){
+			//TODO unitMoving animation
+			float animationTime = 0f;
+			Invoke("checkAllDisplay",animationTime);
+		}else{
+			checkAllDisplay();
+		}
+
+		return movedSuccess;
 	}
 
 	/// <summary>
@@ -184,7 +194,6 @@ public class UnitScript : MonoBehaviour {
 		return buttonPrefabs;
 	}
 
-
 	/// <summary>
 	/// Sets the grid connection.
 	/// This must be set when the unit is created.
@@ -207,6 +216,11 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region Action List
+	public ActionScript tempAction;
+	public void removeUserSelectionDisplay(){
+		if(tempAction != null)
+			tempAction.removeUserSelectionDisplay();
+	}
 
 	/*each action will be a child of the ActionScript */
 	public ActionScript getLastAction() {
@@ -214,10 +228,13 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	public void startActing() {
-		if(!readyToAct){
+		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		}else{
-			invokeNextAction();	
+			stopTimerTick();
+			resetTimer();
+			readyToAct = false;
+			invokeNextAction(); // this must be last
 		}
 	}
 
@@ -259,11 +276,11 @@ public class UnitScript : MonoBehaviour {
 		actionList.AddLast(action);
 	}
 
-
-	public void resetActionQueue(GUIScript gui) {
+	public void resetActionQueue() {
 		foreach(ActionScript actions in actionList) {
 			actions.removeActionRepresentationDisplay();
 		}
+		virtualBlockHead = null;
 	}
 
 
@@ -271,7 +288,6 @@ public class UnitScript : MonoBehaviour {
 
 	#region unit timeing
 
-	[SerializeField] private UnitTimer unitTimerInfo;
 	private UnitTimer UT;
 	public UnitTimer unitTimer {
 		get {
@@ -292,8 +308,12 @@ public class UnitScript : MonoBehaviour {
 		}
 	}
 
+	private void resetTimer(){
+		UT.time = 0f;
+	}
+
 	private void startTimerTick(){
-		InvokeRepeating("timerTick",0f,0.05f);
+		InvokeRepeating("timerTick",0f,0.01f);
 	}
 
 	private void stopTimerTick(){
@@ -301,12 +321,13 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	private void timerStartup(){
-		UT = unitTimerInfo;
+		UT = unitInfo.unitTimer;
 	}
 
 	#endregion
 
 	void Start() {
+		actionList = new LinkedList<ActionScript>();
 		timerStartup();
 		startTimerTick();
 	}
@@ -320,6 +341,10 @@ public class UnitScript : MonoBehaviour {
 	/// <summary> Destroys the unit. </summary>
 	public void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
+		getCurrentBlockHeadLocation().removeUnit();
+		if(grid.gui.getCurUnit() == this){
+			grid.gui.setSelectedUnit(null);
+		}
 		Destroy(gameObject);
 	}
 }
