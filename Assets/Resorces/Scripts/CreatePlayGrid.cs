@@ -33,6 +33,7 @@ public class CreatePlayGrid : MonoBehaviour {
 	#region units
 
 	public UnitInformationStruct[] units;
+	[SerializeField] private GameObject UnitTimerDisplay;
 
 	#endregion
 

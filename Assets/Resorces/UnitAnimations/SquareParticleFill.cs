@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SquareParticleFill : MonoBehaviour {
+public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 	/// <summary>
 	/// The Particle system, some peramiters are already setup in the prefab.
 	/// </summary>
@@ -34,14 +34,18 @@ public class SquareParticleFill : MonoBehaviour {
 
 	private bool timeHasBeenFound = false;
 	private float time = 0;
-	private float timeFound = 2.6f; // this is time for width 8
+	[SerializeField] private float timeFound = 2.6f; // this is time for width 8
 	void FixedUpdate(){
 		time += Time.fixedDeltaTime;
 	}
 
-	public float getTimeToCompleat(){
+	#region IGetAnimationTimeToFin implementation
+
+	public float getAnimationTime() {
 		return timeFound;
 	}
+
+	#endregion
 
 	#pragma warning disable
 	[SerializeField] private int widthOfParticals = 8;

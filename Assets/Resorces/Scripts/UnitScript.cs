@@ -17,9 +17,9 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>The grid the unit is on (the level).</summary>
 	public CreatePlayGrid grid;
 	// Use this to make private fields visible in the inspector.
-	[SerializeField]
+
 	#pragma warning disable
-  private GameObject[] buttonPrefabs;
+	[SerializeField] private GameObject[] buttonPrefabs;
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 	/// <summary>The temp action.</summary>
@@ -120,14 +120,14 @@ public class UnitScript : MonoBehaviour {
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay",spawnTime);
 	}
-
+		
 	private float spawnAnimation(){
 		GameObject animationObj = Instantiate(grid.animations.unitSpawn) as GameObject;
 		animationObj.transform.SetParent(getCurrentBlockHeadLocation().transform,true);
 		animationObj.transform.localPosition = new Vector3();
 		SquareParticleFill anim = animationObj.GetComponent<SquareParticleFill>();
 		anim.setParticalColor(getUnitColor());
-		return anim.getTimeToCompleat();
+		return anim.getAnimationTime();
 	}
 
 	private void checkAllDisplay() {
@@ -214,8 +214,11 @@ public class UnitScript : MonoBehaviour {
 	}
 
 	public void startActing() {
-		
-		invokeNextAction();
+		if(!readyToAct){
+			Debug.LogWarning("Unit is not ready to act!");
+		}else{
+			invokeNextAction();	
+		}
 	}
 
 	/// <summary>
@@ -230,6 +233,7 @@ public class UnitScript : MonoBehaviour {
 			getReadyToPreformAnotherAction(action.getActionTime());
 		}else{
 			//TODO send info that this unit is done acting
+			startTimerTick();
 			grid.gui.unitIsDoneActing(this);
 		}
 	}
@@ -265,12 +269,46 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
+	#region unit timeing
 
+	[SerializeField] private UnitTimer unitTimerInfo;
+	private UnitTimer UT;
+	public UnitTimer unitTimer {
+		get {
+			return UT;
+		}
+		set{
+			UT = value;
+		}
+	}
 
-	// Use this for initialization
-	/// <summary> Start this instance. </summary>
+	[SerializeField] private bool readyToAct = false;
+	private void timerTick(){
+		if(UT.time < UT.maxTime){
+			UT.time += UT.ticAmount;
+		}else{
+			readyToAct = true;
+			stopTimerTick();
+		}
+	}
+
+	private void startTimerTick(){
+		InvokeRepeating("timerTick",0f,0.05f);
+	}
+
+	private void stopTimerTick(){
+		CancelInvoke("timerTick");
+	}
+
+	private void timerStartup(){
+		UT = unitTimerInfo;
+	}
+
+	#endregion
+
 	void Start() {
-
+		timerStartup();
+		startTimerTick();
 	}
 
 	// Update is called once per frame
@@ -284,4 +322,11 @@ public class UnitScript : MonoBehaviour {
 		//TODO make sure there are no refrences to this unit before it is destroyed
 		Destroy(gameObject);
 	}
+}
+
+[System.Serializable]
+public struct UnitTimer{
+	public float time;
+	public float maxTime;
+	public float ticAmount;
 }
