@@ -76,6 +76,7 @@ public class UnitScript : MonoBehaviour {
 			}
 			//add a new unit block to given location
 			blockList.AddFirst(newLocation);
+			newLocation.unitInstalled = this;
 			movedSuccess = true;
 		} else {
 			movedSuccess = false;
@@ -112,8 +113,10 @@ public class UnitScript : MonoBehaviour {
 			return true;
 		} else {
 			//remove the given amount of blocks
-			for(int i = 0; i < amount; i++)
+			for(int i = 0; i < amount; i++){
+				blockList.Last.Value.spriteDisplayScript.updateUnitSprite();
 				blockList.RemoveLast();
+			}
 		}
 		return false;
 	}
@@ -140,7 +143,7 @@ public class UnitScript : MonoBehaviour {
 		return anim.getAnimationTime();
 	}
 
-	private void checkAllDisplay() {
+	public void checkAllDisplay() {
 		foreach(GridBlock loc in  blockList) {
 			loc.spriteDisplayScript.updateUnitSprite();
 			loc.spriteDisplayScript.checkConection();

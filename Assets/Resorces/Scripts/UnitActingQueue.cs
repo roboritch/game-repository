@@ -25,12 +25,12 @@ public class UnitActingQueue : MonoBehaviour {
 		//Each unit acting image is 50f apart.
 		temp.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);
 		temp.setUnit(currentlySelectedUnit);
-		if(actingQueue.Count == 0){
+		actingQueue.Enqueue(temp);
+		if(actingQueue.Count == 1){
 			temp.setCurrentlyActing();
 		}else if(actingQueue.Count > maxVisibleItems){
 			temp.setVisible(false);
 		}
-		actingQueue.Enqueue(temp);
 	}
 
 	/// <summary>
