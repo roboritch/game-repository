@@ -294,6 +294,7 @@ public class UnitScript : MonoBehaviour {
 		foreach(ActionScript actions in actionList) {
 			actions.removeActionRepresentationDisplay();
 		}
+		actionList.Clear();
 		virtualBlockHead = null;
 	}
 

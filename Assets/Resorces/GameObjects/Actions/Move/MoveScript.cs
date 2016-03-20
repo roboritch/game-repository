@@ -25,6 +25,10 @@ public class MoveScript : ActionScript {
 	public override void act () {
 		bool itMoved = unit.addBlock(locationToPreformAction,false);
 		removeActionRepresentationDisplay();
+		if(itMoved == false){
+			unit.resetActionQueue();
+			Debug.Log("Unit crashed, remaning actions dumped");
+		}
 	}
 
 	#region user selection
