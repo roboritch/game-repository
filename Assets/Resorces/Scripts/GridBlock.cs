@@ -98,18 +98,18 @@ public class GridBlock : MonoBehaviour{
 	public UnitScript unitInstalled;
 	/// <summary> The action waiting for user input on this block. </summary>
 	public ActionScript actionWaitingForUserInput;
-  /// <summary>The game's grid manager.</summary>
-  private CreatePlayGrid gridManager;
-  /// <summary>Collision box of this space.</summary>
-  private Collider2D selectionBox;
+	/// <summary>The game's grid manager.</summary>
+	private CreatePlayGrid gridManager;
+	/// <summary>Collision box of this space.</summary>
+	private Collider2D selectionBox;
 
-  /// <summary>Sets the grid manager.</summary>
-  /// <value>The grid manager.</value>
-  public CreatePlayGrid GridManager {
-    set {
-      gridManager = value;
-    }
-  }
+	/// <summary>Sets the grid manager.</summary>
+	/// <value>The grid manager.</value>
+	public CreatePlayGrid GridManager {
+		set {
+			gridManager = value;
+		}
+	}
 
   /// <summary>Location of this grid block on the play grid.</summary>
   public GridLocation gridlocation;
@@ -132,21 +132,23 @@ public class GridBlock : MonoBehaviour{
 			gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 
-		if(unitInstalled == null && Input.GetMouseButton(0)){
-			if(gridManager.gui.getCurUnit() != null)
-				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-
-			gridManager.gui.setSelectedUnit(null);	
-		}
-
-
 		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
 		if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 	    }
-			if (actionWaitingForUserInput is MoveScript){
-				((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
+
+		bool notUsingAnAction = true;
+		if (actionWaitingForUserInput is MoveScript){
+			notUsingAnAction = false;
+			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
 		}
+
+		if(unitInstalled == null && notUsingAnAction && Input.GetMouseButton(0)){
+			if(gridManager.gui.getCurUnit() != null)
+				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+			gridManager.gui.setSelectedUnit(null);	
+		}
+
 //		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
 //			gridManager.gui.setUnitAsSelected (null);
 //		}

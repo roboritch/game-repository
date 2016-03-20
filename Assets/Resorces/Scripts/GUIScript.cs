@@ -42,13 +42,6 @@ public class GUIScript : MonoBehaviour {
 		return currentlySelectedUnit;
 	}
 
-	public void userWantsUnitToAct(){
-		if(currentlySelectedUnit != null)
-			currentlySelectedUnit.startActing();
-		else
-			Debug.LogWarning("no unit selected"); //give user feedback
-	}
-
 	#endregion
 
 	#region buttons
@@ -78,6 +71,7 @@ public class GUIScript : MonoBehaviour {
 			RectTransform rt = temp.GetComponent<RectTransform>();
 			rt.sizeDelta = new Vector2();
 			rt.anchoredPosition = new Vector2();
+			rt.localScale = Vector3.one;
 			int localx = x; //this must be used or the last vertion of x will be called
 			temp.GetComponent<Button>().onClick.AddListener(() => {
 				this.runDisplayForThisActionButton(localx);
@@ -135,8 +129,11 @@ public class GUIScript : MonoBehaviour {
 	#endregion
 
 	private UnitActingQueue unitActingQueue;
-	public void unitIsActing(UnitScript unit){
-		unitActingQueue.addToUnitActing(unit);
+	public void userWantsUnitToAct(){
+		if(currentlySelectedUnit != null)
+			unitActingQueue.addToUnitActing(currentlySelectedUnit);
+		else
+			Debug.LogWarning("no unit selected"); //give user feedback
 	}
 
 	public void unitIsDoneActing(UnitScript unit){
