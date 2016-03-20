@@ -110,7 +110,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		//Initialize above connection.
 		aboveConnection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		aboveConnection.transform.SetParent(transform);
-		aboveConnection.transform.localPosition = new Vector3(0,conectionLocation, 0.1f);
+		aboveConnection.transform.localPosition = new Vector3(0,-conectionLocation, 0.1f);
 		aboveConnection.transform.Rotate(0f,0f,90f);
 		aboveConnection.name = "Above Conection";
 
@@ -200,7 +200,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// removes head sprite if it is not.
 	/// </summary>
 	public void checkHeadSprite() {
-		if(attachedGridBlock.unitInstalled.getVirtualBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation) {
+		if(attachedGridBlock.unitInstalled.getCurrentBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation) {
 			headSprite.setSprite(attachedGridBlock.unitInstalled.getUnitHeadSprite());
 		} else {
 			headSprite.removeSprite();
