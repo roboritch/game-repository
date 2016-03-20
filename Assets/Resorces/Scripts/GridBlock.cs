@@ -118,8 +118,8 @@ public class GridBlock : MonoBehaviour{
 
   #region mouse events
 
-  /// <summary>Raises the mouse down event.</summary>
-	void OnMouseDown(){ 
+	/// <summary>Raises the mouse down event.</summary>
+	void OnMouseDown(){ //TODO there could be a better way to handle these events
 		if (gridManager.editModeOn && !gridManager.contextMenuUp){
 			Debug.Log("mouse down on grid block");
 			gridManager.contextMenuUp = true;
@@ -133,17 +133,13 @@ public class GridBlock : MonoBehaviour{
 		}
 
 		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
-		if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
+		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 	    }
-
-		bool notUsingAnAction = true;
+	
 		if (actionWaitingForUserInput is MoveScript){
-			notUsingAnAction = false;
 			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
-		}
-
-		if(unitInstalled == null && notUsingAnAction && Input.GetMouseButton(0)){
+		}else if (unitInstalled == null && Input.GetMouseButton(0)){
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);	
