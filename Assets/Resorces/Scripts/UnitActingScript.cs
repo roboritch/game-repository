@@ -7,16 +7,14 @@ using UnityEngine.UI;
 /// Many of these are controled by the game gui script
 /// </summary>
 public class UnitActingScript : MonoBehaviour {
-	private Image unitColor;
-	private Image unitHeadSprite;
+	[SerializeField] private Image unitColor;
+	[SerializeField] private Image unitHeadSprite;
 	private UnitScript unit;
 	public RectTransform location;
 	public bool enemy;
 
 	void Awake(){
 		location = GetComponent<RectTransform>();
-		unitColor = GetComponent<Image>();
-		unitHeadSprite = GetComponentInChildren<Image>();
 	}
 
 	public void setCurrentlyActing() {

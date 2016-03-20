@@ -128,17 +128,28 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
+	#region unit action
 	private UnitActingQueue unitActingQueue;
-	public void userWantsUnitToAct(){
-		if(currentlySelectedUnit != null)
-			unitActingQueue.addToUnitActing(currentlySelectedUnit);
-		else
-			Debug.LogWarning("no unit selected"); //give user feedback
+	public void userWantsUnitToAct(){ 
+		if(currentlySelectedUnit != null){
+			if(currentlySelectedUnit.getNumberOfActionsInQueue() !=0){
+				if(currentlySelectedUnit.IsActing){
+					Debug.LogWarning("unit is already acting"); 
+				}else{
+					unitActingQueue.addToUnitActing(currentlySelectedUnit);
+				}
+			}else{
+				Debug.LogWarning("unit does not have any actions queued"); 
+			}
+		}else{
+			Debug.LogWarning("no unit selected"); //TODO give user feedback of this
+		}
 	}
 
 	public void unitIsDoneActing(UnitScript unit){
 		unitActingQueue.currentUnitDoneActing(unit);
 	}
+	#endregion
 
 	void Start(){
 		InvokeRepeating("updateTimer",0f,0.2f);

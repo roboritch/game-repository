@@ -272,6 +272,7 @@ public class GridBlock : MonoBehaviour{
 		
   }
 
+	#region sprite controles for this block
   /// <summary>Sets the sprite to default.</summary>
   private void setSpriteDefault(){
     transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
@@ -286,6 +287,7 @@ public class GridBlock : MonoBehaviour{
   private void setSpriteNone(){
     transform.GetComponent<SpriteControler>().removeSprite();
   }
+	#endregion
 }
 
 #region gridLocation
@@ -319,8 +321,8 @@ public struct GridLocation{
 }
 #endregion
 public enum Direction : int{
-  UP = 0,
-DOWN = 2,
-LEFT = 3,
-RIGHT = 1
+	UP = 0,
+	DOWN = 2,
+	LEFT = 3,
+	RIGHT = 1
 }

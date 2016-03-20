@@ -6,6 +6,7 @@ using System.Collections.Generic;
 /// Parent script for all programs.
 /// </summary>
 public class UnitScript : MonoBehaviour {
+	#region basic vars
 	/// <summary>A list of this unit's blocks.</summary>
 	private LinkedList<GridBlock> blockList;
 	/// <summary>Block head location after a move action is queued.</summary>
@@ -23,7 +24,7 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 	/// <summary>The temp action.</summary>
-
+	#endregion
 
 	#region programName
 
@@ -70,7 +71,7 @@ public class UnitScript : MonoBehaviour {
 		//check if grid space is already occupied
 		if(newLocation.unitInstalled == null) {
 			//check if unit is already at its max length
-			if(getLength() > MaxProgramLength) {
+			if(getLength() >= MaxProgramLength) {
 				//remove a block from the end
 				removeBlock();
 			}
@@ -114,6 +115,7 @@ public class UnitScript : MonoBehaviour {
 		} else {
 			//remove the given amount of blocks
 			for(int i = 0; i < amount; i++){
+				blockList.Last.Value.unitInstalled = null;
 				blockList.Last.Value.spriteDisplayScript.updateUnitSprite();
 				blockList.RemoveLast();
 			}
@@ -219,6 +221,13 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region Action List
+	private bool isActing = false;
+	public bool IsActing {
+		get {
+			return isActing;
+		}
+	}
+
 	public ActionScript tempAction;
 	public void removeUserSelectionDisplay(){
 		if(tempAction != null)
@@ -234,6 +243,7 @@ public class UnitScript : MonoBehaviour {
 		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		}else{
+			isActing = true;
 			stopTimerTick();
 			resetTimer();
 			readyToAct = false;
@@ -253,6 +263,7 @@ public class UnitScript : MonoBehaviour {
 			getReadyToPreformAnotherAction(action.getActionTime());
 		}else{
 			//TODO send info that this unit is done acting
+			isActing = false;
 			startTimerTick();
 			grid.gui.unitIsDoneActing(this);
 		}
@@ -286,6 +297,9 @@ public class UnitScript : MonoBehaviour {
 		virtualBlockHead = null;
 	}
 
+	public int getNumberOfActionsInQueue(){
+		return actionList.Count;
+	}
 
 	#endregion
 
@@ -341,6 +355,7 @@ public class UnitScript : MonoBehaviour {
 
 	}
 
+	#region unit destruction
 	/// <summary> Destroys the unit. </summary>
 	public void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
@@ -350,6 +365,7 @@ public class UnitScript : MonoBehaviour {
 		}
 		Destroy(gameObject);
 	}
+	#endregion 
 }
 
 [System.Serializable]

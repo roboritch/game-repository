@@ -14,7 +14,7 @@ public class UnitActingQueue : MonoBehaviour {
 	[SerializeField] private GameObject actingOverlay;
 	[SerializeField] private Transform currentProgramStartPosition;
 
-	private int maxVisibleItems;
+	[SerializeField] private int maxVisibleItems = 3;
 	private Queue<UnitActingScript> actingQueue;
 	/// <summary>
 	/// Adds to unit acting queue.
