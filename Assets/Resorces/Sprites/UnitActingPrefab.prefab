@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922a50e64ce66194c87b2044e1af56c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  unitColor: {fileID: 11469748}
+  unitHeadSprite: {fileID: 11475180}
+  location: {fileID: 22413696}
   enemy: 0
 --- !u!114 &11469748
 MonoBehaviour:
@@ -87,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -164,6 +166,34 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: location
+      value: 
+      objectReference: {fileID: 22413696}
+    - target: {fileID: 0}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitHeadSprite
+      value: 
+      objectReference: {fileID: 11475180}
+    - target: {fileID: 0}
+      propertyPath: unitColor
+      value: 
+      objectReference: {fileID: 11469748}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 128710}
