@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class GUIScript : MonoBehaviour {
 
@@ -93,12 +94,40 @@ public class GUIScript : MonoBehaviour {
 			rt.anchoredPosition = new Vector2();
 			rt.localScale = Vector3.one;
 			int localx = x; //this must be used or the last vertion of x will be called
+
 			temp.GetComponent<Button>().onClick.AddListener(() => {
 				this.runDisplayForThisActionButton(localx);
 			});
+
+			#region display description event triggers
+			EventTrigger ET = temp.AddComponent<EventTrigger>();
+			//pointer enter
+			EventTrigger.Entry entry = new EventTrigger.Entry();
+			entry.callback.AddListener(delegate {
+				dispayDescription(localx);	
+			});
+			entry.eventID = EventTriggerType.PointerEnter;
+			ET.triggers.Add(entry);
+			//pointer exit
+			entry = new EventTrigger.Entry();
+			entry.callback.AddListener(delegate {
+				removeDescription(localx);	
+			});
+			entry.eventID = EventTriggerType.PointerExit;
+			ET.triggers.Add(entry);
+			#endregion
 		}
 	}
-		
+	#pragma warning disable
+	[SerializeField] private defaultTextHolder buttonDescription;
+	private void dispayDescription(int ABINumber){
+		buttonDescription.addNewTextToDefalt(actionButtonInfo[ABINumber].getDescriptionText());
+	}
+
+	private void removeDescription(int ABINumber){
+		buttonDescription.setDefault();
+	}
+
 	private void runDisplayForThisActionButton(int ABINumber) {
 		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit);
 		currentlySelectedUnit.tempAction.displayUserSelection();
