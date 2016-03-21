@@ -56,7 +56,6 @@ public class OptionsScript : MonoBehaviour {
 		currentOptions = container;
 		stream.Close();
 		}catch(Exception ex){
-			Debug.LogError(ex.ToString());
 			if(stream != null)
 			stream.Close();
 		}
