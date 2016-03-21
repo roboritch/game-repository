@@ -11,44 +11,9 @@ using UnityEngine.EventSystems;
 /// Can be a spawn spot.
 /// </summary>
 public class GridBlock : MonoBehaviour,IPointerDownHandler {
-	#region IPointerDownHandler implementation (mouse events)
 
-	// the gui will  now block clicks
-	public void OnPointerDown (PointerEventData eventData)
-	{
-		if (gridManager.editModeOn && !gridManager.contextMenuUp){
-			Debug.Log("mouse down on grid block");
-			gridManager.contextMenuUp = true;
-			displayEditRightClickMenu();
-		}
 
-		//set the buttons up in the GUI for the installed unit when this grid block is selected
-		//all prev buttons are removed when this method is called
-		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-			gridManager.gui.setSelectedUnit(unitInstalled);
-		}
-
-		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
-		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
-			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-		}
-
-		if (actionWaitingForUserInput is MoveScript){
-			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
-		}else if (unitInstalled == null && Input.GetMouseButton(0)){
-			if(gridManager.gui.getCurUnit() != null)
-				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-			gridManager.gui.setSelectedUnit(null);	
-		}
-
-		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-		//			gridManager.gui.setUnitAsSelected (null);
-		//		}
-	}
-
-	#endregion
-
-  #region adjacent blocks
+	#region adjacent blocks
 
   /// <summary>Upper adjacent block.</summary>
   private GridBlock up;
@@ -106,7 +71,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region block properties
+	#region block properties
 
   /// <summary>Whether this block is a spawn spot.</summary>
   [SerializeField] private bool spawnSpot = false;
@@ -115,7 +80,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region sprites
+	#region sprites
 
   /// <summary>Sprite display for this block.</summary>
   public GridBlockSpriteDisplay spriteDisplayScript;
@@ -130,7 +95,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region simple block vars
+	#region simple block vars
 
 	/// <summary>The unit currently occupying this space.</summary>
 	public UnitScript unitInstalled;
@@ -154,7 +119,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region mouse events
+	#region mouse events
 
 	/// <summary>Raises the mouse down event.</summary>
 	void OnMouseDown(){ //TODO there could be a better way to handle these events
@@ -168,7 +133,64 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region edit mode
+	#region IPointerDownHandler implementation (mouse events)
+
+	// the gui will  now block clicks
+	public void OnPointerDown (PointerEventData eventData)
+	{
+		if (gridManager.editModeOn && !gridManager.contextMenuUp){
+			Debug.Log("mouse down on grid block");
+			gridManager.contextMenuUp = true;
+			displayEditRightClickMenu();
+		}
+
+		//set the buttons up in the GUI for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(unitInstalled);
+		}
+
+		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
+		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+		}
+
+		if (actionWaitingForUserInput is MoveScript){
+			actionWaitingForUserInput.userSelectedAction(this);
+		}else if(actionWaitingForUserInput is AttackScript){
+			actionWaitingForUserInput.userSelectedAction(this);
+		}else if (unitInstalled == null && Input.GetMouseButton(0)){
+			if(gridManager.gui.getCurUnit() != null)
+				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+			gridManager.gui.setSelectedUnit(null);	
+		}
+
+		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+		//			gridManager.gui.setUnitAsSelected (null);
+		//		}
+	}
+
+	#endregion
+
+	#region attack handling
+	private int attackActionID = -1;
+	public void attackActionWantsToAttackHere(AttackScript attack){
+		if(unitInstalled != null){
+			attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
+			actionWaitingForUserInput = attack;
+		}
+	}
+
+	public void removeAttackDisplayForThis(){
+		spriteDisplayScript.removeAction(attackActionID);
+		attackActionID = -1;
+		actionWaitingForUserInput = null;
+	}
+
+
+	#endregion
+
+	#region edit mode
 
   /// <summary>Displays the edit right click menu.</summary>
   public void displayEditRightClickMenu(){ //UNDONE display menu on right click
@@ -249,7 +271,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  #region unit control
+	#region unit control
 
  	/// <summary>Spawns a given unit.</summary>
 	/// <param name="unit">Unit.</param>
@@ -266,18 +288,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-  // Use this for initialization.
-  /// <summary>Start this instance.</summary>
-  void Start(){
+	// Use this for initialization.
+	/// <summary>Start this instance.</summary>
+	void Start(){
 		gridBlockCollider = GetComponent<Collider>();
-    spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
-  }
+		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
+	}
 
-  // Update is called once per frame.
-  /// <summary>Update this instance.</summary>
-  void Update(){
+	// Update is called once per frame.
+	/// <summary>Update this instance.</summary>
+	void Update(){
 		
-  }
+	}
 
 	#region sprite controles for this block
   /// <summary>Sets the sprite to default.</summary>

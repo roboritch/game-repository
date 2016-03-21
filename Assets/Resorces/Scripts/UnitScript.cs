@@ -329,6 +329,33 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
+	#region attack stats
+	/// <summary>
+	/// The current attacks remaning for the current action queue.
+	/// </summary>
+	private int currentAttacksRemaning;
+	public int attacksRemaning(){
+		return currentAttacksRemaning;
+	}
+
+	public void useAttackAction(){
+		currentAttacksRemaning--;
+	}
+
+	public void useAttackAction(int amount){
+		currentAttacksRemaning -= amount;
+	}
+
+	public void addAttackAction(){
+		currentAttacksRemaning++;
+	}
+
+	public void addAttackAction(int amount){
+		currentAttacksRemaning += amount;
+	}
+
+	#endregion
+
 	#region unit timeing
 
 	private UnitTimer UT;
