@@ -14,7 +14,7 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>Maximum amount of unit blocks.</summary>
 	private int maxProgramLength;
 	/// <summary>The unit info.</summary>
-	public UnitInformationStruct unitInfo;
+	[SerializeField] private UnitInformationStruct unitInfo;
 	/// <summary>The grid the unit is on (the level).</summary>
 	public CreatePlayGrid grid;
 	// Use this to make private fields visible in the inspector.
@@ -41,7 +41,7 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
-	#region Unit Block Management
+	#region Unit Size Management
 
 	public GridBlock getCurrentBlockHeadLocation() {
 		return blockList.First.Value;
@@ -130,7 +130,11 @@ public class UnitScript : MonoBehaviour {
 	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation) {
 		grid = gm;
 		blockList = new LinkedList<GridBlock>();
+		//set base unit stats so they can be adjusted at runtime
 		maxProgramLength = unitInfo.maxLength;
+		maximumMovment = unitInfo.maxMove;
+		movmentActionsRemaning = maximumMovment;
+
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay",spawnTime);
@@ -304,6 +308,27 @@ public class UnitScript : MonoBehaviour {
 
 	#endregion
 
+	#region movment stats
+	private int maximumMovment;
+	private int movmentActionsRemaning;
+	public int getMaximumMovment(){
+		return maximumMovment;
+	}
+
+	public void moveActionAdded(){
+		movmentActionsRemaning--;
+	}
+
+	public void moveActionRemoved(){
+		movmentActionsRemaning++;
+	}
+
+	public int movmentRemaning(){
+		return movmentActionsRemaning;
+	}
+
+	#endregion
+
 	#region unit timeing
 
 	private UnitTimer UT;
@@ -340,6 +365,17 @@ public class UnitScript : MonoBehaviour {
 
 	private void timerStartup(){
 		UT = unitInfo.unitTimer;
+	}
+
+	#endregion
+
+	#region onSelection
+	public int getUnitMaxSize(){
+		return maxProgramLength;
+	}
+
+	public int getUnitMaxMovment(){
+		return unitInfo.maxMove;
 	}
 
 	#endregion
