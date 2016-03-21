@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Grid block belonging to the play grid.
@@ -9,7 +10,44 @@ using UnityEngine;
 /// Can be online or offline (occupiable or not).
 /// Can be a spawn spot.
 /// </summary>
-public class GridBlock : MonoBehaviour{
+public class GridBlock : MonoBehaviour,IPointerDownHandler {
+	#region IPointerDownHandler implementation (mouse events)
+
+	// the gui will  now block clicks
+	public void OnPointerDown (PointerEventData eventData)
+	{
+		if (gridManager.editModeOn && !gridManager.contextMenuUp){
+			Debug.Log("mouse down on grid block");
+			gridManager.contextMenuUp = true;
+			displayEditRightClickMenu();
+		}
+
+		//set the buttons up in the GUI for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(unitInstalled);
+		}
+
+		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
+		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+		}
+
+		if (actionWaitingForUserInput is MoveScript){
+			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
+		}else if (unitInstalled == null && Input.GetMouseButton(0)){
+			if(gridManager.gui.getCurUnit() != null)
+				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+			gridManager.gui.setSelectedUnit(null);	
+		}
+
+		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+		//			gridManager.gui.setUnitAsSelected (null);
+		//		}
+	}
+
+	#endregion
+
   #region adjacent blocks
 
   /// <summary>Upper adjacent block.</summary>
@@ -120,34 +158,7 @@ public class GridBlock : MonoBehaviour{
 
 	/// <summary>Raises the mouse down event.</summary>
 	void OnMouseDown(){ //TODO there could be a better way to handle these events
-		if (gridManager.editModeOn && !gridManager.contextMenuUp){
-			Debug.Log("mouse down on grid block");
-			gridManager.contextMenuUp = true;
-			displayEditRightClickMenu();
-    	}
-			
-		//set the buttons up in the GUI for the installed unit when this grid block is selected
-    	//all prev buttons are removed when this method is called
-		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-			gridManager.gui.setSelectedUnit(unitInstalled);
-		}
-
-		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
-		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
-			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-	    }
-	
-		if (actionWaitingForUserInput is MoveScript){
-			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
-		}else if (unitInstalled == null && Input.GetMouseButton(0)){
-			if(gridManager.gui.getCurUnit() != null)
-				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-			gridManager.gui.setSelectedUnit(null);	
-		}
-
-//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-//			gridManager.gui.setUnitAsSelected (null);
-//		}
+		
   }
 
   /// <summary>Raises the mouse over event.</summary>
