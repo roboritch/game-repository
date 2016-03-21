@@ -37,6 +37,10 @@ public class MoveScript : ActionScript {
 	/// </summary>
 	/// <param name="gui">GUI.</param>
 	public override void displayUserSelection () {
+		if(unit.movmentRemaning() <= 0){
+			Debug.Log("no movment actions remaning");
+			return;
+		}
 		unitBlock = unit.getVirtualBlockHeadLocation();
 		checkAndDisplayPossibleUserActions();
 	}
@@ -77,6 +81,7 @@ public class MoveScript : ActionScript {
 		displayFinishedAction();
 		unit.virtualBlockHead = locationToPreformAction;
 		unit.addActionToQueue(this);
+		unit.moveActionAdded();
 	}
 	#endregion
 
@@ -112,5 +117,6 @@ public class MoveScript : ActionScript {
 	public override void removeActionRepresentationDisplay() {
 		moveDirectionArms[0].setColor(Color.clear);
 		moveDirectionArms[1].setColor(Color.clear);
+		unit.moveActionRemoved();
 	}
 }

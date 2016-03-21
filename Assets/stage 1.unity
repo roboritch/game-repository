@@ -203,6 +203,7 @@ MonoBehaviour:
   unitActingPrefab: {fileID: 128710, guid: 12ac6de2d655d264c8a932a0f111f788, type: 2}
   actingOverlay: {fileID: 0}
   currentProgramStartPosition: {fileID: 1192526009}
+  maxVisibleItems: 3
 --- !u!1 &438301246
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +729,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &602568641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2040,6 +2041,8 @@ MonoBehaviour:
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
     unitColor: {r: 1, g: 1, b: 1, a: 1}
     maxLength: 3
+    maxMove: 0
+    attackPow: 0
     unitTimer:
       time: 0
       maxTime: 0

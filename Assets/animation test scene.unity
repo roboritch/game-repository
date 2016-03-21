@@ -1918,7 +1918,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1222935550}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Unit spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2054,7 +2054,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1613980710}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Long range attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2288,7 +2288,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2128272197}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: close range attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

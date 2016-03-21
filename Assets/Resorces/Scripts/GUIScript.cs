@@ -42,6 +42,26 @@ public class GUIScript : MonoBehaviour {
 		return currentlySelectedUnit;
 	}
 
+	private void updateUnitInformation(){
+		if(currentlySelectedUnit != null){
+			displayUnitInformation();
+		}else{
+			resetUnitInformation();
+		}
+	}
+
+	private void displayUnitInformation(){
+		maxSize.addNewTextToDefalt(currentlySelectedUnit.getUnitMaxSize().ToString());
+		moveActions.addNewTextToDefalt(currentlySelectedUnit.movmentRemaning().ToString());
+		currentSize.addNewTextToDefalt(currentlySelectedUnit.getLength().ToString());
+	}
+
+	private void resetUnitInformation(){
+		maxSize.setDefault();
+		moveActions.setDefault();
+		currentSize.setDefault();
+	}
+
 	#endregion
 
 	#region buttons
@@ -82,6 +102,7 @@ public class GUIScript : MonoBehaviour {
 	private void runDisplayForThisActionButton(int ABINumber) {
 		currentlySelectedUnit.tempAction = actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit);
 		currentlySelectedUnit.tempAction.displayUserSelection();
+		//disable this if unit movment remaning is 0
 	}
 
 
@@ -117,6 +138,7 @@ public class GUIScript : MonoBehaviour {
 	public defaultTextHolder extraInfo1;
 	public defaultTextHolder extraInfo2;
 	public defaultTextHolder extraInfo3;
+
 
 	#endregion
 
@@ -165,6 +187,6 @@ public class GUIScript : MonoBehaviour {
 	/// Update this instance.
 	/// </summary>
 	void Update() {
-	
+		updateUnitInformation();
 	}
 }
