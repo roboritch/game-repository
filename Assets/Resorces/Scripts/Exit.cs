@@ -3,6 +3,19 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Exit : MonoBehaviour {
+
+	public static Exit Instance;
+
+	void Awake(){
+		if(Instance){
+			DestroyImmediate(gameObject);
+		}else{
+			DontDestroyOnLoad(gameObject);
+			Instance = this;
+		}
+	}
+
+
 	public GameObject confirmationMenu;
 	/// <summary>
 	/// Brings up a quit confirmation menu.
@@ -21,12 +34,6 @@ public class Exit : MonoBehaviour {
 
 	private void quit(){
 		Application.Quit();
-	}
-
-	// Use this for initialization
-	void Start () {
-		DontDestroyOnLoad(transform.gameObject);
-		
 	}
 
 	// Update is called once per frame
