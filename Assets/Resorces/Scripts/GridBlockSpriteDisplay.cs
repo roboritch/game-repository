@@ -229,9 +229,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	/// <summary>
 	/// Removes the action.
+	/// will not act if actionID < 0 || actionID > MAX_ACTIONS_ON_THIS_BLOCK
 	/// </summary>
 	/// <param name="actionID">ActionID.</param>
 	public void removeAction(int actionID) {
+		if(actionID < 0 || actionID > MAX_ACTIONS_ON_THIS_BLOCK){
+			return;
+		}
 		actionSprites[actionID].removeSprite();
 		actionUsed[actionID] = false;
 	}

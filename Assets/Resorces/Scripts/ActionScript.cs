@@ -71,4 +71,5 @@ public struct SerializedCompeatedAction{
 	public GridLocation locationToPreformAction;
 	public float actionAmountFloat;
 	public int actionAmountInt;
+	public System.Type actionType;
 }
