@@ -20,7 +20,7 @@ public class UnitActingQueue : MonoBehaviour {
 	/// Adds to unit acting queue.
 	/// </summary>
 	public void addToUnitActing(UnitScript currentlySelectedUnit) {
-		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>(); 		
+		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>();
 		temp.transform.SetParent(currentProgramStartPosition);
 		//Each unit acting image is 50f apart.
 		temp.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);

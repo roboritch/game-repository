@@ -5,7 +5,8 @@ using System.Collections;
 public class AttackScript : ActionScript{
 
 	public AttackScript (UnitScript u) : base (u){
-	
+		actionTime = 0.5f;
+		attackStrength = unit.getAttackPower();
 	}
 
 	#region attack strength and location
@@ -53,14 +54,14 @@ public class AttackScript : ActionScript{
 	#endregion
 
 	/// <summary>
-  /// Perform this action when called by the unit's action list.
-  /// </summary>
+	/// Perform this action when called by the unit's action list.
+	/// </summary>
 	public override void act(){
 		if(attackLocation != null)
 		if (attackLocation.unitInstalled != null){
 			attackLocation.unitInstalled.removeBlock(attackStrength);
 		}
-		
+		removeActionRepresentationDisplay();
 	}
 
 	#region user display
@@ -89,19 +90,20 @@ public class AttackScript : ActionScript{
 	}
 
 	public void setPosibleAttackLocations(){
-		unit.getAttackLocations();
+		posibleAttackLocations = unit.getAttackLocations();
 	}
 
 	#endregion
 
 	private void checkAndDisplayPossibleUserActions(){
 		for (int i = 0; i < posibleAttackLocations.Length; i++) {
-			posibleAttackLocations[i].attackActionWantsToAttackHere(this);
+			posibleAttackLocations[i].attackActionWantsToAttackHere(this,unit);
 		}
 	}
 		
 
 	public override void removeUserSelectionDisplay () {
+		if(posibleAttackLocations != null)
 		for (int i = 0; i < posibleAttackLocations.Length; i++) {
 			posibleAttackLocations[i].removeAttackDisplayForThis();
 		}
@@ -113,7 +115,6 @@ public class AttackScript : ActionScript{
 	private int actionDisplayID = -1; //for when enamy actions are loaded
 	public override void displayFinishedAction () {
 		actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
-		unit.useAttackAction();
 	}
 
 	/// <summary>
@@ -128,9 +129,11 @@ public class AttackScript : ActionScript{
 
 
 	public override void userSelectedAction (GridBlock blockSelected) {
-		removeUserSelectionDisplay();
-		attackLocation = blockSelected;
-		displayFinishedAction();
+		removeUserSelectionDisplay(); // remove the selection display
+		attackLocation = blockSelected; // set attack location
+		displayFinishedAction(); // display the finished action
+		unit.addActionToQueue(this); // add the action to the queue
+		unit.useAttackAction(); //the unit can no longer attack
 	}
 
 	#region action Save And Load
