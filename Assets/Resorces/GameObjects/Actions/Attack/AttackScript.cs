@@ -73,7 +73,7 @@ public class AttackScript : ActionScript{
 			Debug.Log("no attack actions remaning");
 			return;
 		}
-
+		setPosibleAttackLocations();
 		checkAndDisplayPossibleUserActions();
 	}
 
@@ -87,6 +87,11 @@ public class AttackScript : ActionScript{
 	public void setPosibleAttackLocations(GridBlock[] attackLocations){
 		posibleAttackLocations = attackLocations;
 	}
+
+	public void setPosibleAttackLocations(){
+		unit.getAttackLocations();
+	}
+
 	#endregion
 
 	private void checkAndDisplayPossibleUserActions(){
