@@ -13,6 +13,7 @@ public class UnitScript : MonoBehaviour {
 	public GridBlock virtualBlockHead;
 	/// <summary>Maximum amount of unit blocks.</summary>
 	private int maxProgramLength;
+	#pragma warning disable
 	/// <summary>The unit info.</summary>
 	[SerializeField] private UnitInformationStruct unitInfo;
 	/// <summary>The grid the unit is on (the level).</summary>
@@ -44,7 +45,11 @@ public class UnitScript : MonoBehaviour {
 	#region Unit Size Management
 
 	public GridBlock getCurrentBlockHeadLocation() {
+		if(blockList.First == null){
+			return null;
+		}
 		return blockList.First.Value;
+	
 	}
 
 	public GridBlock getVirtualBlockHeadLocation() {
@@ -93,6 +98,7 @@ public class UnitScript : MonoBehaviour {
 		return movedSuccess;
 	}
 
+	#region block removall
 	/// <summary>
 	/// Remove one block from this unit, destroying it if all blocks are removed.
 	/// </summary>
@@ -107,21 +113,23 @@ public class UnitScript : MonoBehaviour {
 	/// <returns>Whether the unit was destroyed.</returns>
 	/// <param name="amount">The amount of blocks to remove.</param>
 	public virtual bool removeBlock(int amount) {
-		//check if unit will be destroyed by amount of blocks removed
-		if(amount >= getLength()) {
-			//destroy the unit
-			destroyUnit();
-			return true;
-		} else {
 			//remove the given amount of blocks
-			for(int i = 0; i < amount; i++){
-				blockList.Last.Value.unitInstalled = null;
-				blockList.Last.Value.spriteDisplayScript.updateUnitSprite();
-				blockList.RemoveLast();
+		for(int i = 0; i < amount; i++){
+			if(blockList.Last == null){
+				destroyUnit();
+				return true;
 			}
+			GridBlock tempBlock = blockList.Last.Value;
+			tempBlock.unitInstalled = null;
+			checkAllDisplay();
+			blockList.RemoveLast();
 		}
 		return false;
 	}
+		
+
+	#endregion
+
 
 	/// <summary>
 	/// Called when the grid block creates the unit.
@@ -134,6 +142,8 @@ public class UnitScript : MonoBehaviour {
 		maxProgramLength = unitInfo.maxLength;
 		maximumMovment = unitInfo.maxMove;
 		movmentActionsRemaning = maximumMovment;
+		currentAttacksRemaning = unitInfo.maxAttackActions;
+		currentAttackPower = unitInfo.attackPow;
 
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
@@ -232,7 +242,18 @@ public class UnitScript : MonoBehaviour {
 		}
 	}
 
-	public ActionScript tempAction;
+	private ActionScript tempAction;
+	public void setTempAction(ActionScript action,bool displayUserSelection){
+		if(tempAction != null){
+			tempAction.removeUserSelectionDisplay();
+		}	
+		tempAction = action;
+		if(displayUserSelection){
+			tempAction.displayUserSelection();
+		}
+
+	}
+
 	public void removeUserSelectionDisplay(){
 		if(tempAction != null)
 			tempAction.removeUserSelectionDisplay();
@@ -334,9 +355,12 @@ public class UnitScript : MonoBehaviour {
 	[SerializeField] private GridLocation[] attackLocations;
 	public GridBlock[] getAttackLocations(){
 		GridBlock[] x = new GridBlock[attackLocations.Length];
-		foreach(var item in attackLocations) {
-			x = grid.gridLocationToGameGrid(item);
+
+		for (int i = 0; i < attackLocations.Length; i++) {
+			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridlocation + attackLocations[i]);
 		}
+
+		return x;
 	}
 
 	/// <summary>
@@ -361,6 +385,11 @@ public class UnitScript : MonoBehaviour {
 
 	public void addAttackAction(int amount){
 		currentAttacksRemaning += amount;
+	}
+
+	private int currentAttackPower;
+	public int getAttackPower(){
+		return currentAttackPower;
 	}
 
 	#endregion
@@ -430,9 +459,11 @@ public class UnitScript : MonoBehaviour {
 
 	#region unit destruction
 	/// <summary> Destroys the unit. </summary>
-	public void destroyUnit() {
+	protected void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
-		getCurrentBlockHeadLocation().removeUnit();
+		if(getCurrentBlockHeadLocation() != null){
+			getCurrentBlockHeadLocation().removeUnit();	
+		}
 		if(grid.gui.getCurUnit() == this){
 			grid.gui.setSelectedUnit(null);
 		}
@@ -446,4 +477,12 @@ public struct UnitTimer{
 	public float time;
 	public float maxTime;
 	public float ticAmount;
+}
+
+public struct UnitSaving{
+	public int currentMaxLength;
+	public int currentMaxMove;
+	public int currentAttackPow;
+	public int currentMaxAttackActions;
+	public UnitTimer currentUnitTimer; //be carful when syncing time with network
 }

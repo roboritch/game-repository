@@ -46,7 +46,8 @@ MonoBehaviour:
     unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
     maxLength: 3
     maxMove: 2
-    attackPow: 1
+    attackPow: 2
+    maxAttackActions: 1
     unitTimer:
       time: 0
       maxTime: 5
@@ -55,6 +56,15 @@ MonoBehaviour:
   buttonPrefabs:
   - {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
   - {fileID: 171478, guid: a78e9e4f88168a746be87f9175588765, type: 2}
+  attackLocations:
+  - x: 1
+    y: 0
+  - x: -1
+    y: 0
+  - x: 0
+    y: 1
+  - x: 0
+    y: -1
   readyToAct: 0
 --- !u!1001 &100100000
 Prefab:
@@ -66,6 +76,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: buttonPrefabs.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: headSprite
@@ -156,12 +170,32 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: unitInfo.attackPow
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: buttonPrefabs.Array.data[1]
       value: 
       objectReference: {fileID: 171478, guid: a78e9e4f88168a746be87f9175588765, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.maxAttackActions
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[0].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[1].x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[2].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[3].y
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184858}

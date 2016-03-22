@@ -133,7 +133,6 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkConection() {
 		if(attachedGridBlock.unitInstalled == null) {
-			Debug.LogWarning("This block has no program to check connections on.");
 			return;
 		}
 
@@ -221,6 +220,10 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		int actionID = 0;
 		while(actionUsed[actionID]) {
 			actionID++;
+			if(actionID > actionUsed.Length){
+				Debug.LogError("too meny actions on this block");
+				return -1;
+			}
 		}
 		actionSprites[actionID].setSprite(aS);
 		actionUsed[actionID] = true;

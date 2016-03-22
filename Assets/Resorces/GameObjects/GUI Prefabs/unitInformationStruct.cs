@@ -9,5 +9,6 @@ public struct UnitInformationStruct {
 	public int maxLength;
 	public int maxMove;
 	public int attackPow;
+	public int maxAttackActions;
 	public UnitTimer unitTimer;
 }

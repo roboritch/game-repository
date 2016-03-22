@@ -146,9 +146,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
 		//set the buttons up in the GUI for the installed unit when this grid block is selected
 		//all prev buttons are removed when this method is called
-		if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-			gridManager.gui.setSelectedUnit(unitInstalled);
-		}
 
 		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
 		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
@@ -163,8 +160,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);	
+		}else if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(unitInstalled);
 		}
-
 		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
 		//			gridManager.gui.setUnitAsSelected (null);
 		//		}
@@ -174,10 +172,14 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
 	#region attack handling
 	private int attackActionID = -1;
-	public void attackActionWantsToAttackHere(AttackScript attack){
-		if(unitInstalled != null){
-			attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
-			actionWaitingForUserInput = attack;
+	public void attackActionWantsToAttackHere(AttackScript attack,UnitScript unitAttacking){
+		if(unitInstalled != null && unitInstalled != unitAttacking){ // unit can't attack nothing or itself
+			if(attackActionID == -1){
+				attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
+				actionWaitingForUserInput = attack;
+			}else{
+				Debug.Log("attack action already displayed");
+			}
 		}
 	}
 
@@ -325,6 +327,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 /// implements ==, != and = operations
 /// </summary>
 #pragma warning disable
+[System.Serializable]
 public struct GridLocation{
   /// <summary>X coordinate of grid location.</summary>
   public int x;
