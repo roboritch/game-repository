@@ -330,6 +330,16 @@ public class UnitScript : MonoBehaviour {
 	#endregion
 
 	#region attack stats
+	/// <summary> The attack locations, 0,0 is the unit 1,0 is the block to the right ext. </summary>
+	[SerializeField] private GridLocation[] attackLocations;
+	public GridBlock[] getAttackLocations(){
+		GridBlock[] x = new GridBlock[attackLocations.Length];
+		foreach(var item in attackLocations) {
+			x = grid.gridLocationToGameGrid(item);
+		}
+
+	}
+
 	/// <summary>
 	/// The current attacks remaning for the current action queue.
 	/// </summary>

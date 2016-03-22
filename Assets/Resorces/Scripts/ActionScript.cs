@@ -69,7 +69,6 @@ public abstract class ActionScript{
 [System.Serializable]
 public struct SerializedCompeatedAction{
 	public GridLocation locationToPreformAction;
-	public float actionAmountFloat;
 	public int actionAmountInt;
 	public System.Type actionType;
 }

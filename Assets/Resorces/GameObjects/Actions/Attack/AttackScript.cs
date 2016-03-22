@@ -73,6 +73,7 @@ public class AttackScript : ActionScript{
 			Debug.Log("no attack actions remaning");
 			return;
 		}
+
 		checkAndDisplayPossibleUserActions();
 	}
 
@@ -129,14 +130,15 @@ public class AttackScript : ActionScript{
 
 	#region action Save And Load
 	public override void loadAction (SerializedCompeatedAction s) {
-		
+		attackStrength = s.actionAmountInt;
+		attackLocation = unit.grid.gridLocationToGameGrid(s.locationToPreformAction);
 	}
 
 	public override SerializedCompeatedAction serializeAction () {
 		SerializedCompeatedAction compleatedActionSave = new SerializedCompeatedAction();
 		compleatedActionSave.actionAmountInt = attackStrength;
 		compleatedActionSave.locationToPreformAction = attackLocation.gridlocation;
-		compleatedActionSave.actionType = AttackScript;
+		compleatedActionSave.actionType = typeof(AttackScript);
 		return compleatedActionSave;
 	}
 	#endregion
