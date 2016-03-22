@@ -9,6 +9,10 @@ public class CreatePlayGrid : MonoBehaviour {
 	public Transform gridStartPoint;
 	public int gridSize;
 	public GridBlock[,] gameGrid;
+	public GridBlock gridLocationToGameGrid(GridLocation gl){
+		return gameGrid[gl.x,gl.y];
+	}
+
 
 	public GUIScript gui;
 

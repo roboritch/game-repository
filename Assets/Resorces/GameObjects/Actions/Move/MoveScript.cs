@@ -87,7 +87,7 @@ public class MoveScript : ActionScript {
 
 	#region action save and load
 	public override void loadAction (SerializedCompeatedAction s) {
-		locationToPreformAction = unit.grid.gameGrid[s.locationToPreformAction.x,s.locationToPreformAction.y];
+		locationToPreformAction = unit.grid.gridLocationToGameGrid(s.locationToPreformAction);
 	}
 
 	public override SerializedCompeatedAction serializeAction () {
@@ -96,6 +96,7 @@ public class MoveScript : ActionScript {
 		}
 		SerializedCompeatedAction temp = new SerializedCompeatedAction();
 		temp.locationToPreformAction = locationToPreformAction.gridlocation;
+		temp.actionType = typeof(MoveScript);
 		return temp;
 	}
 	#endregion
