@@ -337,7 +337,6 @@ public class UnitScript : MonoBehaviour {
 		foreach(var item in attackLocations) {
 			x = grid.gridLocationToGameGrid(item);
 		}
-
 	}
 
 	/// <summary>
