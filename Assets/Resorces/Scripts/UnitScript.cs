@@ -98,7 +98,7 @@ public class UnitScript : MonoBehaviour {
 		return movedSuccess;
 	}
 
-	#region block removall
+	#region block removal
 	/// <summary>
 	/// Remove one block from this unit, destroying it if all blocks are removed.
 	/// </summary>
@@ -126,8 +126,14 @@ public class UnitScript : MonoBehaviour {
 		}
 		return false;
 	}
-		
 
+	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
+	public void queueBlockRemoval(int numberOfBlocksToRemove,float timeInterval_s){
+		float removalSection = timeInterval_s/(float)numberOfBlocksToRemove;
+		for (int i = 1; i < numberOfBlocksToRemove+1; i++) {
+			Invoke("removeBlock",(float)(i) * removalSection);
+		}
+	}
 	#endregion
 
 
@@ -142,7 +148,8 @@ public class UnitScript : MonoBehaviour {
 		maxProgramLength = unitInfo.maxLength;
 		maximumMovment = unitInfo.maxMove;
 		movmentActionsRemaning = maximumMovment;
-		currentAttacksRemaning = unitInfo.maxAttackActions;
+		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
+		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 
 		blockList.AddLast(startLocation);
@@ -150,8 +157,9 @@ public class UnitScript : MonoBehaviour {
 		Invoke("checkAllDisplay",spawnTime);
 	}
 		
+	//each unit spawn must have it's colour set by this script
 	private float spawnAnimation(){
-		GameObject animationObj = Instantiate(grid.animations.unitSpawn) as GameObject;
+		GameObject animationObj = Instantiate(grid.getAnimation("unit spawn")) as GameObject; // be carfull changing Names!
 		animationObj.transform.SetParent(getCurrentBlockHeadLocation().transform,true);
 		animationObj.transform.localPosition = new Vector3();
 		SquareParticleFill anim = animationObj.GetComponent<SquareParticleFill>();
@@ -285,11 +293,12 @@ public class UnitScript : MonoBehaviour {
 		action.act();
 		actionList.RemoveFirst();
 		if(actionList.First != null){ // only preform another action if there is one
-			getReadyToPreformAnotherAction(action.getActionTime());
+			getReadyToPreformAnotherAction(action.getActionTime()); //what for the current actions animation to finish
 		}else{
 			//TODO send info that this unit is done acting
 			isActing = false;
 			startTimerTick();
+			resetActionQueue(false); 
 			grid.gui.unitIsDoneActing(this);
 		}
 	}
@@ -315,12 +324,19 @@ public class UnitScript : MonoBehaviour {
 		actionList.AddLast(action);
 	}
 
-	public void resetActionQueue() {
+	/// <summary>
+	/// Resets the action queue and the maximum alowed move and attack actions.
+	/// </summary>
+	public void resetActionQueue(bool overRideIsActing){
+		if(!overRideIsActing && isActing)
+			return;
 		foreach(ActionScript actions in actionList) {
 			actions.removeActionRepresentationDisplay();
 		}
 		actionList.Clear();
 		virtualBlockHead = null;
+		resetAttackActionsToCurrentMax();
+		resetMovmentActionsToCurrentMax();
 	}
 
 	public int getNumberOfActionsInQueue(){
@@ -332,6 +348,10 @@ public class UnitScript : MonoBehaviour {
 	#region movment stats
 	private int maximumMovment;
 	private int movmentActionsRemaning;
+	private void resetMovmentActionsToCurrentMax(){
+		movmentActionsRemaning = maximumMovment;
+	}
+
 	public int getMaximumMovment(){
 		return maximumMovment;
 	}
@@ -346,6 +366,12 @@ public class UnitScript : MonoBehaviour {
 
 	public int movmentRemaning(){
 		return movmentActionsRemaning;
+	}
+
+	//TODO unit movment animation
+	public void displayUnitMovementAnimation(GridBlock location){
+		GameObject moveAnimation = Instantiate(grid.getAnimation("unit move")); 
+		//TODO setDirection and color of unit movment
 	}
 
 	#endregion
@@ -367,6 +393,11 @@ public class UnitScript : MonoBehaviour {
 	/// The current attacks remaning for the current action queue.
 	/// </summary>
 	private int currentAttacksRemaning;
+	private int currentMaxPosibleAttackActions;
+	private void resetAttackActionsToCurrentMax(){
+		currentAttacksRemaning = currentMaxPosibleAttackActions;
+	}
+
 	public int attacksRemaning(){
 		return currentAttacksRemaning;
 	}
@@ -457,10 +488,23 @@ public class UnitScript : MonoBehaviour {
 
 	}
 
+	/// <summary>
+	/// actions can't Instantiate so this allows them to do animations
+	/// themselves without adding a buch of extra code to UnitScript.
+	/// </summary>
+	/// <returns>a new instance of the prefab.</returns>
+	/// <param name="prefab">Prefab.</param>
+	public GameObject instantiationHelper(GameObject prefab){
+		return Instantiate(prefab) as GameObject;
+	}
+
 	#region unit destruction
 	/// <summary> Destroys the unit. </summary>
 	protected void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
+		if(tempAction != null)
+		tempAction.removeUserSelectionDisplay();
+		resetActionQueue(true);
 		if(getCurrentBlockHeadLocation() != null){
 			getCurrentBlockHeadLocation().removeUnit();	
 		}

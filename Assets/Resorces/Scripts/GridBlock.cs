@@ -26,6 +26,15 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   public Collider gridBlockCollider;
 
+	public bool isAdj(GridBlock blk){
+		if(blk == up || blk == down || blk == left || blk == right){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
 	public GridBlock getAdj(int dir){
 		if(dir == (int)Direction.UP){
 			return up;
