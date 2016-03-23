@@ -150,7 +150,7 @@ public class GUIScript : MonoBehaviour {
 
 	public void resetUnitAction() {
 		if(currentlySelectedUnit != null)
-			currentlySelectedUnit.resetActionQueue();
+			currentlySelectedUnit.resetActionQueue(false);
 	}
 
 	#endregion

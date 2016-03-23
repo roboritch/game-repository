@@ -26,7 +26,7 @@ public class MoveScript : ActionScript {
 		bool itMoved = unit.addBlock(locationToPreformAction,false);
 		removeActionRepresentationDisplay();
 		if(itMoved == false){
-			unit.resetActionQueue();
+			unit.resetActionQueue(true);
 			Debug.Log("Unit crashed, remaning actions dumped");
 		}
 	}

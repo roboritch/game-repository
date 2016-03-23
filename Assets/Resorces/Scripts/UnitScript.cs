@@ -298,7 +298,7 @@ public class UnitScript : MonoBehaviour {
 			//TODO send info that this unit is done acting
 			isActing = false;
 			startTimerTick();
-			resetActionQueue(); 
+			resetActionQueue(false); 
 			grid.gui.unitIsDoneActing(this);
 		}
 	}
@@ -327,7 +327,9 @@ public class UnitScript : MonoBehaviour {
 	/// <summary>
 	/// Resets the action queue and the maximum alowed move and attack actions.
 	/// </summary>
-	public void resetActionQueue() {
+	public void resetActionQueue(bool overRideIsActing){
+		if(!overRideIsActing && isActing)
+			return;
 		foreach(ActionScript actions in actionList) {
 			actions.removeActionRepresentationDisplay();
 		}
@@ -502,7 +504,7 @@ public class UnitScript : MonoBehaviour {
 		//TODO make sure there are no refrences to this unit before it is destroyed
 		if(tempAction != null)
 		tempAction.removeUserSelectionDisplay();
-		resetActionQueue();
+		resetActionQueue(true);
 		if(getCurrentBlockHeadLocation() != null){
 			getCurrentBlockHeadLocation().removeUnit();	
 		}
