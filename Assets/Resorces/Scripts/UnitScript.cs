@@ -461,6 +461,8 @@ public class UnitScript : MonoBehaviour {
 	/// <summary> Destroys the unit. </summary>
 	protected void destroyUnit() {
 		//TODO make sure there are no refrences to this unit before it is destroyed
+		tempAction.removeUserSelectionDisplay();
+		resetActionQueue();
 		if(getCurrentBlockHeadLocation() != null){
 			getCurrentBlockHeadLocation().removeUnit();	
 		}
