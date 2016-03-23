@@ -15,6 +15,7 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 	}
 
 	#region pulse
+	#pragma warning disable
 	[SerializeField] private float particleSpeedup;
 	private void increaseVortexStrength(){
 		int pNumb;
@@ -137,8 +138,7 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 
 	}
 
-
-	private float foundAnimationTime = 0.0f; //UNDONE this must be found and set
+	private float foundAnimationTime = 2f; //UNDONE this must be found and set
 	public float getAnimationTime (){
 		return foundAnimationTime;
 	}

@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 483828}
-  - 114: {fileID: 11495450}
+  - 114: {fileID: 11471896}
   m_Layer: 0
   m_Name: 01 system
   m_TagString: Untagged
@@ -89,7 +89,7 @@ Transform:
   - {fileID: 443732}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11495450
+--- !u!114 &11471896
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -97,12 +97,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 164100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f27801181b8243b499f288d89b8fb792, type: 3}
+  m_Script: {fileID: 11500000, guid: 45091b5339e98d04ca21db08dd437598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystem1: {fileID: 19892566}
-  particleSystem2: {fileID: 19855780}
-  emitionRateInSecond: 0.1
+  particleSpeedup: 1
 --- !u!198 &19855780
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3198,6 +3196,10 @@ Prefab:
       propertyPath: particleSystem2
       value: 
       objectReference: {fileID: 19855780}
+    - target: {fileID: 0}
+      propertyPath: particleSpeedup
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164100}

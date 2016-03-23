@@ -1,10 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Utility
-{
-    public class TimedObjectDestructor : MonoBehaviour
-    {
+public class TimedObjectDestructor : MonoBehaviour, IGetAnimationTimeToFin {
         [SerializeField] private float m_TimeOut = 1.0f;
         [SerializeField] private bool m_DetachChildren = false;
 
@@ -14,6 +11,12 @@ namespace UnityStandardAssets.Utility
             Invoke("DestroyNow", m_TimeOut);
         }
 
+	#region IGetAnimationTimeToFin implementation
+	public float getAnimationTime ()
+	{
+		return m_TimeOut;
+	}
+	#endregion
 
         private void DestroyNow()
         {
@@ -24,4 +27,3 @@ namespace UnityStandardAssets.Utility
             DestroyObject(gameObject);
         }
     }
-}

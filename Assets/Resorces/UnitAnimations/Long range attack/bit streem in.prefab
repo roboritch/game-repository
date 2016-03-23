@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37fac21d1f093d344816942d1abce94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TimeOut: 1
+  m_TimeOut: 2
   m_DetachChildren: 0
 --- !u!198 &19802042
 ParticleSystem:
@@ -51,7 +51,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185008}
   serializedVersion: 2
-  lengthInSec: 5
+  lengthInSec: 1.5
   startDelay:
     scalar: 0
     maxCurve:
@@ -89,7 +89,7 @@ ParticleSystem:
     minMaxState: 0
   speed: 1
   randomSeed: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1

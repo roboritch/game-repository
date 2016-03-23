@@ -2029,6 +2029,15 @@ MonoBehaviour:
   gridBlock: {fileID: 172680, guid: a7a9e18a8a100644b97259c44d90daf7, type: 2}
   gridStartPoint: {fileID: 1096941442}
   gridSize: 10
+  animationLibrarySetter:
+  - animationName: unit spawn
+    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
+  - animationName: close attack
+    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
+  - animationName: far attack out
+    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
+  - animationName: far attack in
+    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
   gui: {fileID: 602568644}
   unitObjectHolder: {fileID: 438301247}
   spritePrefab: {fileID: 194436, guid: 1dc88005f815d9542b0abff156a3632c, type: 2}
@@ -2049,8 +2058,6 @@ MonoBehaviour:
       type: 3}
     sprite_attack: {fileID: 21300000, guid: f463623e900a3714181bd5328cf8d496, type: 3}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
-  animations:
-    unitSpawn: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
   units:
   - unit: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
