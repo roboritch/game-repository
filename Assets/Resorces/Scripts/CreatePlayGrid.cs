@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Create play grid.
@@ -12,6 +13,30 @@ public class CreatePlayGrid : MonoBehaviour {
 	public GridBlock gridLocationToGameGrid(GridLocation gl){
 		return gameGrid[gl.x,gl.y];
 	}
+
+	#region animation library
+	#pragma warning disable
+	[SerializeField] private Animations[] animationLibrarySetter;
+	private Dictionary<string,GameObject> animationLibrary = new Dictionary<string, GameObject>(10);
+	private void animationLibrarySetup(){
+		for (int i = 0; i < animationLibrarySetter.Length; i++) {
+			animationLibrary.Add(animationLibrarySetter[i].animationName,animationLibrarySetter[i].animation);
+		}
+	}
+	/// <summary>
+	/// Animations the library.
+	/// </summary>
+	/// <returns>an uninitalized prefab for the animation. Null if no animation with that name exists</returns>
+	public GameObject getAnimation(string animationName){
+		GameObject animation;
+		bool getAnimationSuccess = animationLibrary.TryGetValue(animationName,out animation);
+		if(getAnimationSuccess){
+			return animation;
+		}else{
+			return null;
+		}
+	}
+	#endregion
 
 
 	public GUIScript gui;
@@ -30,9 +55,6 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
-	#region animations
-	public Animations animations;
-	#endregion
 
 	#region units
 
@@ -54,7 +76,7 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-
+		animationLibrarySetup();
 		/*
 		 * all grid spaces are represented by a game object
 		 * setup the game grid array */
@@ -156,6 +178,7 @@ public struct SpritesAndColors {
 #region animations
 [System.Serializable]
 public struct Animations {
-	public GameObject unitSpawn;
+	public string animationName;
+	public GameObject animation;
 }
 #endregion

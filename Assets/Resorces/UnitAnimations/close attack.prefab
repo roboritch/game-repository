@@ -12,9 +12,9 @@ GameObject:
   - 33: {fileID: 3378024}
   - 198: {fileID: 19849210}
   - 199: {fileID: 19949968}
-  - 114: {fileID: 11401856}
+  - 114: {fileID: 11450146}
   m_Layer: 0
-  m_Name: knife attack
+  m_Name: close attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,17 +65,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166528}
   m_Mesh: {fileID: 4300002, guid: ac190d439a86bef4cad1d85b45f46100, type: 3}
---- !u!114 &11401856
+--- !u!114 &11450146
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166528}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0f7549e01b9ab34dada95c3df791250, type: 3}
+  m_Script: {fileID: 11500000, guid: 37fac21d1f093d344816942d1abce94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TimeOut: 3
+  m_DetachChildren: 0
 --- !u!198 &19849210
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -83,7 +85,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166528}
   serializedVersion: 2
-  lengthInSec: 7
+  lengthInSec: 3
   startDelay:
     scalar: 0
     maxCurve:
@@ -121,7 +123,7 @@ ParticleSystem:
     minMaxState: 0
   speed: 1
   randomSeed: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
@@ -130,7 +132,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 3
+      scalar: 2.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -146,14 +148,14 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.6666667
+          value: 0.35714287
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-      minMaxState: 0
+      minMaxState: 3
     startSpeed:
       scalar: 1
       maxCurve:
@@ -1572,7 +1574,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166528}

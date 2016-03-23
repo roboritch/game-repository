@@ -150,7 +150,7 @@ public class GUIScript : MonoBehaviour {
 
 	public void resetUnitAction() {
 		if(currentlySelectedUnit != null)
-			currentlySelectedUnit.resetActionQueue();
+			currentlySelectedUnit.resetActionQueue(false);
 	}
 
 	#endregion
@@ -172,8 +172,6 @@ public class GUIScript : MonoBehaviour {
 	#region new unit selection
 
 	public UnitSelectionScript unitSelectionScript;
-
-
 
 	#endregion
 
@@ -201,7 +199,7 @@ public class GUIScript : MonoBehaviour {
 	#endregion
 
 	void Start(){
-		InvokeRepeating("updateTimer",0f,0.2f);
+		InvokeRepeating("updateTimer",0f,0.1f);
 		unitActingQueue = GetComponentInChildren<UnitActingQueue>();
 		if(timer == null){
 			timer = GameObject.Find("Unit Timer").GetComponent<TimerDisplay>();

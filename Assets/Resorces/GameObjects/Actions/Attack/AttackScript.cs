@@ -5,7 +5,6 @@ using System.Collections;
 public class AttackScript : ActionScript{
 
 	public AttackScript (UnitScript u) : base (u){
-		actionTime = 0.5f;
 		attackStrength = unit.getAttackPower();
 	}
 
@@ -57,12 +56,37 @@ public class AttackScript : ActionScript{
 	/// Perform this action when called by the unit's action list.
 	/// </summary>
 	public override void act(){
+		removeActionRepresentationDisplay();
 		if(attackLocation != null)
 		if (attackLocation.unitInstalled != null){
-			attackLocation.unitInstalled.removeBlock(attackStrength);
+			if(attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
+				displayCloseRangeAttackAnimation(attackLocation);
+				attackLocation.unitInstalled.queueBlockRemoval(attackStrength,actionTime); // must be called after the display
+			}else{
+				//displayLongRangeAttackAnimation();
+			}
+		}else{
+			Debug.Log("unit's block was removed before it could be attacked");
 		}
-		removeActionRepresentationDisplay();
 	}
+
+	private void displayCloseRangeAttackAnimation(GridBlock animationLocation){
+		GameObject closeAttack = unit.instantiationHelper(unit.grid.getAnimation("close attack"));
+		actionTime = closeAttack.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+		closeAttack.transform.SetParent(animationLocation.transform,false);
+		closeAttack.transform.localPosition = new Vector3();
+		closeAttack.transform.position = closeAttack.transform.position + new Vector3(0f,1f,0f);
+	}
+
+
+	//TODO long range attack animation not done
+	private void displayLongRangeAttackAnimation(GridBlock animationLocation){
+		GameObject farAttackOut = unit.grid.getAnimation("far attack out"); // diplayed on the units block
+		GameObject farAttackIn = unit.grid.getAnimation("far attack in"); // diplayed on the animationLocation
+		actionTime = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+		actionTime += farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+	}
+
 
 	#region user display
 	/// <summary>
