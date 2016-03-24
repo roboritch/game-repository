@@ -4,177 +4,188 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
-	public AttackScript (UnitScript u) : base (u){
-		attackStrength = unit.getAttackPower();
-	}
+  public AttackScript(UnitScript u)
+    : base(u){
+    attackStrength = unit.getAttackPower();
+  }
 
-	#region attack strength and location
-	/// <summary>
+  #region attack strength and location
+
+  /// <summary>
   /// The attack grid block location.
   /// </summary>
-	private GridBlock attackLocation;
+  private GridBlock attackLocation;
 
-	/// <summary>
- 	/// The attack strength; the number of blocks removed by this attack.
- 	/// </summary>
-	private int attackStrength = 0;
+  /// <summary>
+  /// The attack strength; the number of blocks removed by this attack.
+  /// </summary>
+  private int attackStrength = 0;
 
-	/// <summary>
-	 /// Sets the attack location.
- 	/// </summary>
- 	/// <param name="attackLocation">Attack location.</param>
-	private void setAttackLocation(GridBlock attackLocation){
-		this.attackLocation = attackLocation;
-	}
+  /// <summary>
+  /// Sets the attack location.
+  /// </summary>
+  /// <param name="attackLocation">Attack location.</param>
+  private void setAttackLocation(GridBlock attackLocation){
+    this.attackLocation = attackLocation;
+  }
 
-	/// <summary>
+  /// <summary>
   /// Gets the attack location.
   /// </summary>
   /// <returns>The attack location.</returns>
-	public GridBlock getAttackLocation(){
-		return attackLocation;
-	}
+  public GridBlock getAttackLocation(){
+    return attackLocation;
+  }
 
-	/// <summary>
+  /// <summary>
   /// Sets the attack strength.
   /// </summary>
   /// <param name="attackStrength">Attack strength.</param>
-	public void setAttackStrength(int attackStrength){
-		this.attackStrength = attackStrength;
-	}
+  public void setAttackStrength(int attackStrength){
+    this.attackStrength = attackStrength;
+  }
 
-	/// <summary>
+  /// <summary>
   /// Gets the attack strength.
   /// </summary>
   /// <returns>The attack strength.</returns>
-	public int getAttackStrength(){
-		return attackStrength;
-	}
-	#endregion
+  public int getAttackStrength(){
+    return attackStrength;
+  }
 
-	/// <summary>
-	/// Perform this action when called by the unit's action list.
-	/// </summary>
-	public override void act(){
-		removeActionRepresentationDisplay();
-		if(attackLocation != null)
-		if (attackLocation.unitInstalled != null){
-			if(attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
-				displayCloseRangeAttackAnimation(attackLocation);
-				attackLocation.unitInstalled.queueBlockRemoval(attackStrength,actionTime); // must be called after the display
-			}else{
-				//displayLongRangeAttackAnimation();
-				attackLocation.unitInstalled.removeBlock(attackStrength);
-			}
-		}else{
-			Debug.Log("unit's block was removed before it could be attacked");
-		}
-	}
+  #endregion
 
-	private void displayCloseRangeAttackAnimation(GridBlock animationLocation){
-		GameObject closeAttack = unit.instantiationHelper(unit.grid.getAnimation("close attack"));
-		actionTime = closeAttack.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
-		closeAttack.transform.SetParent(animationLocation.transform,false);
-		closeAttack.transform.localPosition = new Vector3();
-		closeAttack.transform.position = closeAttack.transform.position + new Vector3(0f,1f,0f);
-	}
+  /// <summary>
+  /// Perform this action when called by the unit's action list.
+  /// </summary>
+  public override void act(){
+    removeActionRepresentationDisplay();
+    if (attackLocation != null)
+    if (attackLocation.unitInstalled != null){
+      if (attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
+        displayCloseRangeAttackAnimation(attackLocation);
+        attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime); // must be called after the display
+      } else{
+        //displayLongRangeAttackAnimation();
+        attackLocation.unitInstalled.removeBlock(attackStrength);
+      }
+    } else{
+      Debug.Log("unit's block was removed before it could be attacked");
+    }
+  }
 
-
-	//TODO long range attack animation not done
-	private void displayLongRangeAttackAnimation(GridBlock animationLocation){
-		GameObject farAttackOut = unit.grid.getAnimation("far attack out"); // diplayed on the units block
-		GameObject farAttackIn = unit.grid.getAnimation("far attack in"); // diplayed on the animationLocation
-		actionTime = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
-		actionTime += farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
-	}
+  private void displayCloseRangeAttackAnimation(GridBlock animationLocation){
+    GameObject closeAttack = unit.instantiationHelper(unit.grid.getAnimation("close attack"));
+    actionTime = closeAttack.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+    closeAttack.transform.SetParent(animationLocation.transform, false);
+    closeAttack.transform.localPosition = new Vector3();
+    closeAttack.transform.position = closeAttack.transform.position + new Vector3(0f, 1f, 0f);
+  }
 
 
-	#region user display
-	/// <summary>
-	/// Calls the GUI to display this action on the game.
-	/// </summary>
-	/// <param name="gui">GUI.</param>
-	public override void displayUserSelection(){
-		if(unit.attacksRemaning() <= 0){
-			Debug.Log("no attack actions remaning");
-			return;
-		}
-		setPosibleAttackLocations();
-		checkAndDisplayPossibleUserActions();
-	}
-
-	#region set posible attack locations
-	private GridBlock[] posibleAttackLocations;
-	/// <summary>
-	/// Sets the posible attack locations.
-	/// Valid locations will be flound within this script
-	/// </summary>
-	/// <param name="attackLocations">Attack locations.</param>
-	public void setPosibleAttackLocations(GridBlock[] attackLocations){
-		posibleAttackLocations = attackLocations;
-	}
-
-	public void setPosibleAttackLocations(){
-		posibleAttackLocations = unit.getAttackLocations();
-	}
-
-	#endregion
-
-	private void checkAndDisplayPossibleUserActions(){
-		for (int i = 0; i < posibleAttackLocations.Length; i++) {
-			posibleAttackLocations[i].attackActionWantsToAttackHere(this,unit);
-		}
-	}
-		
-
-	public override void removeUserSelectionDisplay () {
-		if(posibleAttackLocations != null)
-		for (int i = 0; i < posibleAttackLocations.Length; i++) {
-			posibleAttackLocations[i].removeAttackDisplayForThis();
-		}
-	}
-
-	#endregion
-
-	#region finished action display
-	private int actionDisplayID = -1; //for when enamy actions are loaded
-	public override void displayFinishedAction () {
-		actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
-	}
-
-	/// <summary>
-	/// Calls this to get the GUI to remove all displayed images of this action.
-	/// </summary>
-	/// <param name="gui">GUI.</param>
-	public override void removeActionRepresentationDisplay(){
-		attackLocation.spriteDisplayScript.removeAction(actionDisplayID);
-		unit.addAttackAction();
-	}
-	#endregion 
+  //TODO long range attack animation not done
+  private void displayLongRangeAttackAnimation(GridBlock animationLocation){
+    GameObject farAttackOut = unit.grid.getAnimation("far attack out"); // diplayed on the units block
+    GameObject farAttackIn = unit.grid.getAnimation("far attack in"); // diplayed on the animationLocation
+    actionTime = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+    actionTime += farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+  }
 
 
-	public override void userSelectedAction (GridBlock blockSelected) {
-		removeUserSelectionDisplay(); // remove the selection display
-		attackLocation = blockSelected; // set attack location
-		displayFinishedAction(); // display the finished action
-		unit.addActionToQueue(this); // add the action to the queue
-		unit.useAttackAction(); //the unit can no longer attack
-	}
+  #region user display
 
-	#region action Save And Load
-	public override void loadAction (SerializedCompeatedAction s) {
-		attackStrength = s.actionAmountInt;
-		attackLocation = unit.grid.gridLocationToGameGrid(s.locationToPreformAction);
-	}
+  /// <summary>
+  /// Calls the GUI to display this action on the game.
+  /// </summary>
+  /// <param name="gui">GUI.</param>
+  public override void displayUserSelection(){
+    if (unit.attacksRemaning() <= 0){
+      Debug.Log("no attack actions remaning");
+      return;
+    }
+    setPosibleAttackLocations();
+    checkAndDisplayPossibleUserActions();
+  }
 
-	public override SerializedCompeatedAction serializeAction () {
-		SerializedCompeatedAction compleatedActionSave = new SerializedCompeatedAction();
-		compleatedActionSave.actionAmountInt = attackStrength;
-		compleatedActionSave.locationToPreformAction = attackLocation.gridlocation;
-		compleatedActionSave.actionType = typeof(AttackScript);
-		return compleatedActionSave;
-	}
-	#endregion
+  #region set posible attack locations
+
+  private GridBlock[] posibleAttackLocations;
+
+  /// <summary>
+  /// Sets the posible attack locations.
+  /// Valid locations will be flound within this script
+  /// </summary>
+  /// <param name="attackLocations">Attack locations.</param>
+  public void setPosibleAttackLocations(GridBlock[] attackLocations){
+    posibleAttackLocations = attackLocations;
+  }
+
+  public void setPosibleAttackLocations(){
+    posibleAttackLocations = unit.getAttackLocations();
+  }
+
+  #endregion
+
+  private void checkAndDisplayPossibleUserActions(){
+    for (int i = 0; i < posibleAttackLocations.Length; i++){
+      posibleAttackLocations[i].attackActionWantsToAttackHere(this, unit);
+    }
+  }
+
+
+  public override void removeUserSelectionDisplay(){
+    if (posibleAttackLocations != null)
+      for (int i = 0; i < posibleAttackLocations.Length; i++){
+        posibleAttackLocations[i].removeAttackDisplayForThis();
+      }
+  }
+
+  #endregion
+
+  #region finished action display
+
+  private int actionDisplayID = -1;
+  //for when enamy actions are loaded
+  public override void displayFinishedAction(){
+    actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
+  }
+
+  /// <summary>
+  /// Calls this to get the GUI to remove all displayed images of this action.
+  /// </summary>
+  /// <param name="gui">GUI.</param>
+  public override void removeActionRepresentationDisplay(){
+    attackLocation.spriteDisplayScript.removeAction(actionDisplayID);
+    unit.addAttackAction();
+  }
+
+  #endregion
+
+
+  public override void userSelectedAction(GridBlock blockSelected){
+    removeUserSelectionDisplay(); // remove the selection display
+    attackLocation = blockSelected; // set attack location
+    displayFinishedAction(); // display the finished action
+    unit.addActionToQueue(this); // add the action to the queue
+    unit.useAttackAction(); //the unit can no longer attack
+  }
+
+  #region action Save And Load
+
+  public override void loadAction(SerializedCompletedAction s){
+    attackStrength = s.actionAmountInt;
+    attackLocation = unit.grid.gridLocationToGameGrid(s.locationToPerformAction);
+  }
+
+  public override SerializedCompletedAction serializeAction(){
+    SerializedCompletedAction compleatedActionSave = new SerializedCompletedAction();
+    compleatedActionSave.actionAmountInt = attackStrength;
+    compleatedActionSave.locationToPerformAction = attackLocation.gridlocation;
+    compleatedActionSave.actionType = typeof(AttackScript);
+    return compleatedActionSave;
+  }
+
+  #endregion
 
 
 }

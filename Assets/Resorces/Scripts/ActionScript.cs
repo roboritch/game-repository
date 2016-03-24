@@ -60,20 +60,8 @@ public abstract class ActionScript{
   /// <param name="blockSelected">Block selected.</param>
   public abstract void userSelectedAction(GridBlock blockSelected);
 
-  public abstract SerializedCompeatedAction serializeAction();
+  public abstract SerializedCompletedAction serializeAction();
 
-  public abstract void loadAction(SerializedCompeatedAction s);
+  public abstract void loadAction(SerializedCompletedAction s);
 
-}
-
-/// <summary>
-/// Each action queue must be sent to the other players using serealizable information.
-/// each action must save and load there information using this struct.
-/// the unit preforming the action must be given to it when constructed.
-/// </summary>
-[System.Serializable]
-public struct SerializedCompeatedAction{
-  public GridLocation locationToPreformAction;
-  public int actionAmountInt;
-  public System.Type actionType;
 }
