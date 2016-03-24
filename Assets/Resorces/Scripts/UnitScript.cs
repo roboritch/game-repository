@@ -515,18 +515,3 @@ public class UnitScript : MonoBehaviour {
 	}
 	#endregion 
 }
-
-[System.Serializable]
-public struct UnitTimer{
-	public float time;
-	public float maxTime;
-	public float ticAmount;
-}
-
-public struct UnitSaving{
-	public int currentMaxLength;
-	public int currentMaxMove;
-	public int currentAttackPow;
-	public int currentMaxAttackActions;
-	public UnitTimer currentUnitTimer; //be carful when syncing time with network
-}
