@@ -39,7 +39,10 @@ public class UnitActingQueue : MonoBehaviour {
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(UnitScript currentUnit){
 		UnitActingScript temp = actingQueue.Dequeue();
-		temp.destroyThis();
+		if(temp != null){
+			temp.destroyThis();
+		}
+
 		if(actingQueue.Count != 0){
 			actingQueue.Peek().setCurrentlyActing();
 			int deactivatedItem = 0;
