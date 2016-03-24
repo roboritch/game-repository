@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 /// Can be online or offline (occupiable or not).
 /// Can be a spawn spot.
 /// </summary>
-public class GridBlock : MonoBehaviour,IPointerDownHandler {
+public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
   //Adjacent Blocks.
   /// <summary>Upper adjacent block.</summary>
@@ -49,28 +49,28 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
   //Attack attributes
   private int attackActionID = -1;
 
-	#region Adjacent Blocks
+  #region Adjacent Blocks
 
-	public bool isAdj(GridBlock blk){
-		if(blk == up || blk == down || blk == left || blk == right){
-			return true;
-		}else{
-			return false;
-		}
-	}
+  public bool isAdj(GridBlock blk){
+    if (blk == up || blk == down || blk == left || blk == right){
+      return true;
+    } else{
+      return false;
+    }
+  }
 
 
-	public GridBlock getAdj(int dir){
-		if(dir == (int)Direction.UP){
-			return up;
-		}else if(dir == (int)Direction.LEFT){
-			return left;
-		}else if(dir == (int)Direction.DOWN){
-			return down;
-		}else if(dir == (int)Direction.RIGHT){
-			return right;
-		}
-		return null;
+  public GridBlock getAdj(int dir){
+    if (dir == (int)Direction.UP){
+      return up;
+    } else if (dir == (int)Direction.LEFT){
+      return left;
+    } else if (dir == (int)Direction.DOWN){
+      return down;
+    } else if (dir == (int)Direction.RIGHT){
+      return right;
+    }
+    return null;
   }
 
   public GridBlock getAdj(Direction dir){
@@ -89,7 +89,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
   public void setAdj(Direction dir, GridBlock block){
     switch (dir){
       case Direction.UP:
-         up = block;
+        up = block;
         break;
       case Direction.DOWN:
         down = block;
@@ -112,18 +112,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 		 * correctly display the conections in a single program. */
   }
 
-	/// <summary>Sets the grid manager.</summary>
-	/// <value>The grid manager.</value>
-	public CreatePlayGrid GridManager {
-		set {
-			gridManager = value;
-		}
-	}
-    
-	#region Mouse Events
+  /// <summary>Sets the grid manager.</summary>
+  /// <value>The grid manager.</value>
+  public CreatePlayGrid GridManager {
+    set {
+      gridManager = value;
+    }
+  }
 
-	/// <summary>Raises the mouse down event.</summary>
-	void OnMouseDown(){ //TODO there could be a better way to handle these events
+  #region Mouse Events
+
+  /// <summary>Raises the mouse down event.</summary>
+  void OnMouseDown(){ //TODO there could be a better way to handle these events
 		
   }
 
@@ -134,65 +134,65 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-	#region IPointerDownHandler Implementation (Mouse Events)
+  #region IPointerDownHandler Implementation (Mouse Events)
 
-	// The GUI will now block clicks.
-	public void OnPointerDown (PointerEventData eventData)
-	{
-		if (gridManager.editModeOn && !gridManager.contextMenuUp){
-			Debug.Log("mouse down on grid block");
-			gridManager.contextMenuUp = true;
-			displayEditRightClickMenu();
-		}
+  // The GUI will now block clicks.
+  public void OnPointerDown(PointerEventData eventData){
+    if (gridManager.editModeOn && !gridManager.contextMenuUp){
+      Debug.Log("mouse down on grid block");
+      gridManager.contextMenuUp = true;
+      displayEditRightClickMenu();
+    }
 
-		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
-		//All previous buttons are removed when this method is called.
-		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
-		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
-			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-		}
-		if (actionWaitingForUserInput is MoveScript){
-			actionWaitingForUserInput.userSelectedAction(this);
-		}else if(actionWaitingForUserInput is AttackScript){
-			actionWaitingForUserInput.userSelectedAction(this);
-		}else if (unitInstalled == null && Input.GetMouseButton(0)){
-			if(gridManager.gui.getCurUnit() != null)
-				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-			gridManager.gui.setSelectedUnit(null);
+    //Set the buttons up in the GUI for the installed unit when this grid block is selected.
+    //All previous buttons are removed when this method is called.
+    //If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
+    if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+      gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+    }
+    if (actionWaitingForUserInput is MoveScript){
+      actionWaitingForUserInput.userSelectedAction(this);
+    } else if (actionWaitingForUserInput is AttackScript){
+      actionWaitingForUserInput.userSelectedAction(this);
+    } else if (unitInstalled == null && Input.GetMouseButton(0)){
+      if (gridManager.gui.getCurUnit() != null)
+        gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+      gridManager.gui.setSelectedUnit(null);
       //Only on left click.
-		}else if (unitInstalled != null && Input.GetMouseButton(0)){
-			gridManager.gui.setSelectedUnit(unitInstalled);
-		}
-		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-		//			gridManager.gui.setUnitAsSelected (null);
-		//		}
-	}
+    } else if (unitInstalled != null && Input.GetMouseButton(0)){
+      gridManager.gui.setSelectedUnit(unitInstalled);
+    }
+    //		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+    //			gridManager.gui.setUnitAsSelected (null);
+    //		}
+  }
 
-	#endregion
+  #endregion
 
-	#region Attack Handling
-	public void attackActionWantsToAttackHere(AttackScript attack,UnitScript unitAttacking){
+  #region Attack Handling
+
+  public void attackActionWantsToAttackHere(AttackScript attack, UnitScript unitAttacking){
     // Unit can't attack nothing or itself.
-		if(unitInstalled != null && unitInstalled != unitAttacking){
-			if(attackActionID == -1){
-				attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
-				actionWaitingForUserInput = attack;
-			}else{
-				Debug.Log("attack action already displayed");
-			}
-		}
-	}
+    if (unitInstalled != null && unitInstalled != unitAttacking){
+      if (attackActionID == -1){
+        attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
+        actionWaitingForUserInput = attack;
+      } else{
+        Debug.Log("attack action already displayed");
+      }
+    }
+  }
 
-	public void removeAttackDisplayForThis(){
-		spriteDisplayScript.removeAction(attackActionID);
-		attackActionID = -1;
-		actionWaitingForUserInput = null;
-	}
+  public void removeAttackDisplayForThis(){
+    spriteDisplayScript.removeAction(attackActionID);
+    attackActionID = -1;
+    actionWaitingForUserInput = null;
+  }
 
 
-	#endregion
+  #endregion
 
-	#region Edit Mode
+  #region Edit Mode
 
   /// <summary>Displays the edit right click menu.</summary>
   //UNDONE Display menu on right click.
@@ -249,7 +249,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
     }
     available = !available;
   }
-    
+
   /// <summary>Sets gridblock as a spawn spot.</summary>
   public void setSpawn(){
     //fail to set spawn if block is offline
@@ -273,37 +273,38 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-	#region Unit Control
+  #region Unit Control
 
- 	/// <summary>Spawns a given unit.</summary>
-	/// <param name="unit">Unit.</param>
-	public void spawnUnit(UnitScript unit){
-		unit.transform.position = new Vector3();
-		unit.transform.SetParent(gridManager.unitObjectHolder);
-		unitInstalled = unit;
-		unit.spawnUnit(gridManager, this);
-	}
+  /// <summary>Spawns a given unit.</summary>
+  /// <param name="unit">Unit.</param>
+  public void spawnUnit(UnitScript unit){
+    unit.transform.position = new Vector3();
+    unit.transform.SetParent(gridManager.unitObjectHolder);
+    unitInstalled = unit;
+    unit.spawnUnit(gridManager, this);
+  }
 
-	public void removeUnit(){
-		unitInstalled = null;
-	}
+  public void removeUnit(){
+    unitInstalled = null;
+  }
 
   #endregion
 
-	// Use this for initialization.
-	/// <summary>Start this instance.</summary>
-	void Start(){
-		gridBlockCollider = GetComponent<Collider>();
-		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
-	}
+  // Use this for initialization.
+  /// <summary>Start this instance.</summary>
+  void Start(){
+    gridBlockCollider = GetComponent<Collider>();
+    spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
+  }
 
-	// Update is called once per frame.
-	/// <summary>Update this instance.</summary>
-	void Update(){
+  // Update is called once per frame.
+  /// <summary>Update this instance.</summary>
+  void Update(){
 		
-	}
+  }
 
-	#region Sprite Controls
+  #region Sprite Controls
+
   /// <summary>Sets the sprite to default.</summary>
   private void setSpriteDefault(){
     transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
@@ -318,7 +319,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
   private void setSpriteNone(){
     transform.GetComponent<SpriteControler>().removeSprite();
   }
-	#endregion
+
+  #endregion
 }
 
 #region Grid Location
@@ -334,18 +336,18 @@ public struct GridLocation{
   /// <summary>Y coordinate of grid location.</summary>
   public int y;
 
-	public GridLocation(int xl,int yl){
-		x = xl;
-		y = yl;
-	}
+  public GridLocation(int xl, int yl){
+    x = xl;
+    y = yl;
+  }
 
-	public static GridLocation operator +(GridLocation a, GridLocation b){
-		return new GridLocation(a.x + b.x, a.y + b.y);
-	}
+  public static GridLocation operator +(GridLocation a, GridLocation b){
+    return new GridLocation(a.x + b.x, a.y + b.y);
+  }
 
-	public static GridLocation operator -(GridLocation a, GridLocation b){
-		return new GridLocation(a.x - b.x, a.y - b.y);
-	}
+  public static GridLocation operator -(GridLocation a, GridLocation b){
+    return new GridLocation(a.x - b.x, a.y - b.y);
+  }
 
   public static bool operator ==(GridLocation a, GridLocation b){
     return a.x == b.x && a.y == b.y;
@@ -359,8 +361,8 @@ public struct GridLocation{
 #endregion
 
 public enum Direction : int{
-	UP = 0,
-	DOWN = 2,
-	LEFT = 3,
-	RIGHT = 1
+  UP = 0,
+  DOWN = 2,
+  LEFT = 3,
+  RIGHT = 1
 }
