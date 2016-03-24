@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// Create play grid.
 /// This script also holds all prefabs and assent refrences since there is only one instance of this class.
 /// </summary>
-public class CreatePlayGrid : MonoBehaviour {
+public class CreatePlayGrid : MonoBehaviour{
   //Grid attributes.
   public GameObject gridBlock;
   public Transform gridStartPoint;
@@ -36,42 +36,45 @@ public class CreatePlayGrid : MonoBehaviour {
   private Dictionary<string,GameObject> animationLibrary = new Dictionary<string, GameObject>(10);
 
   public GridBlock gridLocationToGameGrid(GridLocation gl){
-    return gameGrid[gl.x,gl.y];
+    return gameGrid[gl.x, gl.y];
   }
 
   #region animation library
+
   private void animationLibrarySetup(){
-    for (int i = 0; i < animationLibrarySetter.Length; i++) {
-      animationLibrary.Add(animationLibrarySetter[i].animationName,animationLibrarySetter[i].animation);
+    for (int i = 0; i < animationLibrarySetter.Length; i++){
+      animationLibrary.Add(animationLibrarySetter[i].animationName, animationLibrarySetter[i].animation);
     }
   }
+
   /// <summary>
   /// Animations the library.
   /// </summary>
   /// <returns>an uninitalized prefab for the animation. Null if no animation with that name exists</returns>
   public GameObject getAnimation(string animationName){
     GameObject animation;
-    bool getAnimationSuccess = animationLibrary.TryGetValue(animationName,out animation);
-    if(getAnimationSuccess){
+    bool getAnimationSuccess = animationLibrary.TryGetValue(animationName, out animation);
+    if (getAnimationSuccess){
       return animation;
-    }else{
+    } else{
       return null;
     }
   }
+
   #endregion
 
   #region start
 
   // Use this for initialization
-  void Start() {
+  void Start(){
     animationLibrarySetup();
     /*
          * all grid spaces are represented by a game object
          * setup the game grid array */
     gameGrid = new GridBlock[gridSize, gridSize]; 
     GameObject tempObject;      
-    for(int x = 0; x < gridSize; x++) { //
-      for(int y = 0; y < gridSize; y++) {
+    for (int x = 0; x < gridSize; x++){ //
+      for (int y = 0; y < gridSize; y++){
         tempObject = Instantiate(gridBlock) as GameObject; // game objects must be 
         tempObject.name = "gridBlock " + x + "," + y; // set name for debuging
         tempObject.transform.position = gridStartPoint.position; // start the block relative to the master object
@@ -84,24 +87,24 @@ public class CreatePlayGrid : MonoBehaviour {
       }
     }
     //setup refrences from one grid block to another to improve unit interaction
-    for(int x = 0; x < gridSize; x++) {
-      for(int y = 0; y < gridSize; y++) {
-        if(y + 1 < gridSize) {
+    for (int x = 0; x < gridSize; x++){
+      for (int y = 0; y < gridSize; y++){
+        if (y + 1 < gridSize){
           gameGrid[x, y].setAdj(Direction.UP, gameGrid[x, y + 1]);
         }
-        if(y - 1 >= 0) {
+        if (y - 1 >= 0){
           gameGrid[x, y].setAdj(Direction.DOWN, gameGrid[x, y - 1]);
         }
-        if(x - 1 >= 0) {
+        if (x - 1 >= 0){
           gameGrid[x, y].setAdj(Direction.LEFT, gameGrid[x - 1, y]);
         }
-        if(x + 1 < gridSize) {
+        if (x + 1 < gridSize){
           gameGrid[x, y].setAdj(Direction.RIGHT, gameGrid[x + 1, y]);
         }
       }
     }
-    gameGrid[2,2].setSpawn(); // 2,2 is alwayes spawn for Debug
-    gameGrid[5,2].setSpawn();
+    gameGrid[2, 2].setSpawn(); // 2,2 is alwayes spawn for Debug
+    gameGrid[5, 2].setSpawn();
 
   }
 
@@ -112,11 +115,11 @@ public class CreatePlayGrid : MonoBehaviour {
   /// <summary>
   /// saves the level with a text file representation
   /// </summary>
-  public void saveLevel() { //UNDONE almost done, some file path errors
+  public void saveLevel(){ //UNDONE almost done, some file path errors
     string levelFile = "";
     levelFile += gridSize + "\n";
-    for(int x = 0; x < gridSize; x++) {
-      for(int y = 0; y < gridSize; y++) {
+    for (int x = 0; x < gridSize; x++){
+      for (int y = 0; y < gridSize; y++){
         levelFile += gameGrid[x, y].printSpaceState();
       }
       levelFile += "\n";
@@ -128,7 +131,7 @@ public class CreatePlayGrid : MonoBehaviour {
 
 
   // Update is called once per frame
-  void Update() {
+  void Update(){
 
   }
 }
@@ -138,7 +141,7 @@ public class CreatePlayGrid : MonoBehaviour {
 /// struct filled with all the sprites and colors
 /// </summary>
 [System.Serializable]
-public struct SpritesAndColors {
+public struct SpritesAndColors{
   public Sprite sprite_unit;
   public Sprite sprite_unitConecter;
 
@@ -162,7 +165,7 @@ public struct SpritesAndColors {
 
 #region animations
 [System.Serializable]
-public struct Animations {
+public struct Animations{
   public string animationName;
   public GameObject animation;
 }
