@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// struct filled with all the sprites and colors.
+/// Struct filled with all the sprites and colors.
 /// </summary>
 [System.Serializable]
 public struct SpritesAndColors{

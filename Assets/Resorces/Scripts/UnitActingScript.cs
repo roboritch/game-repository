@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Unit acting script.
-/// Many of these are controled by the game gui script
+/// Many of these are controlled by the game GUI script.
 /// </summary>
 public class UnitActingScript : MonoBehaviour {
 	#pragma warning disable
@@ -20,18 +20,18 @@ public class UnitActingScript : MonoBehaviour {
 
 	public void setCurrentlyActing() {
 		unit.startActing();
-		//TODO add some animation to show that this unit is acting 
+		//TODO Add some animation to show that this unit is acting.
 	}
 
 	public void setUnit(UnitScript u) {
 		unit = u;
 		unitColor.color = unit.getUnitColor();
 		unitHeadSprite.sprite = unit.getUnitHeadSprite();
-		//TODO set enamy using unit params
+		//TODO Set enemy using unit params.
 	}
 
 	/// <summary>
-	/// enable disable images
+	/// Enable or disable images.
 	/// </summary>
 	/// <param name="state">If set to <c>true</c> state.</param>
 	public void setVisible(bool state){
@@ -47,7 +47,7 @@ public class UnitActingScript : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// returns the unit attached to this script
+	/// Returns the unit attached to this script.
 	/// </summary>
 	/// <returns>The unit.</returns>
 	public UnitScript getUnit(){
