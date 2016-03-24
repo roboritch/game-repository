@@ -54,11 +54,12 @@ public class OptionsScript : MonoBehaviour {
 		stream = new FileStream(optionsFileLocation, FileMode.Open);
 		OptionsInfo container = (OptionsInfo)serializer.Deserialize(stream);
 		currentOptions = container;
-		stream.Close();
-		}catch(Exception ex){
+       stream.Close();
+       //}catch(Exception ex){
+       }catch{
 			if(stream != null)
 			stream.Close();
-			Debug.LogError(ex.ToString());
+			//Debug.LogError(ex.ToString());
 		}
 	}
 

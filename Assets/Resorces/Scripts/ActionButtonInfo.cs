@@ -5,20 +5,19 @@ using System.Collections;
 /// Action button info.
 /// All new actions must create their own child of this script.
 /// </summary>
-public class ActionButtonInfo : MonoBehaviour{
-	[SerializeField] protected string actionName;
-	[SerializeField] protected TextAsset discription;
-	/// <summary>
-	/// Gets the new instance of action.
-	/// The action type must be set through a new child of this object.
-	/// </summary>
-	/// <returns>The new instance of action.</returns>
-	public virtual ActionScript getNewInstanceOfAction(UnitScript unit){
-		throw new System.AccessViolationException("this should never be called");
-	}
-		
-	public string getDescriptionText(){
-		return discription.text;
-	}
+public abstract class ActionButtonInfo : MonoBehaviour{
+  [SerializeField] protected string actionName;
+  [SerializeField] protected TextAsset discription;
+
+  /// <summary>
+  /// Gets the new instance of action.
+  /// The action type must be set through a new child of this object.
+  /// </summary>
+  /// <returns>The new instance of action.</returns>
+  public abstract ActionScript getNewInstanceOfAction(UnitScript unit);
+
+  public string getDescriptionText(){
+    return discription.text;
+  }
 
 }
