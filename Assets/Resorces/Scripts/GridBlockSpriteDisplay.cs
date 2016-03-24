@@ -15,12 +15,12 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
 
   /// <summary>The info of this sprite.</summary>
   private CreatePlayGrid spriteInfo;
-  /*using gameObject.getComponent has a larger overhead than a direct refrence */
+  /*Using gameObject.getComponent has a larger overhead than a direct refrence. */
   /// <summary>The grid block of this sprite.</summary>
   private GridBlock attachedGridBlock;
   /// <summary>The connection location of this sprite.</summary>
   private float conectionLocation = 1f;
-  //TODO hard code this, this may nead to be changed
+  //TODO Hard code this, this may nead to be changed.
   private int MAX_ACTIONS_ON_THIS_BLOCK = 4;
 
   #endregion
@@ -46,7 +46,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
   #endregion
 
   //Movement display attributes.
-  //vars are complex read descriptions for more info
+  //Vars are complex read descriptions for more info.
   public SpriteControler[] movementDirections;
   /// <summary>
   /// Unit movment overlap.
@@ -93,7 +93,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
       movementDirections[x].transform.SetParent(transform);
       movementDirections[x].transform.localPosition = new Vector3(0, 0, 2.5f);
 
-      //rotating each movment arm
+      //Rotating each movement arm.
       Quaternion rot = movementDirections[x].transform.localRotation;
       rot.eulerAngles = new Vector3(0.0f, 0.0f, 90.0f * x); //UNDONE check to see if rotation is correct
       movementDirections[x].transform.localRotation = rot;
@@ -273,15 +273,16 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
     for (int i = 0; i < 4; i++){
       if (isGoingTo.getAdj(i) == cameFrom){
         moveArmOut = cameFrom.spriteDisplayScript.movementDirections[i];
+        // Faster than mod 4.
         i += 2;
         if (i > 3){
           i -= 4;
-        }// faster than mod 4
+        }
         moveArmIn = isGoingTo.spriteDisplayScript.movementDirections[i];
         break;
       }
     }
-    //TODO make move arm in add out visible using color.
+    //TODO Make move arm in add out visible using color.
     if (moveArmIn == null || moveArmOut == null){
       Debug.LogError("cameFrom and isGoingTo were not adjacent!\n" +
       "null was returned to the action");
@@ -335,6 +336,5 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
   // Update is called once per frame.
   /// <summary> Update this instance.</summary>
   void Update(){
-	
   }
 }

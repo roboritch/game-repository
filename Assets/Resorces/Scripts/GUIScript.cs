@@ -5,14 +5,39 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class GUIScript : MonoBehaviour {
-
-	#region unit selection and timer
-
+  //Selected unit and timer attributes.
   /// <summary>
   /// The currently selected unit.
   /// </summary>
-	private UnitScript currentlySelectedUnit;
-	private TimerDisplay timer;
+  private UnitScript currentlySelectedUnit;
+  private TimerDisplay timer;
+
+  //Button attributes.
+  public ActionButtonInfo[] actionButtonInfo;
+  //All this must be set in the inspector.
+  //If there are null pointer exeptions check the refrences in unity.
+  public Transform[] buttonLocations;
+  //Maximum number of buttons to set.
+  private int MAX_BUTTONS = 6;
+  public Button resetUnitActions;
+  #pragma warning disable
+  [SerializeField] private defaultTextHolder buttonDescription;
+
+  //Unit infromation text attributes.
+  //The currently selected unit will change these themselves.
+  public defaultTextHolder attack;
+  public defaultTextHolder currentSize;
+  public defaultTextHolder maxSize;
+  public defaultTextHolder moveActions;
+  public defaultTextHolder extraInfo1;
+  public defaultTextHolder extraInfo2;
+  public defaultTextHolder extraInfo3;
+  public UnitSelectionScript unitSelectionScript;
+
+  //Unit acting attributes.
+  private UnitActingQueue unitActingQueue;
+
+	#region Unit Selection and Timer
 
 	/// <summary>
 	/// Sets the unit as selected.
@@ -21,7 +46,8 @@ public class GUIScript : MonoBehaviour {
 	/// </summary>
 	/// <param name="u">Unit.</param>
 	public void setSelectedUnit(UnitScript u) {
-		if (currentlySelectedUnit != u) { //if another or no unit is selected
+    //If another or no unit is selected.
+		if (currentlySelectedUnit != u) {
 			currentlySelectedUnit = u;
 			if(u != null){
 				setButtons(u.getButtonPrefabs());
@@ -65,15 +91,7 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
-	#region buttons
-
-	public ActionButtonInfo[] actionButtonInfo;
-	//All this must be set in the inspector.
-	//If there are null pointer exeptions check the refrences in unity.
-	public Transform[] buttonLocations;
-	//Maximum number of buttons to set.
-	private int MAX_BUTTONS = 6;
-	public Button resetUnitActions;
+	#region Buttons
 
 	public void setButtons(GameObject[] buttonPrefabs) {
 		resetButton();
@@ -93,7 +111,8 @@ public class GUIScript : MonoBehaviour {
 			rt.sizeDelta = new Vector2();
 			rt.anchoredPosition = new Vector2();
 			rt.localScale = Vector3.one;
-			int localx = x; //this must be used or the last vertion of x will be called
+      //This must be used or the last vertion of x will be called.
+			int localx = x;
 
 			temp.GetComponent<Button>().onClick.AddListener(() => {
 				this.runDisplayForThisActionButton(localx);
@@ -101,14 +120,14 @@ public class GUIScript : MonoBehaviour {
 
 			#region display description event triggers
 			EventTrigger ET = temp.AddComponent<EventTrigger>();
-			//pointer enter
+			//Pointer enter.
 			EventTrigger.Entry entry = new EventTrigger.Entry();
 			entry.callback.AddListener(delegate {
 				dispayDescription(localx);	
 			});
 			entry.eventID = EventTriggerType.PointerEnter;
 			ET.triggers.Add(entry);
-			//pointer exit
+			//Pointer exit.
 			entry = new EventTrigger.Entry();
 			entry.callback.AddListener(delegate {
 				removeDescription(localx);	
@@ -118,8 +137,6 @@ public class GUIScript : MonoBehaviour {
 			#endregion
 		}
 	}
-	#pragma warning disable
-	[SerializeField] private defaultTextHolder buttonDescription;
 	private void dispayDescription(int ABINumber){
 		buttonDescription.addNewTextToDefalt(actionButtonInfo[ABINumber].getDescriptionText());
 	}
@@ -155,28 +172,7 @@ public class GUIScript : MonoBehaviour {
 
 	#endregion
 
-	#region unit infromation text vars
-
-	//The currently selected unit will change these themselves.
-	public defaultTextHolder attack;
-	public defaultTextHolder currentSize;
-	public defaultTextHolder maxSize;
-	public defaultTextHolder moveActions;
-	public defaultTextHolder extraInfo1;
-	public defaultTextHolder extraInfo2;
-	public defaultTextHolder extraInfo3;
-
-
-	#endregion
-
-	#region new unit selection
-
-	public UnitSelectionScript unitSelectionScript;
-
-	#endregion
-
-	#region unit action
-	private UnitActingQueue unitActingQueue;
+	#region Unit Action
 	public void userWantsUnitToAct(){ 
 		if(currentlySelectedUnit != null){
 			if(currentlySelectedUnit.getNumberOfActionsInQueue() !=0){
@@ -189,7 +185,8 @@ public class GUIScript : MonoBehaviour {
 				Debug.LogWarning("unit does not have any actions queued"); 
 			}
 		}else{
-			Debug.LogWarning("no unit selected"); //TODO give user feedback of this
+      //TODO Give user feedback of this
+			Debug.LogWarning("no unit selected");
 		}
 	}
 
@@ -207,7 +204,7 @@ public class GUIScript : MonoBehaviour {
 	}
 
 
-	// Update is called once per frame
+	// Update is called once per frame.
 	/// <summary>
 	/// Update this instance.
 	/// </summary>

@@ -12,9 +12,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
-
-	#region adjacent blocks
-
+  //Adjacent Blocks.
   /// <summary>Upper adjacent block.</summary>
   private GridBlock up;
   /// <summary>Lower adjacent block.</summary>
@@ -25,6 +23,33 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
   private GridBlock right;
 
   public Collider gridBlockCollider;
+
+  //Block properties.
+  /// <summary>Whether this block is a spawn spot.</summary>
+  [SerializeField] private bool spawnSpot = false;
+  /// <summary>Whether this block is an occupiable space.</summary>
+  [SerializeField] private bool available = true;
+
+  /// <summary>Sprite display for this block.</summary>
+  public GridBlockSpriteDisplay spriteDisplayScript;
+
+  //Block attributes.
+  /// <summary>The unit currently occupying this space.</summary>
+  public UnitScript unitInstalled;
+  /// <summary> The action waiting for user input on this block. </summary>
+  public ActionScript actionWaitingForUserInput;
+  /// <summary>The game's grid manager.</summary>
+  private CreatePlayGrid gridManager;
+  /// <summary>Collision box of this space.</summary>
+  private Collider2D selectionBox;
+
+  /// <summary>Location of this grid block on the play grid.</summary>
+  public GridLocation gridlocation;
+
+  //Attack attributes
+  private int attackActionID = -1;
+
+	#region Adjacent Blocks
 
 	public bool isAdj(GridBlock blk){
 		if(blk == up || blk == down || blk == left || blk == right){
@@ -80,40 +105,12 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-	#region block properties
-
-  /// <summary>Whether this block is a spawn spot.</summary>
-  [SerializeField] private bool spawnSpot = false;
-  /// <summary>Whether this block is an occupiable space.</summary>
-  [SerializeField] private bool available = true;
-
-  #endregion
-
-	#region sprites
-
-  /// <summary>Sprite display for this block.</summary>
-  public GridBlockSpriteDisplay spriteDisplayScript;
-
-  /// <summary>Display the conections.</summary>
+  /// <summary>Display the connections.</summary>
   /// <param name="unit">Unit.</param>
   void displayConections(UnitScript unit){
-    /*TODO call this every time a unit changes size or moves to 
-		 * correctily display the conections in a single program */
-		 
+    /*TODO Call this every time a unit changes size or moves to 
+		 * correctly display the conections in a single program. */
   }
-
-  #endregion
-
-	#region simple block vars
-
-	/// <summary>The unit currently occupying this space.</summary>
-	public UnitScript unitInstalled;
-	/// <summary> The action waiting for user input on this block. </summary>
-	public ActionScript actionWaitingForUserInput;
-	/// <summary>The game's grid manager.</summary>
-	private CreatePlayGrid gridManager;
-	/// <summary>Collision box of this space.</summary>
-	private Collider2D selectionBox;
 
 	/// <summary>Sets the grid manager.</summary>
 	/// <value>The grid manager.</value>
@@ -122,13 +119,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 			gridManager = value;
 		}
 	}
-
-  /// <summary>Location of this grid block on the play grid.</summary>
-  public GridLocation gridlocation;
-
-  #endregion
-
-	#region mouse events
+    
+	#region Mouse Events
 
 	/// <summary>Raises the mouse down event.</summary>
 	void OnMouseDown(){ //TODO there could be a better way to handle these events
@@ -142,9 +134,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   #endregion
 
-	#region IPointerDownHandler implementation (mouse events)
+	#region IPointerDownHandler Implementation (Mouse Events)
 
-	// the gui will  now block clicks
+	// The GUI will now block clicks.
 	public void OnPointerDown (PointerEventData eventData)
 	{
 		if (gridManager.editModeOn && !gridManager.contextMenuUp){
@@ -153,14 +145,12 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 			displayEditRightClickMenu();
 		}
 
-		//set the buttons up in the GUI for the installed unit when this grid block is selected
-		//all prev buttons are removed when this method is called
-
-		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
+		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
+		//All previous buttons are removed when this method is called.
+		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
 		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
-
 		if (actionWaitingForUserInput is MoveScript){
 			actionWaitingForUserInput.userSelectedAction(this);
 		}else if(actionWaitingForUserInput is AttackScript){
@@ -168,8 +158,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 		}else if (unitInstalled == null && Input.GetMouseButton(0)){
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-			gridManager.gui.setSelectedUnit(null);	
-		}else if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(null);
+      //Only on left click.
+		}else if (unitInstalled != null && Input.GetMouseButton(0)){
 			gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
@@ -179,10 +170,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
 	#endregion
 
-	#region attack handling
-	private int attackActionID = -1;
+	#region Attack Handling
 	public void attackActionWantsToAttackHere(AttackScript attack,UnitScript unitAttacking){
-		if(unitInstalled != null && unitInstalled != unitAttacking){ // unit can't attack nothing or itself
+    // Unit can't attack nothing or itself.
+		if(unitInstalled != null && unitInstalled != unitAttacking){
 			if(attackActionID == -1){
 				attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
 				actionWaitingForUserInput = attack;
@@ -201,10 +192,11 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
 	#endregion
 
-	#region edit mode
+	#region Edit Mode
 
   /// <summary>Displays the edit right click menu.</summary>
-  public void displayEditRightClickMenu(){ //UNDONE display menu on right click
+  //UNDONE Display menu on right click.
+  public void displayEditRightClickMenu(){
     GameObject contextMenu = Instantiate(gridManager.gridEditMenu) as GameObject;
     contextMenu.GetComponent<ContextCanvas>().space = this;
 
@@ -237,7 +229,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
     if (spawnSpot)
       return "o";
     return "x";
-    //TODO make level saver
+    //TODO Make level saver.
   }
 
   /// <summary>Toggle the online state of this block.</summary>
@@ -257,8 +249,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
     }
     available = !available;
   }
-
-
+    
   /// <summary>Sets gridblock as a spawn spot.</summary>
   public void setSpawn(){
     //fail to set spawn if block is offline
@@ -271,18 +262,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 
   /// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
   public void removeSpawn(){
-    //fail to remove spawn if block is offline
+    //Fail to remove spawn if block is offline.
     if (!available)
       return;
     spawnSpot = false;
-    //set default sprite
+    //Set default sprite.
     setSpriteDefault();
   }
 
 
   #endregion
 
-	#region unit control
+	#region Unit Control
 
  	/// <summary>Spawns a given unit.</summary>
 	/// <param name="unit">Unit.</param>
@@ -312,7 +303,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 		
 	}
 
-	#region sprite controles for this block
+	#region Sprite Controls
   /// <summary>Sets the sprite to default.</summary>
   private void setSpriteDefault(){
     transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
@@ -330,7 +321,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler {
 	#endregion
 }
 
-#region gridLocation
+#region Grid Location
 /// <summary>
 /// Grid location.
 /// implements ==, != and = operations
@@ -356,10 +347,6 @@ public struct GridLocation{
 		return new GridLocation(a.x - b.x, a.y - b.y);
 	}
 
-
-
-
-
   public static bool operator ==(GridLocation a, GridLocation b){
     return a.x == b.x && a.y == b.y;
   }
@@ -370,6 +357,7 @@ public struct GridLocation{
 
 }
 #endregion
+
 public enum Direction : int{
 	UP = 0,
 	DOWN = 2,
