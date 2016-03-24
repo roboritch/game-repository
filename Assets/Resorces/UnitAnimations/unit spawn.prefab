@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bd5a026f78cc845b9d396c7fa5df77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeFound: 2.5
   widthOfParticals: 8
   emissionRate: 20
   moveOverTimeMultiplyer: 1
@@ -1649,6 +1650,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeFound
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

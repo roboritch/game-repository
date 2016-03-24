@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SquareParticleFill : MonoBehaviour {
+public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 	/// <summary>
 	/// The Particle system, some peramiters are already setup in the prefab.
 	/// </summary>
@@ -34,21 +34,24 @@ public class SquareParticleFill : MonoBehaviour {
 
 	private bool timeHasBeenFound = false;
 	private float time = 0;
-	private float timeFound = 2.6f; // this is time for width 8
+	[SerializeField] private float timeFound = 2.6f; // this is time for width 8
 	void FixedUpdate(){
 		time += Time.fixedDeltaTime;
 	}
 
-	public float getTimeToCompleat(){
+	#region IGetAnimationTimeToFin implementation
+
+	public float getAnimationTime() {
 		return timeFound;
 	}
 
+	#endregion
+
 	#pragma warning disable
-	[SerializeField] private int widthOfParticals;
-	[SerializeField] private float emissionRate;
-	[SerializeField] private float moveOverTimeMultiplyer;
-	#pragma warning disable
-	[SerializeField] private float particleMoveAmount;
+	[SerializeField] private int widthOfParticals = 8;
+	[SerializeField] private float emissionRate = 20f;
+	[SerializeField] private float moveOverTimeMultiplyer = 1f;
+	[SerializeField] private float particleMoveAmount = 0.1f;
 	/// <summary>
 	/// Move all the alive particles to there positions on the unit
 	/// </summary>
@@ -90,7 +93,7 @@ public class SquareParticleFill : MonoBehaviour {
 	private ParticleSystem.Particle[] particles; // container for the particles in the system
 	private Vector3[,] endLocations; // end location of each particle
 
-	[SerializeField] private float offsetAmount;
+	[SerializeField] private float offsetAmount = 0.18f;
 	private void setParticleStartLocations(){
 		endLocations = new Vector3[widthOfParticals,widthOfParticals];
 		Vector3 particelStartLocation = new Vector3(); // bottem left partical of the unit

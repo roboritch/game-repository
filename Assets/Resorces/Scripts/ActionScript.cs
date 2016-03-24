@@ -33,14 +33,14 @@ public abstract class ActionScript{
 
 
 
-  /// <summary> Perform this action when called by the unit's action list. </summary>
-  public abstract void act();
+	/// <summary> Perform this action when called by the unit's action list. </summary>
+	public abstract void act();
 
-  /// <summary>The amount of time it takes to animate the unit preforming this action.</summary>
+	/// <summary>The amount of time it takes to animate the unit preforming this action.</summary>
   /// <returns>The time.</returns>
-  public virtual float getActionTime(){
+	public virtual float getActionTime(){
 		return actionTime;
-  }
+	}
 
 	/// <summary>Calls the GUI to display this action's posible outputs on the game. </summary>
 	public abstract void displayUserSelection();
@@ -69,6 +69,6 @@ public abstract class ActionScript{
 [System.Serializable]
 public struct SerializedCompeatedAction{
 	public GridLocation locationToPreformAction;
-	public float actionAmountFloat;
 	public int actionAmountInt;
+	public System.Type actionType;
 }

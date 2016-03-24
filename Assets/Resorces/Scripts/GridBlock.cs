@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Grid block belonging to the play grid.
@@ -9,8 +10,10 @@ using UnityEngine;
 /// Can be online or offline (occupiable or not).
 /// Can be a spawn spot.
 /// </summary>
-public class GridBlock : MonoBehaviour{
-  #region adjacent blocks
+public class GridBlock : MonoBehaviour,IPointerDownHandler {
+
+
+	#region adjacent blocks
 
   /// <summary>Upper adjacent block.</summary>
   private GridBlock up;
@@ -22,6 +25,15 @@ public class GridBlock : MonoBehaviour{
   private GridBlock right;
 
   public Collider gridBlockCollider;
+
+	public bool isAdj(GridBlock blk){
+		if(blk == up || blk == down || blk == left || blk == right){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 
 	public GridBlock getAdj(int dir){
 		if(dir == (int)Direction.UP){
@@ -68,7 +80,7 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region block properties
+	#region block properties
 
   /// <summary>Whether this block is a spawn spot.</summary>
   [SerializeField] private bool spawnSpot = false;
@@ -77,7 +89,7 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region sprites
+	#region sprites
 
   /// <summary>Sprite display for this block.</summary>
   public GridBlockSpriteDisplay spriteDisplayScript;
@@ -92,57 +104,35 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region simple block vars
+	#region simple block vars
 
 	/// <summary>The unit currently occupying this space.</summary>
 	public UnitScript unitInstalled;
 	/// <summary> The action waiting for user input on this block. </summary>
 	public ActionScript actionWaitingForUserInput;
-  /// <summary>The game's grid manager.</summary>
-  private CreatePlayGrid gridManager;
-  /// <summary>Collision box of this space.</summary>
-  private Collider2D selectionBox;
+	/// <summary>The game's grid manager.</summary>
+	private CreatePlayGrid gridManager;
+	/// <summary>Collision box of this space.</summary>
+	private Collider2D selectionBox;
 
-  /// <summary>Sets the grid manager.</summary>
-  /// <value>The grid manager.</value>
-  public CreatePlayGrid GridManager {
-    set {
-      gridManager = value;
-    }
-  }
+	/// <summary>Sets the grid manager.</summary>
+	/// <value>The grid manager.</value>
+	public CreatePlayGrid GridManager {
+		set {
+			gridManager = value;
+		}
+	}
 
   /// <summary>Location of this grid block on the play grid.</summary>
   public GridLocation gridlocation;
 
   #endregion
 
-  #region mouse events
+	#region mouse events
 
-  /// <summary>Raises the mouse down event.</summary>
-  void OnMouseDown(){ 
-    if (gridManager.editModeOn && !gridManager.contextMenuUp){
-      Debug.Log("mouse down on grid block");
-      gridManager.contextMenuUp = true;
-      displayEditRightClickMenu();
-    }
-
-    //set the buttons up in the GUI for the installed unit when this grid block is selected
-    //all prev buttons are removed when this method is called
-    if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
-      gridManager.gui.setSelectedUnit(unitInstalled);
-    }
-
-
-    //if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
-    if (spawnSpot && unitInstalled == null && Input.GetMouseButton(0)){
-      gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-    }
-		if (actionWaitingForUserInput is MoveScript){
-			((MoveScript)actionWaitingForUserInput).userSelectedAction(this);
-    }
-//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-//			gridManager.gui.setUnitAsSelected (null);
-//		}
+	/// <summary>Raises the mouse down event.</summary>
+	void OnMouseDown(){ //TODO there could be a better way to handle these events
+		
   }
 
   /// <summary>Raises the mouse over event.</summary>
@@ -152,7 +142,66 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region edit mode
+	#region IPointerDownHandler implementation (mouse events)
+
+	// the gui will  now block clicks
+	public void OnPointerDown (PointerEventData eventData)
+	{
+		if (gridManager.editModeOn && !gridManager.contextMenuUp){
+			Debug.Log("mouse down on grid block");
+			gridManager.contextMenuUp = true;
+			displayEditRightClickMenu();
+		}
+
+		//set the buttons up in the GUI for the installed unit when this grid block is selected
+		//all prev buttons are removed when this method is called
+
+		//if the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit
+		if (spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+		}
+
+		if (actionWaitingForUserInput is MoveScript){
+			actionWaitingForUserInput.userSelectedAction(this);
+		}else if(actionWaitingForUserInput is AttackScript){
+			actionWaitingForUserInput.userSelectedAction(this);
+		}else if (unitInstalled == null && Input.GetMouseButton(0)){
+			if(gridManager.gui.getCurUnit() != null)
+				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+			gridManager.gui.setSelectedUnit(null);	
+		}else if (unitInstalled != null && Input.GetMouseButton(0)){ // only on left click
+			gridManager.gui.setSelectedUnit(unitInstalled);
+		}
+		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
+		//			gridManager.gui.setUnitAsSelected (null);
+		//		}
+	}
+
+	#endregion
+
+	#region attack handling
+	private int attackActionID = -1;
+	public void attackActionWantsToAttackHere(AttackScript attack,UnitScript unitAttacking){
+		if(unitInstalled != null && unitInstalled != unitAttacking){ // unit can't attack nothing or itself
+			if(attackActionID == -1){
+				attackActionID = spriteDisplayScript.displayAction(gridManager.spritesAndColors.sprite_attack);
+				actionWaitingForUserInput = attack;
+			}else{
+				Debug.Log("attack action already displayed");
+			}
+		}
+	}
+
+	public void removeAttackDisplayForThis(){
+		spriteDisplayScript.removeAction(attackActionID);
+		attackActionID = -1;
+		actionWaitingForUserInput = null;
+	}
+
+
+	#endregion
+
+	#region edit mode
 
   /// <summary>Displays the edit right click menu.</summary>
   public void displayEditRightClickMenu(){ //UNDONE display menu on right click
@@ -233,32 +282,37 @@ public class GridBlock : MonoBehaviour{
 
   #endregion
 
-  #region create unit
+	#region unit control
 
-  /// <summary>Spawns a given unit.</summary>
-  /// <param name="unit">Unit.</param>
-  public void spawnUnit(UnitScript unit){
-    unit.transform.position = new Vector3();
-    unit.transform.SetParent(gridManager.unitObjectHolder);
-    unitInstalled = unit;
-    unit.spawnUnit(gridManager, this);
-  }
+ 	/// <summary>Spawns a given unit.</summary>
+	/// <param name="unit">Unit.</param>
+	public void spawnUnit(UnitScript unit){
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		unitInstalled = unit;
+		unit.spawnUnit(gridManager, this);
+	}
+
+	public void removeUnit(){
+		unitInstalled = null;
+	}
 
   #endregion
 
-  // Use this for initialization.
-  /// <summary>Start this instance.</summary>
-  void Start(){
+	// Use this for initialization.
+	/// <summary>Start this instance.</summary>
+	void Start(){
 		gridBlockCollider = GetComponent<Collider>();
-    spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
-  }
+		spriteDisplayScript = GetComponent<GridBlockSpriteDisplay>();
+	}
 
-  // Update is called once per frame.
-  /// <summary>Update this instance.</summary>
-  void Update(){
+	// Update is called once per frame.
+	/// <summary>Update this instance.</summary>
+	void Update(){
 		
-  }
+	}
 
+	#region sprite controles for this block
   /// <summary>Sets the sprite to default.</summary>
   private void setSpriteDefault(){
     transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_defaultSpace, gridManager.spritesAndColors.color_defaultSpaceColor);
@@ -273,6 +327,7 @@ public class GridBlock : MonoBehaviour{
   private void setSpriteNone(){
     transform.GetComponent<SpriteControler>().removeSprite();
   }
+	#endregion
 }
 
 #region gridLocation
@@ -281,19 +336,29 @@ public class GridBlock : MonoBehaviour{
 /// implements ==, != and = operations
 /// </summary>
 #pragma warning disable
+[System.Serializable]
 public struct GridLocation{
   /// <summary>X coordinate of grid location.</summary>
   public int x;
   /// <summary>Y coordinate of grid location.</summary>
   public int y;
 
-  /// <summary>Copy this instance. Not the same as = (refrence copy).</summary>
-  public GridLocation copy(){
-    GridLocation a;
-    a.x = x;
-    a.y = y;
-    return a;
-  }
+	public GridLocation(int xl,int yl){
+		x = xl;
+		y = yl;
+	}
+
+	public static GridLocation operator +(GridLocation a, GridLocation b){
+		return new GridLocation(a.x + b.x, a.y + b.y);
+	}
+
+	public static GridLocation operator -(GridLocation a, GridLocation b){
+		return new GridLocation(a.x - b.x, a.y - b.y);
+	}
+
+
+
+
 
   public static bool operator ==(GridLocation a, GridLocation b){
     return a.x == b.x && a.y == b.y;
@@ -306,8 +371,8 @@ public struct GridLocation{
 }
 #endregion
 public enum Direction : int{
-  UP = 0,
-DOWN = 2,
-LEFT = 3,
-RIGHT = 1
+	UP = 0,
+	DOWN = 2,
+	LEFT = 3,
+	RIGHT = 1
 }

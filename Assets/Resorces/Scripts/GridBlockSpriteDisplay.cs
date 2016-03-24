@@ -19,7 +19,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// <summary>The grid block of this sprite.</summary>
 	private GridBlock attachedGridBlock;
 	/// <summary>The connection location of this sprite.</summary>
-	public float conectionLocation = 0.5f;
+	private float conectionLocation = 1f;
 	//TODO hard code this, this may nead to be changed
 	private int MAX_ACTIONS_ON_THIS_BLOCK = 4;
 
@@ -85,7 +85,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 			//rotating each movment arm
 			Quaternion rot = movementDirections[x].transform.localRotation;
-			rot.eulerAngles = new Vector3(0.0f, 0.0f,-90.0f * x); //UNDONE check to see if rotation is correct
+			rot.eulerAngles = new Vector3(0.0f, 0.0f,90.0f * x); //UNDONE check to see if rotation is correct
 			movementDirections[x].transform.localRotation = rot;
 
 			movementDirections[x].name = "Movment Direction " + directionNames[x];
@@ -104,13 +104,14 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		//Initialize right connection.
 		rightConnection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		rightConnection.transform.SetParent(transform);
-		rightConnection.transform.localPosition = new Vector3(0, conectionLocation, 0.1f);
+		rightConnection.transform.localPosition = new Vector3(conectionLocation ,0 , 0.1f);
 		rightConnection.name = "Right Conection";
 
 		//Initialize above connection.
 		aboveConnection = Instantiate(spriteInfo.spritePrefab).GetComponent<SpriteControler>();
 		aboveConnection.transform.SetParent(transform);
-		aboveConnection.transform.localPosition = new Vector3(conectionLocation, 0, 0.1f);
+		aboveConnection.transform.localPosition = new Vector3(0,-conectionLocation, 0.1f);
+		aboveConnection.transform.Rotate(0f,0f,90f);
 		aboveConnection.name = "Above Conection";
 
 		//Initialize move sprite.
@@ -132,7 +133,6 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// </summary>
 	public void checkConection() {
 		if(attachedGridBlock.unitInstalled == null) {
-			Debug.LogWarning("This block has no program to check connections on.");
 			return;
 		}
 
@@ -141,9 +141,9 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
     if(attachedGridBlock.getAdj(Direction.UP) != null)
 			checkAbove();
     if(attachedGridBlock.getAdj(Direction.LEFT) != null)
-      attachedGridBlock.getAdj(Direction.LEFT).spriteDisplayScript.checkRight(); // check left
+			attachedGridBlock.getAdj(Direction.LEFT).spriteDisplayScript.checkRight(); // check left
     if(attachedGridBlock.getAdj(Direction.DOWN) != null)
-      attachedGridBlock.getAdj(Direction.DOWN).spriteDisplayScript.checkAbove(); // check down
+			attachedGridBlock.getAdj(Direction.DOWN).spriteDisplayScript.checkAbove(); // check down
 	}
 
 
@@ -152,7 +152,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// Only to be called by another GridBlockSpriteDisplay script.
 	/// </summary>
 	public void checkRight() {
-    if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.RIGHT).unitInstalled) {
+		if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.RIGHT).unitInstalled) {
 			rightConnection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			rightConnection.removeSprite();
@@ -164,7 +164,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// Only to be called by another GridBlockSpriteDisplay script.
 	/// </summary>
 	public void checkAbove() {
-    if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.UP).unitInstalled) {
+		if(attachedGridBlock.unitInstalled == attachedGridBlock.getAdj(Direction.UP).unitInstalled) {
 			aboveConnection.setSprite(spriteInfo.spritesAndColors.sprite_unitConecter, unitSprite.getColor());
 		} else {
 			aboveConnection.removeSprite();
@@ -199,13 +199,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 	/// removes head sprite if it is not.
 	/// </summary>
 	public void checkHeadSprite() {
-		if(attachedGridBlock.unitInstalled.getVirtualBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation) {
+		if(attachedGridBlock.unitInstalled.getCurrentBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation) {
 			headSprite.setSprite(attachedGridBlock.unitInstalled.getUnitHeadSprite());
 		} else {
 			headSprite.removeSprite();
 		}
 	}
-
+		
 
 	#endregion
 
@@ -220,6 +220,10 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 		int actionID = 0;
 		while(actionUsed[actionID]) {
 			actionID++;
+			if(actionID > actionUsed.Length){
+				Debug.LogError("too meny actions on this block");
+				return -1;
+			}
 		}
 		actionSprites[actionID].setSprite(aS);
 		actionUsed[actionID] = true;
@@ -228,9 +232,13 @@ public class GridBlockSpriteDisplay : MonoBehaviour {
 
 	/// <summary>
 	/// Removes the action.
+	/// will not act if actionID < 0 || actionID > MAX_ACTIONS_ON_THIS_BLOCK
 	/// </summary>
 	/// <param name="actionID">ActionID.</param>
 	public void removeAction(int actionID) {
+		if(actionID < 0 || actionID > MAX_ACTIONS_ON_THIS_BLOCK){
+			return;
+		}
 		actionSprites[actionID].removeSprite();
 		actionUsed[actionID] = false;
 	}

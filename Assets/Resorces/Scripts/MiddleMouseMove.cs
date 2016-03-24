@@ -32,6 +32,7 @@ public class MiddleMouseMove : MonoBehaviour {
 		cPosY = Input.mousePosition.y;
 
 		if(Input.GetMouseButtonDown(2) || Input.GetMouseButton(2)) {
+
 			//lots of code but best implementation
 			//invertions can be changed at any time
 			if(invertX && invertY) {
@@ -50,10 +51,9 @@ public class MiddleMouseMove : MonoBehaviour {
 			cam.orthographicSize -= zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
 		}
 
-
-			
 		lPosX = cPosX;
 		lPosY = cPosY;
+
 		#endregion
 
 	}

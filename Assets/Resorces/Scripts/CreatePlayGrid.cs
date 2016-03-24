@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Create play grid.
@@ -9,6 +10,34 @@ public class CreatePlayGrid : MonoBehaviour {
 	public Transform gridStartPoint;
 	public int gridSize;
 	public GridBlock[,] gameGrid;
+	public GridBlock gridLocationToGameGrid(GridLocation gl){
+		return gameGrid[gl.x,gl.y];
+	}
+
+	#region animation library
+	#pragma warning disable
+	[SerializeField] private Animations[] animationLibrarySetter;
+	private Dictionary<string,GameObject> animationLibrary = new Dictionary<string, GameObject>(10);
+	private void animationLibrarySetup(){
+		for (int i = 0; i < animationLibrarySetter.Length; i++) {
+			animationLibrary.Add(animationLibrarySetter[i].animationName,animationLibrarySetter[i].animation);
+		}
+	}
+	/// <summary>
+	/// Animations the library.
+	/// </summary>
+	/// <returns>an uninitalized prefab for the animation. Null if no animation with that name exists</returns>
+	public GameObject getAnimation(string animationName){
+		GameObject animation;
+		bool getAnimationSuccess = animationLibrary.TryGetValue(animationName,out animation);
+		if(getAnimationSuccess){
+			return animation;
+		}else{
+			return null;
+		}
+	}
+	#endregion
+
 
 	public GUIScript gui;
 
@@ -26,13 +55,11 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	#endregion
 
-	#region animations
-	public Animations animations;
-	#endregion
 
 	#region units
 
 	public UnitInformationStruct[] units;
+	[SerializeField] private GameObject UnitTimerDisplay;
 
 	#endregion
 
@@ -49,7 +76,7 @@ public class CreatePlayGrid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-
+		animationLibrarySetup();
 		/*
 		 * all grid spaces are represented by a game object
 		 * setup the game grid array */
@@ -77,15 +104,16 @@ public class CreatePlayGrid : MonoBehaviour {
 				if(y - 1 >= 0) {
           gameGrid[x, y].setAdj(Direction.DOWN, gameGrid[x, y - 1]);
 				}
-				if(x + 1 < gridSize) {
-          gameGrid[x, y].setAdj(Direction.LEFT, gameGrid[x + 1, y]);
-				}
 				if(x - 1 >= 0) {
-          gameGrid[x, y].setAdj(Direction.RIGHT, gameGrid[x - 1, y]);
+          gameGrid[x, y].setAdj(Direction.LEFT, gameGrid[x - 1, y]);
+				}
+				if(x + 1 < gridSize) {
+          gameGrid[x, y].setAdj(Direction.RIGHT, gameGrid[x + 1, y]);
 				}
 			}
 		}
 		gameGrid[2,2].setSpawn(); // 2,2 is alwayes spawn for Debug
+		gameGrid[5,2].setSpawn();
 
 	}
 
@@ -150,6 +178,7 @@ public struct SpritesAndColors {
 #region animations
 [System.Serializable]
 public struct Animations {
-	public GameObject unitSpawn;
+	public string animationName;
+	public GameObject animation;
 }
 #endregion

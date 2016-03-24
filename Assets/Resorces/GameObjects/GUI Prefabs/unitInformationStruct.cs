@@ -7,4 +7,8 @@ public struct UnitInformationStruct {
 	public Sprite unitHeadSprite;
 	public Color unitColor;
 	public int maxLength;
+	public int maxMove;
+	public int attackPow;
+	public int maxAttackActions;
+	public UnitTimer unitTimer;
 }
