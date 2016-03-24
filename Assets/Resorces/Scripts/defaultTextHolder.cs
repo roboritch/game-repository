@@ -2,33 +2,32 @@
 using System.Collections;
 using UnityEngine.UI;
 
-/** atached to some text componentents to facilitate better maintenance of the defuat text 
- in the text component */
+/// <summary>
+/// Attached to some text componentents to facilitate better maintenance of the defuat text in the text component.
+/// </summary>
 public class defaultTextHolder : MonoBehaviour{
 
-	
-	
 	private string defautText;
 	private Text textComponent;
+  private Color defaultColor;
+  private Color flashColor;
+  private bool flashing;
 	
-	// Use this for initialization
+	// Use this for initialization.
+  /// <summary>
+  /// Start this instance.
+  /// </summary>
 	void Start(){
 		textComponent = transform.GetComponent<Text>();
 		defaultColor = textComponent.color;
 		defautText = textComponent.text;
 	}
 
-	
-	#region flashing
-	private Color defaultColor;
-	private Color flashColor;
-	private bool flashing;
-	
 	/// <summary>
-	/// will flash the text in the specified color for the flashTime (s) in 0.75 second intervals 
+	/// Will flash the text in the specified color for the flashTime (s) in 0.75 second intervals.
 	/// </summary>
 	/// <param name="colorToFlash">Color to flash.</param>
-	/// <param name="flashTime">Flash time (in seconds)</param>
+	/// <param name="flashTime">Flash time (in seconds).</param>
 	public void flashText(Color colorToFlash, float flashTime){
 		if (flashing){
 			endFlash();
@@ -38,7 +37,7 @@ public class defaultTextHolder : MonoBehaviour{
 		Invoke("endFlash", flashTime);
 		flashing = true;
 	}
-	
+
 	private void flash(){
 		if (textComponent.color == defaultColor){
 			textComponent.color = flashColor;
@@ -53,14 +52,12 @@ public class defaultTextHolder : MonoBehaviour{
 		textComponent.color = defaultColor;
 		flashing = false;
 	}
-	#endregion
-	
-	#region text minipulation
+
 	public void newText(string displayText){
 		textComponent.text = displayText;
 	}
 	
-	/** display the addedText after the defaultText */
+	/** Display the addedText after the defaultText. */
 	public void addNewTextToDefalt(string addedText){
 		textComponent.text = defautText + addedText;
 	}
@@ -77,6 +74,4 @@ public class defaultTextHolder : MonoBehaviour{
 		CancelInvoke("setDefault");
 		Invoke("setDefault", timeToReset);
 	}
-	#endregion
 }
-
