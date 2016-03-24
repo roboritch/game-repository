@@ -9,14 +9,15 @@ public class MoveScript : ActionScript{
   /// The block the unit is on when this script is called to display user selection.
   /// </summary>
   private GridBlock unitBlock;
-  // up,right,down,left clockwise
+  // Up, right, down, left clockwise.
   private GridBlock[] adjBlocks = new GridBlock[4];
   /// <summary>
   /// This is the location the action will be preformed on
   /// </summary>
   private GridBlock locationToPreformAction;
+  private SpriteControler[] moveDirectionArms;
 
-  //u is passed to the base constructor
+  //u is passed to the base constructor.
   public MoveScript(UnitScript u)
     : base(u){
     actionTime = 1f; 
@@ -32,7 +33,7 @@ public class MoveScript : ActionScript{
     }
   }
 
-  #region user selection
+  #region User Selection
 
   /// <summary>
   /// Calls the GUI to display this action on the game.
@@ -52,7 +53,8 @@ public class MoveScript : ActionScript{
     bool canMove = true;
     if (block == null)
       return false;
-    canMove = block.unitInstalled == null; // true if no unit installed
+    // True if no unit installed.
+    canMove = block.unitInstalled == null;
     return canMove;
   }
 
@@ -60,7 +62,8 @@ public class MoveScript : ActionScript{
   private void checkAndDisplayPossibleUserActions(){
     for (int i = 0; i < adjBlocks.Length; i++){
       adjBlocks[i] = unitBlock.getAdj(i);
-      if (possibleMoveLocation(adjBlocks[i])){ // only display if that location is valid
+      // Only display if that location is valid.
+      if (possibleMoveLocation(adjBlocks[i])){
         if (adjBlocks[i].unitInstalled == null){
           adjBlocks[i].spriteDisplayScript.displayMoveSprite();
           adjBlocks[i].actionWaitingForUserInput = this;
@@ -89,7 +92,7 @@ public class MoveScript : ActionScript{
 
   #endregion
 
-  #region action save and load
+  #region Action Save and Load
 
   public override void loadAction(SerializedCompletedAction s){
     locationToPreformAction = unit.grid.gridLocationToGameGrid(s.locationToPerformAction);
@@ -107,9 +110,8 @@ public class MoveScript : ActionScript{
 
   #endregion
 
-  private SpriteControler[] moveDirectionArms;
-
-  public override void displayFinishedAction(){ //TODO test past this section
+  //TODO Test past this section.
+  public override void displayFinishedAction(){
     moveDirectionArms = locationToPreformAction.spriteDisplayScript.displayMoveOnQueue(unit.getVirtualBlockHeadLocation(), locationToPreformAction);
   }
 

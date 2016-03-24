@@ -4,22 +4,24 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
+  //Attack attributes.
+  /// <summary>
+  /// The attack grid block location.
+  /// </summary>
+  private GridBlock attackLocation;
+  /// <summary>
+  /// The attack strength; the number of blocks removed by this attack.
+  /// </summary>
+  private int attackStrength = 0;
+  private GridBlock[] posibleAttackLocations;
+  private int actionDisplayID = -1;
+
   public AttackScript(UnitScript u)
     : base(u){
     attackStrength = unit.getAttackPower();
   }
 
-  #region attack strength and location
-
-  /// <summary>
-  /// The attack grid block location.
-  /// </summary>
-  private GridBlock attackLocation;
-
-  /// <summary>
-  /// The attack strength; the number of blocks removed by this attack.
-  /// </summary>
-  private int attackStrength = 0;
+  #region Attack Strength and Location
 
   /// <summary>
   /// Sets the attack location.
@@ -64,7 +66,8 @@ public class AttackScript : ActionScript{
     if (attackLocation.unitInstalled != null){
       if (attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
         displayCloseRangeAttackAnimation(attackLocation);
-        attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime); // must be called after the display
+        // Must be called after the display.
+        attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime);
       } else{
         //displayLongRangeAttackAnimation();
         attackLocation.unitInstalled.removeBlock(attackStrength);
@@ -83,16 +86,18 @@ public class AttackScript : ActionScript{
   }
 
 
-  //TODO long range attack animation not done
+  //TODO Long range attack animation not done.
   private void displayLongRangeAttackAnimation(GridBlock animationLocation){
-    GameObject farAttackOut = unit.grid.getAnimation("far attack out"); // diplayed on the units block
-    GameObject farAttackIn = unit.grid.getAnimation("far attack in"); // diplayed on the animationLocation
+    // Diplayed on the units block.
+    GameObject farAttackOut = unit.grid.getAnimation("far attack out");
+    // Diplayed on the animationLocation.
+    GameObject farAttackIn = unit.grid.getAnimation("far attack in");
     actionTime = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
     actionTime += farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
   }
 
 
-  #region user display
+  #region User Display
 
   /// <summary>
   /// Calls the GUI to display this action on the game.
@@ -107,9 +112,7 @@ public class AttackScript : ActionScript{
     checkAndDisplayPossibleUserActions();
   }
 
-  #region set posible attack locations
-
-  private GridBlock[] posibleAttackLocations;
+  #region Set Possible Attack Locations
 
   /// <summary>
   /// Sets the posible attack locations.
@@ -142,10 +145,8 @@ public class AttackScript : ActionScript{
 
   #endregion
 
-  #region finished action display
-
-  private int actionDisplayID = -1;
-  //for when enamy actions are loaded
+  #region Finished Action Display
+  //For when enamy actions are loaded.
   public override void displayFinishedAction(){
     actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
   }
@@ -163,14 +164,19 @@ public class AttackScript : ActionScript{
 
 
   public override void userSelectedAction(GridBlock blockSelected){
-    removeUserSelectionDisplay(); // remove the selection display
-    attackLocation = blockSelected; // set attack location
-    displayFinishedAction(); // display the finished action
-    unit.addActionToQueue(this); // add the action to the queue
-    unit.useAttackAction(); //the unit can no longer attack
+    //Remove the selection display.
+    removeUserSelectionDisplay();
+    //Set attack location.
+    attackLocation = blockSelected;
+    //Display the finished action.
+    displayFinishedAction();
+    //Add the action to the queue.
+    unit.addActionToQueue(this);
+    //The unit can no longer attack.
+    unit.useAttackAction();
   }
 
-  #region action Save And Load
+  #region Action Save And Load
 
   public override void loadAction(SerializedCompletedAction s){
     attackStrength = s.actionAmountInt;
