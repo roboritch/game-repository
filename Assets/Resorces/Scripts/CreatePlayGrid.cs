@@ -39,8 +39,6 @@ public class CreatePlayGrid : MonoBehaviour{
     return gameGrid[gl.x, gl.y];
   }
 
-  #region animation library
-
   private void animationLibrarySetup(){
     for (int i = 0; i < animationLibrarySetter.Length; i++){
       animationLibrary.Add(animationLibrarySetter[i].animationName, animationLibrarySetter[i].animation);
@@ -50,7 +48,7 @@ public class CreatePlayGrid : MonoBehaviour{
   /// <summary>
   /// Animations the library.
   /// </summary>
-  /// <returns>an uninitalized prefab for the animation. Null if no animation with that name exists</returns>
+  /// <returns>An uninitalized prefab for the animation. Null if no animation with that name exists.</returns>
   public GameObject getAnimation(string animationName){
     GameObject animation;
     bool getAnimationSuccess = animationLibrary.TryGetValue(animationName, out animation);
@@ -61,32 +59,33 @@ public class CreatePlayGrid : MonoBehaviour{
     }
   }
 
-  #endregion
-
-  #region start
-
-  // Use this for initialization
+  // Use this for initialization.
   void Start(){
     animationLibrarySetup();
-    /*
-         * all grid spaces are represented by a game object
-         * setup the game grid array */
+    //All grid spaces are represented by a game object setup the game grid array.
     gameGrid = new GridBlock[gridSize, gridSize]; 
     GameObject tempObject;      
-    for (int x = 0; x < gridSize; x++){ //
+    for (int x = 0; x < gridSize; x++){
       for (int y = 0; y < gridSize; y++){
-        tempObject = Instantiate(gridBlock) as GameObject; // game objects must be 
-        tempObject.name = "gridBlock " + x + "," + y; // set name for debuging
-        tempObject.transform.position = gridStartPoint.position; // start the block relative to the master object
-        tempObject.transform.position = tempObject.transform.position + new Vector3((float)x * 2, 0, (float)y * 2); // move the space to the correct spot 
-        tempObject.transform.SetParent(transform); // parent the grid space to this object
-        gameGrid[x, y] = tempObject.GetComponent<GridBlock>(); //a pointer the grid block script from the tempObject is stored in the array for easy access
-        gameGrid[x, y].GridManager = this; // each space has a refrence to this script for easy access
+        tempObject = Instantiate(gridBlock) as GameObject;
+        // Set name for debuging.
+        tempObject.name = "gridBlock " + x + "," + y;
+        // Start the block relative to the master object.
+        tempObject.transform.position = gridStartPoint.position;
+        // Move the space to the correct spot.
+        tempObject.transform.position = tempObject.transform.position + new Vector3((float)x * 2, 0, (float)y * 2);
+        // Parent the grid space to this object.
+        tempObject.transform.SetParent(transform); 
+        //A pointer to the grid block script from the tempObject is stored in the array for easy access.
+        gameGrid[x, y] = tempObject.GetComponent<GridBlock>();
+        // Each space has a refrence to this script for easy access.
+        gameGrid[x, y].GridManager = this; 
         gameGrid[x, y].gridlocation.x = x;
         gameGrid[x, y].gridlocation.y = y;
       }
     }
-    //setup refrences from one grid block to another to improve unit interaction
+
+    //Setup refrences from one grid block to another to improve unit interaction.
     for (int x = 0; x < gridSize; x++){
       for (int y = 0; y < gridSize; y++){
         if (y + 1 < gridSize){
@@ -103,19 +102,17 @@ public class CreatePlayGrid : MonoBehaviour{
         }
       }
     }
-    gameGrid[2, 2].setSpawn(); // 2,2 is alwayes spawn for Debug
+    // Setup default spawn blocks for testing purposes.
+    gameGrid[2, 2].setSpawn();
     gameGrid[5, 2].setSpawn();
 
   }
 
-  #endregion
-
-  #region levelSaving
-
   /// <summary>
-  /// saves the level with a text file representation
+  /// Saves the level with a text file representation.
   /// </summary>
-  public void saveLevel(){ //UNDONE almost done, some file path errors
+  //UNDONE Almost done, some file path errors.
+  public void saveLevel(){
     string levelFile = "";
     levelFile += gridSize + "\n";
     for (int x = 0; x < gridSize; x++){
@@ -127,46 +124,10 @@ public class CreatePlayGrid : MonoBehaviour{
 
   }
 
-  #endregion
-
-
-  // Update is called once per frame
+  // Update is called once per frame.
+  /// <summary>
+  /// Update this instance.
+  /// </summary>
   void Update(){
-
   }
 }
-
-#region sprites and colors
-/// <summary>
-/// struct filled with all the sprites and colors
-/// </summary>
-[System.Serializable]
-public struct SpritesAndColors{
-  public Sprite sprite_unit;
-  public Sprite sprite_unitConecter;
-
-  public Sprite sprite_defaultSpace;
-  public Color color_defaultSpaceColor;
-
-  public Sprite sprite_spawnSpace;
-  public Color color_spawnSpaceColor;
-
-  public Sprite sprite_moveTo;
-  public Color color_move;
-
-  public Sprite sprite_moveLine;
-
-  public Sprite sptite_moveCircle;
-
-  public Sprite sprite_attack;
-  public Color color_attack;
-}
-#endregion
-
-#region animations
-[System.Serializable]
-public struct Animations{
-  public string animationName;
-  public GameObject animation;
-}
-#endregion
