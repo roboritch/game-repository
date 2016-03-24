@@ -21,12 +21,18 @@ public class WallScript : UnitScript{
     return false;
   }
 
-  // Use this for initialization
+  // Use this for initialization.
+  /// <summary>
+  /// Start this instance.
+  /// </summary>
   void Start(){
 	
   }
 	
-  // Update is called once per frame
+  // Update is called once per frame.
+  /// <summary>
+  /// Update this instance.
+  /// </summary>
   void Update(){
 	
   }
