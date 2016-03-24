@@ -64,6 +64,7 @@ public class AttackScript : ActionScript{
 				attackLocation.unitInstalled.queueBlockRemoval(attackStrength,actionTime); // must be called after the display
 			}else{
 				//displayLongRangeAttackAnimation();
+				attackLocation.unitInstalled.removeBlock(attackStrength);
 			}
 		}else{
 			Debug.Log("unit's block was removed before it could be attacked");

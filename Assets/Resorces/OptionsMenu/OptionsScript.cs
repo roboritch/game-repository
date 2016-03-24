@@ -58,7 +58,7 @@ public class OptionsScript : MonoBehaviour {
 		}catch(Exception ex){
 			if(stream != null)
 			stream.Close();
-			Debug.LogError(ex.ToString());
+			//Debug.LogError(ex.ToString());
 		}
 	}
 
