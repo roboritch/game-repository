@@ -91,10 +91,3 @@ public class OptionsScript : MonoBehaviour {
 		
 	#endregion
 }
-
-[XmlRoot("options")]
-[Serializable]
-public struct OptionsInfo{
-	[XmlAttribute("resolution")]
-	public Resolution resolution;
-}
