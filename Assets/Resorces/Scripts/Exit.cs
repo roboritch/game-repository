@@ -2,9 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Exit : MonoBehaviour{
+public class Exit : Singleton<Exit>{
+	protected Exit(){
+	}
 
-	public static Exit Instance;
 	public GameObject confirmationMenu;
 
 	/// <summary>
@@ -15,7 +16,6 @@ public class Exit : MonoBehaviour{
 			DestroyImmediate(gameObject);
 		} else{
 			DontDestroyOnLoad(gameObject);
-			Instance = this;
 		}
 	}
 
