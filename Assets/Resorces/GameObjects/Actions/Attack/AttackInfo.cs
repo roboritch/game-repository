@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class AttackInfo : ActionButtonInfo{
-	public override ActionScript getNewInstanceOfAction (UnitScript unit){
+	public override ActionScript getNewInstanceOfAction(UnitScript unit){
 		return new AttackScript(unit);
-  }
+	}
 }

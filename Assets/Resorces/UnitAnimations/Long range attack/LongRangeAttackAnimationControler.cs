@@ -11,12 +11,13 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 
 	void Start(){
 		particleSize = new float[PS.maxParticles];
-		InvokeRepeating("increaseVortexStrength",0f,0.03f);
+		InvokeRepeating("increaseVortexStrength", 0f, 0.03f);
 	}
 
 	#region pulse
 	#pragma warning disable
 	[SerializeField] private float particleSpeedup;
+
 	private void increaseVortexStrength(){
 		int pNumb;
 		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[PS.maxParticles];
@@ -26,15 +27,15 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 			fire();
 			return;
 		}
-		for (int i = 0; i < pNumb; i++) {
+		for(int i = 0; i < pNumb; i++){
 			particles[i].velocity *= particleSpeedup;
 		}
-		PS.SetParticles(particles,pNumb);
+		PS.SetParticles(particles, pNumb);
 	}
 
-	private bool checkVortexDone(int pNumb,ParticleSystem.Particle[] particles){
+	private bool checkVortexDone(int pNumb, ParticleSystem.Particle[] particles){
 		bool allParticlesStopped = true;
-		for (int i = 0; i < pNumb; i++) {
+		for(int i = 0; i < pNumb; i++){
 			if(particles[i].velocity.sqrMagnitude != 0f){
 				allParticlesStopped = false;
 			}
@@ -57,20 +58,21 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[PS.maxParticles];
 		pNumb = PS.GetParticles(particles);
 
-		for (int i = 0; i < pNumb; i++) {
-			particles[i].velocity = new Vector3(0,0.2f,0);
+		for(int i = 0; i < pNumb; i++){
+			particles[i].velocity = new Vector3(0, 0.2f, 0);
 		}
 
-		getPartcleSizes(pNumb,particles);
+		getPartcleSizes(pNumb, particles);
 		orderParticlesByCurrentDistance();
-		InvokeRepeating("increaseSizeByDistance",0,0.03f);
+		InvokeRepeating("increaseSizeByDistance", 0, 0.03f);
 
 	}
 
-	private Vector3 fireEndpoint = new Vector3(0,10f,0);
+	private Vector3 fireEndpoint = new Vector3(0, 10f, 0);
 	private float[] particleSize;
+
 	private void getPartcleSizes(int pNumb, ParticleSystem.Particle[] particles){
-		for (int i = 0; i < pNumb; i++) {
+		for(int i = 0; i < pNumb; i++){
 			particleSize[i] = particles[i].startSize;
 		}
 	}
@@ -83,25 +85,25 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 		orderOfParticlesByDistance = new int[pNumb];
 
 		float[] particleDistance = new float[pNumb];
-		for (int i = 0; i < pNumb; i++) { // simple sort
+		for(int i = 0; i < pNumb; i++){ // simple sort
 			orderOfParticlesByDistance[i] = i;
 			particleDistance[i] = particles[i].position.x;
 		}
 
 		int offset = 1;
-		while(particleDistance[offset] < particleDistance[offset-1]){ //move current particle down the list
-			int temp1 = orderOfParticlesByDistance[offset-1];
-			float temp2 = particleDistance[offset-1];
+		while(particleDistance[offset] < particleDistance[offset - 1]){ //move current particle down the list
+			int temp1 = orderOfParticlesByDistance[offset - 1];
+			float temp2 = particleDistance[offset - 1];
 
-			orderOfParticlesByDistance[offset-1] = orderOfParticlesByDistance[offset];
-			particleDistance[offset-1] = particleDistance[offset];
+			orderOfParticlesByDistance[offset - 1] = orderOfParticlesByDistance[offset];
+			particleDistance[offset - 1] = particleDistance[offset];
 
 			orderOfParticlesByDistance[offset] = temp1;
 			particleDistance[offset] = temp2;
 
 			offset++;
 		}
-		currentSizeIndex = pNumb -1;
+		currentSizeIndex = pNumb - 1;
 	}
 
 
@@ -109,6 +111,7 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 	private float currentSizeIncrease = 0f;
 	private float maxParticalSize = 1f;
 	private int currentSizeIndex = 0;
+
 	private void increaseSizeByDistance(){
 		currentSizeIncrease += 0.5f;
 		int pNumb;
@@ -122,7 +125,7 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 			PS.SetParticles(particles, pNumb);
 
 			currentSizeIndex--;
-			if(currentSizeIndex-1 == pNumb){
+			if(currentSizeIndex - 1 == pNumb){
 				CancelInvoke("increaseSizeByDistance");
 			}
 			return;
@@ -138,8 +141,9 @@ public class LongRangeAttackAnimationControler : MonoBehaviour ,IGetAnimationTim
 
 	}
 
-	private float foundAnimationTime = 2f; //UNDONE this must be found and set
-	public float getAnimationTime (){
+	private float foundAnimationTime = 2f;
+	//UNDONE this must be found and set
+	public float getAnimationTime(){
 		return foundAnimationTime;
 	}
 		

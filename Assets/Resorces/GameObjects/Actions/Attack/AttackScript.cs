@@ -4,20 +4,22 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
-	public AttackScript(UnitScript u) : base(u){
-		attackStrength = unit.getAttackPower();
-	}
-
-	#region attack strength and location
 	/// <summary>
 	/// The attack grid block location.
 	/// </summary>
 	private GridBlock attackLocation;
-
 	/// <summary>
 	/// The attack strength; the number of blocks removed by this attack.
 	/// </summary>
 	private int attackStrength = 0;
+	private GridBlock[] posibleAttackLocations;
+	private int actionDisplayID = -1;
+
+	public AttackScript(UnitScript u) : base(u){
+		attackStrength = unit.getAttackPower();
+	}
+
+	#region Attack Strength and Location
 
 	/// <summary>
 	/// Sets the attack location.
@@ -50,6 +52,7 @@ public class AttackScript : ActionScript{
 	public int getAttackStrength(){
 		return attackStrength;
 	}
+
 	#endregion
 
 	/// <summary>
@@ -98,7 +101,8 @@ public class AttackScript : ActionScript{
 	}
 
 
-	#region user display
+	#region User Display
+
 	/// <summary>
 	/// Calls the GUI to display this action on the game.
 	/// </summary>
@@ -111,9 +115,8 @@ public class AttackScript : ActionScript{
 		setPosibleAttackLocations();
 		checkAndDisplayPossibleUserActions();
 	}
-
-	#region set posible attack locations
-	private GridBlock[] posibleAttackLocations;
+			
+	#region Set Possible Attack Locations
 
 	/// <summary>
 	/// Sets the posible attack locations.
@@ -147,7 +150,6 @@ public class AttackScript : ActionScript{
 	#endregion
 
 	#region finished action display
-	private int actionDisplayID = -1;
 	//for when enamy actions are loaded
 	public override void displayFinishedAction(){
 		actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
@@ -165,26 +167,32 @@ public class AttackScript : ActionScript{
 
 
 	public override void userSelectedAction(GridBlock blockSelected){
-		removeUserSelectionDisplay(); // remove the selection display
-		attackLocation = blockSelected; // set attack location
-		displayFinishedAction(); // display the finished action
-		unit.addActionToQueue(this); // add the action to the queue
-		unit.useAttackAction(); //the unit can no longer attack
+		//Remove the selection display.
+		removeUserSelectionDisplay();
+		//Set attack location.
+		attackLocation = blockSelected;
+		//Display the finished action.
+		displayFinishedAction();
+		//Add the action to the queue.
+		unit.addActionToQueue(this);
+		//The unit can no longer attack.
+		unit.useAttackAction();
 	}
+	#region Action Save And Load
 
-	#region action Save And Load
-	public override void loadAction(SerializedCompeatedAction s){
+	public override void loadAction(SerializedCompletedAction s){
 		attackStrength = s.actionAmountInt;
-		attackLocation = unit.grid.gridLocationToGameGrid(s.locationToPreformAction);
+		attackLocation = unit.grid.gridLocationToGameGrid(s.locationToPerformAction);
 	}
 
-	public override SerializedCompeatedAction serializeAction(){
-		SerializedCompeatedAction compleatedActionSave = new SerializedCompeatedAction();
+	public override SerializedCompletedAction serializeAction(){
+		SerializedCompletedAction compleatedActionSave = new SerializedCompletedAction();
 		compleatedActionSave.actionAmountInt = attackStrength;
-		compleatedActionSave.locationToPreformAction = attackLocation.gridlocation;
+		compleatedActionSave.locationToPerformAction = attackLocation.gridlocation;
 		compleatedActionSave.actionType = typeof(AttackScript);
 		return compleatedActionSave;
 	}
+
 	#endregion
 
 
