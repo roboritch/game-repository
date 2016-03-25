@@ -36,7 +36,7 @@ public class OptionsScript : MonoBehaviour{
 		FileStream stream = null;
 		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(OptionsInfo));
-			stream = new FileStream(optionsFileLocation, FileMode.Create);
+			stream = new FileStream(optionsFileLocation, FileMode.OpenOrCreate);
 			serializer.Serialize(stream, newOptions); // new options to disk here
 			stream.Close();
 		} catch(Exception ex){

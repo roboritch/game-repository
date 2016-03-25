@@ -20,14 +20,19 @@ public class SetScreenName : MonoBehaviour{
 
 	void start(){
 		if(screenName.name == ""){
-			
+			bringUpScreenNameEditer();
 		}
 	}
 
 	public void bringUpScreenNameEditer(){
 		GameObject temp = Instantiate(screenNameEditor) as GameObject;
+		temp.transform.SetParent(transform, false);
 
 
+	}
+
+	public void receveName(string name){
+		saveCurrentName();
 	}
 
 
@@ -35,11 +40,10 @@ public class SetScreenName : MonoBehaviour{
 		FileStream stream = null;
 		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(ScreenName));
-			stream = new FileStream(screenNameFileLocation, FileMode.Truncate);
+			stream = new FileStream(screenNameFileLocation, FileMode.OpenOrCreate);
 			serializer.Serialize(stream, screenName);
 			stream.Close();
 		} catch(Exception ex){
-			Debug.LogError("error in stream save");
 			if(stream != null)
 				stream.Close();
 		}
@@ -59,7 +63,6 @@ public class SetScreenName : MonoBehaviour{
 		} catch(Exception ex){
 			if(stream != null)
 				stream.Close();
-			Debug.LogError("error in stream load");
 		}
 	}
 }
@@ -67,7 +70,7 @@ public class SetScreenName : MonoBehaviour{
 
 [Serializable]
 [XmlRoot("screen name")]
-struct ScreenName{
+public struct ScreenName{
 	[XmlElement("name")]
 	public string name;
 }
