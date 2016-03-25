@@ -19,19 +19,11 @@ public class SetScreenName : MonoBehaviour{
 	}
 
 	void start(){
-		if(screenName.name == ""){
-			bringUpScreenNameEditer();
-		}
-	}
-
-	public void bringUpScreenNameEditer(){
-		GameObject temp = Instantiate(screenNameEditor) as GameObject;
-		temp.transform.SetParent(transform, false);
-
-
+		
 	}
 
 	public void receveName(string name){
+		screenName.name = name.ToUpper();
 		saveCurrentName();
 	}
 
@@ -46,6 +38,7 @@ public class SetScreenName : MonoBehaviour{
 		} catch(Exception ex){
 			if(stream != null)
 				stream.Close();
+			//throw ex;
 		}
 	}
 
@@ -63,6 +56,7 @@ public class SetScreenName : MonoBehaviour{
 		} catch(Exception ex){
 			if(stream != null)
 				stream.Close();
+			//throw ex;
 		}
 	}
 }
