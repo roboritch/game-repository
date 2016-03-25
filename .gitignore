@@ -67,3 +67,4 @@ $RECYCLE.BIN/
 *.lnk
 Assets/Resorces/Scripts/UnitScript.cs
 Assets/Resorces/Scripts/UnitScript.cs
+*.csproj
