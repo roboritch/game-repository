@@ -10,9 +10,9 @@ using UnityEngine;
 [XmlRoot("Gridblock")]
 [Serializable]
 public struct GridInfo{
-	public bool isSpawnSpot;
+	public bool[,] isSpawnSpot;
 	// Whether a block is a spawn spot
-	public bool isWall;
+	public bool[,] isWall;
 	// Whether a block is an occupiable space or a wall
 	public int gridSize;
 	// The width and height (x, y) value of the gridblock
@@ -46,13 +46,17 @@ public class GridScript : MonoBehaviour{
 		newGridInfo = currentGridInfo;
 	}
 
+	public void setLevelName(string levelName){
+		gridInfoFilepath = Application.dataPath + "/" + levelName + ".xml";
+	}
+
 	#region save and load grid
 
 	public void saveGrid(){
 		FileStream stream = null;
 		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(GridInfo));
-			stream = new FileStream(gridInfoFilepath, FileMode.Create);
+			stream = new FileStream(gridInfoFilepath, FileMode.OpenOrCreate);
 			// New grid info to disk here.
 			serializer.Serialize(stream, newGridInfo);
 			stream.Close();

@@ -124,6 +124,10 @@ public class CreatePlayGrid : MonoBehaviour{
 
 	}
 
+	public void setContextMenuFalse(){
+		contextMenuUp = false;
+	}
+
 	// Update is called once per frame.
 	/// <summary>
 	/// Update this instance.

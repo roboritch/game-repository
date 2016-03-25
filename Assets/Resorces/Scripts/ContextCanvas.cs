@@ -48,5 +48,8 @@ public class ContextCanvas : MonoBehaviour{
 		Destroy(gameObject);
 	}
 
+	void OnDestroy(){
+		space.GridManager.setContextMenuFalse();
+	}
 }
 

@@ -118,6 +118,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		set{
 			gridManager = value;
 		}
+		get{
+			return gridManager;
+		}
 	}
 
 	#region Mouse Events
@@ -246,6 +249,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			left.right = null;
 			right.left = null;
 			setSpriteNone();
+			spawnSpot = false;
 		}
 		available = !available;
 	}
@@ -255,9 +259,13 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
-		spawnSpot = true;
-		//set spawn sprite
-		setSpriteSpawn();
+		if(spawnSpot == true){
+			spawnSpot = false;
+			setSpriteDefault();
+		} else{
+			spawnSpot = true;
+			setSpriteSpawn();
+		}
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -269,7 +277,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set default sprite.
 		setSpriteDefault();
 	}
-
 
 	#endregion
 
