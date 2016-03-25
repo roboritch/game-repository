@@ -2,11 +2,11 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class LoadOnClick : MonoBehaviour {
+public class LoadOnClick : MonoBehaviour{
 
 	public string sceneName;
 
-	public void LoadScene() {
+	public void LoadScene(){
 		SceneManager.LoadScene(sceneName);
 	}
 

@@ -9,35 +9,59 @@ using System.IO;
 /// and executed in sequence with other actions.
 /// </summary>
 public abstract class ActionScript{
-  /// <summary>The unit performing this action. </summary>
-  protected UnitScript unit;
-  /// <summary>Some actions may require more than one action Id. </summary>
-  private int actionID;
-  //Set for each display of the action
-  //each move. Attack or action must be a seprate instance of this script.
+	/// <summary>The unit performing this action. </summary>
+	protected UnitScript unit;
+	protected float actionTime;
+	/// <summary>Some actions may require more than one action Id. </summary>
+	private int actionID;
+	//Set for each display of the action
+	//each move. Attack or action must be a seprate instance of this script.
 
-  public int ActionID {
-    get {
-      return actionID;
-    }
-    set {
-      actionID = value;
-    }
-  }
+	public int ActionID{
+		get{
+			return actionID;
+		}
+		set{
+			actionID = value;
+		}
+	}
 
-  /// <summary> Perform this action when called by the unit's action list. </summary>
-  public abstract void act();
 
-  /// <summary>The amount of time it takes to animate the unit preforming this action.</summary>
-  /// <returns>The time.</returns>
-  public virtual float actionTime(){
-    return 1.0f;
-  }
+	protected ActionScript(UnitScript u){
+		unit = u;
+	}
 
-  /// <summary>Calls the GUI to display this action on the game. </summary>
-  public abstract void display();
 
-  /// <summary>Calls this to get the GUI to remove all displayed images of this action.</summary>
-  public abstract void removeDisplay();
-	public abstract void setUnit (UnitScript unit);
+
+	/// <summary> Perform this action when called by the unit's action list. </summary>
+	public abstract void act();
+
+	/// <summary>The amount of time it takes to animate the unit preforming this action.</summary>
+	/// <returns>The time.</returns>
+	public virtual float getActionTime(){
+		return actionTime;
+	}
+
+	/// <summary>Calls the GUI to display this action's posible outputs on the game. </summary>
+	public abstract void displayUserSelection();
+
+	/// <summary> Displaies the finished action that the user has chosen. </summary>
+	public abstract void displayFinishedAction();
+
+	/// <summary>Calls this to get the GUI to remove displayed images during reset or when action is compleated.</summary>
+	public abstract void removeActionRepresentationDisplay();
+
+	/// <summary> Removes the user selection display this can be called when the action is selected or when it is canceld. </summary>
+	public abstract void removeUserSelectionDisplay();
+
+	/// <summary>
+	/// This is called when a user has selected their action location.
+	/// </summary>
+	/// <param name="blockSelected">Block selected.</param>
+	public abstract void userSelectedAction(GridBlock blockSelected);
+
+	public abstract SerializedCompletedAction serializeAction();
+
+	public abstract void loadAction(SerializedCompletedAction s);
+
 }

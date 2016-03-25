@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class MoveInfo : ActionButtonInfo{
-	public override ActionScript getNewInstanceOfAction (UnitScript unit){
-		ActionScript temp = new MoveScript ();
-		temp.setUnit (unit);
-		return temp;
+	public override ActionScript getNewInstanceOfAction(UnitScript unit){
+		return new MoveScript(unit);
 	}
+
+
+
 }
