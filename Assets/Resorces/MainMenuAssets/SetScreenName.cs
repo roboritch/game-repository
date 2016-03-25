@@ -4,31 +4,41 @@ using System.Xml.Serialization;
 using System;
 using System.IO;
 
-public class SetScreenName : MonoBehaviour {
+public class SetScreenName : MonoBehaviour{
+	[SerializeField] private GameObject screenNameEditor;
 	private ScreenName screenName;
-	private string optionsFileLocation;
+	private string screenNameFileLocation;
 
 	void Awake(){
-		optionsFileLocation = Application.dataPath + "/screenName.xml";
-		if(!File.Exists(optionsFileLocation)){ //update as new options are added
+		screenNameFileLocation = Application.dataPath + "/screenName.xml";
+		if(!File.Exists(screenNameFileLocation)){ //update as new options are added
 			screenName.name = "";
 			saveCurrentName();
 		}
 		loadCurrentName();
 	}
 
+	void start(){
+		
+	}
+
+	public void receveName(string name){
+		screenName.name = name.ToUpper();
+		saveCurrentName();
+	}
+
 
 	public void saveCurrentName(){
 		FileStream stream = null;
-		try {
+		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(ScreenName));
-			stream = new FileStream(optionsFileLocation, FileMode.Truncate);
+			stream = new FileStream(screenNameFileLocation, FileMode.OpenOrCreate);
 			serializer.Serialize(stream, screenName);
 			stream.Close();
-		} catch(Exception ex) {
-			Debug.LogError("error in stream save");
+		} catch(Exception ex){
 			if(stream != null)
 				stream.Close();
+			//throw ex;
 		}
 	}
 
@@ -37,16 +47,16 @@ public class SetScreenName : MonoBehaviour {
 	/// </summary>
 	public void loadCurrentName(){
 		FileStream stream = null;
-		try {
+		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(ScreenName));
-			stream = new FileStream(optionsFileLocation, FileMode.Open);
+			stream = new FileStream(screenNameFileLocation, FileMode.Open);
 			ScreenName container = (ScreenName)serializer.Deserialize(stream);
 			screenName = container;
 			stream.Close();
-		}catch(Exception ex){
+		} catch(Exception ex){
 			if(stream != null)
-			stream.Close();
-			Debug.LogError("error in stream load");
+				stream.Close();
+			//throw ex;
 		}
 	}
 }
@@ -54,7 +64,7 @@ public class SetScreenName : MonoBehaviour {
 
 [Serializable]
 [XmlRoot("screen name")]
-struct ScreenName{
-	[XmlElementAttribute("name")]
+public struct ScreenName{
+	[XmlElement("name")]
 	public string name;
 }
