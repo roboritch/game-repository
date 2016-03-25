@@ -7,7 +7,7 @@
 /// </summary>
 [System.Serializable]
 public struct SerializedCompletedAction{
-  public GridLocation locationToPerformAction;
-  public int actionAmountInt;
-  public System.Type actionType;
+	public GridLocation locationToPerformAction;
+	public int actionAmountInt;
+	public System.Type actionType;
 }

@@ -5,6 +5,6 @@ using System.Xml.Serialization;
 [XmlRoot("options")]
 [Serializable]
 public struct OptionsInfo{
-  [XmlAttribute("resolution")]
-  public Resolution resolution;
+	[XmlAttribute("resolution")]
+	public Resolution resolution;
 }

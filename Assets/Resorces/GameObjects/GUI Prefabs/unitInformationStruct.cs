@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public struct UnitInformationStruct {
+public struct UnitInformationStruct{
 	public GameObject unit;
 	public Sprite unitHeadSprite;
 	public Color unitColor;
