@@ -128,10 +128,10 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
-	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s){
+	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
 		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
 		for(int i = 1; i < numberOfBlocksToRemove + 1; i++){
-			Invoke("removeBlock", (float)(i) * removalSection);
+			Invoke("removeBlock", (float)(i) * removalSection + delay);
 		}
 	}
 	#endregion

@@ -4,7 +4,6 @@ using System.Collections;
 /// <summary> Attack script.</summary>
 public class AttackScript : ActionScript{
 
-	//Attack attributes.
 	/// <summary>
 	/// The attack grid block location.
 	/// </summary>
@@ -65,11 +64,10 @@ public class AttackScript : ActionScript{
 		if(attackLocation.unitInstalled != null){
 			if(attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
 				displayCloseRangeAttackAnimation(attackLocation);
-				// Must be called after the display.
-				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime);
+				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, 0f); // must be called after the display
 			} else{
-				//displayLongRangeAttackAnimation();
-				attackLocation.unitInstalled.removeBlock(attackStrength);
+				float delay = displayLongRangeAttackAnimation(attackLocation);
+				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, delay);
 			}
 		} else{
 			Debug.Log("unit's block was removed before it could be attacked");
@@ -85,14 +83,21 @@ public class AttackScript : ActionScript{
 	}
 
 
-	//TODO Long range attack animation not done.
-	private void displayLongRangeAttackAnimation(GridBlock animationLocation){
-		// Diplayed on the units block.
-		GameObject farAttackOut = unit.grid.getAnimation("far attack out");
-		// Diplayed on the animationLocation.
-		GameObject farAttackIn = unit.grid.getAnimation("far attack in");
-		actionTime = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
-		actionTime += farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+	//TODO long range attack animation not done
+	private float displayLongRangeAttackAnimation(GridBlock animationLocation){
+		GameObject farAttackOut = unit.instantiationHelper(unit.grid.getAnimation("far attack out")); // diplayed on the units block
+		GameObject farAttackIn = unit.instantiationHelper(unit.grid.getAnimation("far attack in")); // diplayed on the animationLocation
+		float delay = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+		actionTime = farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
+		farAttackOut.transform.SetParent(unit.getCurrentBlockHeadLocation().transform, false);
+		farAttackOut.transform.localPosition = new Vector3();
+		farAttackOut.transform.position = farAttackOut.transform.position + new Vector3(0f, 1f, 0f);
+
+		farAttackIn.transform.SetParent(animationLocation.transform, false);
+		farAttackIn.transform.localPosition = new Vector3();
+		farAttackIn.transform.position = farAttackOut.transform.position + new Vector3(0f, 1f, 0f);
+
+		return delay;
 	}
 
 
@@ -110,7 +115,7 @@ public class AttackScript : ActionScript{
 		setPosibleAttackLocations();
 		checkAndDisplayPossibleUserActions();
 	}
-
+			
 	#region Set Possible Attack Locations
 
 	/// <summary>
@@ -144,8 +149,8 @@ public class AttackScript : ActionScript{
 
 	#endregion
 
-	#region Finished Action Display
-	//For when enamy actions are loaded.
+	#region finished action display
+	//for when enamy actions are loaded
 	public override void displayFinishedAction(){
 		actionDisplayID = attackLocation.spriteDisplayScript.displayAction(unit.grid.spritesAndColors.sprite_attack);
 	}
@@ -158,7 +163,6 @@ public class AttackScript : ActionScript{
 		attackLocation.spriteDisplayScript.removeAction(actionDisplayID);
 		unit.addAttackAction();
 	}
-
 	#endregion
 
 
@@ -174,7 +178,6 @@ public class AttackScript : ActionScript{
 		//The unit can no longer attack.
 		unit.useAttackAction();
 	}
-
 	#region Action Save And Load
 
 	public override void loadAction(SerializedCompletedAction s){
