@@ -27,6 +27,12 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	//Block properties.
 	/// <summary>Whether this block is a spawn spot.</summary>
 	[SerializeField] private bool spawnSpot = false;
+
+
+	/// <summary> The spawn spot alligence.</summary>
+	public int _spawnSpotAlligence;
+
+
 	/// <summary>Whether this block is an occupiable space.</summary>
 	[SerializeField] private bool available = true;
 
@@ -275,7 +281,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	#region Unit Control
 
-	/// <summary>Spawns a given unit.</summary>
+	/// <summary>Spawns a given unit
+	/// the units alliance must be 
+	/// set before this is called
+	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
 		unit.transform.position = new Vector3();

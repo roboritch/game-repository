@@ -19,7 +19,7 @@ public class Player : Singleton<Player>{
 		playerName = name;
 	}
 
+	public int playerAlliance = -1;
 
-		
 
 }

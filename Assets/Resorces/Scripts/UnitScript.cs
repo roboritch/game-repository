@@ -24,7 +24,8 @@ public class UnitScript : MonoBehaviour{
 	[SerializeField] private GameObject[] buttonPrefabs;
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
-	/// <summary>The temp action.</summary>
+
+	private ControlType controlType;
 	#endregion
 
 	#region programName
@@ -480,6 +481,26 @@ public class UnitScript : MonoBehaviour{
 
 	public int getUnitMaxMovment(){
 		return unitInfo.maxMove;
+	}
+
+	#endregion
+
+	#region unit serialization
+	/// <summary>
+	/// Serializes the unit.
+	/// Primaraly used to insure network instances are synced
+	/// </summary>
+	/// <returns>The unit.</returns>
+	public UnitSaving serializeUnit(){
+		UnitSaving serl = new UnitSaving();
+		serl.controlType = controlType;
+		serl.currentAttackPow = currentAttackPower;
+		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
+		serl.currentMaxLength = maxProgramLength;
+		//TODO save all unit atrabuts
+
+
+		return serl;
 	}
 
 	#endregion

@@ -19,7 +19,6 @@ public class CreatePlayGrid : MonoBehaviour{
 	public SpritesAndColors spritesAndColors;
 
 	//Unit attributes.
-	public UnitInformationStruct[] units;
 	[SerializeField] private GameObject UnitTimerDisplay;
 
 	//Editing attributes.

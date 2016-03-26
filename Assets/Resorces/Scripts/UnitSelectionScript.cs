@@ -77,10 +77,16 @@ public class UnitSelectionScript : MonoBehaviour{
 		currentGridblock = gb;
 	}
 
+	/// <summary>
+	/// Creates the this unit 
+	/// Units created this way are assumed to be allinged with the player.
+	/// </summary>
+	/// <param name="unitNumberFromSelection">Unit number from selection.</param>
 	public void createThisUnit(int unitNumberFromSelection){
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		// Send to gridBlockforCreation.
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>());
+		unit.GetComponent<UnitScript>().
 		gameObject.SetActive(false);
 	}
 
