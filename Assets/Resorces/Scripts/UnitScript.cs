@@ -25,7 +25,8 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
-	private ControlType controlType;
+	public ControlType controlType;
+	//private AI controlingAI;
 	#endregion
 
 	#region programName

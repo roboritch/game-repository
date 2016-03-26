@@ -1200,6 +1200,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1001 &906572811
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &940509290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,15 +2071,6 @@ MonoBehaviour:
   gridBlock: {fileID: 172680, guid: a7a9e18a8a100644b97259c44d90daf7, type: 2}
   gridStartPoint: {fileID: 1096941442}
   gridSize: 10
-  animationLibrarySetter:
-  - animationName: unit spawn
-    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
-  - animationName: close attack
-    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
-  - animationName: far attack out
-    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
-  - animationName: far attack in
-    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
   gui: {fileID: 602568644}
   unitObjectHolder: {fileID: 438301247}
   spritePrefab: {fileID: 194436, guid: 1dc88005f815d9542b0abff156a3632c, type: 2}
@@ -2058,23 +2091,20 @@ MonoBehaviour:
       type: 3}
     sprite_attack: {fileID: 21300000, guid: f463623e900a3714181bd5328cf8d496, type: 3}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
-  units:
-  - unit: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
-    unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
-    unitColor: {r: 1, g: 1, b: 1, a: 1}
-    maxLength: 3
-    maxMove: 0
-    attackPow: 0
-    maxAttackActions: 0
-    unitTimer:
-      time: 0
-      maxTime: 0
-      ticAmount: 0
   UnitTimerDisplay: {fileID: 0}
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 
   contextMenuUp: 0
+  animationLibrarySetter:
+  - animationName: unit spawn
+    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
+  - animationName: close attack
+    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
+  - animationName: far attack out
+    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
+  - animationName: far attack in
+    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
 --- !u!95 &1384402564
 Animator:
   serializedVersion: 3

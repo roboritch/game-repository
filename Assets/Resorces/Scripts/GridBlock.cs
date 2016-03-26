@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 /// Can be a spawn spot.
 /// </summary>
 public class GridBlock : MonoBehaviour,IPointerDownHandler{
-
+	
 	//Adjacent Blocks.
 	/// <summary>Upper adjacent block.</summary>
 	private GridBlock up;
@@ -166,7 +166,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			gridManager.gui.setSelectedUnit(unitInstalled);
+			if(unitInstalled.controlType == ControlType.PLAYER) //only a player can select a unit
+				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
 		//			gridManager.gui.setUnitAsSelected (null);
@@ -297,6 +298,12 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		unitInstalled = null;
 	}
 
+	public void spawnAIUnit(string unitName){
+		GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
+		// Send to gridBlockforCreation.
+		unit.GetComponent<UnitScript>().controlType = ControlType.AI;
+		spawnUnit(unit.GetComponent<UnitScript>());
+	}
 	#endregion
 
 	// Use this for initialization.
