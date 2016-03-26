@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// </summary>
 public class UnitSelectionScript : MonoBehaviour{
 	
-	[SerializeField]
+
 	#pragma warning disable
 	/// <summary>
 	/// This is a problem point as the information from the unit must be manually
@@ -17,20 +17,20 @@ public class UnitSelectionScript : MonoBehaviour{
 	/// We could fix this if we move to an XML system, but that has its own problems.
 	/// We will work with manual copying.
 	/// </summary>
-	private UnitInformationStruct[] unitInfo;
+	[SerializeField] private UnitInformationStruct[] unitInfo;
 	private Button[] unitSelections;
 	/// <summary>
 	/// if it is not posible to set a unit disable it's selection with this
 	/// </summary>
-	[SerializeField]
-	private bool[] disabledUnits;
+
+	[SerializeField] private bool[] disabledUnits;
 
 	public GameObject unitDisplayPrefab;
 
 	public GridBlock currentGridblock;
 
-	[SerializeField]
-	private Sprite defaultUnitSprite;
+
+	[SerializeField] private Sprite defaultUnitSprite;
 
 	/// <summary>
 	/// Sets up a 4 by Y grid of units so the user can choose which one to place in a spawn spot.
@@ -77,8 +77,14 @@ public class UnitSelectionScript : MonoBehaviour{
 		currentGridblock = gb;
 	}
 
+	/// <summary>
+	/// Creates the this unit 
+	/// Units created this way are assumed to be allinged with the player.
+	/// </summary>
+	/// <param name="unitNumberFromSelection">Unit number from selection.</param>
 	public void createThisUnit(int unitNumberFromSelection){
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
+		unit.GetComponent<UnitScript>().controlType = ControlType.PLAYER;
 		// Send to gridBlockforCreation.
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>());
 		gameObject.SetActive(false);
