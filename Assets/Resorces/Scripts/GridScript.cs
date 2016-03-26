@@ -46,9 +46,12 @@ public class GridScript : MonoBehaviour{
 		newGridInfo = currentGridInfo;
 	}
 
+	// Set a level name
 	public void setLevelName(string levelName){
 		gridInfoFilepath = Application.dataPath + "/" + levelName + ".xml";
 	}
+
+	// Call grid and save current info into struct...
 
 	#region save and load grid
 

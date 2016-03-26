@@ -150,14 +150,14 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
-		if(spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if(!GridManager.editModeOn && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
 			actionWaitingForUserInput.userSelectedAction(this);
 		} else if(actionWaitingForUserInput is AttackScript){
 			actionWaitingForUserInput.userSelectedAction(this);
-		} else if(unitInstalled == null && Input.GetMouseButton(0)){
+		} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);
