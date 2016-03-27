@@ -37,6 +37,15 @@ public class GUIScript : MonoBehaviour{
 	//Unit acting attributes.
 	private UnitActingQueue unitActingQueue;
 
+	/// <summary>
+	/// Gets the unit acting queue.
+	/// Only to be used by networking
+	/// </summary>
+	/// <returns>The unit acting queue.</returns>
+	public UnitActingQueue getUnitActingQueue(){
+		return unitActingQueue;
+	}
+
 	#region Unit Selection and Timer
 
 	/// <summary>
@@ -205,8 +214,7 @@ public class GUIScript : MonoBehaviour{
 			timer = GameObject.Find("Unit Timer").GetComponent<TimerDisplay>();
 		}
 	}
-
-
+		
 	// Update is called once per frame.
 	/// <summary>
 	/// Update this instance.
