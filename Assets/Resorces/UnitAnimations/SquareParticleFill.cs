@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
+public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin{
 	/// <summary>
 	/// The Particle system, some peramiters are already setup in the prefab.
 	/// </summary>
@@ -19,12 +19,12 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 	}
 
 	void Start(){
-		numberOfParticles = widthOfParticals*widthOfParticals;
+		numberOfParticles = widthOfParticals * widthOfParticals;
 		PS.maxParticles = numberOfParticles;
 
-		Invoke("setParticleStartLocations",0.1f); // let the Instanteating script do some setup first
+		Invoke("setParticleStartLocations", 0.1f); // let the Instanteating script do some setup first
 
-		InvokeRepeating("moveParticls",0.2f,0.02f);
+		InvokeRepeating("moveParticls", 0.2f, 0.02f);
 	}
 
 	public void setParticalColor(Color c){
@@ -34,14 +34,15 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 
 	private bool timeHasBeenFound = false;
 	private float time = 0;
-	[SerializeField] private float timeFound = 2.6f; // this is time for width 8
+	[SerializeField] private float timeFound = 2.6f;
+	// this is time for width 8
 	void FixedUpdate(){
 		time += Time.fixedDeltaTime;
 	}
 
 	#region IGetAnimationTimeToFin implementation
 
-	public float getAnimationTime() {
+	public float getAnimationTime(){
 		return timeFound;
 	}
 
@@ -52,6 +53,7 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 	[SerializeField] private float emissionRate = 20f;
 	[SerializeField] private float moveOverTimeMultiplyer = 1f;
 	[SerializeField] private float particleMoveAmount = 0.1f;
+
 	/// <summary>
 	/// Move all the alive particles to there positions on the unit
 	/// </summary>
@@ -63,14 +65,14 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 		emission.rate = rate;
 
 		moveOverTimeMultiplyer += 0.02f;
-		float tempParticalMoveAmount =  particleMoveAmount * moveOverTimeMultiplyer;
+		float tempParticalMoveAmount = particleMoveAmount * moveOverTimeMultiplyer;
 		particles = new ParticleSystem.Particle[PS.particleCount];
 		int numberP = PS.GetParticles(particles);
 		int x = 0;
 		int y = 0;
-		for (int i = 0; i < numberP; i++) {
+		for(int i = 0; i < numberP; i++){
 			tempParticalMoveAmount *= particles[i].startLifetime - particles[i].lifetime;
-			particles[i].position = Vector3.MoveTowards(particles[i].position,endLocations[x,y],tempParticalMoveAmount);
+			particles[i].position = Vector3.MoveTowards(particles[i].position, endLocations[x, y], tempParticalMoveAmount);
 			x++;
 			if(x >= widthOfParticals){
 				x = 0;
@@ -79,35 +81,38 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 		}
 
 		if(numberP == numberOfParticles){
-			if(!timeHasBeenFound && particles[numberOfParticles-1].position == endLocations[widthOfParticals-1,widthOfParticals-1]){
+			if(!timeHasBeenFound && particles[numberOfParticles - 1].position == endLocations[widthOfParticals - 1, widthOfParticals - 1]){
 				Destroy(gameObject);
 				/*Debug.Log("Time to compleat is " + time); //uncoment this to find time
 				timeHasBeenFound = true;*/
 			}	
 		}
 
-		PS.SetParticles(particles,numberP);
+		PS.SetParticles(particles, numberP);
 	}
 
 	#pragma warning disable
-	private ParticleSystem.Particle[] particles; // container for the particles in the system
-	private Vector3[,] endLocations; // end location of each particle
+	private ParticleSystem.Particle[] particles;
+	// container for the particles in the system
+	private Vector3[,] endLocations;
+	// end location of each particle
 
 	[SerializeField] private float offsetAmount = 0.18f;
+
 	private void setParticleStartLocations(){
-		endLocations = new Vector3[widthOfParticals,widthOfParticals];
+		endLocations = new Vector3[widthOfParticals, widthOfParticals];
 		Vector3 particelStartLocation = new Vector3(); // bottem left partical of the unit
-		int x,y;
-		for (x = 0; x < widthOfParticals; x++) {
-			for (y = 0; y < widthOfParticals; y++) {
-				endLocations[x,y] = particelStartLocation;
-				float posX,posY;
-				posX = x*offsetAmount;
-				posX -= ((widthOfParticals -1f)*offsetAmount)/2f;
-				posY = y*offsetAmount;
-				posY -= ((widthOfParticals -1f)*offsetAmount)/2f;
+		int x, y;
+		for(x = 0; x < widthOfParticals; x++){
+			for(y = 0; y < widthOfParticals; y++){
+				endLocations[x, y] = particelStartLocation;
+				float posX, posY;
+				posX = x * offsetAmount;
+				posX -= ((widthOfParticals - 1f) * offsetAmount) / 2f;
+				posY = y * offsetAmount;
+				posY -= ((widthOfParticals - 1f) * offsetAmount) / 2f;
 					
-				endLocations[x,y] += new Vector3(posX,0,posY); // 0.5 is the offset amount
+				endLocations[x, y] += new Vector3(posX, 0, posY); // 0.5 is the offset amount
 			}
 		}
 
@@ -132,16 +137,17 @@ public class SquareParticleFill : MonoBehaviour,IGetAnimationTimeToFin {
 
 		//randomize the end locations for a better effect
 		Vector3 endTemp;
-		x = 0; y = 0;
-		int x1 ,y1;
-		for (int i = 0; i < numberOfParticles*10; i++) {
-			x = Random.Range(0,widthOfParticals);
-			y = Random.Range(0,widthOfParticals);
-			x1 = Random.Range(0,widthOfParticals);
-			y1 = Random.Range(0,widthOfParticals);
-			endTemp = endLocations[x,y];
-			endLocations[x,y] = endLocations[x1,y1];
-			endLocations[x1,y1] = endTemp;
+		x = 0;
+		y = 0;
+		int x1, y1;
+		for(int i = 0; i < numberOfParticles * 10; i++){
+			x = Random.Range(0, widthOfParticals);
+			y = Random.Range(0, widthOfParticals);
+			x1 = Random.Range(0, widthOfParticals);
+			y1 = Random.Range(0, widthOfParticals);
+			endTemp = endLocations[x, y];
+			endLocations[x, y] = endLocations[x1, y1];
+			endLocations[x1, y1] = endTemp;
 		}
 	}
 

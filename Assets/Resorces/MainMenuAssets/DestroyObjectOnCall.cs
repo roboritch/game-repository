@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class DestroyObjectOnCall : MonoBehaviour {
+public class DestroyObjectOnCall : MonoBehaviour{
 
 	public void destroy(){
 		Destroy(transform.parent.gameObject);
