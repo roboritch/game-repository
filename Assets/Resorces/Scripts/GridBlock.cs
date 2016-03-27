@@ -301,8 +301,13 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	public void spawnAIUnit(string unitName){
 		GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
 		// Send to gridBlockforCreation.
-		unit.GetComponent<UnitScript>().controlType = ControlType.AI;
+		UnitScript sn = unit.GetComponent<UnitScript>();
+		sn.controlType = ControlType.AI;
 		spawnUnit(unit.GetComponent<UnitScript>());
+	}
+
+	public void spawUnitFromNetwork(UnitScript unit){
+		
 	}
 	#endregion
 
