@@ -11,7 +11,7 @@ public class UnitHolder : Singleton<UnitHolder>{
 	}
 
 	[SerializeField] private UnitPrefabAndName[] units;
-	private Dictionary<string,GameObject> unitLibrary;
+	private Dictionary<string,GameObject> unitLibrary = new Dictionary<string, GameObject>(10);
 
 	void Start(){
 		for(int i = 0; i < units.Length; i++){

@@ -2,16 +2,15 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Exit : Singleton<Exit>{
-	protected Exit(){
-	}
-
+public class Exit : MonoBehaviour{
+	public static Exit Instance;
 	public GameObject confirmationMenu;
 
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
 	void Awake(){
+		Instance = this;
 		if(Instance){
 			DestroyImmediate(gameObject);
 		} else{

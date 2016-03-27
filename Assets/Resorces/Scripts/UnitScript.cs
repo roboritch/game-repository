@@ -487,6 +487,12 @@ public class UnitScript : MonoBehaviour{
 	#endregion
 
 	#region unit serialization
+	private string unitName;
+
+	private void setUnitNameToLoadOffof(){
+		unitName = unitInfo.unitNameForLoad;
+	}
+
 	/// <summary>
 	/// Serializes the unit.
 	/// Primaraly used to insure network instances are synced
@@ -498,10 +504,39 @@ public class UnitScript : MonoBehaviour{
 		serl.currentAttackPow = currentAttackPower;
 		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
 		serl.currentMaxLength = maxProgramLength;
-		//TODO save all unit atrabuts
-
-
+		serl.currentMaxMove = maximumMovment;
+		serl.unitNameToLoad = name;
+		serl.currentUnitTimer = unitTimer;
+		GridLocation[] BL = new GridLocation[blockList.Count];
+		int count = 0;
+		foreach( var item in blockList ){
+			BL[count++] = item.gridlocation;
+		}
 		return serl;
+	}
+
+	public void loadUnit(UnitSaving unitSave){
+		if(unitSave.controlType != null)
+			controlType = unitSave.controlType;
+		if(unitSave.currentAttackPow != null)
+			currentAttackPower = unitSave.currentAttackPow;
+		if(unitSave.currentMaxAttackActions != null)
+			currentMaxPosibleAttackActions = unitSave.currentMaxAttackActions;
+		if(unitSave.currentMaxLength != null)
+			maxProgramLength = unitSave.currentMaxLength;
+		if(unitSave.currentMaxMove != null)
+			maximumMovment = unitSave.currentMaxMove;
+		if(unitSave.unitNameToLoad != null)
+			name = unitSave.unitNameToLoad;
+		if(unitSave.unitNameToLoad != null)
+			name = unitSave.unitNameToLoad;
+		if(unitSave.currentUnitTimer != null)
+			unitTimer = unitSave.currentUnitTimer;
+		if(unitSave.currentBlockLocations != null){
+			for(int i = 0; i < unitSave.currentBlockLocations.Length; i++){
+				addBlock(grid.gridLocationToGameGrid(unitSave.currentBlockLocations[i]), false);
+			}
+		}
 	}
 
 	#endregion
