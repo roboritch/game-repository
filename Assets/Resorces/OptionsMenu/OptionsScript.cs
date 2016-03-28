@@ -4,20 +4,23 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+
 // http://wiki.unity3d.com/index.php?title=Saving_and_Loading_Data:_XmlSerializer
 
 
-public class OptionsScript : MonoBehaviour {
+public class OptionsScript : MonoBehaviour{
 	
 	private string optionsFileLocation;
-	private OptionsInfo currentOptions; // options being used now
-	public OptionsInfo newOptions; // options being set by user
+	private OptionsInfo currentOptions;
+	// options being used now
+	public OptionsInfo newOptions;
+	// options being set by user
 
 	#region options UI script refrences
 	public ReselutionSelect reselutionSelect;
 	#endregion
 
-	void Awake () {
+	void Awake(){
 		optionsFileLocation = Application.dataPath + "/options.xml";
 		if(!File.Exists(optionsFileLocation)){ //update as new options are added
 			newOptions.resolution = Screen.currentResolution;
@@ -31,15 +34,15 @@ public class OptionsScript : MonoBehaviour {
 	#region save load and test
 	public void saveCurrentOptions(){
 		FileStream stream = null;
-		try {
+		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(OptionsInfo));
-			stream = new FileStream(optionsFileLocation, FileMode.Create);
+			stream = new FileStream(optionsFileLocation, FileMode.OpenOrCreate);
 			serializer.Serialize(stream, newOptions); // new options to disk here
 			stream.Close();
-		} catch(Exception ex) {
+		} catch(Exception ex){
 			Debug.LogError(ex.ToString());
 			if(stream != null)
-			stream.Close();
+				stream.Close();
 		}
 		currentOptions = newOptions;
 	}
@@ -49,16 +52,16 @@ public class OptionsScript : MonoBehaviour {
 	/// </summary>
 	public void loadCurrentOptions(){
 		FileStream stream = null;
-		try {
-		XmlSerializer serializer = new XmlSerializer(typeof(OptionsInfo));
-		stream = new FileStream(optionsFileLocation, FileMode.Open);
-		OptionsInfo container = (OptionsInfo)serializer.Deserialize(stream);
-		currentOptions = container;
-       stream.Close();
-       //}catch(Exception ex){
-       }catch{
-			if(stream != null)
+		try{
+			XmlSerializer serializer = new XmlSerializer(typeof(OptionsInfo));
+			stream = new FileStream(optionsFileLocation, FileMode.Open);
+			OptionsInfo container = (OptionsInfo)serializer.Deserialize(stream);
+			currentOptions = container;
 			stream.Close();
+			//}catch(Exception ex){
+		} catch{
+			if(stream != null)
+				stream.Close();
 			//Debug.LogError(ex.ToString());
 		}
 	}
@@ -68,7 +71,7 @@ public class OptionsScript : MonoBehaviour {
 	/// Applies the new options.
 	/// </summary>
 	public void applyNewOptions(){
-		Screen.SetResolution(newOptions.resolution.width,newOptions.resolution.height,true);
+		Screen.SetResolution(newOptions.resolution.width, newOptions.resolution.height, true);
 	}
 
 	/// <summary>
@@ -90,11 +93,5 @@ public class OptionsScript : MonoBehaviour {
 	}
 		
 	#endregion
-}
 
-[XmlRoot("options")]
-[Serializable]
-public struct OptionsInfo{
-	[XmlAttribute("resolution")]
-	public Resolution resolution;
 }
