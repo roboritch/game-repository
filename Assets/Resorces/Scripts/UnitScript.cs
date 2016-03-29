@@ -27,6 +27,7 @@ public class UnitScript : MonoBehaviour{
 
 	public ControlType controlType;
 	//private AI controlingAI;
+	private int team;
 	#endregion
 
 	#region programName
@@ -540,7 +541,14 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	#endregion
-
+	#region team
+	public int getTeam(){
+		return team;
+	}
+	public void setTeam(int num){
+		team = num;
+	}
+	#endregion
 	void Start(){
 		actionList = new LinkedList<ActionScript>();
 		timerStartup();

@@ -221,5 +221,8 @@ public class GUIScript : MonoBehaviour{
 	/// </summary>
 	void Update(){
 		updateUnitInformation();
+//		if (currentlySelectedUnit != null && Input.GetKeyDown (KeyCode.A) == true) {
+//			currentlySelectedUnit.getVirtualBlockHeadLocation().attackActionWantsToAttackHere(currentlySelectedUnit.setTempAction(actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit)(currentlySelectedUnit),currentlySelectedUnit)
+//		}
 	}
 }
