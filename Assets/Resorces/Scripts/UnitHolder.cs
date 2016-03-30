@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 #pragma warning disable
 /// <summary>
@@ -20,6 +20,11 @@ public class UnitHolder : Singleton<UnitHolder>{
 
 	}
 
+	/// <summary>
+	/// Get an un-instateated instance of a pertiular unit perfab
+	/// </summary>
+	/// <returns>The unit from name.</returns>
+	/// <param name="name">Name.</param>
 	public GameObject getUnitFromName(string name){ 
 		GameObject un;
 		unitLibrary.TryGetValue(name, out un);
