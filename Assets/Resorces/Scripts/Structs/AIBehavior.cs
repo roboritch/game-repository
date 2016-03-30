@@ -55,10 +55,6 @@ public enum MoveTargetBehavior {
 /// </summary>
 public enum AttackBehavior {
 	/// <summary>
-	/// Don't attack.
-	/// </summary>
-	IDLE,
-	/// <summary>
 	/// Attack one enemy as many times as possible.
 	/// </summary>
 	MICRO,

@@ -27,6 +27,7 @@ public class UnitScript : MonoBehaviour{
 
 	public ControlType controlType;
 
+	private AIUnit ai;
 	private int team;
 	private int enemyCount;
 	#endregion
@@ -312,6 +313,9 @@ public class UnitScript : MonoBehaviour{
 		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		} else{
+			//Check if AI exists, and perform behavior determination.
+			if(ai != null)
+				ai.aiAct();
 			isActing = true;
 			stopTimerTick();
 			resetTimer();

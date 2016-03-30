@@ -17,6 +17,14 @@ public class AIGrid {
 	///The distance of each gridblock to the closest unit head of a team.
 	/// </summary>
 	private int[,,] closestDistHead;
+	/// <summary>
+	///The closest unit to each gridblock.
+	/// </summary>
+	private UnitScript[,,] closestUnit;
+	/// <summary>
+	///The closest unit head to each gridblock.
+	/// </summary>
+	private UnitScript[,,] closestUnitHead;
 
 	//Distances are used for macro AI behavior.
 	/// <summary>
@@ -66,11 +74,15 @@ public class AIGrid {
 						//Distance from this block to unit head.
 						int distHeadValue = Math.Abs(x - blockX) + Math.Abs(y - blockY);
 						//Only update closest distance if closer or first.
-						if(distValue < closestDist[team, x, y] || (x == 0 && y == 0))
+						if(distValue < closestDist[team, x, y] || (x == 0 && y == 0)){
 							closestDist[team, x, y] = distValue;
+							closestUnit[team, x, y] = unit;
+						}
 						//Only update closest head distance if closer or first.
-						if(distHeadValue < closestDistHead[team, x, y] || (x == 0 && y == 0))
+						if(distHeadValue < closestDistHead[team, x, y] || (x == 0 && y == 0)){
 							closestDistHead[team, x, y] = distHeadValue;
+							closestUnitHead[team, x, y] = unit;
+						}
 						//Increment global distances.
 						dist[team, x, y] += distValue;
 						distHead[team, x, y] += distHeadValue;
