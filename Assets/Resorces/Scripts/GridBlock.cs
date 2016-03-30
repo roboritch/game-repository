@@ -313,28 +313,28 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	public void setCaptureSpace(bool n){
 		captureSpace = n;
 	}
-	#region win condition
-	private int captureBar;
-	public void captureCount(){
-		if (unitInstalled != null && captureSpace == true) {
-			if (unitInstalled.getTeam() == 1) {
-				captureBar++;
-				checkWin ();
-			}
-			if (unitInstalled.getTeam () == 2) {
-				captureBar--;
-				checkWin ();
-			}
-		}
-	}
-	private void checkWin(){
-		if (captureBar == 5) {
-			print ("team 1 won");
-		}
-		if (captureBar == -5) {
-			print ("team 2 won");
-		}
-	}
+	#region capture win condition
+//	private int captureBar;
+//	public void captureCount(){
+//		if (unitInstalled != null && captureSpace == true) {
+//			if (unitInstalled.getTeam() == 1) {
+//				captureBar++;
+//				checkWin ();
+//			}
+//			if (unitInstalled.getTeam () == 2) {
+//				captureBar--;
+//				checkWin ();
+//			}
+//		}
+//	}
+//	private void checkWin(){
+//		if (captureBar == 5) {
+//			print ("team 1 won");
+//		}
+//		if (captureBar == -5) {
+//			print ("team 2 won");
+//		}
+//	}
 	#endregion
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
