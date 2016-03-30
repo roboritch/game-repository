@@ -33,6 +33,9 @@ public class Team : MonoBehaviour
 		}
 		return false;
 	}
+	public Color getColor(){
+		return teamColor;
+	}
 	// Use this for initialization
 	void Start ()
 	{

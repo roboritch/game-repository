@@ -28,6 +28,7 @@ public class UnitScript : MonoBehaviour{
 
 	private UnitAI ai;
 	public Team team;
+	private Color teamColor;
 	#endregion
 
 	#region programName
@@ -166,6 +167,7 @@ public class UnitScript : MonoBehaviour{
 		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
+		team = getCurrentBlockHeadLocation ().getTeam ();
 
 
 		blockList.AddLast(startLocation);
@@ -217,7 +219,9 @@ public class UnitScript : MonoBehaviour{
 	public virtual Color getUnitColor(){
 		return unitInfo.unitColor;
 	}
-
+	public void setUnitColor(Color tc){
+		teamColor = team.getColor ();
+	}
 	/// <summary>
 	/// The head sprite.
 	/// Must be set from child unit.
@@ -563,6 +567,8 @@ public class UnitScript : MonoBehaviour{
 	}
 	#endregion
 	void Start(){
+		
+
 	}
 
 	// Update is called once per frame

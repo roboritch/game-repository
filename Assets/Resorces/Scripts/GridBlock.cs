@@ -55,6 +55,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	//Attack attributes
 	private int attackActionID = -1;
 	private bool captureSpace;
+	private Team teamSpawn;
 
 
 	#region Adjacent Blocks
@@ -258,8 +259,16 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	/// <summary>Sets gridblock as a spawn spot.</summary>
-	public void setSpawn(){
+	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
+		if(!available)
+			return;
+		spawnSpot = true;
+		teamSpawn = ts;
+		//set spawn sprite
+		setSpriteSpawn();
+	}
+	public void setSpawn(){
 		if(!available)
 			return;
 		spawnSpot = true;
@@ -275,6 +284,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		spawnSpot = false;
 		//Set default sprite.
 		setSpriteDefault();
+	}
+	public Team getTeam(){
+		return teamSpawn;
 	}
 
 

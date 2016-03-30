@@ -108,8 +108,8 @@ public class CreatePlayGrid : MonoBehaviour{
 			}
 		}
 		// Setup default spawn blocks for testing purposes.
-		gameGrid[2, 2].setSpawn();
-		gameGrid[5, 2].setSpawn();
+		gameGrid[2, 2].setSpawn(team[0]);
+		gameGrid[5, 2].setSpawn(team[1]);
 
 	}
 
