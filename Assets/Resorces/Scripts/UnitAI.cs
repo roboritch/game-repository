@@ -62,6 +62,7 @@ public class UnitAI {
 	private AttackBehavior attackB;
 
 	public UnitAI() {
+		//TODO fix these default values.
 		moveDir=0.5;
 		moveIdle=0.5;
 		moveScope=0.5;
@@ -112,11 +113,11 @@ public class UnitAI {
 
 	/// <summary>
 	/// Descriptive code of this AI unit. Follows the format:
-	/// "{unitDescription}M:{moveBehavior},A:{attackBehavior}"
+	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
 	/// </summary>
 	/// <returns>The code string.</returns>
 	public string toString() {
-		return "M:" + moveDirB + "," + moveScopeB + ",A:" + attackB;
+		return "M:" + moveDirB + "," + moveScopeB + "," + moveTargetB + ",A:" + attackB;
 	}
 
 }
