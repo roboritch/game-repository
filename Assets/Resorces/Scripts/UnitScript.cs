@@ -27,7 +27,7 @@ public class UnitScript : MonoBehaviour{
 
 	public ControlType controlType;
 
-	private AIUnit ai;
+	private UnitAI ai;
 	private int team;
 	private int enemyCount;
 	#endregion

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class AIUnit {
+public class UnitAI {
 
 	//Attributes of this AI, for decision making.
 
@@ -61,7 +61,7 @@ public class AIUnit {
 	/// </summary>
 	private AttackBehavior attackB;
 
-	public AIUnit() {
+	public UnitAI() {
 		moveDir=0.5;
 		moveIdle=0.5;
 		moveScope=0.5;
