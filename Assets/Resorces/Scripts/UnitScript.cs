@@ -25,7 +25,6 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
-	public ControlType controlType;
 	//private AI controlingAI;
 	private int team;
 	private int enemyCount;
@@ -122,7 +121,7 @@ public class UnitScript : MonoBehaviour{
 			if(blockList.Last == null){
 				enemyCount--;
 				destroyUnit();
-				checkWin ();
+				checkWin();
 				return true;
 			}
 			GridBlock tempBlock = blockList.Last.Value;
@@ -132,11 +131,13 @@ public class UnitScript : MonoBehaviour{
 		}
 		return false;
 	}
+
 	private void checkWin(){
-		if (enemyCount == 0) {
-			print("team "+team+" wins");
+		if(enemyCount == 0){
+			print("team " + team + " wins");
 		}
-		}
+	}
+
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
 	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
 		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
@@ -164,8 +165,6 @@ public class UnitScript : MonoBehaviour{
 		team = unitInfo.team;
 		//setUnitColor (team);
 		//transform.GetComponent<SpriteControler>().setColor (getUnitColor ());
-
-
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay", spawnTime);
@@ -215,12 +214,12 @@ public class UnitScript : MonoBehaviour{
 	public virtual Color getUnitColor(){
 		return unitInfo.unitColor;
 	}
+
 	private void setUnitColor(int i){
-		if(i==1){
-			unitInfo.unitColor=Color.blue;
-		}
-		else{
-			unitInfo.unitColor=Color.red;
+		if(i == 1){
+			unitInfo.unitColor = Color.blue;
+		} else{
+			unitInfo.unitColor = Color.red;
 		}
 	}
 
@@ -520,7 +519,6 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The unit.</returns>
 	public UnitSaving serializeUnit(){
 		UnitSaving serl = new UnitSaving();
-		serl.controlType = controlType;
 		serl.currentAttackPow = currentAttackPower;
 		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
 		serl.currentMaxLength = maxProgramLength;
@@ -536,8 +534,6 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public void loadUnit(UnitSaving unitSave){
-		if(unitSave.controlType != null)
-			controlType = unitSave.controlType;
 		if(unitSave.currentAttackPow != null)
 			currentAttackPower = unitSave.currentAttackPow;
 		if(unitSave.currentMaxAttackActions != null)
@@ -564,6 +560,7 @@ public class UnitScript : MonoBehaviour{
 	public int getTeam(){
 		return team;
 	}
+
 	public void setTeam(int num){
 		team = num;
 	}

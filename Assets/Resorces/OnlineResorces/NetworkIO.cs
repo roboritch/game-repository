@@ -16,15 +16,14 @@ public class NetworkIO : NetworkBehaviour{
 		}
 	}
 
-
-
 	void Start(){
 		localGrid = GameObject.FindGameObjectWithTag("MainGrid").GetComponent<CreatePlayGrid>();
 		setAlliance();
-		if(isLocalPlayer)
+		if(isLocalPlayer){
 			Cmd_SetObjNameServer(Player.Instance.playerName);
-
-
+			Player.Instance.thisPlayersNetworkHelper = this;
+		}
+	
 	}
 
 	#region set playerObj representaion name
@@ -71,18 +70,16 @@ public class NetworkIO : NetworkBehaviour{
 
 	#region unit spawn Networking
 	[ClientRpc]
-	public void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, int x, int y, ControlType controlType, int team){
-		UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
-		if(controlType == ControlType.AI){
-			//TODO create this method unit.setAsAI();
+	public void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, int x, int y, int team){
+		if(isLocalPlayer){
+			UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
+			localGrid.gameGrid[x, y].spawnUnit(unit);
 		}
-		unit.setTeam(team);
-		localGrid.gameGrid[x, y].spawnUnit(unit);
 	}
 
 	[Command]
-	public void Cmd_SendUnitSpawnEventToServer(string unitName, int x, int y, ControlType controlType, int team){
-		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, controlType, team);
+	public void Cmd_SendUnitSpawnEventToServer(string unitName, int x, int y, int team){
+		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team);
 	}
 	#endregion
 
