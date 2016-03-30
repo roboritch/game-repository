@@ -69,10 +69,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 188024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61c69603ff2721f469ee3b7d82992332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e69e61caedb86f47a159e7fbd8c3ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitNameToLoad: 
+  localGrid: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

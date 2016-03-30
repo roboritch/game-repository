@@ -4,25 +4,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class UnitNetworkIO : NetworkBehaviour{
+public class NetworkIO : NetworkBehaviour{
 	public CreatePlayGrid localGrid;
 	[SyncVar(hook = "setAllianceNumber")]
-	private int allianceNumber = 2;
+	private int allianceNumber;
+
+	public override void OnStartServer(){
+		base.OnStartServer();
+		if(allianceNumber == -1){
+			allianceNumber = 1;	
+		}
+	}
+
 
 
 	void Start(){
 		localGrid = GameObject.FindGameObjectWithTag("MainGrid").GetComponent<CreatePlayGrid>();
 		setAlliance();
+		if(isLocalPlayer)
+			Cmd_SetObjNameServer(Player.Instance.playerName);
+
+
 	}
 
+	#region set playerObj representaion name
+	[Command]
+	private void Cmd_SetObjNameServer(string n){
+		name = n;
+		Rpc_SetObjNameClients(n);
+	}
+
+	[ClientRpc]
+	private void Rpc_SetObjNameClients(string n){
+		name = n;
+	}
+	#endregion
 
 	#region player alliance Networking
 	public void setAlliance(){
-		if(isServer){
-			Player.Instance.playerAlliance = 1;
-		} else{
+		if(isLocalPlayer){
 			setAllianceInPlayer(allianceNumber);
-			CmdIncrmentAlliance(); //all new players are set to a different alliance
+			Cmd_IncrmentAlliance(); //all new players are set to a different alliance
 		}
 	}
 
@@ -37,7 +59,7 @@ public class UnitNetworkIO : NetworkBehaviour{
 	}
 
 	[Command]
-	private void CmdIncrmentAlliance(){
+	private void Cmd_IncrmentAlliance(){
 		allianceNumber++;
 	}
 
@@ -49,7 +71,7 @@ public class UnitNetworkIO : NetworkBehaviour{
 
 	#region unit spawn Networking
 	[ClientRpc]
-	public void RpcReciveUnitSpawnEventFromNetwork(string unitName, int x, int y, ControlType controlType, int team){
+	public void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, int x, int y, ControlType controlType, int team){
 		UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
 		if(controlType == ControlType.AI){
 			//TODO create this method unit.setAsAI();
@@ -60,7 +82,7 @@ public class UnitNetworkIO : NetworkBehaviour{
 
 	[Command]
 	public void Cmd_SendUnitSpawnEventToServer(string unitName, int x, int y, ControlType controlType, int team){
-		RpcReciveUnitSpawnEventFromNetwork(unitName, x, y, controlType, team);
+		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, controlType, team);
 	}
 	#endregion
 
