@@ -26,12 +26,9 @@ public class UnitScript : MonoBehaviour{
 	private LinkedList<ActionScript> actionList;
 
 	public ControlType controlType;
-<<<<<<< HEAD
-=======
-	//private AI controlingAI;
+
 	private int team;
 	private int enemyCount;
->>>>>>> refs/remotes/origin/master
 	#endregion
 
 	#region programName
@@ -50,6 +47,10 @@ public class UnitScript : MonoBehaviour{
 	#endregion
 
 	#region Unit Size Management
+
+	public LinkedList<GridBlock> getBlockList(){
+		return  blockList;
+	}
 
 	public GridBlock getCurrentBlockHeadLocation(){
 		if(blockList.First == null){

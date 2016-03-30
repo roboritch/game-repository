@@ -26,6 +26,10 @@ public class AIUnit: UnitScript {
 	/// </summary>
 	MoveScopeBehavior moveScopeB;
 	/// <summary>
+	/// The current target behavior of this unit.
+	/// </summary>
+	MoveTargetBehavior targetB;
+	/// <summary>
 	/// The current attack behavior of this unit.
 	/// </summary>
 	AttackBehavior attackB;
@@ -36,6 +40,7 @@ public class AIUnit: UnitScript {
 		//Default unit behaviour to idle upon creation.
 		moveDirB = MoveDirBehavior.IDLE;
 		moveScopeB = MoveScopeBehavior.MICRO;
+		targetB = MoveTargetBehavior.HEAD;
 		attackB = AttackBehavior.IDLE;
 	}
 

@@ -37,6 +37,20 @@ public enum MoveScopeBehavior {
 }
 
 /// <summary>
+/// Target behavior of AI unit.
+/// </summary>
+public enum MoveTargetBehavior {
+	/// <summary>
+	/// Move relative to target unit heads.
+	/// </summary>
+	HEAD,
+	/// <summary>
+	/// Move relative to whole target units.
+	/// </summary>
+	BODY
+}
+
+/// <summary>
 /// Attack behavior of AI unit.
 /// </summary>
 public enum AttackBehavior {
