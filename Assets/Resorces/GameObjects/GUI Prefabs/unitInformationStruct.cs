@@ -12,4 +12,5 @@ public struct UnitInformationStruct{
 	public int attackPow;
 	public int maxAttackActions;
 	public UnitTimer unitTimer;
+	public int team;
 }

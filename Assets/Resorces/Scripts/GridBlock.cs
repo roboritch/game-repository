@@ -54,6 +54,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	//Attack attributes
 	private int attackActionID = -1;
+	private bool captureSpace;
+
 
 	#region Adjacent Blocks
 
@@ -169,9 +171,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			if(unitInstalled.controlType == ControlType.PLAYER) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
-		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-		//			gridManager.gui.setUnitAsSelected (null);
-		//		}
+	
 	}
 
 	#endregion
@@ -310,7 +310,32 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		
 	}
 	#endregion
-
+	public void setCaptureSpace(bool n){
+		captureSpace = n;
+	}
+	#region capture win condition
+//	private int captureBar;
+//	public void captureCount(){
+//		if (unitInstalled != null && captureSpace == true) {
+//			if (unitInstalled.getTeam() == 1) {
+//				captureBar++;
+//				checkWin ();
+//			}
+//			if (unitInstalled.getTeam () == 2) {
+//				captureBar--;
+//				checkWin ();
+//			}
+//		}
+//	}
+//	private void checkWin(){
+//		if (captureBar == 5) {
+//			print ("team 1 won");
+//		}
+//		if (captureBar == -5) {
+//			print ("team 2 won");
+//		}
+//	}
+	#endregion
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
 	void Start(){
@@ -321,7 +346,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	// Update is called once per frame.
 	/// <summary>Update this instance.</summary>
 	void Update(){
-		
 	}
 
 	#region Sprite Controls
