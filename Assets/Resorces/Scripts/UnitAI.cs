@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class UnitAI {
 
+	/// <summary>The unit attached to this AI.</summary>
+	public UnitScript unit;
+
 	//Attributes of this AI, for decision making.
 
 	/// <summary>
@@ -61,13 +64,16 @@ public class UnitAI {
 	/// </summary>
 	private AttackBehavior attackB;
 
-	public UnitAI() {
-		moveDir=0.5;
-		moveIdle=0.5;
-		moveScope=0.5;
-		moveGlobalScope=0.5;
-		moveTarget=0.5;
-		attack=0.5;
+	public UnitAI(UnitScript unit) {
+		this.unit = unit;
+
+		//TODO fix these default values.
+		moveDir = 0.5;
+		moveIdle = 0.5;
+		moveScope = 0.5;
+		moveGlobalScope = 0.5;
+		moveTarget = 0.5;
+		attack = 0.5;
 
 		moveDirB = MoveDirBehavior.IDLE;
 		moveScopeB = MoveScopeBehavior.MICRO;
@@ -76,12 +82,18 @@ public class UnitAI {
 	}
 
 	public void aiAct() {
+
+		//for(){//TODO for each team.
+			//Check if new minimum is found and change closest distances and units.
+			//Increment total distances.
+		//}
+
 		//Perform decision making based off of decision parameters decided by overarching AI.
 		System.Random random = new System.Random();
 		//Check if idle behavior instead of non-idle.
-		if(random.NextDouble() > moveIdle){
+		if(random.NextDouble() > moveIdle) {
 			moveDirB = MoveDirBehavior.IDLE;
-		}else{
+		} else {
 			//Check if offensive movement behavior instead of defensive.
 			if(random.NextDouble() > moveDir)
 				moveDirB = MoveDirBehavior.TOWARD;
@@ -89,13 +101,13 @@ public class UnitAI {
 				moveDirB = MoveDirBehavior.AWAY;
 		}
 		//Check if global movement behavior instead of non-global.
-		if(random.NextDouble() > moveGlobalScope){
+		if(random.NextDouble() > moveGlobalScope) {
 			moveScopeB = MoveScopeBehavior.GLOBAL;
-		}else{
-		//Check if macro movement behavior instead of micro.
-		if(random.NextDouble() > moveScope)
+		} else {
+			//Check if macro movement behavior instead of micro.
+			if(random.NextDouble() > moveScope)
 				moveScopeB = MoveScopeBehavior.MACRO;
-		else
+			else
 				moveScopeB = MoveScopeBehavior.MICRO;
 		}
 		//Check if head target behavior instead of body.
@@ -108,15 +120,51 @@ public class UnitAI {
 			attackB = AttackBehavior.MACRO;
 		else
 			attackB = AttackBehavior.MICRO;
+
+		//Apply movement direction behavior.
+		switch(moveDirB) {
+		case MoveDirBehavior.AWAY:
+			break;
+		case MoveDirBehavior.TOWARD:
+			break;
+		default: //case MoveDirBehavior.IDLE:
+			break;
+		}
+
+		//Apply movement scope behavior.
+		switch(moveScopeB) {
+		case MoveScopeBehavior.MACRO:
+			break;
+		case MoveScopeBehavior.GLOBAL:
+			break;
+		default: //case MoveScopeBehavior.MICRO:
+			break;
+		}
+
+		//Apply movement target behavior.
+		switch(moveTargetB) {
+		case MoveTargetBehavior.HEAD:
+			break;
+		default: //case MoveTargetBehavior.BODY:
+			break;
+		}
+
+		//Apply attack behavior.
+		switch(attackB) {
+		case AttackBehavior.MACRO:
+			break;
+		default: //case AttackBehavior.MICRO:
+			break;
+		}
 	}
 
 	/// <summary>
 	/// Descriptive code of this AI unit. Follows the format:
-	/// "{unitDescription}M:{moveBehavior},A:{attackBehavior}"
+	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
 	/// </summary>
 	/// <returns>The code string.</returns>
 	public string toString() {
-		return "M:" + moveDirB + "," + moveScopeB + ",A:" + attackB;
+		return "M:" + moveDirB + "," + moveScopeB + "," + moveTargetB + ",A:" + attackB;
 	}
 
 }

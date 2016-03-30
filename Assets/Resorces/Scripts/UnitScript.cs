@@ -608,9 +608,14 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>
 	/// Descriptive code of this unit. Follows the format:
 	/// "{name},H:{length}/{macLength},M:{moveCount},A:{attackPow},{attackCount}"
+	///  Appends AI descriptive code, if attached. Follows the format:
+	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
 	/// </summary>
 	/// <returns>The code string.</returns>
 	public virtual string toString() {
-		return unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
+		string value = unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
+		if(ai != null)
+			value += ai.toString();
+		return value;
 	}
 }
