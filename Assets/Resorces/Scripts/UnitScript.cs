@@ -26,7 +26,6 @@ public class UnitScript : MonoBehaviour{
 	private LinkedList<ActionScript> actionList;
 
 	public ControlType controlType;
-	//private AI controlingAI;
 	#endregion
 
 	#region programName
@@ -66,6 +65,14 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The length of this unit.</returns>
 	public int getLength(){
 		return blockList.Count;
+	}
+
+	/// <summary>
+	/// Gets the percentage of this unit's health.
+	/// </summary>
+	/// <returns>The health percentage of this unit.</returns>
+	public double getHealthPercentage(){
+		return (double)blockList.Count/maxProgramLength;
 	}
 
 	/// <summary>
@@ -276,7 +283,7 @@ public class UnitScript : MonoBehaviour{
 		return actionList.Last.Value;
 	}
 
-	public void startActing(){
+	public virtual void startActing(){
 		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		} else{
@@ -542,6 +549,7 @@ public class UnitScript : MonoBehaviour{
 	#endregion
 
 	void Start(){
+		grid.units.Add(this);
 		actionList = new LinkedList<ActionScript>();
 		timerStartup();
 		startTimerTick();
@@ -579,4 +587,13 @@ public class UnitScript : MonoBehaviour{
 		Destroy(gameObject);
 	}
 	#endregion
+
+	/// <summary>
+	/// Descriptive code of this unit. Follows the format:
+	/// "{name},H:{length}/{macLength},M:{moveCount},A:{attackPow},{attackCount}"
+	/// </summary>
+	/// <returns>The code string.</returns>
+	public virtual string toString() {
+		return unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
+	}
 }
