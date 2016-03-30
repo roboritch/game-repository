@@ -27,6 +27,8 @@ public class UnitScript : MonoBehaviour{
 
 	public ControlType controlType;
 	//private AI controlingAI;
+	private int team;
+	private int enemyCount;
 	#endregion
 
 	#region programName
@@ -118,7 +120,9 @@ public class UnitScript : MonoBehaviour{
 		//remove the given amount of blocks
 		for(int i = 0; i < amount; i++){
 			if(blockList.Last == null){
+				enemyCount--;
 				destroyUnit();
+				checkWin ();
 				return true;
 			}
 			GridBlock tempBlock = blockList.Last.Value;
@@ -128,7 +132,11 @@ public class UnitScript : MonoBehaviour{
 		}
 		return false;
 	}
-
+	private void checkWin(){
+		if (enemyCount == 0) {
+			print("team "+team+" wins");
+		}
+		}
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
 	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
 		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
@@ -153,6 +161,10 @@ public class UnitScript : MonoBehaviour{
 		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
+		team = unitInfo.team;
+		//setUnitColor (team);
+		//transform.GetComponent<SpriteControler>().setColor (getUnitColor ());
+
 
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
@@ -202,6 +214,14 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor(){
 		return unitInfo.unitColor;
+	}
+	private void setUnitColor(int i){
+		if(i==1){
+			unitInfo.unitColor=Color.blue;
+		}
+		else{
+			unitInfo.unitColor=Color.red;
+		}
 	}
 
 	/// <summary>
@@ -540,7 +560,14 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	#endregion
-
+	#region team
+	public int getTeam(){
+		return team;
+	}
+	public void setTeam(int num){
+		team = num;
+	}
+	#endregion
 	void Start(){
 		actionList = new LinkedList<ActionScript>();
 		timerStartup();

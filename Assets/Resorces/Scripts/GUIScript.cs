@@ -219,7 +219,16 @@ public class GUIScript : MonoBehaviour{
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
-	void Update(){
-		updateUnitInformation();
+	void Update ()
+	{
+		updateUnitInformation ();
+		if (currentlySelectedUnit != null) {
+			if (Input.GetKeyDown (KeyCode.Alpha1) == true) {
+				runDisplayForThisActionButton (0);
+			}
+			if (Input.GetKeyDown (KeyCode.Alpha2) == true) {
+				runDisplayForThisActionButton (1);
+			}
+		}
 	}
 }
