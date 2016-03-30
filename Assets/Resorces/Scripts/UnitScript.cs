@@ -25,7 +25,9 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
-	//private AI controlingAI;
+	public ControlType controlType;
+
+	private UnitAI ai;
 	private int team;
 	private int enemyCount;
 	#endregion
@@ -47,6 +49,10 @@ public class UnitScript : MonoBehaviour{
 
 	#region Unit Size Management
 
+	public LinkedList<GridBlock> getBlockList(){
+		return  blockList;
+	}
+
 	public GridBlock getCurrentBlockHeadLocation(){
 		if(blockList.First == null){
 			return null;
@@ -67,6 +73,14 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The length of this unit.</returns>
 	public int getLength(){
 		return blockList.Count;
+	}
+
+	/// <summary>
+	/// Gets the percentage of this unit's health.
+	/// </summary>
+	/// <returns>The health percentage of this unit.</returns>
+	public double getHealthPercentage(){
+		return (double)blockList.Count/maxProgramLength;
 	}
 
 	/// <summary>
@@ -295,10 +309,13 @@ public class UnitScript : MonoBehaviour{
 		return actionList.Last.Value;
 	}
 
-	public void startActing(){
+	public virtual void startActing(){
 		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		} else{
+			//Check if AI exists, and perform behavior determination.
+			if(ai != null)
+				ai.aiAct();
 			isActing = true;
 			stopTimerTick();
 			resetTimer();
@@ -566,6 +583,7 @@ public class UnitScript : MonoBehaviour{
 	}
 	#endregion
 	void Start(){
+		grid.units.Add(this);
 		actionList = new LinkedList<ActionScript>();
 		timerStartup();
 		startTimerTick();
@@ -603,4 +621,18 @@ public class UnitScript : MonoBehaviour{
 		Destroy(gameObject);
 	}
 	#endregion
+
+	/// <summary>
+	/// Descriptive code of this unit. Follows the format:
+	/// "{name},H:{length}/{macLength},M:{moveCount},A:{attackPow},{attackCount}"
+	///  Appends AI descriptive code, if attached. Follows the format:
+	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
+	/// </summary>
+	/// <returns>The code string.</returns>
+	public virtual string toString() {
+		string value = unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
+		if(ai != null)
+			value += ai.toString();
+		return value;
+	}
 }

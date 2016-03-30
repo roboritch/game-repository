@@ -20,6 +20,7 @@ public class CreatePlayGrid : MonoBehaviour{
 
 	//Unit attributes.
 	[SerializeField] private GameObject UnitTimerDisplay;
+	public List<UnitScript> units;
 
 	//Editing attributes.
 	public bool editModeOn = true;
