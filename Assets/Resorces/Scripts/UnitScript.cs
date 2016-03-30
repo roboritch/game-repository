@@ -162,8 +162,8 @@ public class UnitScript : MonoBehaviour{
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 		team = unitInfo.team;
-		setUnitColor (team);
-		transform.GetComponent<SpriteControler>().setColor (getUnitColor ());
+		//setUnitColor (team);
+		//transform.GetComponent<SpriteControler>().setColor (getUnitColor ());
 
 
 		blockList.AddLast(startLocation);

@@ -219,10 +219,16 @@ public class GUIScript : MonoBehaviour{
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
-	void Update(){
-		updateUnitInformation();
-//		if (currentlySelectedUnit != null && Input.GetKeyDown (KeyCode.A) == true) {
-//			currentlySelectedUnit.getVirtualBlockHeadLocation().attackActionWantsToAttackHere(currentlySelectedUnit.setTempAction(actionButtonInfo[ABINumber].getNewInstanceOfAction(currentlySelectedUnit)(currentlySelectedUnit),currentlySelectedUnit)
-//		}
+	void Update ()
+	{
+		updateUnitInformation ();
+		if (currentlySelectedUnit != null) {
+			if (Input.GetKeyDown (KeyCode.Alpha1) == true) {
+				runDisplayForThisActionButton (0);
+			}
+			if (Input.GetKeyDown (KeyCode.Alpha2) == true) {
+				runDisplayForThisActionButton (1);
+			}
+		}
 	}
 }
