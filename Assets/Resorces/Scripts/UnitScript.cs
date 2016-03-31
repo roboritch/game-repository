@@ -24,7 +24,6 @@ public class UnitScript : MonoBehaviour{
 	[SerializeField] private GameObject[] buttonPrefabs;
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
-	public ControlType controlType;
 
 	private UnitAI ai;
 	public Team team;
