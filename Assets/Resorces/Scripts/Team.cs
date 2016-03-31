@@ -15,17 +15,23 @@ public class Team
 		spawned = 0;
 		score = 0;
 		teamColor = tc;
+		units = new LinkedList<UnitScript> ();
 		index = teamIndex;
+	}
+	public void addSpawn(){
+		spawned++;
 	}
 	public void addAlly(UnitScript unit){
 		units.AddLast (unit);
-
 	}
 	public int getIndex(){
 		return index;
 	}
 	public void removeAlly(UnitScript unit){
 		units.Remove(unit);
+		if (defeated ()==true) {
+			Debug.Log ("team " + index + " lost");
+		}
 	}
 	public bool defeated(){
 		if (units == null) {

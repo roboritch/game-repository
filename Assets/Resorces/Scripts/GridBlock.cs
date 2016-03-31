@@ -261,10 +261,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Sets gridblock as a spawn spot.</summary>
 	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
-		teamSpawn = ts;
 		if(!available)
 			return;
 		spawnSpot = true;
+		teamSpawn = ts;
 		//set spawn sprite
 		setSpriteSpawn();
 	}
@@ -297,10 +297,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-		unit.transform.position = new Vector3();
-		unit.transform.SetParent(gridManager.unitObjectHolder);
-		unitInstalled = unit;
-		unit.spawnUnit(gridManager, this,teamSpawn);
+			unit.transform.position = new Vector3 ();
+			unit.transform.SetParent (gridManager.unitObjectHolder);
+			unitInstalled = unit;
+			unit.spawnUnit (gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
