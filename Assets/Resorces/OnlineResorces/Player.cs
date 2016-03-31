@@ -19,9 +19,10 @@ public class Player : Singleton<Player>{
 
 	public void setPlayerName(string name){
 		playerName = name;
+		gameObject.name = "player " + name;
 	}
 
 	public int playerAlliance = -1;
-
+	public NetworkIO thisPlayersNetworkHelper;
 
 }

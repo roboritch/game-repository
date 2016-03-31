@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 461574}
   - 114: {fileID: 11423512}
+  - 114: {fileID: 11422462}
   m_Layer: 0
   m_Name: unitScript network IO
   m_TagString: Untagged
@@ -28,6 +29,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11422462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 26
+    i1: 46
+    i2: 115
+    i3: 198
+    i4: 146
+    i5: 169
+    i6: 72
+    i7: 180
+    i8: 106
+    i9: 140
+    i10: 204
+    i11: 209
+    i12: 34
+    i13: 222
+    i14: 118
+    i15: 27
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11423512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36,9 +69,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 188024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61c69603ff2721f469ee3b7d82992332, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e69e61caedb86f47a159e7fbd8c3ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localGrid: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

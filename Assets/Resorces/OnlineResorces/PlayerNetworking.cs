@@ -11,7 +11,7 @@ public class PlayerNetworking : NetworkBehaviour{
 			this.enabled = false;
 		}
 	}
-
+	/*
 	public override void OnStartServer(){
 		base.OnStartServer();
 		Player.Instance.playerAlliance = 1;
@@ -20,6 +20,6 @@ public class PlayerNetworking : NetworkBehaviour{
 	public override void OnStartClient(){
 		base.OnStartClient();
 		Player.Instance.playerAlliance = 2;
-	}
+	}*/
 
 }

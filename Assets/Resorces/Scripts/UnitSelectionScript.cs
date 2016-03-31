@@ -85,7 +85,6 @@ public class UnitSelectionScript : MonoBehaviour{
 	public void createThisUnit(int unitNumberFromSelection){
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		UnitScript su = unit.GetComponent<UnitScript>();
-		su.controlType = ControlType.PLAYER;
 		// Send to gridBlockforCreation.
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>());
 		gameObject.SetActive(false);

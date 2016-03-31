@@ -169,7 +169,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.controlType == ControlType.PLAYER) //only a player can select a unit
+			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	
@@ -311,39 +311,38 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
 		// Send to gridBlockforCreation.
 		UnitScript sn = unit.GetComponent<UnitScript>();
-		sn.controlType = ControlType.AI;
 		spawnUnit(unit.GetComponent<UnitScript>());
 	}
 
-	public void spawUnitFromNetwork(UnitScript unit){
-		
+	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
 	}
 	#endregion
 	public void setCaptureSpace(bool n){
 		captureSpace = n;
 	}
 	#region capture win condition
-//	private int captureBar;
-//	public void captureCount(){
-//		if (unitInstalled != null && captureSpace == true) {
-//			if (unitInstalled.getTeam() == 1) {
-//				captureBar++;
-//				checkWin ();
-//			}
-//			if (unitInstalled.getTeam () == 2) {
-//				captureBar--;
-//				checkWin ();
-//			}
-//		}
-//	}
-//	private void checkWin(){
-//		if (captureBar == 5) {
-//			print ("team 1 won");
-//		}
-//		if (captureBar == -5) {
-//			print ("team 2 won");
-//		}
-//	}
+	//	private int captureBar;
+	//	public void captureCount(){
+	//		if (unitInstalled != null && captureSpace == true) {
+	//			if (unitInstalled.getTeam() == 1) {
+	//				captureBar++;
+	//				checkWin ();
+	//			}
+	//			if (unitInstalled.getTeam () == 2) {
+	//				captureBar--;
+	//				checkWin ();
+	//			}
+	//		}
+	//	}
+	//	private void checkWin(){
+	//		if (captureBar == 5) {
+	//			print ("team 1 won");
+	//		}
+	//		if (captureBar == -5) {
+	//			print ("team 2 won");
+	//		}
+	//	}
 	#endregion
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
