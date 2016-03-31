@@ -2092,6 +2092,7 @@ MonoBehaviour:
     sprite_attack: {fileID: 21300000, guid: f463623e900a3714181bd5328cf8d496, type: 3}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
   UnitTimerDisplay: {fileID: 0}
+  units: []
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 

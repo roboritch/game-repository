@@ -61,7 +61,7 @@ public class AttackScript : ActionScript{
 	public override void act(){
 		removeActionRepresentationDisplay();
 		if(attackLocation != null)
-		if(attackLocation.unitInstalled != null){
+		if(attackLocation.unitInstalled != null &&unit.getTeam()!=attackLocation.unitInstalled.getTeam()){
 			if(attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
 				displayCloseRangeAttackAnimation(attackLocation);
 				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, 0f); // must be called after the display
@@ -70,7 +70,7 @@ public class AttackScript : ActionScript{
 				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, delay);
 			}
 		} else{
-			Debug.Log("unit's block was removed before it could be attacked");
+			Debug.Log("unit's block was removed before it could be attacked or is ally");
 		}
 	}
 

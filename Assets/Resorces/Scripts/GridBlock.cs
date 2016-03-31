@@ -54,7 +54,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	//Attack attributes
 	private int attackActionID = -1;
-	private bool captureSpace;
+	private Team teamSpawn;
 
 
 	#region Adjacent Blocks
@@ -168,7 +168,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.getTeam() == Player.Instance.playerAlliance) //only a player can select a unit
+			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	
@@ -258,13 +258,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	/// <summary>Sets gridblock as a spawn spot.</summary>
-	public void setSpawn(){
+	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
 		spawnSpot = true;
+		teamSpawn = ts;
 		//set spawn sprite
 		setSpriteSpawn();
+	}
+	//TODO remove
+	public void setSpawn(){
+		setSpawn (null);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -275,6 +280,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		spawnSpot = false;
 		//Set default sprite.
 		setSpriteDefault();
+	}
+	public Team getTeam(){
+		return teamSpawn;
 	}
 
 
@@ -288,10 +296,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-		unit.transform.position = new Vector3();
-		unit.transform.SetParent(gridManager.unitObjectHolder);
-		unitInstalled = unit;
-		unit.spawnUnit(gridManager, this);
+			unit.transform.position = new Vector3 ();
+			unit.transform.SetParent (gridManager.unitObjectHolder);
+			unitInstalled = unit;
+			unit.spawnUnit (gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
@@ -309,32 +317,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
 	}
 	#endregion
-	public void setCaptureSpace(bool n){
-		captureSpace = n;
-	}
-	#region capture win condition
-	//	private int captureBar;
-	//	public void captureCount(){
-	//		if (unitInstalled != null && captureSpace == true) {
-	//			if (unitInstalled.getTeam() == 1) {
-	//				captureBar++;
-	//				checkWin ();
-	//			}
-	//			if (unitInstalled.getTeam () == 2) {
-	//				captureBar--;
-	//				checkWin ();
-	//			}
-	//		}
-	//	}
-	//	private void checkWin(){
-	//		if (captureBar == 5) {
-	//			print ("team 1 won");
-	//		}
-	//		if (captureBar == -5) {
-	//			print ("team 2 won");
-	//		}
-	//	}
-	#endregion
+
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
 	void Start(){
@@ -356,7 +339,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	/// <summary>Sets the sprite to spawn.</summary>
 	private void setSpriteSpawn(){
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace,Team.colorBlend(teamSpawn.getColor(),Color.black,0.8f));
 	}
 
 	/// <summary>Removes the sprite.</summary>

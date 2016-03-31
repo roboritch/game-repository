@@ -93,5 +93,5 @@ public class UnitSelectionScript : MonoBehaviour{
 		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>());
 		gameObject.SetActive(false);
 	}
-
+	 
 }
