@@ -166,6 +166,7 @@ public class UnitScript : MonoBehaviour{
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 		team = t;
+		team.addAlly (this);
 
 
 		blockList.AddLast(startLocation);
@@ -517,7 +518,7 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The unit.</returns>
 	public UnitSaving serializeUnit(){
 		UnitSaving serl = new UnitSaving();
-		serl.controlType = controlType;
+		//serl.controlType = controlType;
 		serl.currentAttackPow = currentAttackPower;
 		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
 		serl.currentMaxLength = maxProgramLength;
@@ -533,8 +534,8 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public void loadUnit(UnitSaving unitSave){
-		if(unitSave.controlType != null)
-			controlType = unitSave.controlType;
+		//if(unitSave.controlType != null)
+		//	controlType = unitSave.controlType;
 		if(unitSave.currentAttackPow != null)
 			currentAttackPower = unitSave.currentAttackPow;
 		if(unitSave.currentMaxAttackActions != null)
