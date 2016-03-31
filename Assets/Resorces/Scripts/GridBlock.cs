@@ -54,7 +54,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	//Attack attributes
 	private int attackActionID = -1;
-	private bool captureSpace;
 	private Team teamSpawn;
 
 
@@ -318,32 +317,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
 	}
 	#endregion
-	public void setCaptureSpace(bool n){
-		captureSpace = n;
-	}
-	#region capture win condition
-	//	private int captureBar;
-	//	public void captureCount(){
-	//		if (unitInstalled != null && captureSpace == true) {
-	//			if (unitInstalled.getTeam() == 1) {
-	//				captureBar++;
-	//				checkWin ();
-	//			}
-	//			if (unitInstalled.getTeam () == 2) {
-	//				captureBar--;
-	//				checkWin ();
-	//			}
-	//		}
-	//	}
-	//	private void checkWin(){
-	//		if (captureBar == 5) {
-	//			print ("team 1 won");
-	//		}
-	//		if (captureBar == -5) {
-	//			print ("team 2 won");
-	//		}
-	//	}
-	#endregion
+
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
 	void Start(){
