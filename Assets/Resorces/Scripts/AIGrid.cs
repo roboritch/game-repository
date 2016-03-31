@@ -59,7 +59,7 @@ public class AIGrid {
 		//TODO for each enemy
 		foreach(UnitScript unit in grid.units) {
 			//Get team number of unit.
-			int team = unit.getTeam();
+			int team = unit.getTeam().getIndex();
 			//Get unit head location.
 			int unitHeadX = unit.getCurrentBlockHeadLocation().gridlocation.x;
 			int unitHeadY = unit.getCurrentBlockHeadLocation().gridlocation.y;

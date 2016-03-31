@@ -25,11 +25,8 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
-	public ControlType controlType;
-
 	private UnitAI ai;
-	private int team;
-	private int enemyCount;
+	public Team team;
 	#endregion
 
 	#region programName
@@ -46,6 +43,7 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	#endregion
+
 
 	#region Unit Size Management
 
@@ -133,9 +131,7 @@ public class UnitScript : MonoBehaviour{
 		//remove the given amount of blocks
 		for(int i = 0; i < amount; i++){
 			if(blockList.Last == null){
-				enemyCount--;
 				destroyUnit();
-				checkWin();
 				return true;
 			}
 			GridBlock tempBlock = blockList.Last.Value;
@@ -145,13 +141,6 @@ public class UnitScript : MonoBehaviour{
 		}
 		return false;
 	}
-
-	private void checkWin(){
-		if(enemyCount == 0){
-			print("team " + team + " wins");
-		}
-	}
-
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
 	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
 		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
@@ -166,7 +155,7 @@ public class UnitScript : MonoBehaviour{
 	/// Called when the grid block creates the unit.
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation){
+	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation,Team t){
 		grid = gm;
 		blockList = new LinkedList<GridBlock>();
 		//set base unit stats so they can be adjusted at runtime
@@ -176,9 +165,9 @@ public class UnitScript : MonoBehaviour{
 		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
-		team = unitInfo.team;
-		//setUnitColor (team);
-		//transform.GetComponent<SpriteControler>().setColor (getUnitColor ());
+		team = t;
+
+
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay", spawnTime);
@@ -226,15 +215,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor(){
-		return unitInfo.unitColor;
-	}
-
-	private void setUnitColor(int i){
-		if(i == 1){
-			unitInfo.unitColor = Color.blue;
-		} else{
-			unitInfo.unitColor = Color.red;
-		}
+		return Team.colorBlend(team.getColor(),Color.gray,0.3f);
 	}
 
 	/// <summary>
@@ -536,6 +517,7 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The unit.</returns>
 	public UnitSaving serializeUnit(){
 		UnitSaving serl = new UnitSaving();
+		serl.controlType = controlType;
 		serl.currentAttackPow = currentAttackPower;
 		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
 		serl.currentMaxLength = maxProgramLength;
@@ -551,6 +533,8 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public void loadUnit(UnitSaving unitSave){
+		if(unitSave.controlType != null)
+			controlType = unitSave.controlType;
 		if(unitSave.currentAttackPow != null)
 			currentAttackPower = unitSave.currentAttackPow;
 		if(unitSave.currentMaxAttackActions != null)
@@ -574,19 +558,16 @@ public class UnitScript : MonoBehaviour{
 
 	#endregion
 	#region team
-	public int getTeam(){
+	public Team getTeam(){
 		return team;
-	}
-
-	public void setTeam(int num){
-		team = num;
 	}
 	#endregion
 	void Start(){
-		grid.units.Add(this);
-		actionList = new LinkedList<ActionScript>();
+		grid.units.Add (this);
+		actionList = new LinkedList<ActionScript> ();
 		timerStartup();
 		startTimerTick();
+
 	}
 
 	// Update is called once per frame
@@ -609,6 +590,7 @@ public class UnitScript : MonoBehaviour{
 	/// <summary> Destroys the unit. </summary>
 	protected void destroyUnit(){
 		//TODO make sure there are no refrences to this unit before it is destroyed
+		team.removeAlly(this);
 		if(tempAction != null)
 			tempAction.removeUserSelectionDisplay();
 		resetActionQueue(true);
