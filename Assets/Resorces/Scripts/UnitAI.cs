@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// An artificial intelligence attached to a unit.
+/// </summary>
 public class UnitAI {
 
 	/// <summary>The unit attached to this AI.</summary>
@@ -84,8 +87,8 @@ public class UnitAI {
 	public void aiAct() {
 
 		//for(){//TODO for each team.
-			//Check if new minimum is found and change closest distances and units.
-			//Increment total distances.
+		//Check if new minimum is found and change closest distances and units.
+		//Increment total distances.
 		//}
 
 		//Perform decision making based off of decision parameters decided by overarching AI.
@@ -120,6 +123,33 @@ public class UnitAI {
 			attackB = AttackBehavior.MACRO;
 		else
 			attackB = AttackBehavior.MICRO;
+
+
+		GridLocation headLoc = unit.getCurrentBlockHeadLocation().gridlocation;
+		int headX = headLoc.x;
+		int headY = headLoc.y;
+
+		int moves = unit.getUnitMaxMovment();
+
+		//Possible locations to move to.
+		GridBlock[,] possibleLocations = new GridBlock[moves * 2 + 1, moves * 2 + 1];
+		//Center of matrix is the starting position, the unit head.
+		possibleLocations[moves + 1, moves + 1] = headLoc;
+
+		//Get other possible locations.
+		//For each number of possible moves.
+		for(int m = 0; m < moves; m++) {
+			//Horizontal locations.
+			for(int mx = -m; mx <= m; mx++) {
+				//Vertical locations.
+				for(int my = -m; my <= m; my++) {
+					//Break if location requires too many moves.
+					if(Math.Abs(mx) + Math.Abs(my) > moves)
+						break;
+				}
+			}
+		}
+
 
 		//Apply movement direction behavior.
 		switch(moveDirB) {
