@@ -22,8 +22,8 @@ public class NetworkIO : NetworkBehaviour{
 		if(isLocalPlayer){
 			Cmd_SetObjNameServer(Player.Instance.playerName);
 			Player.Instance.thisPlayersNetworkHelper = this;
+			Player.Instance.workingOnline = true;
 		}
-	
 	}
 
 	#region set playerObj representaion name
@@ -71,10 +71,8 @@ public class NetworkIO : NetworkBehaviour{
 	#region unit spawn Networking
 	[ClientRpc]
 	public void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, int x, int y, int team){
-		if(isLocalPlayer){
-			UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
-			localGrid.gameGrid[x, y].spawnUnit(unit);
-		}
+		UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
+		localGrid.gameGrid[x, y].spawnUnit(unit);
 	}
 
 	[Command]

@@ -25,8 +25,6 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
-	public ControlType controlType;
-
 	private UnitAI ai;
 	private int team;
 	private int enemyCount;
@@ -80,7 +78,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The health percentage of this unit.</returns>
 	public double getHealthPercentage(){
-		return (double)blockList.Count/maxProgramLength;
+		return (double)blockList.Count / maxProgramLength;
 	}
 
 	/// <summary>
@@ -629,7 +627,7 @@ public class UnitScript : MonoBehaviour{
 	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
 	/// </summary>
 	/// <returns>The code string.</returns>
-	public virtual string toString() {
+	public virtual string toString(){
 		string value = unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
 		if(ai != null)
 			value += ai.toString();
