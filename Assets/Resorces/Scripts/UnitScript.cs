@@ -28,7 +28,6 @@ public class UnitScript : MonoBehaviour{
 
 	private UnitAI ai;
 	public Team team;
-	private Color teamColor;
 	#endregion
 
 	#region programName
@@ -157,7 +156,7 @@ public class UnitScript : MonoBehaviour{
 	/// Called when the grid block creates the unit.
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation){
+	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation,Team t){
 		grid = gm;
 		blockList = new LinkedList<GridBlock>();
 		//set base unit stats so they can be adjusted at runtime
@@ -167,7 +166,7 @@ public class UnitScript : MonoBehaviour{
 		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
-		team = getCurrentBlockHeadLocation ().getTeam ();
+		team = t;
 
 
 		blockList.AddLast(startLocation);
@@ -217,11 +216,9 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor(){
-		return unitInfo.unitColor;
+		return Team.colorBlend(team.getColor(),Color.gray,0.3f);
 	}
-	public void setUnitColor(Color tc){
-		teamColor = team.getColor ();
-	}
+
 	/// <summary>
 	/// The head sprite.
 	/// Must be set from child unit.
@@ -567,7 +564,10 @@ public class UnitScript : MonoBehaviour{
 	}
 	#endregion
 	void Start(){
-		
+		grid.units.Add (this);
+		actionList = new LinkedList<ActionScript> ();
+		timerStartup();
+		startTimerTick();
 
 	}
 

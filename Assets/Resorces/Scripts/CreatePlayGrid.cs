@@ -63,9 +63,12 @@ public class CreatePlayGrid : MonoBehaviour{
 
 	// Use this for initialization.
 	void Start(){
-		team = new Team[2];
-		team [0] = new Team (Color.blue,0);
-		team [1] = new Team (Color.red,1);
+		team = new Team[4];
+		team [0] = new Team (Color.red,0);
+		team [1] = new Team (Color.blue,1);
+		team [2] = new Team (Color.yellow,2);
+		team [3] = new Team (Color.green,3);
+
 		animationLibrarySetup();
 		//All grid spaces are represented by a game object setup the game grid array.
 		gameGrid = new GridBlock[gridSize, gridSize]; 
@@ -110,6 +113,8 @@ public class CreatePlayGrid : MonoBehaviour{
 		// Setup default spawn blocks for testing purposes.
 		gameGrid[2, 2].setSpawn(team[0]);
 		gameGrid[5, 2].setSpawn(team[1]);
+		gameGrid [0, 0].setSpawn (team [2]);
+		gameGrid [1, 1].setSpawn (team [3]);
 
 	}
 
