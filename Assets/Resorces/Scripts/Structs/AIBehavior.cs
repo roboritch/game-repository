@@ -51,6 +51,20 @@ public enum MoveTargetBehavior {
 }
 
 /// <summary>
+/// Target team behavior of AI unit.
+/// </summary>
+public enum MoveTeamBehavior {
+	/// <summary>
+	/// Move relative to ally units.
+	/// </summary>
+	ALLY,
+	/// <summary>
+	/// Move relative to enemy units.
+	/// </summary>
+	ENEMY
+}
+
+/// <summary>
 /// Attack behavior of AI unit.
 /// </summary>
 public enum AttackBehavior {
