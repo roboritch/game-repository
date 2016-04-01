@@ -269,7 +269,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 	//TODO remove
 	public void setSpawn(){
-		setSpawn (null);
+		setSpawn(null);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -281,6 +281,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set default sprite.
 		setSpriteDefault();
 	}
+
 	public Team getTeam(){
 		return teamSpawn;
 	}
@@ -296,10 +297,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-			unit.transform.position = new Vector3 ();
-			unit.transform.SetParent (gridManager.unitObjectHolder);
-			unitInstalled = unit;
-			unit.spawnUnit (gridManager, this, teamSpawn);
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		unitInstalled = unit;
+		unit.spawnUnit(gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
@@ -314,7 +315,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
-		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, (byte)Player.Instance.playerAlliance);
 	}
 	#endregion
 
@@ -339,7 +340,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	/// <summary>Sets the sprite to spawn.</summary>
 	private void setSpriteSpawn(){
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace,Team.colorBlend(teamSpawn.getColor(),Color.black,0.8f));
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, Team.colorBlend(teamSpawn.getColor(), Color.black, 0.8f));
 	}
 
 	/// <summary>Removes the sprite.</summary>

@@ -1165,7 +1165,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1081051112}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e1aeb8a9e81295a4497eb6ccaf5376b7, type: 3}
@@ -1444,7 +1444,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -69.5
+      value: -253
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_SizeDelta.x
@@ -1460,7 +1460,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMax.x
@@ -1468,7 +1468,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_Pivot.x
@@ -1927,7 +1927,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -22.7
+      value: -206
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_SizeDelta.x
@@ -1943,7 +1943,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMax.x
@@ -1951,7 +1951,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22436860, guid: 42298a0d3e59b7c4bb5de8029f5178c8, type: 2}
       propertyPath: m_Pivot.x
