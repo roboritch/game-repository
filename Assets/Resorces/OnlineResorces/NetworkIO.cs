@@ -77,8 +77,8 @@ public class NetworkIO : NetworkBehaviour{
 	}
 
 	[Command]
-	public void Cmd_SendUnitSpawnEventToServer(string unitName, int x, int y, byte team){
-		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, (ushort)x, (ushort)y, team);
+	public void Cmd_SendUnitSpawnEventToServer(string unitName, ushort x, ushort y, byte team){
+		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team);
 	}
 	#endregion
 
@@ -88,7 +88,7 @@ public class NetworkIO : NetworkBehaviour{
 	/// </summary>
 	/// <param name="loc">Location of the unit that is acting.</param>
 	/// <param name="actionQueue">Action queue</param>
-	public void convertAciontQueueToServerCommand(GridLocation loc, LinkedList<ActionScript> actionQueue){
+	public void convertAciontQueueToServerCommand_ACT(GridLocation loc, LinkedList<ActionScript> actionQueue){
 		int numberOfActions = actionQueue.Count;
 		byte[] actionType = new byte[numberOfActions];
 		byte[] actionAmount = new byte[numberOfActions];
@@ -108,7 +108,18 @@ public class NetworkIO : NetworkBehaviour{
 
 	[ClientRpc]
 	private void Rpc_receaveUnitActionsOverNetwork(ushort x, ushort  y, byte[] actionType, byte[] actionAmount, ushort[] locX, ushort[] locY){
-		
+		Type type;
+		ActionScript tmp; 
+		SerializedCompletedAction sca = new SerializedCompletedAction();
+
+		for(int i = 0; i < actionType.Length; i++){
+			type = getActionType(actionType[i]);
+			tmp = (ActionScript)Activator.CreateInstance(type);
+			sca.actionAmountInt = actionAmount[i];
+			sca.locationToPerformAction = new GridLocation((int)locX[i], (int)locY[i]);
+			tmp.loadAction(sca);
+			localGrid.gameGrid[x, y].unitInstalled.addActionToQueue(tmp);
+		}
 	}
 
 	[Command]
@@ -132,6 +143,20 @@ public class NetworkIO : NetworkBehaviour{
 			return 1;
 		}
 		return byte.MaxValue;
+	}
+
+	#endregion
+
+	#region syncronized unit acting
+	[Command]
+	public void Cmd_GetUnitToStartActing(ushort x, ushort y){
+		//TODO create a time var that is the same on all clients
+		//Rpc_GetUnitToStartActing(x,y )
+	}
+
+	[ClientRpc]
+	private void Rpc_GetUnitToStartActing(ushort x, ushort y, float actionSyncTime){
+		
 	}
 
 	#endregion

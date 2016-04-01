@@ -62,6 +62,11 @@ public abstract class ActionScript{
 
 	public abstract SerializedCompletedAction serializeAction();
 
+	/// <summary>
+	/// Loads the action.
+	/// action type is not required
+	/// </summary>
+	/// <param name="s">S.</param>
 	public abstract void loadAction(SerializedCompletedAction s);
 
 }

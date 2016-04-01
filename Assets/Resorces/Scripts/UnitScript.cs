@@ -342,6 +342,11 @@ public class UnitScript : MonoBehaviour{
 		actionList.RemoveLast();
 	}
 
+	/// <summary>
+	/// Adds the action to queue.
+	/// Does not invoke any methods in action.
+	/// </summary>
+	/// <param name="action">Action.</param>
 	public void addActionToQueue(ActionScript action){
 		actionList.AddLast(action);
 	}
