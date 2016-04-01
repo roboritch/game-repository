@@ -11,4 +11,17 @@ public class SetLevelName : MonoBehaviour{
 	public void newLevelName(string levelName){
 		gscript.setLevelName(levelName);
 	}
+
+	public void levelCall(){
+		gscript.getGridInfo();
+		gscript.saveGrid();
+	}
+}
+
+
+[Serializable]
+[XmlRoot("LevelName")]
+public struct LevelName{
+	[XmlElement("name")]
+	public string name;
 }

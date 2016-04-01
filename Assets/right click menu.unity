@@ -298,34 +298,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1 &725855542 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 144836, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
-  m_PrefabInternal: {fileID: 1408033569}
---- !u!114 &725855543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 725855542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfff69dfb2bcffe4a9f46822260d528e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gscript: {fileID: 880279354}
---- !u!114 &725855544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 725855542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8039c138c222f504a8326dba2bf2a8fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Saver: {fileID: 725855543}
 --- !u!224 &725855548 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22477162, guid: 504a5fe0a39afe843abff9f6f42ac8ec,
@@ -502,6 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae36e5494e115e14cbd68d59ef7c2735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridInfo: {fileID: 880279352}
   newGridInfo:
     gridSize: 0
   createPlayGrid: {fileID: 880279352}
@@ -584,13 +557,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 11448184, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
-      propertyPath: m_Text
-      value: Enter Level Name
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11466268, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
-    - {fileID: 11487802, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
+    - target: {fileID: 11414664, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
+      propertyPath: gscript
+      value: 
+      objectReference: {fileID: 880279354}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 504a5fe0a39afe843abff9f6f42ac8ec, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1565944208

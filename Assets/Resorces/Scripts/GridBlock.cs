@@ -328,4 +328,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	#endregion
+
+	#region Block Properties Accessors
+
+	// Return property of gridblock if it is a spawn spot or not
+	public bool getSpawnSpot(){
+		return spawnSpot;
+	}
+
+	// Return property of gridblock if it is occupiable space or a wall
+	public bool getAvailable(){
+		return available;
+	}
+
+	#endregion
 }

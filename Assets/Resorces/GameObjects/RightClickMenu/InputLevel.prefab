@@ -45,8 +45,8 @@ GameObject:
   - 222: {fileID: 22244866}
   - 114: {fileID: 11483148}
   - 114: {fileID: 11408514}
-  - 114: {fileID: 11466268}
-  - 114: {fileID: 11487802}
+  - 114: {fileID: 11414664}
+  - 114: {fileID: 11480106}
   m_Layer: 5
   m_Name: InputLevel
   m_TagString: Untagged
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11466268}
+      - m_Target: {fileID: 11480106}
         m_MethodName: submitText
         m_Mode: 1
         m_Arguments:
@@ -128,6 +128,18 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
+--- !u!114 &11414664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfff69dfb2bcffe4a9f46822260d528e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gscript: {fileID: 0}
 --- !u!114 &11448184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,8 +172,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter Screen Name
---- !u!114 &11466268
+  m_Text: Enter Level Name
+--- !u!114 &11480106
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -169,10 +181,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 144836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00cefdb2a3fbef4dbf0443596a09e00, type: 3}
+  m_Script: {fileID: 11500000, guid: 8039c138c222f504a8326dba2bf2a8fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Saver: {fileID: 11487802}
+  Saver: {fileID: 11414664}
 --- !u!114 &11483148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,18 +245,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &11487802
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b06ec59a35a8f4fa822bb2a7342002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  screenNameEditor: {fileID: 144836}
 --- !u!222 &22244866
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -294,9 +294,9 @@ RectTransform:
   - {fileID: 22446136}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -20}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22489390
