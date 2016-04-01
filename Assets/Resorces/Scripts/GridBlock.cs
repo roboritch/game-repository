@@ -54,7 +54,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	//Attack attributes
 	private int attackActionID = -1;
-	private bool captureSpace;
 	private Team teamSpawn;
 
 
@@ -261,10 +260,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Sets gridblock as a spawn spot.</summary>
 	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
-		teamSpawn = ts;
 		if(!available)
 			return;
 		spawnSpot = true;
+		teamSpawn = ts;
 		//set spawn sprite
 		setSpriteSpawn();
 	}
@@ -297,10 +296,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-		unit.transform.position = new Vector3();
-		unit.transform.SetParent(gridManager.unitObjectHolder);
-		unitInstalled = unit;
-		unit.spawnUnit(gridManager, this,teamSpawn);
+			unit.transform.position = new Vector3 ();
+			unit.transform.SetParent (gridManager.unitObjectHolder);
+			unitInstalled = unit;
+			unit.spawnUnit (gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
@@ -318,32 +317,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
 	}
 	#endregion
-	public void setCaptureSpace(bool n){
-		captureSpace = n;
-	}
-	#region capture win condition
-	//	private int captureBar;
-	//	public void captureCount(){
-	//		if (unitInstalled != null && captureSpace == true) {
-	//			if (unitInstalled.getTeam() == 1) {
-	//				captureBar++;
-	//				checkWin ();
-	//			}
-	//			if (unitInstalled.getTeam () == 2) {
-	//				captureBar--;
-	//				checkWin ();
-	//			}
-	//		}
-	//	}
-	//	private void checkWin(){
-	//		if (captureBar == 5) {
-	//			print ("team 1 won");
-	//		}
-	//		if (captureBar == -5) {
-	//			print ("team 2 won");
-	//		}
-	//	}
-	#endregion
+
 	// Use this for initialization.
 	/// <summary>Start this instance.</summary>
 	void Start(){
