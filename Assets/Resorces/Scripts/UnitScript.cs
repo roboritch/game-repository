@@ -47,7 +47,6 @@ public class UnitScript : MonoBehaviour{
 
 	#endregion
 
-
 	#region Unit Size Management
 
 	public LinkedList<GridBlock> getBlockList(){
@@ -81,7 +80,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The health percentage of this unit.</returns>
 	public double getHealthPercentage(){
-		return (double)blockList.Count/maxProgramLength;
+		return (double)blockList.Count / maxProgramLength;
 	}
 
 	/// <summary>
@@ -144,6 +143,7 @@ public class UnitScript : MonoBehaviour{
 		}
 		return false;
 	}
+
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
 	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
 		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
@@ -158,7 +158,7 @@ public class UnitScript : MonoBehaviour{
 	/// Called when the grid block creates the unit.
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation,Team t){
+	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation, Team t){
 		grid = gm;
 		blockList = new LinkedList<GridBlock>();
 		//set base unit stats so they can be adjusted at runtime
@@ -169,7 +169,7 @@ public class UnitScript : MonoBehaviour{
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 		team = t;
-		team.addAlly (this);
+		team.addAlly(this);
 
 
 		blockList.AddLast(startLocation);
@@ -219,7 +219,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor(){
-		return Team.colorBlend(team.getColor(),Color.gray,0.3f);
+		return Team.colorBlend(team.getColor(), Color.gray, 0.3f);
 	}
 
 	/// <summary>
@@ -345,6 +345,11 @@ public class UnitScript : MonoBehaviour{
 		actionList.RemoveLast();
 	}
 
+	/// <summary>
+	/// Adds the action to queue.
+	/// Does not invoke any methods in action.
+	/// </summary>
+	/// <param name="action">Action.</param>
 	public void addActionToQueue(ActionScript action){
 		actionList.AddLast(action);
 	}
@@ -561,14 +566,16 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	#endregion
+
 	#region team
 	public Team getTeam(){
 		return team;
 	}
 	#endregion
+
 	void Start(){
-		grid.units.Add (this);
-		actionList = new LinkedList<ActionScript> ();
+		grid.units.Add(this);
+		actionList = new LinkedList<ActionScript>();
 		timerStartup();
 		startTimerTick();
 
@@ -615,7 +622,7 @@ public class UnitScript : MonoBehaviour{
 	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
 	/// </summary>
 	/// <returns>The code string.</returns>
-	public virtual string toString() {
+	public virtual string toString(){
 		string value = unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
 		if(ai != null)
 			value += ai.toString();
