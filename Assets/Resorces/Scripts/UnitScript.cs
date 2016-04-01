@@ -25,8 +25,11 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
 
+	//Attached unit AI.
 	private UnitAI ai;
+	//Associated team.
 	public Team team;
+
 	#endregion
 
 	#region programName

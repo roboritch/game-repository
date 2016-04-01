@@ -36,20 +36,87 @@ public class AIGrid {
 	/// </summary>
 	private int[,,] distHead;
 
-	//initialize each distance array for each team
+	int teamCount = 2;
+	//TODO proper team indices
 
-	//array of grid blocks: grid.gameGrid
-	//for each team
+	public int[,] getClosestDist(int team, bool ally, bool head) {
+		if(head)
+			return getGridMin(closestDist, team, ally);
+		else
+			return getGridMin(closestDistHead, team, ally);
+	}
+
+	public int[,] getDist(int team, bool ally, bool head) {
+		if(head)
+			return getGridSum(dist, team, ally);
+		else
+			return getGridSum(distHead, team, ally);
+	}
+
+	private int[,] getGridSum(int[,,] inputGrid, int team, bool ally) {
+		//The summed distance grid.
+		int[,] gridSum = new int[grid.gridSize, grid.gridSize];
+
+		//Check if no sum is needed (only ally distances).
+		if(ally) {
+			for(int x = 0; x < grid.gridSize; x++) {
+				for(int y = 0; y < grid.gridSize; y++) {
+					gridSum[x, y] = inputGrid[team, x, y];
+				}
+			}
+		} else {
+			//For each team.
+			for(int t = 0; t < teamCount; t++) {
+				//Don't sum the ally team.
+				if(t == team)
+					continue;
+				for(int x = 0; x < grid.gridSize; x++) {
+					for(int y = 0; y < grid.gridSize; y++) {
+						gridSum[x, y] += inputGrid[t, x, y];
+					}
+				}
+			}
+		}
+		return gridSum;
+	}
+
+	private int[,] getGridMin(int[,,] inputGrid, int team, bool ally) {
+		//The minimum distance grid.
+		int[,] gridMin = new int[grid.gridSize, grid.gridSize];
+
+		//Check if no min is needed (only ally distances).
+		if(ally) {
+			for(int x = 0; x < grid.gridSize; x++) {
+				for(int y = 0; y < grid.gridSize; y++) {
+					gridMin[x, y] = inputGrid[team, x, y];
+				}
+			}
+		} else {
+			//For each team.
+			for(int t = 0; t < teamCount; t++) {
+				//Don't min the ally team.
+				if(t == team)
+					continue;
+				for(int x = 0; x < grid.gridSize; x++) {
+					for(int y = 0; y < grid.gridSize; y++) {
+						int amount = inputGrid[t, x, y];
+						//If amount is less or uninitialized, set minimum.
+						if(amount < gridMin[x, y] || ((team == 0 && t == 1) || t == 0))
+							gridMin[x, y] = inputGrid[t, x, y];
+					}
+				}
+			}
+		}
+		return gridMin;
+	}
 
 	public AIGrid(CreatePlayGrid grid) {
 		this.grid = grid;
 
-		int teams = 2;//TODO proper team indices
-
-		closestDist = new int[teams, grid.gridSize, grid.gridSize]; 
-		closestDistHead = new int[teams, grid.gridSize, grid.gridSize];
-		dist = new int[teams, grid.gridSize, grid.gridSize];
-		distHead = new int[teams, grid.gridSize, grid.gridSize];
+		closestDist = new int[teamCount, grid.gridSize, grid.gridSize]; 
+		closestDistHead = new int[teamCount, grid.gridSize, grid.gridSize];
+		dist = new int[teamCount, grid.gridSize, grid.gridSize];
+		distHead = new int[teamCount, grid.gridSize, grid.gridSize];
 	}
 
 	/// <summary>
@@ -74,12 +141,12 @@ public class AIGrid {
 						//Distance from this block to unit head.
 						int distHeadValue = Math.Abs(x - blockX) + Math.Abs(y - blockY);
 						//Only update closest distance if closer or first.
-						if(distValue < closestDist[team, x, y] || (x == 0 && y == 0)){
+						if(distValue < closestDist[team, x, y] || (x == 0 && y == 0)) {
 							closestDist[team, x, y] = distValue;
 							closestUnit[team, x, y] = unit;
 						}
 						//Only update closest head distance if closer or first.
-						if(distHeadValue < closestDistHead[team, x, y] || (x == 0 && y == 0)){
+						if(distHeadValue < closestDistHead[team, x, y] || (x == 0 && y == 0)) {
 							closestDistHead[team, x, y] = distHeadValue;
 							closestUnitHead[team, x, y] = unit;
 						}
