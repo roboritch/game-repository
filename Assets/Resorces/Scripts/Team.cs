@@ -34,7 +34,7 @@ public class Team
 		}
 	}
 	public bool defeated(){
-		if (units == null) {
+		if (units.Last==null) {
 			return true;
 		}
 		return false;

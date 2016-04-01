@@ -115,7 +115,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	/// <summary>Display the connections.</summary>
 	/// <param name="unit">Unit.</param>
-	void displayConections(UnitScript unit){
+	void displayConnections(UnitScript unit){
 		/*TODO Call this every time a unit changes size or moves to 
 		 * correctly display the conections in a single program. */
 	}

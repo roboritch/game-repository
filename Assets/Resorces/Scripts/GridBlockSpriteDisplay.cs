@@ -141,7 +141,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
 	/// This should be called by every segment of a unit where that unit was
 	/// before a change and by any new unit segments.
 	/// </summary>
-	public void checkConection(){
+	public void checkConnection(){
 		if(attachedGridBlock.unitInstalled == null){
 			return;
 		}
