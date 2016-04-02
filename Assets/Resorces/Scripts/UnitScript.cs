@@ -415,7 +415,7 @@ public class UnitScript : MonoBehaviour{
 		GridBlock[] x = new GridBlock[attackLocations.Length];
 
 		for(int i = 0; i < attackLocations.Length; i++){
-			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridlocation + attackLocations[i]);
+			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
 		}
 
 		return x;
@@ -536,7 +536,7 @@ public class UnitScript : MonoBehaviour{
 		GridLocation[] BL = new GridLocation[blockList.Count];
 		int count = 0;
 		foreach( var item in blockList ){
-			BL[count++] = item.gridlocation;
+			BL[count++] = item.gridLocation;
 		}
 		return serl;
 	}

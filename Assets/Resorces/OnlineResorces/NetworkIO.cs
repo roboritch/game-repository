@@ -148,15 +148,30 @@ public class NetworkIO : NetworkBehaviour{
 	#endregion
 
 	#region syncronized unit acting
+	/// <summary>
+	/// get unit to start acting.
+	/// Called only by the unit action queue
+	/// </summary>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="y">The y coordinate.</param>
 	[Command]
 	public void Cmd_GetUnitToStartActing(ushort x, ushort y){
-		//TODO create a time var that is the same on all clients
-		//Rpc_GetUnitToStartActing(x,y )
+		Rpc_CallOnlineActionQueue(x, y);
+	}
+
+	[Command]
+	private void Cmd_AskCientsIfTheyAreReadyToAct(){
+		
 	}
 
 	[ClientRpc]
-	private void Rpc_GetUnitToStartActing(ushort x, ushort y, float actionSyncTime){
-		
+	private void Rpc_TellServerReadyStatus(){
+		localGrid.gui.getUnitActingQueue();
+	}
+
+	[ClientRpc]
+	private void Rpc_CallOnlineActionQueue(ushort x, ushort y){
+		localGrid.gameGrid[(int)x, (int)y].unitInstalled.startActing();
 	}
 
 	#endregion

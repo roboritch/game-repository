@@ -41,11 +41,16 @@ public class UnitActingQueue : MonoBehaviour{
 	/// Called by the unit when it is done acting.
 	/// </summary>
 	/// <param name="currentUnit">Current unit.</param>
-	public void currentUnitDoneActing(UnitScript currentUnit){
+	public void currentUnitDoneActing(){
 		UnitActingScript temp = actingQueue.Dequeue();
 		temp.destroyThis();
 		if(actingQueue.Count != 0){
-			actingQueue.Peek().setCurrentlyActing();
+			if(!actingQueue.Peek().setCurrentlyActing()){ //gets rid of any units destoroyed before they can act
+				currentUnitDoneActing();
+				localOnlineQueueReadyForNextUnit = true;
+				return;
+			}
+
 			int deactivatedItem = 0;
 			//Shift all images up one.
 			foreach( var item in actingQueue ){
@@ -56,5 +61,30 @@ public class UnitActingQueue : MonoBehaviour{
 				}
 			}
 		}
+		localOnlineQueueReadyForNextUnit = true;
 	}
+
+	#region online action queue
+	private bool localOnlineQueueReadyForNextUnit = true;
+
+	public bool isLocalQueueReadyForAction(){
+		return localOnlineQueueReadyForNextUnit;
+	}
+
+	public void online_AddUnitToActing(UnitScript unit){
+		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>();
+		temp.transform.SetParent(currentProgramStartPosition);
+		//Each unit acting image is 50f apart.
+		temp.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);
+		temp.setUnit(unit);
+		actingQueue.Enqueue(temp);
+		if(actingQueue.Count == 1){
+			localOnlineQueueReadyForNextUnit = false;
+			temp.setCurrentlyActing();
+		} else if(actingQueue.Count > maxVisibleItems){
+			temp.setVisible(false);
+		}
+	}
+
+	#endregion
 }

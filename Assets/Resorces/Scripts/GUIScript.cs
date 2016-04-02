@@ -190,7 +190,11 @@ public class GUIScript : MonoBehaviour{
 				if(currentlySelectedUnit.IsActing){
 					Debug.LogWarning("unit is already acting"); 
 				} else{
-					unitActingQueue.addToUnitActing(currentlySelectedUnit);
+					if(Player.Instance.workingOnline){
+						Player.Instance.thisPlayersNetworkHelper.Cmd_GetUnitToStartActing((ushort)currentlySelectedUnit.getCurrentBlockHeadLocation().gridLocation.x, (ushort)currentlySelectedUnit.getCurrentBlockHeadLocation().gridLocation.y);
+					} else{
+						unitActingQueue.addToUnitActing(currentlySelectedUnit);
+					}
 				}
 			} else{
 				Debug.LogWarning("unit does not have any actions queued"); 
@@ -202,7 +206,7 @@ public class GUIScript : MonoBehaviour{
 	}
 
 	public void unitIsDoneActing(UnitScript unit){
-		unitActingQueue.currentUnitDoneActing(unit);
+		unitActingQueue.currentUnitDoneActing();
 	}
 
 	#endregion
@@ -219,15 +223,14 @@ public class GUIScript : MonoBehaviour{
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
-	void Update ()
-	{
-		updateUnitInformation ();
-		if (currentlySelectedUnit != null) {
-			if (Input.GetKeyDown (KeyCode.Alpha1) == true) {
-				runDisplayForThisActionButton (0);
+	void Update(){
+		updateUnitInformation();
+		if(currentlySelectedUnit != null){
+			if(Input.GetKeyDown(KeyCode.Alpha1) == true){
+				runDisplayForThisActionButton(0);
 			}
-			if (Input.GetKeyDown (KeyCode.Alpha2) == true) {
-				runDisplayForThisActionButton (1);
+			if(Input.GetKeyDown(KeyCode.Alpha2) == true){
+				runDisplayForThisActionButton(1);
 			}
 		}
 	}

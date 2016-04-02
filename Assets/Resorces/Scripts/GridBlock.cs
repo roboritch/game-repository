@@ -50,7 +50,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	private Collider2D selectionBox;
 
 	/// <summary>Location of this grid block on the play grid.</summary>
-	public GridLocation gridlocation;
+	public GridLocation gridLocation;
 
 	//Attack attributes
 	private int attackActionID = -1;
@@ -315,7 +315,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
-		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridlocation.x, (ushort)gridlocation.y, (byte)Player.Instance.playerAlliance);
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridLocation.x, (ushort)gridLocation.y, (byte)Player.Instance.playerAlliance);
 	}
 	#endregion
 

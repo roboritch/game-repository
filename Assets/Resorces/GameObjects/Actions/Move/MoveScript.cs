@@ -102,7 +102,7 @@ public class MoveScript : ActionScript{
 			Debug.LogError("Action is not set yet!");
 		}
 		SerializedCompletedAction temp = new SerializedCompletedAction();
-		temp.locationToPerformAction = locationToPreformAction.gridlocation;
+		temp.locationToPerformAction = locationToPreformAction.gridLocation;
 		temp.actionType = typeof(MoveScript);
 		return temp;
 	}
