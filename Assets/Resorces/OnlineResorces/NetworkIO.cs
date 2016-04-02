@@ -159,7 +159,7 @@ public class NetworkIO : NetworkBehaviour{
 
 	[Server] //invoked repeatedly by the server 
 	private void checkAllIfAllClientsAreReadyToAct(){
-		if(numberOfClientsThatAreReadyToAct == Network.connections.Length){
+		if(numberOfClientsThatAreReadyToAct == NetworkManager.singleton.numPlayers){
 			tellTheActionQueueToRunNextActionOnAllClients();
 			numberOfClientsThatAreReadyToAct = 0;
 		}

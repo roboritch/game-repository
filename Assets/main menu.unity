@@ -833,6 +833,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 831139853}
   - 114: {fileID: 831139854}
+  - 114: {fileID: 831139855}
   m_Layer: 5
   m_Name: NetworkUIToggle
   m_TagString: Untagged
@@ -900,21 +901,21 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1289891473}
-        m_MethodName: set_enabled
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
+--- !u!114 &831139855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 831139852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d821e6cfdf2d913479c8fadcb1d4fc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1001685678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,12 +1246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pitchChangeRate: 0.001
---- !u!114 &1289891473 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11484114, guid: b87f6e8a420ff4a49b5c91bce79f0846,
-    type: 2}
-  m_PrefabInternal: {fileID: 1828183400}
-  m_Script: {fileID: 227461547, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
 --- !u!1 &1407025107
 GameObject:
   m_ObjectHideFlags: 0
