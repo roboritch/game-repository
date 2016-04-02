@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +19,7 @@ public class UnitActingQueue : MonoBehaviour{
 		actingQueue = new Queue<UnitActingScript>();
 	}
 
+	#region acting and done acting
 	/// <summary>
 	/// Adds to unit acting queue.
 	/// </summary>
@@ -31,7 +31,10 @@ public class UnitActingQueue : MonoBehaviour{
 		temp.setUnit(currentlySelectedUnit);
 		actingQueue.Enqueue(temp);
 		if(actingQueue.Count == 1){
-			temp.setCurrentlyActing();
+			if(Player.Instance.workingOnline) //Online check
+				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
+			else
+				temp.setCurrentlyActing();
 		} else if(actingQueue.Count > maxVisibleItems){
 			temp.setVisible(false);
 		}
@@ -42,48 +45,42 @@ public class UnitActingQueue : MonoBehaviour{
 	/// </summary>
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(){
+		
 		UnitActingScript temp = actingQueue.Dequeue();
-		temp.destroyThis();
+		temp.destroyThis(); // remove the representation of an acting unit
+
 		if(actingQueue.Count != 0){
-			if(!actingQueue.Peek().setCurrentlyActing()){ //gets rid of any units destoroyed before they can act
+			if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
 				currentUnitDoneActing();
-				localOnlineQueueReadyForNextUnit = true;
+				shiftUnitRepresentationsUpOneLevel();
 				return;
 			}
 
-			int deactivatedItem = 0;
-			//Shift all images up one.
-			foreach( var item in actingQueue ){
-				item.location.anchoredPosition = new Vector2(0, item.location.anchoredPosition.y + 50f);
-				// Check to see if the item is now visible.
-				if(deactivatedItem++ < maxVisibleItems){
-					item.setVisible(true); 
-				}
+			shiftUnitRepresentationsUpOneLevel();
+			if(Player.Instance.workingOnline) // wait for server to send all clients ready message 
+				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
+			else
+				actingQueue.Peek().setCurrentlyActing();
+		}
+	}
+	#endregion
+
+	private void shiftUnitRepresentationsUpOneLevel(){
+		int deactivatedItem = 0;
+		//Shift all images up one.
+		foreach( var item in actingQueue ){
+			item.location.anchoredPosition = new Vector2(0, item.location.anchoredPosition.y + 50f);
+			// Check to see if the item is now visible.
+			if(deactivatedItem++ < maxVisibleItems){
+				item.setVisible(true); 
 			}
 		}
-		localOnlineQueueReadyForNextUnit = true;
 	}
 
 	#region online action queue
-	private bool localOnlineQueueReadyForNextUnit = true;
 
-	public bool isLocalQueueReadyForAction(){
-		return localOnlineQueueReadyForNextUnit;
-	}
-
-	public void online_AddUnitToActing(UnitScript unit){
-		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>();
-		temp.transform.SetParent(currentProgramStartPosition);
-		//Each unit acting image is 50f apart.
-		temp.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);
-		temp.setUnit(unit);
-		actingQueue.Enqueue(temp);
-		if(actingQueue.Count == 1){
-			localOnlineQueueReadyForNextUnit = false;
-			temp.setCurrentlyActing();
-		} else if(actingQueue.Count > maxVisibleItems){
-			temp.setVisible(false);
-		}
+	public void online_AllClientsReportReady(){
+		actingQueue.Peek().setCurrentlyActing();
 	}
 
 	#endregion

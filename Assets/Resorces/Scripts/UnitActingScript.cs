@@ -18,14 +18,21 @@ public class UnitActingScript : MonoBehaviour{
 		location = GetComponent<RectTransform>();
 	}
 
-	public bool setCurrentlyActing(){
-		;
+	public bool checkIfUnitIsAlive(){
 		if(unit == null){
 			Debug.LogWarning("unit destroyed before it could act");
 			return false;
 		}
-		unit.startActing();
 		return true;
+	}
+
+
+	/// <summary>
+	/// Sets the currently acting.
+	/// </summary>
+	/// <returns><c>true</c>, if unit is alive and is now acting, <c>false</c> otherwise.</returns>
+	public void setCurrentlyActing(){
+		unit.startActing();
 		//TODO Add some animation to show that this unit is acting.
 	}
 

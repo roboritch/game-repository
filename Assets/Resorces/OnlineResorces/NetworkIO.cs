@@ -25,6 +25,7 @@ public class NetworkIO : NetworkBehaviour{
 			Player.Instance.thisPlayersNetworkHelper = this;
 			Player.Instance.workingOnline = true;
 		}
+		InvokeRepeating("checkAllIfAllClientsAreReadyToAct", 2f, 0.1f);
 	}
 
 	#region set playerObj representaion name
@@ -148,31 +149,38 @@ public class NetworkIO : NetworkBehaviour{
 	#endregion
 
 	#region syncronized unit acting
+
+	private int numberOfClientsThatAreReadyToAct = 0;
+
+	[Command] //Called by each action queue when a unit is ready to act
+	public void Cmd_incNumberOfReadyClients(){
+		numberOfClientsThatAreReadyToAct++;
+	}
+
+	[Server] //invoked repeatedly by the server 
+	private void checkAllIfAllClientsAreReadyToAct(){
+		if(numberOfClientsThatAreReadyToAct == Network.connections.Length){
+			tellTheActionQueueToRunNextActionOnAllClients();
+			numberOfClientsThatAreReadyToAct = 0;
+		}
+	}
+
 	/// <summary>
 	/// get unit to start acting.
-	/// Called only by the unit action queue
+	/// Called by server when number of clients ready to act is = to the totalClients
 	/// </summary>
-	/// <param name="x">The x coordinate.</param>
-	/// <param name="y">The y coordinate.</param>
-	[Command]
-	public void Cmd_GetUnitToStartActing(ushort x, ushort y){
-		Rpc_CallOnlineActionQueue(x, y);
-	}
-
-	[Command]
-	private void Cmd_AskCientsIfTheyAreReadyToAct(){
-		
+	/// <param name="x">The x coordinate of the unit.</param>
+	/// <param name="y">The y coordinate of the unit.</param>
+	[Server]
+	public void tellTheActionQueueToRunNextActionOnAllClients(){
+		Rpc_CallOnlineActionQueue();
 	}
 
 	[ClientRpc]
-	private void Rpc_TellServerReadyStatus(){
-		localGrid.gui.getUnitActingQueue();
+	private void Rpc_CallOnlineActionQueue(){
+		localGrid.gui.getUnitActingQueue().online_AllClientsReportReady();
 	}
 
-	[ClientRpc]
-	private void Rpc_CallOnlineActionQueue(ushort x, ushort y){
-		localGrid.gameGrid[(int)x, (int)y].unitInstalled.startActing();
-	}
 
 	#endregion
 }

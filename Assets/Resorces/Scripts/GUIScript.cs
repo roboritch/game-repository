@@ -190,11 +190,7 @@ public class GUIScript : MonoBehaviour{
 				if(currentlySelectedUnit.IsActing){
 					Debug.LogWarning("unit is already acting"); 
 				} else{
-					if(Player.Instance.workingOnline){
-						Player.Instance.thisPlayersNetworkHelper.Cmd_GetUnitToStartActing((ushort)currentlySelectedUnit.getCurrentBlockHeadLocation().gridLocation.x, (ushort)currentlySelectedUnit.getCurrentBlockHeadLocation().gridLocation.y);
-					} else{
-						unitActingQueue.addToUnitActing(currentlySelectedUnit);
-					}
+					unitActingQueue.addToUnitActing(currentlySelectedUnit);
 				}
 			} else{
 				Debug.LogWarning("unit does not have any actions queued"); 
