@@ -31,10 +31,11 @@ public class UnitActingQueue : MonoBehaviour{
 		temp.setUnit(currentlySelectedUnit);
 		actingQueue.Enqueue(temp);
 		if(actingQueue.Count == 1){
-			if(Player.Instance.workingOnline) //Online check
+			if(Player.Instance.workingOnline){ //Online check
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
-			else
+			} else{
 				temp.setCurrentlyActing();
+			}
 		} else if(actingQueue.Count > maxVisibleItems){
 			temp.setVisible(false);
 		}

@@ -273,15 +273,22 @@ public class UnitScript : MonoBehaviour{
 
 	private ActionScript tempAction;
 
+	/// <summary>
+	/// Sets the temperary action to use with user selection.
+	/// does not work if unit is acting
+	/// </summary>
+	/// <param name="action">Action.</param>
+	/// <param name="displayUserSelection">If set to <c>true</c> display user selection.</param>
 	public void setTempAction(ActionScript action, bool displayUserSelection){
-		if(tempAction != null){
-			tempAction.removeUserSelectionDisplay();
-		}	
-		tempAction = action;
-		if(displayUserSelection){
-			tempAction.displayUserSelection();
+		if(!isActing){
+			if(tempAction != null){
+				tempAction.removeUserSelectionDisplay();
+			}	
+			tempAction = action;
+			if(displayUserSelection){
+				tempAction.displayUserSelection();
+			}
 		}
-
 	}
 
 	public void removeUserSelectionDisplay(){
@@ -367,6 +374,10 @@ public class UnitScript : MonoBehaviour{
 		virtualBlockHead = null;
 		resetAttackActionsToCurrentMax();
 		resetMovmentActionsToCurrentMax();
+	}
+
+	public LinkedList<ActionScript> online_getActionQueue(){
+		return actionList;
 	}
 
 	public int getNumberOfActionsInQueue(){
