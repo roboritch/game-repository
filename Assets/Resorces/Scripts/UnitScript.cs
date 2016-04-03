@@ -273,15 +273,22 @@ public class UnitScript : MonoBehaviour{
 
 	private ActionScript tempAction;
 
+	/// <summary>
+	/// Sets the temperary action to use with user selection.
+	/// does not work if unit is acting
+	/// </summary>
+	/// <param name="action">Action.</param>
+	/// <param name="displayUserSelection">If set to <c>true</c> display user selection.</param>
 	public void setTempAction(ActionScript action, bool displayUserSelection){
-		if(tempAction != null){
-			tempAction.removeUserSelectionDisplay();
-		}	
-		tempAction = action;
-		if(displayUserSelection){
-			tempAction.displayUserSelection();
+		if(!isActing){
+			if(tempAction != null){
+				tempAction.removeUserSelectionDisplay();
+			}	
+			tempAction = action;
+			if(displayUserSelection){
+				tempAction.displayUserSelection();
+			}
 		}
-
 	}
 
 	public void removeUserSelectionDisplay(){
@@ -369,6 +376,10 @@ public class UnitScript : MonoBehaviour{
 		resetMovmentActionsToCurrentMax();
 	}
 
+	public LinkedList<ActionScript> online_getActionQueue(){
+		return actionList;
+	}
+
 	public int getNumberOfActionsInQueue(){
 		return actionList.Count;
 	}
@@ -415,7 +426,7 @@ public class UnitScript : MonoBehaviour{
 		GridBlock[] x = new GridBlock[attackLocations.Length];
 
 		for(int i = 0; i < attackLocations.Length; i++){
-			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridlocation + attackLocations[i]);
+			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
 		}
 
 		return x;
@@ -536,7 +547,7 @@ public class UnitScript : MonoBehaviour{
 		GridLocation[] BL = new GridLocation[blockList.Count];
 		int count = 0;
 		foreach( var item in blockList ){
-			BL[count++] = item.gridlocation;
+			BL[count++] = item.gridLocation;
 		}
 		return serl;
 	}
