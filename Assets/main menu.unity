@@ -2302,9 +2302,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 173746, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
-      propertyPath: m_IsActive
+    - target: {fileID: 11457138, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
+      propertyPath: m_ScriptCRCCheck
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11457138, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
+      propertyPath: m_NetworkAddress
+      value: 128.189.112.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
