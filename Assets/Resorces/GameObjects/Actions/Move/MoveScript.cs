@@ -102,7 +102,7 @@ public class MoveScript : ActionScript{
 			Debug.LogError("Action is not set yet!");
 		}
 		SerializedCompletedAction temp = new SerializedCompletedAction();
-		temp.locationToPerformAction = locationToPreformAction.gridlocation;
+		temp.locationToPerformAction = locationToPreformAction.gridLocation;
 		temp.actionType = typeof(MoveScript);
 		return temp;
 	}
@@ -124,8 +124,10 @@ public class MoveScript : ActionScript{
 	}
 
 	public override void removeActionRepresentationDisplay(){
-		moveDirectionArms[0].setColor(Color.clear);
-		moveDirectionArms[1].setColor(Color.clear);
-		unit.moveActionRemoved();
+		if(moveDirectionArms != null){
+			moveDirectionArms[0].setColor(Color.clear);
+			moveDirectionArms[1].setColor(Color.clear);
+			unit.moveActionRemoved();
+		}
 	}
 }

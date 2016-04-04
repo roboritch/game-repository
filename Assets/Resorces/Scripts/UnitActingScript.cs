@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Unit acting script.
 /// Many of these are controlled by the game GUI script.
 /// </summary>
-public class UnitActingScript : MonoBehaviour {
+public class UnitActingScript : MonoBehaviour{
 	#pragma warning disable
 	[SerializeField] private Image unitColor;
 	[SerializeField] private Image unitHeadSprite;
@@ -18,12 +18,25 @@ public class UnitActingScript : MonoBehaviour {
 		location = GetComponent<RectTransform>();
 	}
 
-	public void setCurrentlyActing() {
+	public bool checkIfUnitIsAlive(){
+		if(unit == null){
+			Debug.LogWarning("unit destroyed before it could act");
+			return false;
+		}
+		return true;
+	}
+
+
+	/// <summary>
+	/// Sets the currently acting.
+	/// </summary>
+	/// <returns><c>true</c>, if unit is alive and is now acting, <c>false</c> otherwise.</returns>
+	public void setCurrentlyActing(){
 		unit.startActing();
 		//TODO Add some animation to show that this unit is acting.
 	}
 
-	public void setUnit(UnitScript u) {
+	public void setUnit(UnitScript u){
 		unit = u;
 		unitColor.color = unit.getUnitColor();
 		unitHeadSprite.sprite = unit.getUnitHeadSprite();

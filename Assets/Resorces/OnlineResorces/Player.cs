@@ -8,11 +8,13 @@ using System.Collections;
 /// </summary>
 public class Player : Singleton<Player>{
 	public Team team;
+
 	protected Player(){
 	}
 
 	void Start(){
 		DontDestroyOnLoad(gameObject);
+		numberOfClientsReadyToAct = 0;
 	}
 
 	public string playerName = "";
@@ -22,7 +24,9 @@ public class Player : Singleton<Player>{
 		gameObject.name = "player " + name;
 	}
 
-	public int playerAlliance = -1;
+	public int playerAlliance;
 	public NetworkIO thisPlayersNetworkHelper;
+	public bool workingOnline = false;
+	public int numberOfClientsReadyToAct;
 
 }

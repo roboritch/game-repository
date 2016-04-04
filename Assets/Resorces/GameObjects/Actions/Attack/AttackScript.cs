@@ -188,7 +188,7 @@ public class AttackScript : ActionScript{
 	public override SerializedCompletedAction serializeAction(){
 		SerializedCompletedAction compleatedActionSave = new SerializedCompletedAction();
 		compleatedActionSave.actionAmountInt = attackStrength;
-		compleatedActionSave.locationToPerformAction = attackLocation.gridlocation;
+		compleatedActionSave.locationToPerformAction = attackLocation.gridLocation;
 		compleatedActionSave.actionType = typeof(AttackScript);
 		return compleatedActionSave;
 	}

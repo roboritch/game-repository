@@ -28,11 +28,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Whether this block is a spawn spot.</summary>
 	[SerializeField] private bool spawnSpot = false;
 
-
-	/// <summary> The spawn spot alligence.</summary>
-	public int _spawnSpotAlligence;
-
-
 	/// <summary>Whether this block is an occupiable space.</summary>
 	[SerializeField] private bool available = true;
 
@@ -50,7 +45,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	private Collider2D selectionBox;
 
 	/// <summary>Location of this grid block on the play grid.</summary>
-	public GridLocation gridlocation;
+	public GridLocation gridLocation;
 
 	//Attack attributes
 	private int attackActionID = -1;
@@ -155,7 +150,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
-		if(spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if(teamSpawn != null)
+		if(Player.Instance.playerAlliance == teamSpawn.getIndex() && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
@@ -269,7 +265,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 	//TODO remove
 	public void setSpawn(){
-		setSpawn (null);
+		setSpawn(null);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -281,6 +277,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set default sprite.
 		setSpriteDefault();
 	}
+
 	public Team getTeam(){
 		return teamSpawn;
 	}
@@ -296,10 +293,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-			unit.transform.position = new Vector3 ();
-			unit.transform.SetParent (gridManager.unitObjectHolder);
-			unitInstalled = unit;
-			unit.spawnUnit (gridManager, this, teamSpawn);
+		unit.transform.position = new Vector3();
+		unit.transform.SetParent(gridManager.unitObjectHolder);
+		unitInstalled = unit;
+		unit.spawnUnit(gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
@@ -314,7 +311,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
-		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, gridlocation.x, gridlocation.y, Player.Instance.playerAlliance);
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridLocation.x, (ushort)gridLocation.y, (byte)Player.Instance.playerAlliance);
 	}
 	#endregion
 
@@ -339,7 +336,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	/// <summary>Sets the sprite to spawn.</summary>
 	private void setSpriteSpawn(){
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace,Team.colorBlend(teamSpawn.getColor(),Color.black,0.8f));
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, Team.colorBlend(teamSpawn.getColor(), Color.black, 0.8f));
 	}
 
 	/// <summary>Removes the sprite.</summary>

@@ -209,7 +209,7 @@ public class GridBlockSpriteDisplay : MonoBehaviour{
 	/// removes head sprite if it is not.
 	/// </summary>
 	public void checkHeadSprite(){
-		if(attachedGridBlock.unitInstalled.getCurrentBlockHeadLocation().gridlocation == attachedGridBlock.gridlocation){
+		if(attachedGridBlock.unitInstalled.getCurrentBlockHeadLocation().gridLocation == attachedGridBlock.gridLocation){
 			headSprite.setSprite(attachedGridBlock.unitInstalled.getUnitHeadSprite());
 		} else{
 			headSprite.removeSprite();

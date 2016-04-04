@@ -128,12 +128,12 @@ public class AIGrid {
 			//Get team number of unit.
 			int team = unit.getTeam().getIndex();
 			//Get unit head location.
-			int unitHeadX = unit.getCurrentBlockHeadLocation().gridlocation.x;
-			int unitHeadY = unit.getCurrentBlockHeadLocation().gridlocation.y;
+			int unitHeadX = unit.getCurrentBlockHeadLocation().gridLocation.x;
+			int unitHeadY = unit.getCurrentBlockHeadLocation().gridLocation.y;
 			foreach(GridBlock block in unit.getBlockList()) {
 				//Get the location of each unit block.
-				int blockX = block.gridlocation.x;
-				int blockY = block.gridlocation.y;
+				int blockX = block.gridLocation.x;
+				int blockY = block.gridLocation.y;
 				for(int x = 0; x < grid.gridSize; x++) {
 					for(int y = 0; y < grid.gridSize; y++) {
 						//Distance from this block to unit.
