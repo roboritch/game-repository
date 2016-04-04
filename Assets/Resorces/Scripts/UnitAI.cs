@@ -137,7 +137,18 @@ public class UnitAI {
 		else
 			attackB = AttackBehavior.MICRO;
 
-		//Apply attack behavior.
+		//Get the list of blocks to move to.
+		LinkedList<GridBlock> moveBlockList = getMoveBlockList();
+
+		foreach(GridBlock b in moveBlockList){
+			MoveScript ms = new MoveScript(unit);
+			SerializedCompletedAction sac = new SerializedCompletedAction();
+			sac.locationToPerformAction = b.gridLocation;
+			ms.loadAction(sac);
+			unit.addActionToQueue(ms);
+		}
+
+		//Apply attack behavior. TODO
 		switch(attackB) {
 		case AttackBehavior.MACRO:
 			break;
@@ -150,12 +161,12 @@ public class UnitAI {
 	/// Gets a list of GridBlocks to move to in sequence, depending on scope behavior.
 	/// </summary>
 	/// <returns>List of move locations.</returns>
-	private LinkedList<GridBlock> getMoveList(){
-		//The distance grid to movement target.
-		int[,] targetGrid = getTargetGrid();
+	private LinkedList<GridBlock> getMoveBlockList(){
 		//The list of moves to perform.
 		LinkedList<GridBlock> gridBlockMoves = new LinkedList<GridBlock>();
-		//Get the unit head location and max moves to determine possible intermediate and final locations.
+		//Get the proper distance grid to movement target.
+		int[,] targetGrid = getTargetGrid();
+		//Get the unit head location and max possible moves to determine possible intermediate and final locations.
 		GridBlock headLoc = unit.getCurrentBlockHeadLocation();
 		int moves = unit.getUnitMaxMovment();
 		//Create a move tree to assemble a list of possible finishing move locations.
@@ -216,29 +227,13 @@ public class UnitAI {
 	private int[,] getTargetGrid(){
 		//The target distance grid.
 		int[,] targetGrid;// = new int[unit.grid.gridSize,unit.grid.gridSize];
-		//Whether to target ally or enemy.
-		bool ally = false;
-		//Apply movement team behavior. TODO simplify into ternary operator
-		switch(moveTeamB) {
-		case MoveTeamBehavior.ALLY:
-			ally = true;
-			break;
-		case MoveTeamBehavior.ENEMY:
-			ally = false;
-			break;
-		}
-		//Whether to target head or body.
-		bool head = true;
-		//Apply movement target behavior. TODO simplify into ternary operator
-		switch(moveTargetB) {
-		case MoveTargetBehavior.HEAD:
-			head = true;
-			break;
-		default: //case MoveTargetBehavior.BODY:
-			head = false;
-			break;
-		}
+		//Whether to target ally or enemy, depending on movement team behavior.
+		bool ally = moveTeamB == MoveTeamBehavior.ALLY;
+		//Whether to target head or body, depending on movement target behavior.
+		bool head = moveTargetB == MoveTargetBehavior.HEAD;
+		//Get this unit's team index.
 		int teamIndex = unit.getTeam().getIndex();
+
 		//Apply movement scope behavior.
 		switch(moveScopeB) {
 		case MoveScopeBehavior.MACRO:

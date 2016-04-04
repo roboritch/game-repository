@@ -39,20 +39,55 @@ public class AIGrid {
 	int teamCount = 2;
 	//TODO proper team indices
 
+	/// <summary>
+	/// Gets the grid of closest distances.
+	/// </summary>
+	/// <returns>The closest dist.</returns>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
+	/// <param name="head">If set to <c>true</c> head.</param>
 	public int[,] getClosestDist(int team, bool ally, bool head) {
 		if(head)
-			return getGridMin(closestDist, team, ally);
-		else
 			return getGridMin(closestDistHead, team, ally);
+		else
+			return getGridMin(closestDist, team, ally);
 	}
 
+	/// <summary>
+	/// Gets the grid of closest units.
+	/// </summary>
+	/// <returns>The closest dist.</returns>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
+	/// <param name="head">If set to <c>true</c> head.</param>
+	public UnitScript[,] getClosestUnit(int team, bool ally, bool head) {
+		if(head)
+			return getGridMinUnit(closestDistHead, closestUnitHead, team, ally);
+		else
+			return getGridMinUnit(closestDist, closestUnit, team, ally);
+	}
+
+	/// <summary>
+	/// Gets the grid of summed distances.
+	/// </summary>
+	/// <returns>The dist.</returns>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
+	/// <param name="head">If set to <c>true</c> head.</param>
 	public int[,] getDist(int team, bool ally, bool head) {
 		if(head)
-			return getGridSum(dist, team, ally);
-		else
 			return getGridSum(distHead, team, ally);
+		else
+			return getGridSum(dist, team, ally);
 	}
 
+	/// <summary>
+	/// Gets the grid sum given an input grid.
+	/// </summary>
+	/// <returns>The grid sum.</returns>
+	/// <param name="inputGrid">Input grid.</param>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
 	private int[,] getGridSum(int[,,] inputGrid, int team, bool ally) {
 		//The summed distance grid.
 		int[,] gridSum = new int[grid.gridSize, grid.gridSize];
@@ -80,6 +115,13 @@ public class AIGrid {
 		return gridSum;
 	}
 
+	/// <summary>
+	/// Gets the minimum grid given an input grid.
+	/// </summary>
+	/// <returns>The grid minimum.</returns>
+	/// <param name="inputGrid">Input grid.</param>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
 	private int[,] getGridMin(int[,,] inputGrid, int team, bool ally) {
 		//The minimum distance grid.
 		int[,] gridMin = new int[grid.gridSize, grid.gridSize];
@@ -101,8 +143,9 @@ public class AIGrid {
 					for(int y = 0; y < grid.gridSize; y++) {
 						int amount = inputGrid[t, x, y];
 						//If amount is less or uninitialized, set minimum.
-						if(amount < gridMin[x, y] || ((team == 0 && t == 1) || t == 0))
+						if(amount < gridMin[x, y] || ((team == 0 && t == 1) || t == 0)){
 							gridMin[x, y] = inputGrid[t, x, y];
+						}
 					}
 				}
 			}
@@ -110,11 +153,54 @@ public class AIGrid {
 		return gridMin;
 	}
 
+	/// <summary>
+	/// Gets the closest unit grid given input grids.
+	/// </summary>
+	/// <returns>The grid minimum.</returns>
+	/// <param name="inputGrid">Input grid.</param>
+	/// <param name="team">Team.</param>
+	/// <param name="ally">If set to <c>true</c> ally.</param>
+	private UnitScript[,] getGridMinUnit(int[,,] inputGrid, UnitScript[,,] unitGrid, int team, bool ally) {
+		//The minimum distance grid.
+		int[,] gridMin = new int[grid.gridSize, grid.gridSize];
+		//The minimum distance unit grid.
+		UnitScript[,] gridMinUnit = new UnitScript[grid.gridSize, grid.gridSize];
+
+		//Check if no min is needed (only ally distances).
+		if(ally) {
+			for(int x = 0; x < grid.gridSize; x++) {
+				for(int y = 0; y < grid.gridSize; y++) {
+					gridMinUnit[x, y] = unitGrid[team, x, y];
+				}
+			}
+		} else {
+			//For each team.
+			for(int t = 0; t < teamCount; t++) {
+				//Don't min the ally team.
+				if(t == team)
+					continue;
+				for(int x = 0; x < grid.gridSize; x++) {
+					for(int y = 0; y < grid.gridSize; y++) {
+						int amount = inputGrid[t, x, y];
+						//If amount is less or uninitialized, set minimum.
+						if(amount < gridMin[x, y] || ((team == 0 && t == 1) || t == 0)){
+							gridMin[x, y] = inputGrid[t, x, y];
+							gridMinUnit[x, y] = unitGrid[t, x, y];
+						}
+					}
+				}
+			}
+		}
+		return gridMinUnit;
+	}
+
 	public AIGrid(CreatePlayGrid grid) {
 		this.grid = grid;
 
 		closestDist = new int[teamCount, grid.gridSize, grid.gridSize]; 
 		closestDistHead = new int[teamCount, grid.gridSize, grid.gridSize];
+		closestUnit = new UnitScript[teamCount, grid.gridSize, grid.gridSize]; 
+		closestUnitHead = new UnitScript[teamCount, grid.gridSize, grid.gridSize];
 		dist = new int[teamCount, grid.gridSize, grid.gridSize];
 		distHead = new int[teamCount, grid.gridSize, grid.gridSize];
 	}

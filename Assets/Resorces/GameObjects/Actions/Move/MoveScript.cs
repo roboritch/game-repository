@@ -22,6 +22,13 @@ public class MoveScript : ActionScript{
 		actionTime = 1f; 
 	}
 
+	//Constructor for AI.
+	public MoveScript(UnitScript u, GridBlock b) : this(u){
+		SerializedCompletedAction sac = new SerializedCompletedAction();
+		sac.locationToPerformAction = b.gridLocation;
+		loadAction(sac);
+	}
+
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act(){
 		bool itMoved = unit.addBlock(locationToPreformAction, false);

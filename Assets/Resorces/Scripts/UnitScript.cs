@@ -26,7 +26,7 @@ public class UnitScript : MonoBehaviour{
 	private LinkedList<ActionScript> actionList;
 
 	//Attached unit AI.
-	private UnitAI ai;
+	public UnitAI ai;
 	//Associated team.
 	public Team team;
 
