@@ -95,7 +95,7 @@ public class UnitScript : MonoBehaviour{
 			//check if unit is already at its max length
 			if(getLength() >= MaxProgramLength){
 				//remove a block from the end
-				removeBlock();
+				removeBlock(null);
 			}
 			//add a new unit block to given location
 			blockList.AddFirst(newLocation);
@@ -120,7 +120,7 @@ public class UnitScript : MonoBehaviour{
 	/// Remove one block from this unit, destroying it if all blocks are removed.
 	/// </summary>
 	/// <returns>Whether the unit was destroyed.</returns>
-	public bool removeBlock(){
+	public bool removeBlock(UnitScript attacker){
 		return removeBlock(1);
 	}
 
