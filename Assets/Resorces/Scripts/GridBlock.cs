@@ -170,6 +170,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	
 	}
 
+
 	#endregion
 
 	#region Attack Handling

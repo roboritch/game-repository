@@ -182,8 +182,9 @@ public class UnitScript : MonoBehaviour{
 
 
 		blockList.AddLast(startLocation);
-		float spawnTime = spawnAnimation();
-		Invoke("checkAllDisplay", spawnTime);
+		checkAllDisplay ();
+//		float spawnTime = spawnAnimation();
+//		Invoke("checkAllDisplay", spawnTime);
 	}
 		
 	//each unit spawn must have it's colour set by this script
