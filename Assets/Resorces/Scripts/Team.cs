@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class Team
 {
-	private LinkedList<UnitScript> units;
+	public LinkedList<UnitScript> units;
+	public LinkedList<GridBlock> spawnBlocks;
 	private int enemyKilled;
 	private int spawned;
 	private int score;
@@ -19,6 +20,7 @@ public class Team
 		score = 0;
 		teamColor = tc;
 		units = new LinkedList<UnitScript> ();
+		spawnBlocks = new LinkedList<GridBlock> ();
 		index = teamIndex;
 	}
 	public void addSpawn(){

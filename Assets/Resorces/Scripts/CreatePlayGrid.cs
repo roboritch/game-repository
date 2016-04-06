@@ -56,6 +56,24 @@ public class CreatePlayGrid : MonoBehaviour{
 	}
 
 	/// <summary>
+	/// Act AI units if idle.
+	/// </summary>
+	public void actAI() {
+		LinkedList<UnitScript> readyUnits = new LinkedList<UnitScript>();
+		foreach(Team t in team)
+			foreach(UnitScript u in t.units)
+				if(u.ai != null)
+				if(u.readyToAct)
+					readyUnits.AddLast(u);
+		//Recalculate AI grid if needed.
+		if(readyUnits.Count > 0)
+			aiGrid.calc();
+		//Act ready units.
+		foreach(UnitScript u in readyUnits)
+			u.nowReadyToAct();
+	}
+
+	/// <summary>
 	/// Animations the library.
 	/// </summary>
 	/// <returns>An uninitalized prefab for the animation. Null if no animation with that name exists.</returns>
@@ -124,6 +142,8 @@ public class CreatePlayGrid : MonoBehaviour{
 		gameGrid [0, 0].setSpawn (team [2]);
 		gameGrid [1, 1].setSpawn (team [3]);
 
+		//Initialize AI grid.
+		aiGrid = new AIGrid(this);
 	}
 
 	/// <summary>

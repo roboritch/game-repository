@@ -185,16 +185,20 @@ public class GUIScript : MonoBehaviour{
 	#region Unit Action
 
 	public void userWantsUnitToAct(){ 
-		if(currentlySelectedUnit != null){
-			if(currentlySelectedUnit.getNumberOfActionsInQueue() != 0){
-				if(currentlySelectedUnit.IsActing){
+		unitToAct(currentlySelectedUnit);
+	}
+
+	public void unitToAct(UnitScript unit){
+		if(unit != null){
+			if(unit.getNumberOfActionsInQueue() != 0){
+				if(unit.IsActing){
 					Debug.LogWarning("unit is already acting"); 
 				} else{
 					if(Player.Instance.workingOnline == true){
-						GridLocation cU_Locaiton = currentlySelectedUnit.getCurrentBlockHeadLocation().gridLocation;
+						GridLocation cU_Locaiton = unit.getCurrentBlockHeadLocation().gridLocation;
 						Player.Instance.thisPlayersNetworkHelper.sendAUnitsActingQueueToAllClients((ushort)cU_Locaiton.x, (ushort)cU_Locaiton.y);
 					} else{
-						unitActingQueue.addToUnitActing(currentlySelectedUnit);
+						unitActingQueue.addToUnitActing(unit);
 					}
 				}
 			} else{
