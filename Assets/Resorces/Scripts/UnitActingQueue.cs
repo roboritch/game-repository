@@ -46,11 +46,13 @@ public class UnitActingQueue : MonoBehaviour{
 	/// </summary>
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(){
-		
-		UnitActingScript temp = actingQueue.Dequeue();
-		temp.destroyThis(); // remove the representation of an acting unit
+
+		//Remove the representation of an acting unit.
+		if(actingQueue.Count > 0)
+				actingQueue.Dequeue().destroyThis();
 
 		if(actingQueue.Count != 0){
+
 			if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
 				currentUnitDoneActing();
 				shiftUnitRepresentationsUpOneLevel();

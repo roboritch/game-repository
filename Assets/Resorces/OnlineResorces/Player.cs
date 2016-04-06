@@ -10,7 +10,7 @@ public class Player : Singleton<Player>{
 	public Team team;
 
 	protected Player(){
-		//playerAlliance = -1;
+		playerAlliance = -1;
 	}
 
 	void Start(){

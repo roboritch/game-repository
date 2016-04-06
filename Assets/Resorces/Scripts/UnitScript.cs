@@ -310,12 +310,11 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public virtual void startActing(){
-		if(!readyToAct || actionList.Count == 0){
+		if(!readyToAct){
 			Debug.LogWarning("Unit is not ready to act!");
-		} else{
-			//Check if AI exists, and perform behavior determination.
-			if(ai != null)
-				ai.aiAct();
+		}else if( actionList.Count == 0){
+			Debug.LogWarning("Unit has no actions.");
+		}else{
 			isActing = true;
 			stopTimerTick();
 			resetTimer();
@@ -336,6 +335,8 @@ public class UnitScript : MonoBehaviour{
 			float actionTime = action.getActionTime();
 			getReadyToPreformAnotherAction(actionTime); //what for the current actions animation to finish
 		} else{
+			//Act any ready AI units.
+			grid.actAI();
 			//TODO send info that this unit is done acting
 			isActing = false;
 			startTimerTick();
@@ -492,15 +493,15 @@ public class UnitScript : MonoBehaviour{
 		}
 	}
 
-	[SerializeField] private bool readyToAct = false;
+	[SerializeField] public bool readyToAct = false;
 
 	private void timerTick(){
 		if(UT.time < UT.maxTime){
 			UT.time += UT.ticAmount;
 		} else{
 			readyToAct = true;
-			nowReadyToAct();
 			stopTimerTick();
+			nowReadyToAct();
 		}
 	}
 
@@ -523,9 +524,14 @@ public class UnitScript : MonoBehaviour{
 	/// <summary>
 	/// Run when this unit is ready to act.
 	/// </summary>
-	private void nowReadyToAct(){
-		if(ai != null){
+	public void nowReadyToAct(){
+		//Debug.LogWarning("Unit now ready to act.");
+		//Check if AI exists and unit is ready to act.
+		if(ai != null && readyToAct){
+			//Perform behavior determination.
 			ai.aiAct();
+			//Add unit to action queue.
+			grid.gui.unitToAct(this);
 		}
 	}
 

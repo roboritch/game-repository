@@ -140,7 +140,7 @@ public class UnitAI {
 		//Get the list of blocks to move to.
 		LinkedList<GridBlock> moveBlockList = getMoveBlockList();
 
-		foreach(GridBlock b in moveBlockList){
+		foreach(GridBlock b in moveBlockList) {
 			MoveScript ms = new MoveScript(unit);
 			SerializedCompletedAction sac = new SerializedCompletedAction();
 			sac.locationToPerformAction = b.gridLocation;
@@ -161,7 +161,7 @@ public class UnitAI {
 	/// Gets a list of GridBlocks to move to in sequence, depending on scope behavior.
 	/// </summary>
 	/// <returns>List of move locations.</returns>
-	private LinkedList<GridBlock> getMoveBlockList(){
+	private LinkedList<GridBlock> getMoveBlockList() {
 		//The list of moves to perform.
 		LinkedList<GridBlock> gridBlockMoves = new LinkedList<GridBlock>();
 		//Get the proper distance grid to movement target.
@@ -170,15 +170,18 @@ public class UnitAI {
 		GridBlock headLoc = unit.getCurrentBlockHeadLocation();
 		int moves = unit.getUnitMaxMovment();
 		//Create a move tree to assemble a list of possible finishing move locations.
-		MoveTree moveTree = new MoveTree( headLoc, moves);
+		MoveTree moveTree = new MoveTree(headLoc, moves);
 		//Get the final position to move to.
-		Position finalPos = getPositionByDirection(moveTree.finalPositions, targetGrid );
+		Position finalPos = getPositionByDirection(moveTree.finalPositions, targetGrid);
+		//Return empty list if no final position determined.
+		if(finalPos == null)
+			return gridBlockMoves;
 		//Add all gridblocks from path position data.
 		Position currPos = finalPos;
-		do{
+		do {
 			gridBlockMoves.AddLast(currPos.getGridBlock());
 			currPos = currPos.prevPos;
-		}while(currPos != null );
+		} while(currPos != null);
 		return gridBlockMoves;
 	}
 
@@ -187,28 +190,28 @@ public class UnitAI {
 	/// </summary>
 	/// <returns>The position to move to.</returns>
 	/// <param name="positions">Possible positions to move to.</param>
-	private Position getPositionByDirection(LinkedList<Position> positions, int[,] targetGrid){
+	private Position getPositionByDirection(LinkedList<Position> positions, int[,] targetGrid) {
 		//Apply movement direction behavior.
 		switch(moveDirB) {
 		case MoveDirBehavior.AWAY:
-			int minDist=0; //Assign to remove warning.
+			int minDist = 0; //Assign to remove warning.
 			Position minPos = null;
-			foreach( Position pos in positions){
+			foreach(Position pos in positions) {
 				GridLocation posLoc = pos.getGridBlock().gridLocation;
-				int dist = targetGrid[posLoc.x,posLoc.y];
-				if(dist < minDist || minPos==null){
+				int dist = targetGrid[posLoc.x, posLoc.y];
+				if(dist < minDist || minPos == null) {
 					minDist = dist;
 					minPos = pos;
 				}
 			}
 			return minPos;
 		case MoveDirBehavior.TOWARD:
-			int maxDist=0;
+			int maxDist = 0;
 			Position maxPos = null;
-			foreach( Position pos in positions){
+			foreach(Position pos in positions) {
 				GridLocation posLoc = pos.getGridBlock().gridLocation;
-				int dist = targetGrid[posLoc.x,posLoc.y];
-				if(dist < maxDist || maxPos==null){
+				int dist = targetGrid[posLoc.x, posLoc.y];
+				if(dist < maxDist || maxPos == null) {
 					maxDist = dist;
 					maxPos = pos;
 				}
@@ -224,7 +227,7 @@ public class UnitAI {
 	/// Gets the target distance grid from the AIGrid based off of scope and team behavior.
 	/// </summary>
 	/// <returns>The target grid.</returns>
-	private int[,] getTargetGrid(){
+	private int[,] getTargetGrid() {
 		//The target distance grid.
 		int[,] targetGrid;// = new int[unit.grid.gridSize,unit.grid.gridSize];
 		//Whether to target ally or enemy, depending on movement team behavior.
@@ -263,10 +266,11 @@ public class UnitAI {
 		public LinkedList<Position> finalPositions;
 
 		public MoveTree(GridBlock startGB, int depth) {
+			finalPositions = new LinkedList<Position>();
 			this.start = new Position(startGB, depth, null, finalPositions);
 		}
 	}
-		
+
 	/// <summary>
 	/// Current position of a move sequence path.
 	/// </summary>
@@ -278,7 +282,7 @@ public class UnitAI {
 		//Previous positions to this position.
 		public Position prevPos;
 
-		public GridBlock getGridBlock(){
+		public GridBlock getGridBlock() {
 			return gridBlock;
 		}
 

@@ -36,7 +36,7 @@ public class AIGrid {
 	/// </summary>
 	private int[,,] distHead;
 
-	int teamCount = 2;
+	int teamCount = 4;
 	//TODO proper team indices
 
 	/// <summary>

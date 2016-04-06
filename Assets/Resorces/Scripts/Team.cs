@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Team
 {
-	private LinkedList<UnitScript> units;
+	public LinkedList<UnitScript> units;
 	public LinkedList<GridBlock> spawnBlocks;
 	private int enemyKilled;
 	private int spawned;

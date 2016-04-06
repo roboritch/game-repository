@@ -295,6 +295,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
+		//UnitAI ai = new UnitAI(unit);
+		//unit.ai = ai;
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		unitInstalled = unit;
@@ -306,10 +308,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawnAIUnit(UnitScript unit){
-		//GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
-		// Send to gridBlockforCreation.
-		//UnitScript sn = unit.GetComponent<UnitScript>();
-		//spawnUnit(unit.GetComponent<UnitScript>());
 		UnitAI ai = new UnitAI(unit);
 		unit.ai = ai;
 		spawnUnit(unit);
