@@ -499,6 +499,7 @@ public class UnitScript : MonoBehaviour{
 			UT.time += UT.ticAmount;
 		} else{
 			readyToAct = true;
+			nowReadyToAct();
 			stopTimerTick();
 		}
 	}
@@ -517,6 +518,15 @@ public class UnitScript : MonoBehaviour{
 
 	private void timerStartup(){
 		UT = unitInfo.unitTimer;
+	}
+
+	/// <summary>
+	/// Run when this unit is ready to act.
+	/// </summary>
+	private void nowReadyToAct(){
+		if(ai != null){
+			ai.aiAct();
+		}
 	}
 
 	#endregion
