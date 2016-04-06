@@ -15,6 +15,9 @@ public class CreatePlayGrid : MonoBehaviour{
 	public GUIScript gui;
 	public Transform unitObjectHolder;
 
+	//Attached AIGrid
+	public AIGrid aiGrid;
+
 	//Sprite attributes.
 	public GameObject spritePrefab;
 	public SpritesAndColors spritesAndColors;

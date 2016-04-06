@@ -10,6 +10,9 @@ public class Team
 	private Color teamColor;
 	private int index;
 
+	//Attached team AI.
+	private TeamAI ai;
+
 	public Team(Color tc,int teamIndex){
 		enemyKilled = 0;
 		spawned = 0;

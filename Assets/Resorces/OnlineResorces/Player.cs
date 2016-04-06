@@ -24,5 +24,6 @@ public class Player : Singleton<Player>{
 
 	public int playerAlliance = -1;
 	public NetworkIO thisPlayersNetworkHelper;
+	public bool workingOnline = false;
 
 }
