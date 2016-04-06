@@ -2302,12 +2302,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 11457138, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
-      propertyPath: m_ServerBindToIP
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11473522, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b87f6e8a420ff4a49b5c91bce79f0846, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1838762092

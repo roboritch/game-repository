@@ -144,9 +144,17 @@ public class UnitScript : MonoBehaviour{
 		return false;
 	}
 
+
+	[SerializeField] private float timeBetweenBlockRemoval = 0.5f;
+
+	public float getTimeBetweenBlockRemoval(){
+		return timeBetweenBlockRemoval;
+	}
+
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
-	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
-		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
+	/// <param name="delay">time in seconds till the first block is removed</param>
+	public void queueBlockRemoval(int numberOfBlocksToRemove, float delay){
+		float removalSection = timeBetweenBlockRemoval / (float)numberOfBlocksToRemove;
 		for(int i = 1; i < numberOfBlocksToRemove + 1; i++){
 			Invoke("removeBlock", (float)(i) * removalSection + delay);
 		}
@@ -325,7 +333,8 @@ public class UnitScript : MonoBehaviour{
 		action.act();
 		actionList.RemoveFirst();
 		if(actionList.First != null){ // only preform another action if there is one
-			getReadyToPreformAnotherAction(action.getActionTime()); //what for the current actions animation to finish
+			float actionTime = action.getActionTime();
+			getReadyToPreformAnotherAction(actionTime); //what for the current actions animation to finish
 		} else{
 			//TODO send info that this unit is done acting
 			isActing = false;
