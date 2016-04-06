@@ -144,9 +144,17 @@ public class UnitScript : MonoBehaviour{
 		return false;
 	}
 
+
+	[SerializeField] private float timeBetweenBlockRemoval = 0.5f;
+
+	public float getTimeBetweenBlockRemoval(){
+		return timeBetweenBlockRemoval;
+	}
+
 	///<summary> used by animations that want to show blocks being removed one at a time till the end of the animation</summary>
-	public void queueBlockRemoval(int numberOfBlocksToRemove, float timeInterval_s, float delay){
-		float removalSection = timeInterval_s / (float)numberOfBlocksToRemove;
+	/// <param name="delay">time in seconds till the first block is removed</param>
+	public void queueBlockRemoval(int numberOfBlocksToRemove, float delay){
+		float removalSection = timeBetweenBlockRemoval / (float)numberOfBlocksToRemove;
 		for(int i = 1; i < numberOfBlocksToRemove + 1; i++){
 			Invoke("removeBlock", (float)(i) * removalSection + delay);
 		}
@@ -273,15 +281,22 @@ public class UnitScript : MonoBehaviour{
 
 	private ActionScript tempAction;
 
+	/// <summary>
+	/// Sets the temperary action to use with user selection.
+	/// does not work if unit is acting
+	/// </summary>
+	/// <param name="action">Action.</param>
+	/// <param name="displayUserSelection">If set to <c>true</c> display user selection.</param>
 	public void setTempAction(ActionScript action, bool displayUserSelection){
-		if(tempAction != null){
-			tempAction.removeUserSelectionDisplay();
-		}	
-		tempAction = action;
-		if(displayUserSelection){
-			tempAction.displayUserSelection();
+		if(!isActing){
+			if(tempAction != null){
+				tempAction.removeUserSelectionDisplay();
+			}	
+			tempAction = action;
+			if(displayUserSelection){
+				tempAction.displayUserSelection();
+			}
 		}
-
 	}
 
 	public void removeUserSelectionDisplay(){
@@ -318,7 +333,8 @@ public class UnitScript : MonoBehaviour{
 		action.act();
 		actionList.RemoveFirst();
 		if(actionList.First != null){ // only preform another action if there is one
-			getReadyToPreformAnotherAction(action.getActionTime()); //what for the current actions animation to finish
+			float actionTime = action.getActionTime();
+			getReadyToPreformAnotherAction(actionTime); //what for the current actions animation to finish
 		} else{
 			//TODO send info that this unit is done acting
 			isActing = false;
@@ -369,6 +385,10 @@ public class UnitScript : MonoBehaviour{
 		resetMovmentActionsToCurrentMax();
 	}
 
+	public LinkedList<ActionScript> online_getActionQueue(){
+		return actionList;
+	}
+
 	public int getNumberOfActionsInQueue(){
 		return actionList.Count;
 	}
@@ -415,7 +435,7 @@ public class UnitScript : MonoBehaviour{
 		GridBlock[] x = new GridBlock[attackLocations.Length];
 
 		for(int i = 0; i < attackLocations.Length; i++){
-			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridlocation + attackLocations[i]);
+			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
 		}
 
 		return x;
@@ -536,7 +556,7 @@ public class UnitScript : MonoBehaviour{
 		GridLocation[] BL = new GridLocation[blockList.Count];
 		int count = 0;
 		foreach( var item in blockList ){
-			BL[count++] = item.gridlocation;
+			BL[count++] = item.gridLocation;
 		}
 		return serl;
 	}

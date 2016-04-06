@@ -61,13 +61,15 @@ public class AttackScript : ActionScript{
 	public override void act(){
 		removeActionRepresentationDisplay();
 		if(attackLocation != null)
-		if(attackLocation.unitInstalled != null &&unit.getTeam()!=attackLocation.unitInstalled.getTeam()){
+		if(attackLocation.unitInstalled != null && unit.getTeam() != attackLocation.unitInstalled.getTeam()){
 			if(attackLocation.isAdj(unit.getCurrentBlockHeadLocation())){
 				displayCloseRangeAttackAnimation(attackLocation);
-				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, 0f); // must be called after the display
+				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, 0f); // must be called after the display
+				actionTime += attackStrength * attackLocation.unitInstalled.getTimeBetweenBlockRemoval();
 			} else{
 				float delay = displayLongRangeAttackAnimation(attackLocation);
-				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, actionTime, delay);
+				attackLocation.unitInstalled.queueBlockRemoval(attackStrength, delay);
+				actionTime += delay + attackStrength * attackLocation.unitInstalled.getTimeBetweenBlockRemoval();
 			}
 		} else{
 			Debug.Log("unit's block was removed before it could be attacked or is ally");
@@ -188,7 +190,7 @@ public class AttackScript : ActionScript{
 	public override SerializedCompletedAction serializeAction(){
 		SerializedCompletedAction compleatedActionSave = new SerializedCompletedAction();
 		compleatedActionSave.actionAmountInt = attackStrength;
-		compleatedActionSave.locationToPerformAction = attackLocation.gridlocation;
+		compleatedActionSave.locationToPerformAction = attackLocation.gridLocation;
 		compleatedActionSave.actionType = typeof(AttackScript);
 		return compleatedActionSave;
 	}

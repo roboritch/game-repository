@@ -28,11 +28,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Whether this block is a spawn spot.</summary>
 	[SerializeField] private bool spawnSpot = false;
 
-
-	/// <summary> The spawn spot alligence.</summary>
-	public int _spawnSpotAlligence;
-
-
 	/// <summary>Whether this block is an occupiable space.</summary>
 	[SerializeField] private bool available = true;
 
@@ -50,7 +45,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	private Collider2D selectionBox;
 
 	/// <summary>Location of this grid block on the play grid.</summary>
-	public GridLocation gridlocation;
+	public GridLocation gridLocation;
 
 	//Attack attributes
 	private int attackActionID = -1;
@@ -158,7 +153,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
-		if(!GridManager.editModeOn && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if(teamSpawn != null)
+		if(Player.Instance.playerAlliance == teamSpawn.getIndex() && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
@@ -322,7 +318,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
-		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridlocation.x, (ushort)gridlocation.y, (byte)Player.Instance.playerAlliance);
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridLocation.x, (ushort)gridLocation.y, (byte)Player.Instance.playerAlliance);
 	}
 	#endregion
 
