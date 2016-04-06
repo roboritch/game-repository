@@ -121,6 +121,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		set{
 			gridManager = value;
 		}
+		get{
+			return gridManager;
+		}
 	}
 
 	#region Mouse Events
@@ -158,7 +161,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			actionWaitingForUserInput.userSelectedAction(this);
 		} else if(actionWaitingForUserInput is AttackScript){
 			actionWaitingForUserInput.userSelectedAction(this);
-		} else if(unitInstalled == null && Input.GetMouseButton(0)){
+		} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);
@@ -250,6 +253,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			left.right = null;
 			right.left = null;
 			setSpriteNone();
+			spawnSpot = false;
 		}
 		available = !available;
 	}
@@ -259,10 +263,13 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
-		spawnSpot = true;
-		teamSpawn = ts;
-		//set spawn sprite
-		setSpriteSpawn();
+		if(spawnSpot == true){
+			spawnSpot = false;
+			setSpriteDefault();
+		} else{
+			spawnSpot = true;
+			setSpriteSpawn();
+		}
 	}
 	//TODO remove
 	public void setSpawn(){
@@ -279,11 +286,11 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteDefault();
 	}
 
+
 	public Team getTeam(){
 		return teamSpawn;
 	}
-
-
+		
 	#endregion
 
 	#region Unit Control
@@ -343,6 +350,20 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Removes the sprite.</summary>
 	private void setSpriteNone(){
 		transform.GetComponent<SpriteControler>().removeSprite();
+	}
+
+	#endregion
+
+	#region Block Properties Accessors
+
+	// Return property of gridblock if it is a spawn spot or not
+	public bool getSpawnSpot(){
+		return spawnSpot;
+	}
+
+	// Return property of gridblock if it is occupiable space or a wall
+	public bool getAvailable(){
+		return available;
 	}
 
 	#endregion
