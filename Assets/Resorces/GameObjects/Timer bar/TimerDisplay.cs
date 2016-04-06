@@ -43,10 +43,11 @@ public class TimerDisplay : MonoBehaviour{
 
 	public void setTimer(){
 		if(unitUsingTimer != null){
-			transform.position = unitUsingTimer.getCurrentBlockHeadLocation().transform.position - timerLocationOffset;
-			timerToBars(unitUsingTimer.unitTimer.time, unitUsingTimer.unitTimer.maxTime);
+			if(unitUsingTimer.getCurrentBlockHeadLocation() != null){
+				transform.position = unitUsingTimer.getCurrentBlockHeadLocation().transform.position - timerLocationOffset;
+				timerToBars(unitUsingTimer.unitTimer.time, unitUsingTimer.unitTimer.maxTime);
+			}
 		}
-
 	}
 
 	private float storedTimeSliceLength;

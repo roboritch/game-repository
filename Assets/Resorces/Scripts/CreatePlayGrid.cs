@@ -96,8 +96,8 @@ public class CreatePlayGrid : MonoBehaviour{
 				gameGrid[x, y] = tempObject.GetComponent<GridBlock>();
 				// Each space has a refrence to this script for easy access.
 				gameGrid[x, y].GridManager = this; 
-				gameGrid[x, y].gridlocation.x = x;
-				gameGrid[x, y].gridlocation.y = y;
+				gameGrid[x, y].gridLocation.x = x;
+				gameGrid[x, y].gridLocation.y = y;
 			}
 		}
 

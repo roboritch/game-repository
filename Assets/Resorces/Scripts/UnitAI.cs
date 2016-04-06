@@ -183,7 +183,7 @@ public class UnitAI {
 			int minDist=0; //Assign to remove warning.
 			Position minPos = null;
 			foreach( Position pos in positions){
-				GridLocation posLoc = pos.getGridBlock().gridlocation;
+				GridLocation posLoc = pos.getGridBlock().gridLocation;
 				int dist = targetGrid[posLoc.x,posLoc.y];
 				if(dist < minDist || minPos==null){
 					minDist = dist;
@@ -195,7 +195,7 @@ public class UnitAI {
 			int maxDist=0;
 			Position maxPos = null;
 			foreach( Position pos in positions){
-				GridLocation posLoc = pos.getGridBlock().gridlocation;
+				GridLocation posLoc = pos.getGridBlock().gridLocation;
 				int dist = targetGrid[posLoc.x,posLoc.y];
 				if(dist < maxDist || maxPos==null){
 					maxDist = dist;
