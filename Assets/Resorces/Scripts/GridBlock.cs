@@ -263,13 +263,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
-		if(spawnSpot == true){
-			spawnSpot = false;
-			setSpriteDefault();
-		} else{
-			spawnSpot = true;
-			setSpriteSpawn();
-		}
+		spawnSpot = true;
+		teamSpawn = ts;
+		setSpriteSpawn ();
 	}
 	//TODO remove
 	public void setSpawn(){

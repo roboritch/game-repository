@@ -90,10 +90,10 @@ public class GridScript : MonoBehaviour{
 		for(int x = 0; x < currentGridInfo.gridSize; x++){
 			for(int y = 0; y < currentGridInfo.gridSize; y++){
 				currentGridInfo.isSpawnSpot[x, y] = gridInfo.gameGrid[x, y].getSpawnSpot();
-				currentGridInfo.xmlSpawnSpot[x][y] = currentGridInfo.isSpawnSpot[x, y];
+				//currentGridInfo.xmlSpawnSpot[x][y] = currentGridInfo.isSpawnSpot[x, y];
 
 				currentGridInfo.isWall[x, y] = gridInfo.gameGrid[x, y].getAvailable();
-				currentGridInfo.xmlWall[x][y] = currentGridInfo.isWall[x, y];
+				//currentGridInfo.xmlWall[x][y] = currentGridInfo.isWall[x, y];
 			}
 		}
 		currentGridInfo.gridSize = gridInfo.gridSize;
