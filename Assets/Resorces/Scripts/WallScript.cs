@@ -11,12 +11,11 @@ public class WallScript : UnitScript{
 	/// <param name="damageAmount">Damage amount.</param>
 	public override bool removeBlock(int damageAmount){
 		if(canDestroy){
-			if(damageAmount < health){
-				health -= damageAmount;
-			} else{
-				destroyUnit();
-				return true;
+			health -= damageAmount;
+			if (health <= 0) {
+				destroyUnit ();
 			}
+			return true;
 		}
 		return false;
 	}

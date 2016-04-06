@@ -24,7 +24,12 @@ public class UnitScript : MonoBehaviour{
 	[SerializeField] private GameObject[] buttonPrefabs;
 	/// <summary>A list of all the actions the user has selected for this unit.</summary>
 	private LinkedList<ActionScript> actionList;
-	/// <summary>The temp action.</summary>
+
+	//Attached unit AI.
+	private UnitAI ai;
+	//Associated team.
+	public Team team;
+
 	#endregion
 
 	#region programName
@@ -43,6 +48,10 @@ public class UnitScript : MonoBehaviour{
 	#endregion
 
 	#region Unit Size Management
+
+	public LinkedList<GridBlock> getBlockList(){
+		return  blockList;
+	}
 
 	public GridBlock getCurrentBlockHeadLocation(){
 		if(blockList.First == null){
@@ -64,6 +73,14 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>The length of this unit.</returns>
 	public int getLength(){
 		return blockList.Count;
+	}
+
+	/// <summary>
+	/// Gets the percentage of this unit's health.
+	/// </summary>
+	/// <returns>The health percentage of this unit.</returns>
+	public double getHealthPercentage(){
+		return (double)blockList.Count / maxProgramLength;
 	}
 
 	/// <summary>
@@ -141,7 +158,7 @@ public class UnitScript : MonoBehaviour{
 	/// Called when the grid block creates the unit.
 	/// </summary>
 	/// <param name="startLocation">Start location.</param>
-	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation){
+	public virtual void spawnUnit(CreatePlayGrid gm, GridBlock startLocation, Team t){
 		grid = gm;
 		blockList = new LinkedList<GridBlock>();
 		//set base unit stats so they can be adjusted at runtime
@@ -151,6 +168,9 @@ public class UnitScript : MonoBehaviour{
 		currentMaxPosibleAttackActions = unitInfo.maxAttackActions;
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
+		team = t;
+		team.addAlly(this);
+
 
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
@@ -199,7 +219,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>The unit color.</returns>
 	public virtual Color getUnitColor(){
-		return unitInfo.unitColor;
+		return Team.colorBlend(team.getColor(), Color.gray, 0.3f);
 	}
 
 	/// <summary>
@@ -274,10 +294,13 @@ public class UnitScript : MonoBehaviour{
 		return actionList.Last.Value;
 	}
 
-	public void startActing(){
+	public virtual void startActing(){
 		if(!readyToAct || actionList.Count == 0){
 			Debug.LogWarning("Unit is not ready to act!");
 		} else{
+			//Check if AI exists, and perform behavior determination.
+			if(ai != null)
+				ai.aiAct();
 			isActing = true;
 			stopTimerTick();
 			resetTimer();
@@ -322,6 +345,11 @@ public class UnitScript : MonoBehaviour{
 		actionList.RemoveLast();
 	}
 
+	/// <summary>
+	/// Adds the action to queue.
+	/// Does not invoke any methods in action.
+	/// </summary>
+	/// <param name="action">Action.</param>
 	public void addActionToQueue(ActionScript action){
 		actionList.AddLast(action);
 	}
@@ -484,10 +512,73 @@ public class UnitScript : MonoBehaviour{
 
 	#endregion
 
+	#region unit serialization
+	private string unitName;
+
+	private void setUnitNameToLoadOffof(){
+		unitName = unitInfo.unitNameForLoad;
+	}
+
+	/// <summary>
+	/// Serializes the unit.
+	/// Primaraly used to insure network instances are synced
+	/// </summary>
+	/// <returns>The unit.</returns>
+	public UnitSaving serializeUnit(){
+		UnitSaving serl = new UnitSaving();
+		//serl.controlType = controlType;
+		serl.currentAttackPow = currentAttackPower;
+		serl.currentMaxAttackActions = currentMaxPosibleAttackActions;
+		serl.currentMaxLength = maxProgramLength;
+		serl.currentMaxMove = maximumMovment;
+		serl.unitNameToLoad = name;
+		serl.currentUnitTimer = unitTimer;
+		GridLocation[] BL = new GridLocation[blockList.Count];
+		int count = 0;
+		foreach( var item in blockList ){
+			BL[count++] = item.gridlocation;
+		}
+		return serl;
+	}
+
+	public void loadUnit(UnitSaving unitSave){
+		//if(unitSave.controlType != null)
+		//	controlType = unitSave.controlType;
+		if(unitSave.currentAttackPow != null)
+			currentAttackPower = unitSave.currentAttackPow;
+		if(unitSave.currentMaxAttackActions != null)
+			currentMaxPosibleAttackActions = unitSave.currentMaxAttackActions;
+		if(unitSave.currentMaxLength != null)
+			maxProgramLength = unitSave.currentMaxLength;
+		if(unitSave.currentMaxMove != null)
+			maximumMovment = unitSave.currentMaxMove;
+		if(unitSave.unitNameToLoad != null)
+			name = unitSave.unitNameToLoad;
+		if(unitSave.unitNameToLoad != null)
+			name = unitSave.unitNameToLoad;
+		if(unitSave.currentUnitTimer != null)
+			unitTimer = unitSave.currentUnitTimer;
+		if(unitSave.currentBlockLocations != null){
+			for(int i = 0; i < unitSave.currentBlockLocations.Length; i++){
+				addBlock(grid.gridLocationToGameGrid(unitSave.currentBlockLocations[i]), false);
+			}
+		}
+	}
+
+	#endregion
+
+	#region team
+	public Team getTeam(){
+		return team;
+	}
+	#endregion
+
 	void Start(){
+		grid.units.Add(this);
 		actionList = new LinkedList<ActionScript>();
 		timerStartup();
 		startTimerTick();
+
 	}
 
 	// Update is called once per frame
@@ -510,6 +601,7 @@ public class UnitScript : MonoBehaviour{
 	/// <summary> Destroys the unit. </summary>
 	protected void destroyUnit(){
 		//TODO make sure there are no refrences to this unit before it is destroyed
+		team.removeAlly(this);
 		if(tempAction != null)
 			tempAction.removeUserSelectionDisplay();
 		resetActionQueue(true);
@@ -522,4 +614,18 @@ public class UnitScript : MonoBehaviour{
 		Destroy(gameObject);
 	}
 	#endregion
+
+	/// <summary>
+	/// Descriptive code of this unit. Follows the format:
+	/// "{name},H:{length}/{macLength},M:{moveCount},A:{attackPow},{attackCount}"
+	///  Appends AI descriptive code, if attached. Follows the format:
+	/// "M:{moveDirectionBehavior},{moveScopeBehavior},{moveTargetBehavior},A:{attackBehavior}"
+	/// </summary>
+	/// <returns>The code string.</returns>
+	public virtual string toString(){
+		string value = unitInfo.unitNameForLoad + ",H:" + getLength() + "/" + maxProgramLength + ",M:" + unitInfo.maxMove + ",A:" + unitInfo.attackPow + "," + unitInfo.maxAttackActions;
+		if(ai != null)
+			value += ai.toString();
+		return value;
+	}
 }

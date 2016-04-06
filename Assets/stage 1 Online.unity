@@ -903,14 +903,6 @@ Prefab:
       propertyPath: m_Name
       value: Unit Selection
       objectReference: {fileID: 0}
-    - target: {fileID: 22482836, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 61.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 22482836, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 28.549992
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
   m_IsPrefabParent: 0
@@ -2052,7 +2044,7 @@ GameObject:
   - 114: {fileID: 1384402563}
   m_Layer: 0
   m_Name: Level
-  m_TagString: Untagged
+  m_TagString: MainGrid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2092,7 +2084,6 @@ MonoBehaviour:
     sprite_attack: {fileID: 21300000, guid: f463623e900a3714181bd5328cf8d496, type: 3}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
   UnitTimerDisplay: {fileID: 0}
-  units: []
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 

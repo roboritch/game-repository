@@ -3,6 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public struct UnitInformationStruct{
+	public string unitNameForLoad;
 	public GameObject unit;
 	public Sprite unitHeadSprite;
 	public Color unitColor;
@@ -11,4 +12,5 @@ public struct UnitInformationStruct{
 	public int attackPow;
 	public int maxAttackActions;
 	public UnitTimer unitTimer;
+	public int team;
 }

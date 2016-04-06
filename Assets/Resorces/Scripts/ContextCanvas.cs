@@ -30,7 +30,7 @@ public class ContextCanvas : MonoBehaviour{
 	/// Allow programs to be spawned from this block.
 	/// </summary>
 	public void MakeSpawnPoint(){
-		space.setSpawn();
+		//space.setSpawn();
 	}
 
 	/// <summary>

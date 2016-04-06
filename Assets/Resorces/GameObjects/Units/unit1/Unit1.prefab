@@ -41,6 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualBlockHead: {fileID: 0}
   unitInfo:
+    unitNameForLoad: unit1
     unit: {fileID: 184858}
     unitHeadSprite: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108, type: 3}
     unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
@@ -56,6 +57,7 @@ MonoBehaviour:
   buttonPrefabs:
   - {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
   - {fileID: 171478, guid: a78e9e4f88168a746be87f9175588765, type: 2}
+  controlType: 0
   attackLocations:
   - x: 1
     y: 0
@@ -195,6 +197,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: attackLocations.Array.data[3].y
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitNameForLoad
+      value: unit1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

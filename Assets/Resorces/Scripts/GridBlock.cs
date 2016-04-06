@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 /// Can be a spawn spot.
 /// </summary>
 public class GridBlock : MonoBehaviour,IPointerDownHandler{
-
+	
 	//Adjacent Blocks.
 	/// <summary>Upper adjacent block.</summary>
 	private GridBlock up;
@@ -27,6 +27,12 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	//Block properties.
 	/// <summary>Whether this block is a spawn spot.</summary>
 	[SerializeField] private bool spawnSpot = false;
+
+
+	/// <summary> The spawn spot alligence.</summary>
+	public int _spawnSpotAlligence;
+
+
 	/// <summary>Whether this block is an occupiable space.</summary>
 	[SerializeField] private bool available = true;
 
@@ -48,6 +54,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	//Attack attributes
 	private int attackActionID = -1;
+	private Team teamSpawn;
+
 
 	#region Adjacent Blocks
 
@@ -163,11 +171,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			gridManager.gui.setSelectedUnit(unitInstalled);
+			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance) //only a player can select a unit
+				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
-		//		if (Input.GetMouseButton (0) && gridManager.gui.getCurUnit() != null) {
-		//			gridManager.gui.setUnitAsSelected (null);
-		//		}
+	
 	}
 
 	#endregion
@@ -255,7 +262,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	/// <summary>Sets gridblock as a spawn spot.</summary>
-	public void setSpawn(){
+	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
@@ -266,6 +273,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			spawnSpot = true;
 			setSpriteSpawn();
 		}
+	}
+	//TODO remove
+	public void setSpawn(){
+		setSpawn(null);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -278,23 +289,41 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteDefault();
 	}
 
+
+	public Team getTeam(){
+		return teamSpawn;
+	}
+		
 	#endregion
 
 	#region Unit Control
 
-	/// <summary>Spawns a given unit.</summary>
+	/// <summary>Spawns a given unit
+	/// the units alliance must be 
+	/// set before this is called
+	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		unitInstalled = unit;
-		unit.spawnUnit(gridManager, this);
+		unit.spawnUnit(gridManager, this, teamSpawn);
 	}
 
 	public void removeUnit(){
 		unitInstalled = null;
 	}
 
+	public void spawnAIUnit(string unitName){
+		GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
+		// Send to gridBlockforCreation.
+		UnitScript sn = unit.GetComponent<UnitScript>();
+		spawnUnit(unit.GetComponent<UnitScript>());
+	}
+
+	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridlocation.x, (ushort)gridlocation.y, (byte)Player.Instance.playerAlliance);
+	}
 	#endregion
 
 	// Use this for initialization.
@@ -307,7 +336,6 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	// Update is called once per frame.
 	/// <summary>Update this instance.</summary>
 	void Update(){
-		
 	}
 
 	#region Sprite Controls
@@ -319,7 +347,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	/// <summary>Sets the sprite to spawn.</summary>
 	private void setSpriteSpawn(){
-		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, gridManager.spritesAndColors.color_spawnSpaceColor);
+		transform.GetComponent<SpriteControler>().setSprite(gridManager.spritesAndColors.sprite_spawnSpace, Team.colorBlend(teamSpawn.getColor(), Color.black, 0.8f));
 	}
 
 	/// <summary>Removes the sprite.</summary>

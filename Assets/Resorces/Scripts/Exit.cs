@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Exit : MonoBehaviour{
-
 	public static Exit Instance;
 	public GameObject confirmationMenu;
 
@@ -11,11 +10,11 @@ public class Exit : MonoBehaviour{
 	/// Awake this instance.
 	/// </summary>
 	void Awake(){
+		Instance = this;
 		if(Instance){
 			DestroyImmediate(gameObject);
 		} else{
 			DontDestroyOnLoad(gameObject);
-			Instance = this;
 		}
 	}
 
