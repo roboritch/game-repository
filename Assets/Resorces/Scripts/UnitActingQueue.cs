@@ -34,7 +34,9 @@ public class UnitActingQueue : MonoBehaviour{
 			if(Player.Instance.workingOnline){ //Online check
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
 			} else{
-				temp.setCurrentlyActing();
+				if(temp.setCurrentlyActing()){
+					Invoke("currentUnitDoneActing", 0.001f);
+				}
 			}
 		} else if(actingQueue.Count > maxVisibleItems){
 			temp.setVisible(false);
@@ -49,7 +51,7 @@ public class UnitActingQueue : MonoBehaviour{
 
 		//Remove the representation of an acting unit.
 		if(actingQueue.Count > 0)
-				actingQueue.Dequeue().destroyThis();
+			actingQueue.Dequeue().destroyThis();
 
 		if(actingQueue.Count != 0){
 
