@@ -32,6 +32,8 @@ public class MoveScript : ActionScript{
 		SerializedCompletedAction sac = new SerializedCompletedAction();
 		sac.locationToPerformAction = b.gridLocation;
 		loadAction(sac);
+
+		u.addActionToQueue(this);
 	}
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>

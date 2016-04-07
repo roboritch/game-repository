@@ -534,9 +534,11 @@ public class UnitScript : MonoBehaviour{
 		//Debug.LogWarning("Unit now ready to act.");
 		//Check if AI exists and unit is ready to act.
 		if(ai != null && readyToAct){
+			Debug.LogWarning("AI unit calculating.");
 			//Perform behavior determination.
 			ai.aiAct();
 			//Add unit to action queue.
+			Debug.LogWarning("AI unit acting.");
 			grid.gui.unitToAct(this);
 		}
 	}
