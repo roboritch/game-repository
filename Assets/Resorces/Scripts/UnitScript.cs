@@ -311,7 +311,7 @@ public class UnitScript : MonoBehaviour{
 
 	public virtual void startActing(){
 		if(!readyToAct){
-			Debug.LogWarning("Unit is not ready to act! /n will wait for timer");
+			Debug.LogWarning("Unit is not ready to act, will wait for timer!");
 		} else if(actionList.Count == 0){
 			Debug.LogWarning("Unit has no actions.");
 		} else{
@@ -347,7 +347,7 @@ public class UnitScript : MonoBehaviour{
 		isActing = false;
 		startTimerTick();
 		resetActionQueue(false); 
-		grid.gui.unitIsDoneActing(this);
+		grid.gui.unitIsDoneActing();
 	}
 
 	/// <summary>
