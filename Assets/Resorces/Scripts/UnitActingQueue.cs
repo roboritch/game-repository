@@ -48,21 +48,23 @@ public class UnitActingQueue : MonoBehaviour{
 	/// </summary>
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(){
-		if(actingQueue.Count != 0){
+		if(actingQueue.Count >= 1){
 			
 			actingQueue.Dequeue().destroyThis();
 
-			if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
-				currentUnitDoneActing();
-				shiftUnitRepresentationsUpOneLevel();
-				return;
-			}
+			if(actingQueue.Count != 0){
+				if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
+					currentUnitDoneActing();
+					shiftUnitRepresentationsUpOneLevel();
+					return;
+				}
 
-			shiftUnitRepresentationsUpOneLevel();
-			if(Player.Instance.workingOnline) // wait for server to send all clients ready message 
+				shiftUnitRepresentationsUpOneLevel();
+				if(Player.Instance.workingOnline) // wait for server to send all clients ready message 
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
-			else
-				actingQueue.Peek().setCurrentlyActing();
+				else
+					actingQueue.Peek().setCurrentlyActing();
+			}
 		}
 	}
 	#endregion
