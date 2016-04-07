@@ -31,8 +31,11 @@ public class UnitActingScript : MonoBehaviour{
 	/// Sets the currently acting.
 	/// </summary>
 	/// <returns><c>true</c>, if unit is alive and is now acting, <c>false</c> otherwise.</returns>
-	public void setCurrentlyActing(){
+	public bool setCurrentlyActing(){
 		unit.startActing();
+		return unit.IsActing;
+			
+		
 		//TODO Add some animation to show that this unit is acting.
 	}
 
