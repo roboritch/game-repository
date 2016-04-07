@@ -41,6 +41,11 @@ public class CreatePlayGrid : MonoBehaviour{
 	private Dictionary<string,GameObject> animationLibrary = new Dictionary<string, GameObject>(10);
 
 	public GridBlock gridLocationToGameGrid(GridLocation gl){
+		int x=gl.x;
+		int y=gl.y;
+		if (x < 0 || y < 0 || x > gridSize || y > gridSize) {
+			return null;
+		}
 		return gameGrid[gl.x, gl.y];
 	}
 
