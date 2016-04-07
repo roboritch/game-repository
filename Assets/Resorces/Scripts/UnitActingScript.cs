@@ -10,7 +10,7 @@ public class UnitActingScript : MonoBehaviour{
 	#pragma warning disable
 	[SerializeField] private Image unitColor;
 	[SerializeField] private Image unitHeadSprite;
-	private UnitScript unit;
+	public UnitScript unit;
 	public RectTransform location;
 	public bool enemy;
 
