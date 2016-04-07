@@ -95,7 +95,7 @@ public class UnitScript : MonoBehaviour{
 			//check if unit is already at its max length
 			if(getLength() >= MaxProgramLength){
 				//remove a block from the end
-				removeBlock(null);
+				removeBlock();
 			}
 			//add a new unit block to given location
 			blockList.AddFirst(newLocation);
@@ -120,7 +120,7 @@ public class UnitScript : MonoBehaviour{
 	/// Remove one block from this unit, destroying it if all blocks are removed.
 	/// </summary>
 	/// <returns>Whether the unit was destroyed.</returns>
-	public bool removeBlock(UnitScript attacker){
+	public bool removeBlock(){
 		return removeBlock(1);
 	}
 
@@ -180,11 +180,9 @@ public class UnitScript : MonoBehaviour{
 		team.addAlly (this);
 		team.addSpawn ();
 
-
 		blockList.AddLast(startLocation);
-		checkAllDisplay ();
-//		float spawnTime = spawnAnimation();
-//		Invoke("checkAllDisplay", spawnTime);
+		float spawnTime = spawnAnimation();
+		Invoke("checkAllDisplay", spawnTime);
 	}
 		
 	//each unit spawn must have it's colour set by this script
