@@ -2278,7 +2278,7 @@ GameObject:
   - 199: {fileID: 1721310460}
   - 114: {fileID: 1721310459}
   m_Layer: 0
-  m_Name: unit spawn
+  m_Name: unit move
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2711,16 +2711,16 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 6
-    radius: 5
+    type: 12
+    radius: 0.5
     angle: 53.4992
     length: 5
     boxX: 1
     boxY: 1
     boxZ: 1
     arc: 360
-    placementMode: 2
-    m_Mesh: {fileID: 4300000, guid: 9e90de2adf166454aa522faf84bb115a, type: 3}
+    placementMode: 1
+    m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
     m_MeshMaterialIndex: 0
