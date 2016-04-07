@@ -335,14 +335,19 @@ public class UnitScript : MonoBehaviour{
 			float actionTime = action.getActionTime();
 			getReadyToPreformAnotherAction(actionTime); //what for the current actions animation to finish
 		} else{
-			//Act any ready AI units.
-			grid.actAI();
-			//TODO send info that this unit is done acting
-			isActing = false;
-			startTimerTick();
-			resetActionQueue(false); 
-			grid.gui.unitIsDoneActing(this);
+			float actionTime = action.getActionTime();
+			Invoke("finishActing", actionTime);
 		}
+	}
+
+	private void finishActing(){
+		//Act any ready AI units.
+		grid.actAI();
+		//TODO send info that this unit is done acting
+		isActing = false;
+		startTimerTick();
+		resetActionQueue(false); 
+		grid.gui.unitIsDoneActing(this);
 	}
 
 	/// <summary>
