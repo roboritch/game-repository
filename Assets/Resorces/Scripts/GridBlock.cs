@@ -121,6 +121,9 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		set{
 			gridManager = value;
 		}
+		get{
+			return gridManager;
+		}
 	}
 
 	#region Mouse Events
@@ -151,20 +154,20 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
 		if(teamSpawn != null)
-		if(Player.Instance.playerAlliance == teamSpawn.getIndex() && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if((Player.Instance.playerAlliance == teamSpawn.getIndex()||Player.Instance.playerAlliance == -1) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
 			actionWaitingForUserInput.userSelectedAction(this);
 		} else if(actionWaitingForUserInput is AttackScript){
 			actionWaitingForUserInput.userSelectedAction(this);
-		} else if(unitInstalled == null && Input.GetMouseButton(0)){
+		} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
 			if(gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance) //only a player can select a unit
+			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance || Player.Instance.playerAlliance == -1 ) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	
@@ -249,6 +252,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			left.right = null;
 			right.left = null;
 			setSpriteNone();
+			spawnSpot = false;
 		}
 		available = !available;
 	}
@@ -262,6 +266,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		teamSpawn = ts;
 		//set spawn sprite
 		setSpriteSpawn();
+		//Add to team spawn block list.
+		ts.spawnBlocks.AddLast(this);
 	}
 	//TODO remove
 	public void setSpawn(){
@@ -278,11 +284,11 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteDefault();
 	}
 
+
 	public Team getTeam(){
 		return teamSpawn;
 	}
-
-
+		
 	#endregion
 
 	#region Unit Control
@@ -293,6 +299,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
+		//UnitAI ai = new UnitAI(unit);
+		//unit.ai = ai;
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		unitInstalled = unit;
@@ -303,11 +311,10 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		unitInstalled = null;
 	}
 
-	public void spawnAIUnit(string unitName){
-		GameObject unit = Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject;
-		// Send to gridBlockforCreation.
-		UnitScript sn = unit.GetComponent<UnitScript>();
-		spawnUnit(unit.GetComponent<UnitScript>());
+	public void spawnAIUnit(UnitScript unit){
+		UnitAI ai = new UnitAI(unit);
+		unit.ai = ai;
+		spawnUnit(unit);
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName){//change Alliance to team.getTeamIndex
@@ -342,6 +349,20 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Removes the sprite.</summary>
 	private void setSpriteNone(){
 		transform.GetComponent<SpriteControler>().removeSprite();
+	}
+
+	#endregion
+
+	#region Block Properties Accessors
+
+	// Return property of gridblock if it is a spawn spot or not
+	public bool getSpawnSpot(){
+		return spawnSpot;
+	}
+
+	// Return property of gridblock if it is occupiable space or a wall
+	public bool getAvailable(){
+		return available;
 	}
 
 	#endregion
