@@ -205,6 +205,7 @@ public class GUIScript : MonoBehaviour{
 						Debug.LogWarning("Unit is already in unit queue!");
 						return;
 					}
+					Debug.LogWarning("unit is already acting"); 
 					if(Player.Instance.workingOnline == true){
 						GridLocation cU_Locaiton = unit.getCurrentBlockHeadLocation().gridLocation;
 						Player.Instance.thisPlayersNetworkHelper.sendAUnitsActingQueueToAllClients((ushort)cU_Locaiton.x, (ushort)cU_Locaiton.y);
