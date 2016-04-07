@@ -269,6 +269,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteSpawn();
 		//Add to team spawn block list.
 		ts.spawnBlocks.AddLast(this);
+
 	}
 	//TODO remove
 	public void setSpawn(){
