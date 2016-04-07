@@ -312,7 +312,6 @@ public class UnitScript : MonoBehaviour{
 	public virtual void startActing(){
 		if(!readyToAct){
 			Debug.LogWarning("Unit is not ready to act! /n will wait for timer");
-			waitingForTimer = true;
 		} else if(actionList.Count == 0){
 			Debug.LogWarning("Unit has no actions.");
 		} else{
@@ -500,7 +499,6 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	[SerializeField] public bool readyToAct = false;
-	private bool waitingForTimer = false;
 
 	private void timerTick(){
 		if(UT.time < UT.maxTime){
@@ -509,9 +507,7 @@ public class UnitScript : MonoBehaviour{
 			readyToAct = true;
 			stopTimerTick();
 			nowReadyToAct();
-			if(waitingForTimer){
-				startActing();
-			}
+			startActing();
 		}
 	}
 
@@ -538,9 +534,11 @@ public class UnitScript : MonoBehaviour{
 		//Debug.LogWarning("Unit now ready to act.");
 		//Check if AI exists and unit is ready to act.
 		if(ai != null && readyToAct){
+			Debug.LogWarning("AI unit calculating.");
 			//Perform behavior determination.
 			ai.aiAct();
 			//Add unit to action queue.
+			Debug.LogWarning("AI unit acting.");
 			grid.gui.unitToAct(this);
 		}
 	}
