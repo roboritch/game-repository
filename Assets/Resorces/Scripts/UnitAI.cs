@@ -83,7 +83,7 @@ public class UnitAI {
 
 		//TODO fix these default values.
 		moveDir = 0.5;
-		moveIdle = 0.5;
+		moveIdle = 0;
 		moveScope = 0.5;
 		moveGlobalScope = 0.5;
 		moveTarget = 0.5;
@@ -102,11 +102,11 @@ public class UnitAI {
 		//Perform decision making based off of decision parameters decided by overarching AI.
 		System.Random random = new System.Random();
 		//Check if idle behavior instead of non-idle.
-		if(random.NextDouble() > moveIdle) {
+		if(random.NextDouble() < moveIdle) {
 			moveDirB = MoveDirBehavior.IDLE;
 		} else {
 			//Check if offensive movement behavior instead of defensive.
-			if(random.NextDouble() > moveDir)
+			if(random.NextDouble() < moveDir)
 				moveDirB = MoveDirBehavior.TOWARD;
 			else
 				moveDirB = MoveDirBehavior.AWAY;
