@@ -922,7 +922,7 @@ Prefab:
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].unit
       value: 
-      objectReference: {fileID: 145718, guid: 7ae23b67832d526448ce772cc8bec4b1, type: 2}
+      objectReference: {fileID: 118438, guid: bfadfa1aa8f9b5145a8e6220300d5588, type: 2}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].unitHeadSprite
       value: 
@@ -946,19 +946,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].maxLength
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].maxMove
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].attackPow
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].maxAttackActions
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
@@ -1299,7 +1299,7 @@ Prefab:
     - target: {fileID: 11428700, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
       propertyPath: units.Array.data[1].unitPrefab
       value: 
-      objectReference: {fileID: 145718, guid: 7ae23b67832d526448ce772cc8bec4b1, type: 2}
+      objectReference: {fileID: 118438, guid: 8ff76ced5c74244428240daf12b4b954, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
   m_IsPrefabParent: 0
