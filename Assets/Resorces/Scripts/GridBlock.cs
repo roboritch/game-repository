@@ -300,8 +300,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// .</summary>
 	/// <param name="unit">Unit.</param>
 	public void spawnUnit(UnitScript unit){
-		//UnitAI ai = new UnitAI(unit);
-		//unit.ai = ai;
+		UnitAI ai = new UnitAI(unit);
+		unit.ai = ai;
 		unit.transform.position = new Vector3();
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		unitInstalled = unit;

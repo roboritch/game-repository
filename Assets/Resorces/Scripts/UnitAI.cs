@@ -140,12 +140,8 @@ public class UnitAI {
 		//Get the list of blocks to move to.
 		LinkedList<GridBlock> moveBlockList = getMoveBlockList();
 
-		foreach(GridBlock b in moveBlockList) {
-			MoveScript ms = new MoveScript(unit);
-			SerializedCompletedAction sac = new SerializedCompletedAction();
-			sac.locationToPerformAction = b.gridLocation;
-			ms.loadAction(sac);
-			unit.addActionToQueue(ms);
+		foreach(GridBlock b in moveBlockList){
+			MoveScript ms = new MoveScript(unit, b);
 		}
 
 		//Apply attack behavior. TODO

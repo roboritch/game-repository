@@ -24,9 +24,16 @@ public class MoveScript : ActionScript{
 
 	//Constructor for AI.
 	public MoveScript(UnitScript u, GridBlock b) : this(u){
+
+		adjBlocks = new GridBlock[4];
+		for(int i = 0; i < adjBlocks.Length; i++)
+			adjBlocks[i] = u.getVirtualBlockHeadLocation().getAdj(i);
+		
 		SerializedCompletedAction sac = new SerializedCompletedAction();
 		sac.locationToPerformAction = b.gridLocation;
 		loadAction(sac);
+
+		u.addActionToQueue(this);
 	}
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>
