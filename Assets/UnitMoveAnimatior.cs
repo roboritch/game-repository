@@ -17,11 +17,13 @@ public class UnitMoveAnimatior : MonoBehaviour{
 	void Awake(){
 		PS = GetComponent<ParticleSystem>();
 	}
+	#pragma warning disable
+	[SerializeField] private GridBlock upBlockDebugHelper;
 
 	void Start(){
 		//test code
-		transform.GetComponentInParent<GridBlock>().setAdj(Direction.UP,)
-		setMovmentDirection(Direction.UP);
+		transform.GetComponentInParent<GridBlock>().setAdj(Direction.DOWN, upBlockDebugHelper);
+		setMovmentDirection(Direction.DOWN);
 
 		numberOfParticles = widthOfParticals * widthOfParticals;
 		PS.maxParticles = numberOfParticles;
@@ -52,9 +54,10 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 	#endregion
 
+	#region move perticals per tick
 	#pragma warning disable
 	[SerializeField] private int widthOfParticals = 8;
-	[SerializeField] private float emissionRate = 20f;
+	[SerializeField] private float emissionRate = 40f;
 	[SerializeField] private float moveOverTimeMultiplyer = 1f;
 	[SerializeField] private float particleMoveAmount = 0.1f;
 
@@ -62,7 +65,7 @@ public class UnitMoveAnimatior : MonoBehaviour{
 	/// Move all the alive particles to there positions on the unit
 	/// </summary>
 	public void moveParticls(){
-		emissionRate += 0.2f;
+		emissionRate += 0.05f;
 		ParticleSystem.EmissionModule emission = PS.emission;
 		ParticleSystem.MinMaxCurve rate = emission.rate;
 		rate.constantMax = emissionRate;
@@ -86,15 +89,17 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 		if(numberP == numberOfParticles){
 			if(!timeHasBeenFound && particles[numberOfParticles - 1].position == endLocations[widthOfParticals - 1, widthOfParticals - 1]){
-				//Destroy(gameObject);
-				/*Debug.Log("Time to compleat is " + time); //uncoment this to find time
-				timeHasBeenFound = true;*/
+				Destroy(gameObject);
+				/* Debug.Log("Time to compleat is " + time); //uncoment this to find time
+				timeHasBeenFound = true; */
 			}	
 		}
 
 		PS.SetParticles(particles, numberP);
 	}
+	#endregion
 
+	#region set loctions particals move to
 	#pragma warning disable
 	private ParticleSystem.Particle[] particles;
 	// container for the particles in the system
@@ -105,7 +110,8 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 	private void setParticleStartLocations(){
 		endLocations = new Vector3[widthOfParticals, widthOfParticals];
-		Vector3 particelStartLocation = new Vector3(); // bottem left partical of the unit
+		Vector3 particelStartLocation = gridBlockMovingTo.transform.localPosition;
+		particelStartLocation = new Vector3(particelStartLocation.x, particelStartLocation.z + 0.01f, particelStartLocation.y);
 		int x, y;
 		for(x = 0; x < widthOfParticals; x++){
 			for(y = 0; y < widthOfParticals; y++){
@@ -116,48 +122,84 @@ public class UnitMoveAnimatior : MonoBehaviour{
 				posY = y * offsetAmount;
 				posY -= ((widthOfParticals - 1f) * offsetAmount) / 2f;
 
-				endLocations[x, y] += new Vector3(posX, 0, posY) + gridBlockMovingTo.transform.localPosition; 
+				endLocations[x, y] += new Vector3(posX, 0, posY);
 			}
 		}
 
-		//This finds the middle of all the particals so the partical
-		//system can be centered over the unit
-		/*		Vector3 topRight,bottomRight,topLeft,bottomLeft,top,bottom,midpoint;
-		int floor  = Mathf.FloorToInt(widthOfParticals/2f);
-		int ceil  = floor+1;
-		topLeft = endLocations[floor,ceil];
-		topRight = endLocations[ceil,ceil];
-		bottomLeft = endLocations[floor,floor];
-		bottomRight = endLocations[ceil,floor];
-
-		top = (topLeft + topRight) * 0.5f;
-		bottom = (bottomLeft + bottomRight) * 0.5f;
-
-		midpoint = (top + bottom) * 0.5f; 
-		Vector3 newMidpoint;
-		newMidpoint = new Vector3(-midpoint.x,midpoint.z,0);
-*/
-		//transform.localPosition = newMidpoint;
-
-		//randomize the end locations for a better effect
+		#region semi randomize end locations 
+		int n = endLocations.GetLength(0);
+		Vector3[,] temp = new Vector3[n, n];
 		Vector3 endTemp;
 		x = 0;
 		y = 0;
 		int x1, y1;
-		for(int i = 0; i < numberOfParticles * 10; i++){
-			x = Random.Range(0, widthOfParticals);
-			y = Random.Range(0, widthOfParticals);
-			x1 = Random.Range(0, widthOfParticals);
-			y1 = Random.Range(0, widthOfParticals);
-			endTemp = endLocations[x, y];
-			endLocations[x, y] = endLocations[x1, y1];
-			endLocations[x1, y1] = endTemp;
+	
+		if(directionMoving == Direction.UP){
+			for(int i = 0; i < endLocations.Length * 3; i++){
+				x = Random.Range(0, widthOfParticals);
+				y = Random.Range(0, widthOfParticals);
+				x1 = Random.Range(0, widthOfParticals);
+
+				endTemp = endLocations[x, y]; // swap 2 x values in a single y column
+				endLocations[x, y] = endLocations[x1, y];
+				endLocations[x1, y] = endTemp;
+			}
+		} else if(directionMoving == Direction.RIGHT){
+			for(int i = 0; i < n; ++i){
+				for(int j = 0; j < n; ++j){
+					temp[i, j] = endLocations[j, i];
+				}
+			}
+			endLocations = temp;
+			for(int i = 0; i < endLocations.Length * 3; i++){
+				x = Random.Range(0, widthOfParticals);
+				y = Random.Range(0, widthOfParticals);
+				x1 = Random.Range(0, widthOfParticals);
+
+				endTemp = endLocations[x, y]; // swap 2 y values in a single x column
+				endLocations[x, y] = endLocations[x1, y];
+				endLocations[x1, y] = endTemp;
+			}
+		} else if(directionMoving == Direction.LEFT){
+			for(int i = 0; i < n; ++i){
+				for(int j = 0; j < n; ++j){
+					temp[i, j] = endLocations[n - j - 1, i];
+				}
+			}
+			endLocations = temp;
+			for(int i = 0; i < endLocations.Length * 3; i++){
+				x = Random.Range(0, widthOfParticals);
+				y = Random.Range(0, widthOfParticals);
+				x1 = Random.Range(0, widthOfParticals);
+
+				endTemp = endLocations[x, y]; // swap 2 y values in a single x column
+				endLocations[x, y] = endLocations[x1, y];
+				endLocations[x1, y] = endTemp;
+			}
+		} else if(directionMoving == Direction.DOWN){
+			for(int i = 0; i < n; ++i){
+				for(int j = 0; j < n; ++j){
+					temp[i, j] = endLocations[i, n - j - 1];
+				}
+			}
+			endLocations = temp;
+			for(int i = 0; i < endLocations.Length * 3; i++){
+				x = Random.Range(0, widthOfParticals);
+				y = Random.Range(0, widthOfParticals);
+				x1 = Random.Range(0, widthOfParticals);
+
+				endTemp = endLocations[x, y]; // swap 2 x values in a single y column
+				endLocations[x, y] = endLocations[x1, y];
+				endLocations[x1, y] = endTemp;
+			}
 		}
+		#endregion
 	}
+	#endregion
 
-
-
-	public GridBlock gridBlockMovingTo;
+	#region set movment direction
+	private GridBlock gridBlockMovingTo;
+	private Direction directionMoving;
 
 	/// <summary>
 	/// called by the unit when it moves
@@ -167,21 +209,23 @@ public class UnitMoveAnimatior : MonoBehaviour{
 		gridBlockMovingTo = transform.GetComponentInParent<GridBlock>().getAdj(movmentDirection);
 		switch(movmentDirection){
 		case Direction.UP:
+			transform.Translate(0, 0, 0.7f);
 			break;
 		case Direction.DOWN:
-			transform.Rotate(new Vector3(0, 180f, 0f));
+			transform.Translate(0, 0, -0.7f);
 			break;
 		case Direction.LEFT:
-			transform.Rotate(new Vector3(0, -90f, 0f));
+			transform.Translate(-0.7f, 0, 0);
 			break;
 		case Direction.RIGHT:
-			transform.Rotate(new Vector3(0, 90f, 0f));
+			transform.Translate(0.7f, 0, 0);
 			break;
 		default:
 			break;
 		}
+		directionMoving = movmentDirection;
 	}
-
+	#endregion
 
 
 
