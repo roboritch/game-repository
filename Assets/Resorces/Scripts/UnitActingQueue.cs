@@ -10,7 +10,7 @@ public class UnitActingQueue : MonoBehaviour{
 	[SerializeField] private Transform currentProgramStartPosition;
 
 	[SerializeField] private int maxVisibleItems = 3;
-	private Queue<UnitActingScript> actingQueue;
+	public Queue<UnitActingScript> actingQueue;
 
 	/// <summary>
 	/// Start this instance.
