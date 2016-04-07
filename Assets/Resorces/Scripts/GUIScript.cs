@@ -192,7 +192,7 @@ public class GUIScript : MonoBehaviour{
 		if(unit != null){
 			if(unit.getNumberOfActionsInQueue() != 0){
 				if(unit.IsActing){
-					Debug.LogWarning("unit is already acting"); 
+					Debug.LogWarning("Unit is already acting!"); 
 				} else{
 					//Check if unit is already in queue.
 					bool unitInQueue = false;
@@ -205,7 +205,6 @@ public class GUIScript : MonoBehaviour{
 						Debug.LogWarning("Unit is already in unit queue!");
 						return;
 					}
-					Debug.LogWarning("unit is already acting"); 
 					if(Player.Instance.workingOnline == true){
 						GridLocation cU_Locaiton = unit.getCurrentBlockHeadLocation().gridLocation;
 						Player.Instance.thisPlayersNetworkHelper.sendAUnitsActingQueueToAllClients((ushort)cU_Locaiton.x, (ushort)cU_Locaiton.y);
@@ -214,15 +213,15 @@ public class GUIScript : MonoBehaviour{
 					}
 				}
 			} else{
-				Debug.LogWarning("unit does not have any actions queued"); 
+				Debug.LogWarning("Unit does not have any actions queued!"); 
 			}
 		} else{
 			//TODO Give user feedback of this
-			Debug.LogWarning("no unit selected");
+			Debug.LogWarning("No unit selected!");
 		}
 	}
 
-	public void unitIsDoneActing(UnitScript unit){
+	public void unitIsDoneActing(){
 		unitActingQueue.currentUnitDoneActing();
 	}
 
