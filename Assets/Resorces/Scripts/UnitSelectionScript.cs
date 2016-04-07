@@ -49,7 +49,7 @@ public class UnitSelectionScript : MonoBehaviour{
 				temp.transform.SetParent(transform);
 				//Transform used in gui.
 				RectTransform rct = temp.GetComponent<RectTransform>();
-				//Width = Hight
+				//W idth = Hight
 				float size = rct.sizeDelta.x;
 				rct.anchoredPosition = new Vector2(5f + (size + 5f) * x, -5f - (size - 5f) * y);
 				//Index number read left to right.

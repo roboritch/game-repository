@@ -177,8 +177,8 @@ public class UnitScript : MonoBehaviour{
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 		team = t;
-		team.addAlly(this);
-
+		team.addAlly (this);
+		team.addSpawn ();
 
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
@@ -198,7 +198,7 @@ public class UnitScript : MonoBehaviour{
 	public void checkAllDisplay(){
 		foreach( GridBlock loc in  blockList ){
 			loc.spriteDisplayScript.updateUnitSprite();
-			loc.spriteDisplayScript.checkConection();
+			loc.spriteDisplayScript.checkConnection();
 		}
 	}
 
