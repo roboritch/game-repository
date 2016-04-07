@@ -38,8 +38,11 @@ public class Team
 			Debug.Log ("team " + index + " lost");
 		}
 	}
+	public void addKill(){
+		enemyKilled++;
+	}
 	public bool defeated(){
-		if (units == null) {
+		if (units.Last==null) {
 			return true;
 		}
 		return false;

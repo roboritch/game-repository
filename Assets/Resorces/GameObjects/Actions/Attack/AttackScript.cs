@@ -12,7 +12,7 @@ public class AttackScript : ActionScript{
 	/// The attack strength; the number of blocks removed by this attack.
 	/// </summary>
 	private int attackStrength = 0;
-	private GridBlock[] posibleAttackLocations;
+	private GridBlock[] possibleAttackLocations;
 	private int actionDisplayID = -1;
 
 	public AttackScript(UnitScript u) : base(u){
@@ -114,7 +114,7 @@ public class AttackScript : ActionScript{
 			Debug.Log("no attack actions remaning");
 			return;
 		}
-		setPosibleAttackLocations();
+		setPossibleAttackLocations();
 		checkAndDisplayPossibleUserActions();
 	}
 			
@@ -125,27 +125,27 @@ public class AttackScript : ActionScript{
 	/// Valid locations will be flound within this script
 	/// </summary>
 	/// <param name="attackLocations">Attack locations.</param>
-	public void setPosibleAttackLocations(GridBlock[] attackLocations){
-		posibleAttackLocations = attackLocations;
+	public void setPossibleAttackLocations(GridBlock[] attackLocations){
+		possibleAttackLocations = attackLocations;
 	}
 
-	public void setPosibleAttackLocations(){
-		posibleAttackLocations = unit.getAttackLocations();
+	public void setPossibleAttackLocations(){
+		possibleAttackLocations = unit.getAttackLocations();
 	}
 
 	#endregion
 
 	private void checkAndDisplayPossibleUserActions(){
-		for(int i = 0; i < posibleAttackLocations.Length; i++){
-			posibleAttackLocations[i].attackActionWantsToAttackHere(this, unit);
+		for(int i = 0; i < possibleAttackLocations.Length; i++){
+			possibleAttackLocations[i].attackActionWantsToAttackHere(this, unit);
 		}
 	}
 
 
 	public override void removeUserSelectionDisplay(){
-		if(posibleAttackLocations != null)
-			for(int i = 0; i < posibleAttackLocations.Length; i++){
-				posibleAttackLocations[i].removeAttackDisplayForThis();
+		if(possibleAttackLocations != null)
+			for(int i = 0; i < possibleAttackLocations.Length; i++){
+				possibleAttackLocations[i].removeAttackDisplayForThis();
 			}
 	}
 
@@ -188,11 +188,11 @@ public class AttackScript : ActionScript{
 	}
 
 	public override SerializedCompletedAction serializeAction(){
-		SerializedCompletedAction compleatedActionSave = new SerializedCompletedAction();
-		compleatedActionSave.actionAmountInt = attackStrength;
-		compleatedActionSave.locationToPerformAction = attackLocation.gridLocation;
-		compleatedActionSave.actionType = typeof(AttackScript);
-		return compleatedActionSave;
+		SerializedCompletedAction completedActionSave = new SerializedCompletedAction();
+		completedActionSave.actionAmountInt = attackStrength;
+		completedActionSave.locationToPerformAction = attackLocation.gridLocation;
+		completedActionSave.actionType = typeof(AttackScript);
+		return completedActionSave;
 	}
 
 	#endregion
