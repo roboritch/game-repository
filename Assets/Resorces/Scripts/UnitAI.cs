@@ -137,20 +137,69 @@ public class UnitAI {
 		else
 			attackB = AttackBehavior.MICRO;
 
-		//Get the list of blocks to move to.
-		LinkedList<GridBlock> moveBlockList = getMoveBlockList();
+		//Possible blocks to attack.
+		LinkedList<GridBlock> attackBlocks = getAttackBlocks();
 
-		foreach(GridBlock b in moveBlockList){
-			MoveScript ms = new MoveScript(unit, b);
-		}
+		//Check if there's nowhere to attack, then move
+		if(attackBlocks.Count == 0) {
+			//Get the list of blocks to move to.
+			LinkedList<GridBlock> moveBlockList = getMoveBlockList();
 
-		//Apply attack behavior. TODO
-		switch(attackB) {
-		case AttackBehavior.MACRO:
-			break;
-		default: //case AttackBehavior.MICRO:
-			break;
+			foreach(GridBlock b in moveBlockList) {
+				MoveScript ms = new MoveScript(unit, b);
+			}
+		} else {
+			//Choose the block to attack from attack block list.
+			GridBlock attackBlock = chooseAttackBlock(attackBlocks);
+			AttackScript ms = new AttackScript(unit, attackBlock);
 		}
+	}
+
+	/// <summary>
+	/// Gets the block to attack from a list.
+	/// </summary>
+	/// <returns>The attack blocks.</returns>
+	private GridBlock chooseAttackBlock(LinkedList<GridBlock> attackBlocks) {
+		GridBlock block=null;
+		//For each of the possible attack locations.
+		foreach(GridBlock b in attackBlocks) {
+			if(b.unitInstalled == null) {
+				Debug.LogWarning("AI: No unit on this attack block!");
+				return null;
+			}
+			double health = b.unitInstalled.getHealthPercentage();
+			//Apply attack behavior.
+			switch(attackB) {
+			case AttackBehavior.MACRO:
+				if(block == null || block.unitInstalled.getHealthPercentage() > health)
+					block = b;
+				break;
+			default: //case AttackBehavior.MICRO:
+				if(block == null || block.unitInstalled.getHealthPercentage() < health)
+					block = b;
+				break;
+			}
+		}
+		return block;
+	}
+
+	/// <summary>
+	/// Gets a list of blocks that are occupied by an enemy and can be attacked.
+	/// </summary>
+	/// <returns>The attack blocks.</returns>
+	private LinkedList<GridBlock> getAttackBlocks() {
+		LinkedList<GridBlock> blocks = new LinkedList<GridBlock>();
+		//For each of the possible attack locations.
+		foreach(GridBlock b in unit.getAttackLocations()) {
+			//Check that block exists.
+			if(b!=null)
+			//Check if a unit is occupying this block.
+			if(b.unitInstalled)
+				//Check if unit is not on this team.
+			if(b.unitInstalled.team != unit.team)
+				blocks.AddLast(b);
+		}
+		return blocks;
 	}
 
 	/// <summary>

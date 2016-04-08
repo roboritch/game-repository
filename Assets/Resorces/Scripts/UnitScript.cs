@@ -62,6 +62,9 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public GridBlock getVirtualBlockHeadLocation(){
+		//Check if unit is destroyed.
+		if(blockList.Count == 0)
+			return null;
 		if(virtualBlockHead == null)
 			virtualBlockHead = blockList.First.Value;
 		return virtualBlockHead;
