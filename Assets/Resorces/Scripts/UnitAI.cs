@@ -139,9 +139,11 @@ public class UnitAI {
 
 		//Possible blocks to attack.
 		LinkedList<GridBlock> attackBlocks = getAttackBlocks();
+		//Choose the block to attack from attack block list.
+		GridBlock attackBlock = chooseAttackBlock(attackBlocks);
 
-		//Check if there's nowhere to attack, then move
-		if(attackBlocks.Count == 0) {
+		//Check if there's nowhere to attack or enemy is stronger, then move or attack.
+		if(attackBlocks.Count == 0 || attackBlock.unitInstalled.getHealthPercentage() > unit.getHealthPercentage()) {
 			//Get the list of blocks to move to.
 			LinkedList<GridBlock> moveBlockList = getMoveBlockList();
 
@@ -149,8 +151,6 @@ public class UnitAI {
 				MoveScript ms = new MoveScript(unit, b);
 			}
 		} else {
-			//Choose the block to attack from attack block list.
-			GridBlock attackBlock = chooseAttackBlock(attackBlocks);
 			AttackScript ms = new AttackScript(unit, attackBlock);
 		}
 	}
