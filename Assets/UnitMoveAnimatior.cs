@@ -89,7 +89,7 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 		if(numberP == numberOfParticles){
 			if(!timeHasBeenFound && particles[numberOfParticles - 1].position == endLocations[widthOfParticals - 1, widthOfParticals - 1]){
-				Destroy(gameObject);
+				Destroy(gameObject, 0.1f);
 				/* Debug.Log("Time to compleat is " + time); //uncoment this to find time
 				timeHasBeenFound = true; */
 			}	
@@ -111,7 +111,7 @@ public class UnitMoveAnimatior : MonoBehaviour{
 	private void setParticleStartLocations(){
 		endLocations = new Vector3[widthOfParticals, widthOfParticals];
 		Vector3 particelStartLocation = gridBlockMovingTo.transform.position;
-		particelStartLocation = new Vector3(particelStartLocation.x, 0.01f, particelStartLocation.y);
+		//particelStartLocation = new Vector3(particelStartLocation.x, 0.01f, particelStartLocation.y);
 		int x, y;
 		for(x = 0; x < widthOfParticals; x++){
 			for(y = 0; y < widthOfParticals; y++){

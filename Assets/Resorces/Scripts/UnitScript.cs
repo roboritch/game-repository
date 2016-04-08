@@ -184,6 +184,8 @@ public class UnitScript : MonoBehaviour{
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay", spawnTime);
+		timerStartup();
+		Invoke("startTimerTick", spawnTime);
 	}
 		
 	//each unit spawn must have it's colour set by this script
@@ -436,6 +438,7 @@ public class UnitScript : MonoBehaviour{
 		moveAnimation.transform.SetParent(locationStart.transform, false);
 		moveAnimation.setParticalColor(getUnitColor());
 		moveAnimation.setMovmentDirection(locationStart, locationStart.blockAdjDirection(locationEnd));
+		moveAnimation.transform.SetParent(null);
 		Invoke("checkAllDisplay", moveAnimation.getAnimationTime());
 		return moveAnimation.getAnimationTime();
 	}
@@ -629,9 +632,6 @@ public class UnitScript : MonoBehaviour{
 	void Start(){
 		grid.units.Add(this);
 		actionList = new LinkedList<ActionScript>();
-		timerStartup();
-		startTimerTick();
-
 	}
 
 	// Update is called once per frame
