@@ -34,45 +34,43 @@ public class CreatePlayGrid : MonoBehaviour{
 	public string filepath;
 	public bool contextMenuUp;
 
-
-	//Animation attributes.
-	#pragma warning disable
-	[SerializeField] private Animations[] animationLibrarySetter;
-	private Dictionary<string,GameObject> animationLibrary = new Dictionary<string, GameObject>(10);
-
 	public GridBlock gridLocationToGameGrid(GridLocation gl){
+		int x = gl.x;
+		int y = gl.y;
+		if(x < 0 || y < 0 || x > gridSize || y > gridSize){
+			return null;
+		}
 		return gameGrid[gl.x, gl.y];
 	}
 
-	private void animationLibrarySetup(){
-		for(int i = 0; i < animationLibrarySetter.Length; i++){
-			animationLibrary.Add(animationLibrarySetter[i].animationName, animationLibrarySetter[i].animation);
-		}
-	}
 
 	/// <summary>
-	/// Animations the library.
+	/// Act AI units if idle.
 	/// </summary>
-	/// <returns>An uninitalized prefab for the animation. Null if no animation with that name exists.</returns>
-	public GameObject getAnimation(string animationName){
-		GameObject animation;
-		bool getAnimationSuccess = animationLibrary.TryGetValue(animationName, out animation);
-		if(getAnimationSuccess){
-			return animation;
-		} else{
-			return null;
-		}
+	public void actAI(){
+		LinkedList<UnitScript> readyUnits = new LinkedList<UnitScript>();
+		foreach( Team t in team )
+			foreach( UnitScript u in t.units )
+				if(u.ai != null)
+				if(u.readyToAct)
+					readyUnits.AddLast(u);
+		//Recalculate AI grid if needed.
+		if(readyUnits.Count > 0)
+			aiGrid.calc();
+		//Act ready units.
+		foreach( UnitScript u in readyUnits )
+			u.nowReadyToAct();
 	}
+
 
 	// Use this for initialization.
 	void Start(){
 		team = new Team[4];
-		team [0] = new Team (Color.red,0);
-		team [1] = new Team (Color.blue,1);
-		team [2] = new Team (Color.yellow,2);
-		team [3] = new Team (Color.green,3);
+		team[0] = new Team(Color.red, 0);
+		team[1] = new Team(Color.blue, 1);
+		team[2] = new Team(Color.yellow, 2);
+		team[3] = new Team(Color.green, 3);
 
-		animationLibrarySetup();
 		//All grid spaces are represented by a game object setup the game grid array.
 		gameGrid = new GridBlock[gridSize, gridSize]; 
 		GameObject tempObject;      
@@ -116,9 +114,11 @@ public class CreatePlayGrid : MonoBehaviour{
 		// Setup default spawn blocks for testing purposes.
 		gameGrid[2, 2].setSpawn(team[0]);
 		gameGrid[5, 2].setSpawn(team[1]);
-		gameGrid [0, 0].setSpawn (team [2]);
-		gameGrid [1, 1].setSpawn (team [3]);
+		gameGrid[0, 0].setSpawn(team[2]);
+		gameGrid[1, 1].setSpawn(team[3]);
 
+		//Initialize AI grid.
+		aiGrid = new AIGrid(this);
 	}
 
 	/// <summary>

@@ -10,7 +10,7 @@ public class UnitActingQueue : MonoBehaviour{
 	[SerializeField] private Transform currentProgramStartPosition;
 
 	[SerializeField] private int maxVisibleItems = 3;
-	private Queue<UnitActingScript> actingQueue;
+	public Queue<UnitActingScript> actingQueue;
 
 	/// <summary>
 	/// Start this instance.
@@ -34,7 +34,9 @@ public class UnitActingQueue : MonoBehaviour{
 			if(Player.Instance.workingOnline){ //Online check
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
 			} else{
-				temp.setCurrentlyActing();
+				if(!temp.setCurrentlyActing()){
+					currentUnitDoneActing();
+				}
 			}
 		} else if(actingQueue.Count > maxVisibleItems){
 			temp.setVisible(false);
@@ -46,22 +48,23 @@ public class UnitActingQueue : MonoBehaviour{
 	/// </summary>
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(){
-		
-		UnitActingScript temp = actingQueue.Dequeue();
-		temp.destroyThis(); // remove the representation of an acting unit
+		if(actingQueue.Count >= 1){
+			
+			actingQueue.Dequeue().destroyThis();
 
-		if(actingQueue.Count != 0){
-			if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
-				currentUnitDoneActing();
+			if(actingQueue.Count != 0){
+				if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
+					currentUnitDoneActing();
+					shiftUnitRepresentationsUpOneLevel();
+					return;
+				}
+
 				shiftUnitRepresentationsUpOneLevel();
-				return;
-			}
-
-			shiftUnitRepresentationsUpOneLevel();
-			if(Player.Instance.workingOnline) // wait for server to send all clients ready message 
+				if(Player.Instance.workingOnline) // wait for server to send all clients ready message 
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
-			else
-				actingQueue.Peek().setCurrentlyActing();
+				else
+					actingQueue.Peek().setCurrentlyActing();
+			}
 		}
 	}
 	#endregion

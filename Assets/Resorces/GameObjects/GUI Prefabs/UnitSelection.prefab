@@ -114,6 +114,18 @@ MonoBehaviour:
       time: 0
       maxTime: 0
       ticAmount: 0
+  - unitNameForLoad: LR
+    unit: {fileID: 118438, guid: 8ff76ced5c74244428240daf12b4b954, type: 2}
+    unitHeadSprite: {fileID: 21300000, guid: 6127c40afa6a4f143931a1e0088ae8ae, type: 3}
+    unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
+    maxLength: 0
+    maxMove: 0
+    attackPow: 0
+    maxAttackActions: 0
+    unitTimer:
+      time: 0
+      maxTime: 0
+      ticAmount: 0
   disabledUnits: 
   unitDisplayPrefab: {fileID: 109088, guid: 636e26f55852ca640826ff3d30a3fa7d, type: 2}
   currentGridblock: {fileID: 0}
@@ -223,7 +235,40 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitNameForLoad
+      value: unit1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unit
+      value: 
+      objectReference: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitHeadSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b0fd5a2840035a4f9b065e4001f7108,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitColor.r
+      value: 0.72794116
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitColor.g
+      value: 0.7410751
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.Array.data[1].unitColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 141888}

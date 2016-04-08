@@ -22,9 +22,29 @@ public class MoveScript : ActionScript{
 		actionTime = 1f; 
 	}
 
+	//Constructor for AI.
+	public MoveScript(UnitScript u, GridBlock b) : this(u){
+		bool validMove = false;
+		adjBlocks = new GridBlock[4];
+		for(int i = 0; i < adjBlocks.Length; i++){
+			adjBlocks[i] = u.getBlockList().First.Value.getAdj(i);
+			if(b == adjBlocks[i])
+				validMove = true;
+		}
+
+		if(!validMove)
+			Debug.LogWarning("Move not valid!");
+
+		SerializedCompletedAction sac = new SerializedCompletedAction();
+		sac.locationToPerformAction = b.gridLocation;
+		loadAction(sac);
+
+		u.addActionToQueue(this);
+	}
+
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act(){
-		bool itMoved = unit.addBlock(locationToPreformAction, false);
+		bool itMoved = unit.addBlock(locationToPreformAction, true);
 		removeActionRepresentationDisplay();
 		if(itMoved == false){
 			unit.resetActionQueue(true);

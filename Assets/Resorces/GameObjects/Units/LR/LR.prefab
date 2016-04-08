@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &118438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 498482}
+  - 114: {fileID: 11407414}
+  m_Layer: 0
+  m_Name: LR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &498482
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 44.805176, y: 129.49776, z: 21.0243}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11407414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5336d9f01b977cb4682724ef3f8c90a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualBlockHead: {fileID: 0}
+  unitInfo:
+    unitNameForLoad: unit1
+    unit: {fileID: 118438}
+    unitHeadSprite: {fileID: 21300000, guid: 6127c40afa6a4f143931a1e0088ae8ae, type: 3}
+    unitColor: {r: 0.72794116, g: 0.7410751, b: 1, a: 1}
+    maxLength: 2
+    maxMove: 1
+    attackPow: 1
+    maxAttackActions: 2
+    unitTimer:
+      time: 0
+      maxTime: 5
+      ticAmount: 0.025
+  grid: {fileID: 0}
+  buttonPrefabs:
+  - {fileID: 158908, guid: 0372ecbd25609154e8e632c739fdf8b3, type: 2}
+  - {fileID: 171478, guid: a78e9e4f88168a746be87f9175588765, type: 2}
+  timeBetweenBlockRemoval: 0.5
+  attackLocations:
+  - x: 2
+    y: 0
+  - x: -2
+    y: 0
+  - x: 0
+    y: 2
+  - x: 0
+    y: -2
+  - x: 1
+    y: 1
+  - x: -1
+    y: 1
+  - x: 1
+    y: -1
+  - x: -1
+    y: -1
+  readyToAct: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.unitHeadSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6127c40afa6a4f143931a1e0088ae8ae,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.maxLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.maxMove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.attackPow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitInfo.maxAttackActions
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[0].x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[1].x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[2].y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[3].y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[4].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[4].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[5].x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[5].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[6].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[6].y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[7].x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackLocations.Array.data[7].y
+      value: -1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 118438}
+  m_IsPrefabParent: 1
