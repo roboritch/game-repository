@@ -22,8 +22,8 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 	void Start(){
 		//test code
-		transform.GetComponentInParent<GridBlock>().setAdj(Direction.DOWN, upBlockDebugHelper);
-		setMovmentDirection(Direction.DOWN);
+/*		transform.GetComponentInParent<GridBlock>().setAdj(Direction.UP, upBlockDebugHelper);
+		setMovmentDirection(transform.GetComponentInParent<GridBlock>(), Direction.UP);*/
 
 		numberOfParticles = widthOfParticals * widthOfParticals;
 		PS.maxParticles = numberOfParticles;
@@ -110,8 +110,8 @@ public class UnitMoveAnimatior : MonoBehaviour{
 
 	private void setParticleStartLocations(){
 		endLocations = new Vector3[widthOfParticals, widthOfParticals];
-		Vector3 particelStartLocation = gridBlockMovingTo.transform.localPosition;
-		particelStartLocation = new Vector3(particelStartLocation.x, particelStartLocation.z + 0.01f, particelStartLocation.y);
+		Vector3 particelStartLocation = gridBlockMovingTo.transform.position;
+		particelStartLocation = new Vector3(particelStartLocation.x, 0.01f, particelStartLocation.y);
 		int x, y;
 		for(x = 0; x < widthOfParticals; x++){
 			for(y = 0; y < widthOfParticals; y++){
@@ -198,6 +198,7 @@ public class UnitMoveAnimatior : MonoBehaviour{
 	#endregion
 
 	#region set movment direction
+	private GridBlock currentGridBlock;
 	private GridBlock gridBlockMovingTo;
 	private Direction directionMoving;
 
@@ -205,8 +206,9 @@ public class UnitMoveAnimatior : MonoBehaviour{
 	/// called by the unit when it moves
 	/// </summary>
 	/// <param name="">.</param>
-	public void setMovmentDirection(Direction movmentDirection){
-		gridBlockMovingTo = transform.GetComponentInParent<GridBlock>().getAdj(movmentDirection);
+	public void setMovmentDirection(GridBlock currentGridBlockTmp, Direction movmentDirection){
+		currentGridBlock = currentGridBlockTmp;
+		gridBlockMovingTo = currentGridBlockTmp.getAdj(movmentDirection);
 		switch(movmentDirection){
 		case Direction.UP:
 			transform.Translate(0, 0, 0.7f);

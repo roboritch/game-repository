@@ -89,6 +89,20 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		}
 	}
 
+	public Direction blockAdjDirection(GridBlock block){
+		if(block == up){
+			return Direction.UP;
+		} else if(block == down){
+			return Direction.DOWN;
+		} else if(block == left){
+			return Direction.LEFT;
+		} else if(block == right){
+			return Direction.RIGHT;
+		} else{
+			return Direction.UP;
+		} 
+	}
+
 	public void setAdj(Direction dir, GridBlock block){
 		switch(dir){
 		case Direction.UP:
@@ -154,7 +168,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
 		if(teamSpawn != null)
-		if((Player.Instance.playerAlliance == teamSpawn.getIndex()||Player.Instance.playerAlliance == -1) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if((Player.Instance.playerAlliance == teamSpawn.getIndex() || Player.Instance.playerAlliance == -1) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
@@ -167,7 +181,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance || Player.Instance.playerAlliance == -1 ) //only a player can select a unit
+			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance || Player.Instance.playerAlliance == -1) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	

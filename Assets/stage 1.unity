@@ -1256,10 +1256,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 11428700, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
-      propertyPath: units.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 496408, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1292,14 +1288,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 11428700, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
-      propertyPath: units.Array.data[1].unitName
-      value: LR
+    - target: {fileID: 135126, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
+      propertyPath: m_Name
+      value: Information holder
       objectReference: {fileID: 0}
-    - target: {fileID: 11428700, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
-      propertyPath: units.Array.data[1].unitPrefab
-      value: 
-      objectReference: {fileID: 118438, guid: 8ff76ced5c74244428240daf12b4b954, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b6ab4988b3d8aba4d96012014ba6d063, type: 2}
   m_IsPrefabParent: 0
@@ -2158,15 +2150,6 @@ MonoBehaviour:
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 
   contextMenuUp: 0
-  animationLibrarySetter:
-  - animationName: unit spawn
-    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
-  - animationName: close attack
-    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
-  - animationName: far attack out
-    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
-  - animationName: far attack in
-    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
 --- !u!95 &1384402564
 Animator:
   serializedVersion: 3

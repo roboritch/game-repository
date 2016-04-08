@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 496408}
   - 114: {fileID: 11428700}
+  - 114: {fileID: 11459924}
   m_Layer: 0
   m_Name: Unit holder
   m_TagString: Untagged
@@ -42,6 +43,30 @@ MonoBehaviour:
   units:
   - unitName: unit1
     unitPrefab: {fileID: 184858, guid: 55798041ce8ac184e9b1ed0a027dbfd6, type: 2}
+  - unitName: LR
+    unitPrefab: {fileID: 118438, guid: 8ff76ced5c74244428240daf12b4b954, type: 2}
+--- !u!114 &11459924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa0b047c9c70164baff7d90cb5bab86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationLibrarySetter:
+  - animationName: unit spawn
+    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
+  - animationName: close attack
+    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
+  - animationName: far attack out
+    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
+  - animationName: far attack in
+    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
+  - animationName: unit move
+    animation: {fileID: 145842, guid: ca9aa922adf2384439bd4633bc3f44be, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
