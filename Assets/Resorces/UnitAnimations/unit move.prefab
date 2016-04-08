@@ -42,11 +42,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upBlockDebugHelper: {fileID: 0}
-  timeFound: 1.5
+  timeFound: 1.2
   widthOfParticals: 8
-  emissionRate: 80
+  emissionRate: 1000
   moveOverTimeMultiplyer: 1.2
-  particleMoveAmount: 0.2
+  particleMoveAmount: 30
   offsetAmount: 0.18
 --- !u!198 &19872868
 ParticleSystem:
@@ -424,7 +424,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 10
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1591,6 +1591,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: scalingMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timeFound
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: particleMoveAmount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: emissionRate
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.rate.scalar
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
