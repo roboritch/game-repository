@@ -10,42 +10,11 @@ using UnityEngine;
 [XmlRoot("Gridblock")]
 [Serializable]
 public struct GridInfo{
-	[XmlIgnore]
 	// Whether a block is a spawn spot
-	public bool[,] isSpawnSpot;
+	public bool[] isSpawnSpot;
 
-	[XmlElement("spawn_spot")]
-	public bool[][] xmlSpawnSpot{
-		get{
-			bool[][] jaggedSpawn = new bool[isSpawnSpot.Length][];
-			for(int i = 0; i < isSpawnSpot.Length; i++){
-				jaggedSpawn[i] = new bool[isSpawnSpot.Length];
-				for(int j = 0; j < isSpawnSpot.Length; j++){
-					jaggedSpawn[i][j] = (bool)isSpawnSpot[i, j];
-				}
-			}
-			return jaggedSpawn;
-		}
-
-	}
-
-	[XmlIgnore]
 	// Whether a block is an occupiable space or a wall
-	public bool[,] isWall;
-
-	[XmlElement("wall")]
-	public bool[][] xmlWall{
-		get{
-			bool[][] jaggedWall = new bool[isWall.Length][];
-			for(int i = 0; i < isWall.Length; i++){
-				jaggedWall[i] = new bool[isWall.Length];
-				for(int j = 0; j < isWall.Length; j++){
-					jaggedWall[i][j] = (bool)isWall[i, j];
-				}
-			}
-			return jaggedWall;
-		}
-	}
+	public bool[] isWall;
 
 	[XmlElement("grid_size")]
 	// The width and height (x, y) value of the gridblock
@@ -87,16 +56,17 @@ public class GridScript : MonoBehaviour{
 
 	// Call grid and save current info into struct...
 	public void getGridInfo(){
-		for(int x = 0; x < currentGridInfo.gridSize; x++){
-			for(int y = 0; y < currentGridInfo.gridSize; y++){
-				currentGridInfo.isSpawnSpot[x, y] = gridInfo.gameGrid[x, y].getSpawnSpot();
-				//currentGridInfo.xmlSpawnSpot[x][y] = currentGridInfo.isSpawnSpot[x, y];
+		currentGridInfo.gridSize = gridInfo.gridSize;
 
-				currentGridInfo.isWall[x, y] = gridInfo.gameGrid[x, y].getAvailable();
-				//currentGridInfo.xmlWall[x][y] = currentGridInfo.isWall[x, y];
+		currentGridInfo.isSpawnSpot = new bool[(int)Math.Pow(currentGridInfo.gridSize, 2)];
+		currentGridInfo.isWall = new bool[(int)Math.Pow(currentGridInfo.gridSize, 2)];
+
+		for(int x = 1; x < currentGridInfo.gridSize; x++){
+			for(int y = 1; y < currentGridInfo.gridSize; y++){
+				currentGridInfo.isSpawnSpot[x * y] = gridInfo.gameGrid[x, y].getSpawnSpot();
+				currentGridInfo.isWall[x * y] = gridInfo.gameGrid[x, y].getAvailable();
 			}
 		}
-		currentGridInfo.gridSize = gridInfo.gridSize;
 	}
 
 	#region save and load grid
