@@ -77,7 +77,7 @@ public class AttackScript : ActionScript{
 	}
 
 	private void displayCloseRangeAttackAnimation(GridBlock animationLocation){
-		GameObject closeAttack = unit.instantiationHelper(unit.grid.getAnimation("close attack"));
+		GameObject closeAttack = unit.instantiationHelper(AnimationHolder.Instance.getAnimationFromName("close attack"));
 		actionTime = closeAttack.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
 		closeAttack.transform.SetParent(animationLocation.transform, false);
 		closeAttack.transform.localPosition = new Vector3();
@@ -87,8 +87,8 @@ public class AttackScript : ActionScript{
 
 	//TODO long range attack animation not done
 	private float displayLongRangeAttackAnimation(GridBlock animationLocation){
-		GameObject farAttackOut = unit.instantiationHelper(unit.grid.getAnimation("far attack out")); // diplayed on the units block
-		GameObject farAttackIn = unit.instantiationHelper(unit.grid.getAnimation("far attack in")); // diplayed on the animationLocation
+		GameObject farAttackOut = unit.instantiationHelper(AnimationHolder.Instance.getAnimationFromName("far attack out")); // diplayed on the units block
+		GameObject farAttackIn = unit.instantiationHelper(AnimationHolder.Instance.getAnimationFromName("far attack in")); // diplayed on the animationLocation
 		float delay = farAttackOut.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
 		actionTime = farAttackIn.GetComponent<IGetAnimationTimeToFin>().getAnimationTime();
 		farAttackOut.transform.SetParent(unit.getCurrentBlockHeadLocation().transform, false);
