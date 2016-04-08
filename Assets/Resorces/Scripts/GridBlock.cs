@@ -307,6 +307,8 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		unit.transform.SetParent(gridManager.unitObjectHolder);
 		unitInstalled = unit;
 		unit.spawnUnit(gridManager, this, teamSpawn);
+		//Remove this spawn spot. TODO
+		//spawnSpot = false;
 	}
 
 	public void removeUnit(){
