@@ -136,12 +136,13 @@ public class CreatePlayGrid : MonoBehaviour{
 	public void newLevel(int size){
 		gridSize = size;
 		// destroy all current grid blocks
-		foreach( var item in gameGrid ){
-			foreach( Transform child in item.transform ){
-				Destroy(child.gameObject);
+		if(gameGrid != null)
+			foreach( var item in gameGrid ){
+				foreach( Transform child in item.transform ){
+					Destroy(child.gameObject);
+				}
+				Destroy(item.gameObject);
 			}
-			Destroy(item.gameObject);
-		}
 
 		gameGrid = new GridBlock[size, size]; 
 		GameObject tempObject;      
