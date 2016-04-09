@@ -242,6 +242,12 @@ public class UnitAI {
 			int minDist = 0; //Assign to remove warning.
 			Position minPos = null;
 			foreach(Position pos in positions) {
+				//Continue to next position if current doesn't exist.
+				if(pos == null)
+					continue;
+				//Continue to next position if current block doesn't exist.
+				if(pos.getGridBlock() == null)
+					continue;
 				GridLocation posLoc = pos.getGridBlock().gridLocation;
 				int dist = targetGrid[posLoc.x, posLoc.y];
 				if(dist < minDist || minPos == null) {
@@ -344,7 +350,7 @@ public class UnitAI {
 			depth--;
 			adjPos = new Position[4];
 			//Only get adjacent positions if more moves remain.
-			if(depth > 0) {
+		if(depth > 0 && gridBlock != null) {
 				//For each adjacent gridblock.
 				for(int i = 0; i < 4; i++) {
 					//Get the adjacent gridblock, if it exists.

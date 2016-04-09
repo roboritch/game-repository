@@ -211,8 +211,14 @@ public class AIGrid {
 	public void calc() {
 		//TODO for each enemy
 		foreach(UnitScript unit in grid.units) {
+			//Continue to next unit if current is null.
+			if(unit == null)
+				continue;
 			//Get team number of unit.
 			int team = unit.getTeam().getIndex();
+			//Continue to next unit if current head is null.
+			if(unit.getCurrentBlockHeadLocation() == null)
+				continue;
 			//Get unit head location.
 			int unitHeadX = unit.getCurrentBlockHeadLocation().gridLocation.x;
 			int unitHeadY = unit.getCurrentBlockHeadLocation().gridLocation.y;
