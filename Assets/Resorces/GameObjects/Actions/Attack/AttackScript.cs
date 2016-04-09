@@ -19,6 +19,22 @@ public class AttackScript : ActionScript{
 		attackStrength = unit.getAttackPower();
 	}
 
+	//Constructor for AI.
+	public AttackScript(UnitScript u, GridBlock attackLocation) : this(u){
+		this.attackLocation = attackLocation;
+
+
+		if(attackLocation.unitInstalled == null)
+			Debug.LogWarning("No unit to attack!");
+
+		SerializedCompletedAction sac = new SerializedCompletedAction();
+		sac.locationToPerformAction = attackLocation.gridLocation;
+		sac.actionAmountInt = unit.getAttackPower();
+		loadAction(sac);
+
+		u.addActionToQueue(this);
+	}
+
 	#region Attack Strength and Location
 
 	/// <summary>

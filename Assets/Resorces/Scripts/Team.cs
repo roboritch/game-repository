@@ -11,9 +11,9 @@ public class Team{
 	private int index;
 
 	//Attached team AI.
-	private TeamAI ai;
+	public TeamAI ai;
 
-	public Team(Color tc, int teamIndex){
+	public Team(Color tc, int teamIndex, bool ai){
 		enemyKilled = 0;
 		spawned = 0;
 		score = 0;
@@ -21,6 +21,8 @@ public class Team{
 		units = new LinkedList<UnitScript>();
 		spawnBlocks = new LinkedList<GridBlock>();
 		index = teamIndex;
+		if(ai)
+			this.ai = new TeamAI(this);
 	}
 
 	public void addSpawn(){

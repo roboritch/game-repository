@@ -6,7 +6,7 @@ public class NewLevelSizeSet : MonoBehaviour{
 	[SerializeField] private CreatePlayGrid g;
 
 	public void createNewLevel(){
-		g.newLevel(int.Parse(GetComponent<InputField>().text));
+		//g.newLevel(int.Parse(GetComponent<InputField>().text));
 	}
 
 }
