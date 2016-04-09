@@ -106,7 +106,7 @@ public class GridScript : MonoBehaviour{
 			Debug.Log("no level with that name exists");
 			return;
 		}
-		//createPlayGrid.loadLevel(pathName);
+		createPlayGrid.loadLevel(pathName);
 	}
 
 	#endregion

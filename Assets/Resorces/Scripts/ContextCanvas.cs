@@ -19,12 +19,18 @@ public class ContextCanvas : MonoBehaviour{
 	/// </summary>
 	public GridBlock space;
 	private int allianceNumberForSpawnSpot;
+	private bool aiOnThisSpace = false;
+
+	public void setAISpown(bool value){
+		aiOnThisSpace = value;
+		space.setAIOnThisSpawnBlock(aiOnThisSpace);
+	}
 
 
 	public void setAllianceNumberForSpawnSpot(int allianceNumber){
 		allianceNumberForSpawnSpot = allianceNumber;
 		if(space.isSpawnSpot()){
-			space.setTeamSpawnAlliance(allianceNumber);
+			space.setTeamSpawnAlliance(allianceNumber, aiOnThisSpace);
 		}
 	}
 
@@ -41,7 +47,7 @@ public class ContextCanvas : MonoBehaviour{
 	/// </summary>
 	public void toggelSpawnPoint(){
 		if(!space.isSpawnSpot())
-			space.setSpawn(space.GridManager.team[allianceNumberForSpawnSpot]);
+			space.setSpawn(space.GridManager.team[allianceNumberForSpawnSpot], aiOnThisSpace);
 		else
 			space.removeSpawn();
 	}
