@@ -50,7 +50,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	//Attack attributes
 	private int attackActionID = -1;
 	private Team teamSpawn;
-
+	private bool aiSpawn = false;
 
 	#region Adjacent Blocks
 
@@ -158,12 +158,14 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 
 	// The GUI will now block clicks.
 	public void OnPointerDown(PointerEventData eventData){
-		if(gridManager.editModeOn && !gridManager.contextMenuUp){
-			Debug.Log("mouse down on grid block");
-			gridManager.contextMenuUp = true;
-			displayEditRightClickMenu();
+		if(gridManager.editModeOn){ // only this if block will be called if edit mode is on
+			if(!gridManager.contextMenuUp){
+				Debug.Log("mouse down on grid block");
+				gridManager.contextMenuUp = true;
+				displayEditRightClickMenu();
+			}
+			return;
 		}
-
 		//Set the buttons up in the GUI for the installed unit when this grid block is selected.
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
@@ -256,16 +258,26 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	/// <summary>Toggle the online state of this block.</summary>
 	public void toggleSpaceAvailable(){ 
 		if(available == false){
-			up.down = this;
-			down.up = this;
-			left.right = this;
-			right.left = this;
+			if(up != null)
+				up.down = this;
+			if(down != null)
+				down.up = this;
+			if(left != null)
+				left.right = this;
+			if(right != null)
+				right.left = this;
+
 			setSpriteDefault();
 		} else{
-			up.down = null;
-			down.up = null;
-			left.right = null;
-			right.left = null;
+			if(up != null)
+				up.down = null;
+			if(down != null)
+				down.up = null;
+			if(left != null)
+				left.right = null;
+			if(right != null)
+				right.left = null;
+
 			setSpriteNone();
 			spawnSpot = false;
 		}
@@ -273,7 +285,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	/// <summary>Sets gridblock as a spawn spot.</summary>
-	public void setSpawn(Team ts){
+	public void setSpawn(Team ts, bool AI){
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
@@ -283,11 +295,25 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteSpawn();
 		//Add to team spawn block list.
 		ts.spawnBlocks.AddLast(this);
-
+		setAIOnThisSpawnBlock(AI);
 	}
-	//TODO remove
-	public void setSpawn(){
-		setSpawn(null);
+
+	public void setTeamSpawnAlliance(Team team, bool AI){
+		teamSpawn.removeSpawn();
+		teamSpawn = team;
+		setSpriteSpawn();
+		team.spawnBlocks.AddLast(this);
+		setAIOnThisSpawnBlock(AI);
+	}
+
+	public void setAIOnThisSpawnBlock(bool aiState){
+		//TODO AI spawn block code
+		aiSpawn = aiState;
+	}
+
+
+	public void setTeamSpawnAlliance(int teamNumb, bool aiState){
+		setTeamSpawnAlliance(gridManager.team[teamNumb], aiState);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
@@ -372,14 +398,35 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	#region Block Properties Accessors
 
 	// Return property of gridblock if it is a spawn spot or not
-	public bool getSpawnSpot(){
+	public bool isSpawnSpot(){
 		return spawnSpot;
+	}
+
+	/// <summary>
+	/// Gets the whenther this spawn is AI.
+	/// </summary>
+	/// <returns>The AI spawn.</returns>
+	public bool getAISpawn(){
+		return aiSpawn;
 	}
 
 	// Return property of gridblock if it is occupiable space or a wall
 	public bool getAvailable(){
 		return available;
 	}
+
+	/// <summary>
+	/// Gets the team number.
+	/// </summary>
+	/// <returns>The team number. -1 if no team</returns>
+	public int getTeamNumber(){
+		if(teamSpawn == null){
+			return -1;
+		} else{
+			return teamSpawn.getIndex();
+		}
+	}
+
 
 	#endregion
 }

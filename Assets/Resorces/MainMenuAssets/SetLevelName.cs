@@ -3,6 +3,7 @@ using System.Collections;
 using System.Xml.Serialization;
 using System;
 using System.IO;
+using UnityEngine.UI;
 
 public class SetLevelName : MonoBehaviour{
 	public GridScript gscript;
@@ -16,6 +17,20 @@ public class SetLevelName : MonoBehaviour{
 		gscript.getGridInfo();
 		gscript.saveGrid();
 	}
+
+	/// <summary>
+	/// Saves the game 
+	/// </summary>
+	public void submitText(){
+		newLevelName(GetComponent<InputField>().text);
+		// Should save submission of new level
+		levelCall();
+	}
+
+	public void loadLevel(){
+		gscript.loadGrid(Application.dataPath + "/levels" + "/" + GetComponent<InputField>().text + ".xml");
+	}
+
 }
 
 
