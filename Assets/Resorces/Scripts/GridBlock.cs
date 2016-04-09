@@ -285,7 +285,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	/// <summary>Sets gridblock as a spawn spot.</summary>
-	public void setSpawn(Team ts, bool AI){
+	public void setSpawn(Team ts){
 		//fail to set spawn if block is offline
 		if(!available)
 			return;
@@ -295,25 +295,18 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		setSpriteSpawn();
 		//Add to team spawn block list.
 		ts.spawnBlocks.AddLast(this);
-		setAIOnThisSpawnBlock(AI);
 	}
 
-	public void setTeamSpawnAlliance(Team team, bool AI){
+	public void setTeamSpawnAlliance(Team team){
 		teamSpawn.removeSpawn();
 		teamSpawn = team;
 		setSpriteSpawn();
 		team.spawnBlocks.AddLast(this);
-		setAIOnThisSpawnBlock(AI);
-	}
-
-	public void setAIOnThisSpawnBlock(bool aiState){
-		//TODO AI spawn block code
-		aiSpawn = aiState;
 	}
 
 
-	public void setTeamSpawnAlliance(int teamNumb, bool aiState){
-		setTeamSpawnAlliance(gridManager.team[teamNumb], aiState);
+	public void setTeamSpawnAlliance(int teamNumb){
+		setTeamSpawnAlliance(gridManager.team[teamNumb]);
 	}
 
 	/// <summary>Sets gridblock from a spawn spot to a default spot.</summary>
