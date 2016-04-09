@@ -13,13 +13,11 @@ public class FindAllLevels : MonoBehaviour{
 	void Start(){
 		dropdown = GetComponent<Dropdown>();
 		getLevelNames();
-
-
-
+		submitlevelPath();
 	}
 
 	public void submitlevelPath(){
-		Player.Instance.dataPathOfLevelTheUserWantsToLoad = Application.dataPath + "/" + levelFolderName + "/" + dropdown.captionText.text + ".xml";
+		Player.Instance.dataPathOfLevelTheUserWantsToLoad = Application.dataPath + "/" + levelFolderName + "/" + dropdown.captionText.text;
 	}
 
 	private Dropdown dropdown;

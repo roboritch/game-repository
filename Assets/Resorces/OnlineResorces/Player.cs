@@ -29,6 +29,6 @@ public class Player : Singleton<Player>{
 	public NetworkIO thisPlayersNetworkHelper;
 	public bool workingOnline = false;
 	public int numberOfClientsReadyToAct;
-	public string dataPathOfLevelTheUserWantsToLoad;
+	public string dataPathOfLevelTheUserWantsToLoad = "";
 
 }
