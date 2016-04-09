@@ -25,20 +25,20 @@ public class FindAllLevels : MonoBehaviour{
 	[SerializeField] private string levelFolderName;
 
 	private void getLevelNames(){
-//		XmlDocument levelxml = new XmlDocument();
-//		DirectoryInfo dI = new DirectoryInfo(Application.dataPath + "/" + levelFolderName);
-//		if(!dI.Exists){
-//			Debug.LogWarning("level derectory does not exist");
-//			return;
-//		}
-//		FileInfo[] levelFiles = dI.GetFiles();
-//		List<string> list = new List<string>();
-//		foreach( var item in levelFiles ){
-//			if(item.Extension == ".xml"){
-//				list.Add(item.Name); // add all level names to list
-//			}
-//		}
-//		dropdown.AddOptions(list); // add names to list
+		XmlDocument levelxml = new XmlDocument();
+		DirectoryInfo dI = new DirectoryInfo(Application.dataPath + "/" + levelFolderName);
+		if(!dI.Exists){
+			Debug.LogWarning("level derectory does not exist");
+			return;
+		}
+		FileInfo[] levelFiles = dI.GetFiles();
+		List<string> list = new List<string>();
+		foreach( var item in levelFiles ){
+			if(item.Extension == ".xml"){
+				list.Add(item.Name); // add all level names to list
+			}
+		}
+		dropdown.AddOptions(list); // add names to list
 	}
 
 }
