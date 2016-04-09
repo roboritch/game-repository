@@ -58,11 +58,13 @@ public class CreatePlayGrid : MonoBehaviour{
 	/// </summary>
 	public void actAI() {
 		LinkedList<UnitScript> readyUnits = new LinkedList<UnitScript>();
-		foreach(Team t in team)
+		foreach(Team t in team){
+			t.ai.calc();
 			foreach(UnitScript u in t.units)
 				if(u.ai != null)
 				if(u.readyToAct)
 					readyUnits.AddLast(u);
+		}
 		//Recalculate AI grid if needed.
 		if(readyUnits.Count > 0)
 			aiGrid.calc();
@@ -88,10 +90,10 @@ public class CreatePlayGrid : MonoBehaviour{
 	// Use this for initialization.
 	void Start(){
 		team = new Team[4];
-		team [0] = new Team (Color.red,0);
-		team [1] = new Team (Color.blue,1);
-		team [2] = new Team (Color.yellow,2);
-		team [3] = new Team (Color.green,3);
+		team [0] = new Team (Color.red,0, false); //TODO add AI team boolean here to enable AI team
+		team [1] = new Team (Color.blue,1, false);
+		team [2] = new Team (Color.yellow,2, false);
+		team [3] = new Team (Color.green,3, false);
 
 		animationLibrarySetup();
 		//All grid spaces are represented by a game object setup the game grid array.

@@ -81,7 +81,6 @@ public class UnitAI {
 	public UnitAI(UnitScript unit) {
 		this.unit = unit;
 
-		//TODO fix these default values.
 		moveDir = 0.5;
 		moveIdle = 0;
 		moveScope = 0.5;
