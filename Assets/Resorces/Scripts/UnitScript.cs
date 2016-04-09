@@ -62,6 +62,9 @@ public class UnitScript : MonoBehaviour{
 	}
 
 	public GridBlock getVirtualBlockHeadLocation(){
+		//Check if unit is destroyed.
+		if(blockList.Count == 0)
+			return null;
 		if(virtualBlockHead == null)
 			virtualBlockHead = blockList.First.Value;
 		return virtualBlockHead;
@@ -453,6 +456,9 @@ public class UnitScript : MonoBehaviour{
 		GridBlock[] x = new GridBlock[attackLocations.Length];
 
 		for(int i = 0; i < attackLocations.Length; i++){
+
+			//Make sure virtual head block exists.
+			if(getVirtualBlockHeadLocation()!=null)
 			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
 		}
 

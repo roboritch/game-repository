@@ -69,11 +69,11 @@ public enum MoveTeamBehavior {
 /// </summary>
 public enum AttackBehavior {
 	/// <summary>
-	/// Attack one enemy as many times as possible.
+	/// Attack the least healthiest enemy.
 	/// </summary>
 	MICRO,
 	/// <summary>
-	/// Attack as many enemies as possible.
+	/// Attack the healthiest enemy.
 	/// </summary>
 	MACRO
 }
