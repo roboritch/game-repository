@@ -7,45 +7,24 @@ using UnityEngine;
 
 // http://wiki.unity3d.com/index.php?title=Saving_and_Loading_Data:_XmlSerializer
 
-[XmlRoot("Gridblock")]
+
 [Serializable]
 public struct GridInfo{
-	[XmlIgnore]
-	// Whether a block is a spawn spot
-	public bool[,] isSpawnSpot;
+	[XmlArrayItemAttribute("enabled")]
+	[XmlArrayAttribute("block_enabled_list")]
+	public bool[] enabled;
 
-	[XmlElement("spawn_spot")]
-	public bool[][] xmlSpawnSpot{
-		get{
-			bool[][] jaggedSpawn = new bool[isSpawnSpot.Length][];
-			for(int i = 0; i < isSpawnSpot.Length; i++){
-				jaggedSpawn[i] = new bool[isSpawnSpot.Length];
-				for(int j = 0; j < isSpawnSpot.Length; j++){
-					jaggedSpawn[i][j] = (bool)isSpawnSpot[i, j];
-				}
-			}
-			return jaggedSpawn;
-		}
+	[XmlArrayItemAttribute("Spawn")]
+	[XmlArrayAttribute("SpawnSpot_list")]
+	public bool[] isSpawnSpot;
 
-	}
+	[XmlArrayItemAttribute("AI")]
+	[XmlArrayAttribute("AI_enabled_list")]
+	public bool[] isAI;
 
-	[XmlIgnore]
-	// Whether a block is an occupiable space or a wall
-	public bool[,] isWall;
-
-	[XmlElement("wall")]
-	public bool[][] xmlWall{
-		get{
-			bool[][] jaggedWall = new bool[isWall.Length][];
-			for(int i = 0; i < isWall.Length; i++){
-				jaggedWall[i] = new bool[isWall.Length];
-				for(int j = 0; j < isWall.Length; j++){
-					jaggedWall[i][j] = (bool)isWall[i, j];
-				}
-			}
-			return jaggedWall;
-		}
-	}
+	[XmlArrayItemAttribute("t_numb")]
+	[XmlArrayAttribute("team_numbers")]
+	public int[] team;
 
 	[XmlElement("grid_size")]
 	// The width and height (x, y) value of the gridblock
@@ -66,7 +45,7 @@ public class GridScript : MonoBehaviour{
 
 	// Grab initial gridblock info and load the grid
 	void Initialize(){
-		gridInfoFilepath = Application.dataPath + "/level.xml";
+		gridInfoFilepath = Application.dataPath + "/levels" + "/level.xml";
 		if(!File.Exists(gridInfoFilepath)){
 			// Create file with dummy data just for creation.
 			// Both bools isSpawnSpot and isWall default to false.
@@ -75,28 +54,33 @@ public class GridScript : MonoBehaviour{
 			saveGrid();
 		}
 
-		loadGrid();
+		loadGrid(gridInfoFilepath);
 		// New copy of gridInfo to pass into serializer for future saving.
 		currentGridInfo = newGridInfo;
 	}
 
 	// Set a level name
 	public void setLevelName(string levelName){
-		gridInfoFilepath = Application.dataPath + "/" + levelName + ".xml";
+		gridInfoFilepath = Application.dataPath + "/levels" + "/" + levelName + ".xml";
 	}
 
 	// Call grid and save current info into struct...
 	public void getGridInfo(){
+		currentGridInfo.gridSize = createPlayGrid.gridSize;
+
+		currentGridInfo.isSpawnSpot = new bool[currentGridInfo.gridSize * currentGridInfo.gridSize];
+		currentGridInfo.enabled = new bool[currentGridInfo.gridSize * currentGridInfo.gridSize];
+		currentGridInfo.isAI = new bool[currentGridInfo.gridSize * currentGridInfo.gridSize];
+		currentGridInfo.team = new int[currentGridInfo.gridSize * currentGridInfo.gridSize];
+
 		for(int x = 0; x < currentGridInfo.gridSize; x++){
 			for(int y = 0; y < currentGridInfo.gridSize; y++){
-				currentGridInfo.isSpawnSpot[x, y] = gridInfo.gameGrid[x, y].getSpawnSpot();
-				//currentGridInfo.xmlSpawnSpot[x][y] = currentGridInfo.isSpawnSpot[x, y];
-
-				currentGridInfo.isWall[x, y] = gridInfo.gameGrid[x, y].getAvailable();
-				//currentGridInfo.xmlWall[x][y] = currentGridInfo.isWall[x, y];
+				currentGridInfo.isSpawnSpot[x + y * currentGridInfo.gridSize] = gridInfo.gameGrid[x, y].isSpawnSpot();
+				currentGridInfo.enabled[x + y * currentGridInfo.gridSize] = gridInfo.gameGrid[x, y].getAvailable();
+				currentGridInfo.isAI[x + y * currentGridInfo.gridSize] = gridInfo.gameGrid[x, y].getAISpawn();
+				currentGridInfo.team[x + y * currentGridInfo.gridSize] = gridInfo.gameGrid[x, y].getTeamNumber();
 			}
 		}
-		currentGridInfo.gridSize = gridInfo.gridSize;
 	}
 
 	#region save and load grid
@@ -105,7 +89,7 @@ public class GridScript : MonoBehaviour{
 		FileStream stream = null;
 		try{
 			XmlSerializer serializer = new XmlSerializer(typeof(GridInfo));
-			stream = new FileStream(gridInfoFilepath, FileMode.OpenOrCreate);
+			stream = new FileStream(gridInfoFilepath, FileMode.CreateNew);
 			// New grid info to disk here.
 			serializer.Serialize(stream, currentGridInfo);
 			stream.Close();
@@ -117,19 +101,12 @@ public class GridScript : MonoBehaviour{
 		currentGridInfo = newGridInfo;
 	}
 
-	public void loadGrid(){
-		FileStream stream = null;
-		try{
-			XmlSerializer serializer = new XmlSerializer(typeof(GridInfo));
-			stream = new FileStream(gridInfoFilepath, FileMode.Open);
-			GridInfo container = (GridInfo)serializer.Deserialize(stream);
-			currentGridInfo = container;
-			stream.Close();
-		} catch(Exception ex){
-			Debug.LogError(ex.ToString());
-			if(stream != null)
-				stream.Close();
+	public void loadGrid(string pathName){
+		if(Directory.Exists(pathName)){
+			Debug.Log("no level with that name exists");
+			return;
 		}
+		createPlayGrid.loadLevel(pathName);
 	}
 
 	#endregion

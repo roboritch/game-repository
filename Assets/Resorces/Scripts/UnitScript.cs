@@ -92,6 +92,7 @@ public class UnitScript : MonoBehaviour{
 	/// <returns>Success of unit's move action.</returns>
 	/// <param name="newLocation">The block to move unit head to.</param>
 	public bool addBlock(GridBlock newLocation, bool animate){
+		GridBlock oldLocation = getCurrentBlockHeadLocation();
 		bool movedSuccess;
 		//check if grid space is already occupied
 		if(newLocation.unitInstalled == null){
@@ -107,9 +108,9 @@ public class UnitScript : MonoBehaviour{
 		} else{
 			movedSuccess = false;
 		}
-		if(animate){
+		if(animate && movedSuccess){
 			//TODO unitMoving animation
-			float animationTime = 0f;
+			float animationTime = displayUnitMovementAnimation(oldLocation, newLocation);
 			Invoke("checkAllDisplay", animationTime);
 		} else{
 			checkAllDisplay();
@@ -180,17 +181,19 @@ public class UnitScript : MonoBehaviour{
 		currentAttacksRemaning = currentMaxPosibleAttackActions;
 		currentAttackPower = unitInfo.attackPow;
 		team = t;
-		team.addAlly (this);
-		team.addSpawn ();
+		team.addAlly(this);
+		team.addSpawn();
 
 		blockList.AddLast(startLocation);
 		float spawnTime = spawnAnimation();
 		Invoke("checkAllDisplay", spawnTime);
+		timerStartup();
+		Invoke("startTimerTick", spawnTime);
 	}
 		
 	//each unit spawn must have it's colour set by this script
 	private float spawnAnimation(){
-		GameObject animationObj = Instantiate(grid.getAnimation("unit spawn")) as GameObject; // be carfull changing Names!
+		GameObject animationObj = Instantiate(AnimationHolder.Instance.getAnimationFromName("unit spawn")) as GameObject; // be carfull changing Names!
 		animationObj.transform.SetParent(getCurrentBlockHeadLocation().transform, true);
 		animationObj.transform.localPosition = new Vector3();
 		SquareParticleFill anim = animationObj.GetComponent<SquareParticleFill>();
@@ -428,10 +431,19 @@ public class UnitScript : MonoBehaviour{
 		return movmentActionsRemaning;
 	}
 
-	//TODO unit movment animation
-	public void displayUnitMovementAnimation(GridBlock location){
-		GameObject moveAnimation = Instantiate(grid.getAnimation("unit move")); 
-		//TODO setDirection and color of unit movment
+	/// <summary>
+	/// Displaythe unit movement animation.
+	/// </summary>
+	/// <returns>The unit movement animation time.</returns>
+	/// <param name="location">Location the unit is moving to.</param>
+	public float displayUnitMovementAnimation(GridBlock locationStart, GridBlock locationEnd){
+		UnitMoveAnimatior moveAnimation = Instantiate(AnimationHolder.Instance.getAnimationFromName("unit move")).GetComponent<UnitMoveAnimatior>();
+		moveAnimation.transform.SetParent(locationStart.transform, false);
+		moveAnimation.setParticalColor(getUnitColor());
+		moveAnimation.setMovmentDirection(locationStart, locationStart.blockAdjDirection(locationEnd));
+		moveAnimation.transform.SetParent(null);
+		Invoke("checkAllDisplay", moveAnimation.getAnimationTime());
+		return moveAnimation.getAnimationTime();
 	}
 
 	#endregion
@@ -623,9 +635,6 @@ public class UnitScript : MonoBehaviour{
 	void Start(){
 		grid.units.Add(this);
 		actionList = new LinkedList<ActionScript>();
-		timerStartup();
-		startTimerTick();
-
 	}
 
 	// Update is called once per frame

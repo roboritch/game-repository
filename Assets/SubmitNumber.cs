@@ -27,8 +27,6 @@ public class SubmitNumber : MonoBehaviour{
 		default:
 			return Color.white;
 		}
-
-
 	}
 
 }

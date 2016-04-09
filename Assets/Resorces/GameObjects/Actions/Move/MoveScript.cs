@@ -44,7 +44,7 @@ public class MoveScript : ActionScript{
 
 	/// <summary> Perform this action when called by the unit's action list. </summary>
 	public override void act(){
-		bool itMoved = unit.addBlock(locationToPreformAction, false);
+		bool itMoved = unit.addBlock(locationToPreformAction, true);
 		removeActionRepresentationDisplay();
 		if(itMoved == false){
 			unit.resetActionQueue(true);

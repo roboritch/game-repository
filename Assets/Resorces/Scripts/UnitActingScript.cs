@@ -34,8 +34,6 @@ public class UnitActingScript : MonoBehaviour{
 	public bool setCurrentlyActing(){
 		unit.startActing();
 		return unit.IsActing;
-			
-		
 		//TODO Add some animation to show that this unit is acting.
 	}
 
