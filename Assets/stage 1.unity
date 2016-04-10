@@ -922,7 +922,7 @@ Prefab:
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].unit
       value: 
-      objectReference: {fileID: 118438, guid: bfadfa1aa8f9b5145a8e6220300d5588, type: 2}
+      objectReference: {fileID: 118438, guid: 8ff76ced5c74244428240daf12b4b954, type: 2}
     - target: {fileID: 11451338, guid: ebf724679d26f2345a530e0cfe4fa373, type: 2}
       propertyPath: unitInfo.Array.data[1].unitHeadSprite
       value: 
