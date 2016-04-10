@@ -13,7 +13,8 @@ public class TeamAI {
 	}
 
 	public void calc(){
-		//TODO check all team spawn points and spawn if possible.
+		//TODO Check all team spawn points and spawn if possible.
+		//Should pick the best unit type, or just be random.
 
 		//For each unit on team.
 		foreach(UnitScript u in team.units){

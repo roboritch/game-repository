@@ -51,6 +51,9 @@ public class CreatePlayGrid : MonoBehaviour{
 	public void actAI(){
 		LinkedList<UnitScript> readyUnits = new LinkedList<UnitScript>();
 		foreach( Team t in team ){
+			//Continue to next team if not controlled by an AI.
+			if(t.ai == null)
+				continue;
 			t.ai.calc();
 			foreach( UnitScript u in t.units )
 				if(u.ai != null)
