@@ -48,7 +48,7 @@ public class CreatePlayGrid : MonoBehaviour{
 	/// <summary>
 	/// Act AI units if idle.
 	/// </summary>
-	public void actAI(){
+	public void actAI(){ //this section breaks the unitQueue, it also apears to be unnecessary
 		LinkedList<UnitScript> readyUnits = new LinkedList<UnitScript>();
 		foreach( Team t in team ){
 			//Continue to next team if not controlled by an AI.
@@ -63,9 +63,9 @@ public class CreatePlayGrid : MonoBehaviour{
 		//Recalculate AI grid if needed.
 		if(readyUnits.Count > 0)
 			aiGrid.calc();
-		//Act ready units.
-		foreach( UnitScript u in readyUnits )
-			u.nowReadyToAct();
+		//Act ready units. This breakes the unit queue
+/*		foreach( UnitScript u in readyUnits ) 
+			u.nowReadyToAct();*/
 	}
 
 

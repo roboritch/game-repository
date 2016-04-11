@@ -73,14 +73,14 @@ public class NetworkIO : NetworkBehaviour{
 
 	#region unit spawn Networking
 	[ClientRpc]
-	private void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, ushort  x, ushort  y, byte team){
+	private void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, ushort  x, ushort  y, byte team, bool AI){
 		UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
-		localGrid.gameGrid[x, y].spawnUnit(unit);
+		localGrid.gameGrid[x, y].spawnUnit(unit, AI);
 	}
 
 	[Command]
-	public void Cmd_SendUnitSpawnEventToServer(string unitName, ushort x, ushort y, byte team){
-		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team);
+	public void Cmd_SendUnitSpawnEventToServer(string unitName, ushort x, ushort y, byte team, bool AI){
+		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team, AI);
 	}
 	#endregion
 

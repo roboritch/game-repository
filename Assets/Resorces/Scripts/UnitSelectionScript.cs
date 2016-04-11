@@ -84,14 +84,14 @@ public class UnitSelectionScript : MonoBehaviour{
 	/// <param name="unitNumberFromSelection">Unit number from selection.</param>
 	public void createThisUnit(int unitNumberFromSelection){
 		if(Player.Instance.workingOnline){
-			Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitInfo[unitNumberFromSelection].unitNameForLoad, (ushort)currentGridblock.gridLocation.x, (ushort)currentGridblock.gridLocation.y, 1 /*TODO this Player.Instance.team.index */);
+			Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitInfo[unitNumberFromSelection].unitNameForLoad, (ushort)currentGridblock.gridLocation.x, (ushort)currentGridblock.gridLocation.y, (byte)Player.Instance.team.getIndex(), false);
 			gameObject.SetActive(false);
 			return;
 		}
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		UnitScript su = unit.GetComponent<UnitScript>();
 		// Send to gridBlockforCreation.
-		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>());
+		currentGridblock.spawnUnit(unit.GetComponent<UnitScript>(), false);
 		gameObject.SetActive(false);
 	}
 	 
