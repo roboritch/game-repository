@@ -196,8 +196,8 @@ public class GUIScript : MonoBehaviour{
 				} else{
 					//Check if unit is already in queue.
 					bool unitInQueue = false;
-					foreach(UnitActingScript uas in unitActingQueue.actingQueue){
-						if(uas.unit==unit)
+					foreach( UnitActingScript uas in unitActingQueue.actingQueue ){
+						if(uas.unit == unit)
 							unitInQueue = true;
 						break;
 					}
