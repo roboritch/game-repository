@@ -43,12 +43,6 @@ public class NetworkIO : NetworkBehaviour{
 	#endregion
 
 	#region player alliance Networking
-	public void setAlliance(){
-		if(isLocalPlayer){
-			setAllianceInPlayer(allianceNumber);
-			Cmd_IncrmentAlliance(); //all new players are set to a different alliance
-		}
-	}
 
 	/// <summary>
 	/// Sets the alliance in player.
@@ -56,8 +50,8 @@ public class NetworkIO : NetworkBehaviour{
 	/// the units under the players control
 	/// </summary>
 	/// <param name="numb">allianceNumber.</param>
-	private void setAllianceInPlayer(int numb){
-		Player.Instance.playerAlliance = allianceNumber;
+	private void setAllianceInPlayer(Team team){
+		Player.Instance.Team = team;
 	}
 
 	[Command]

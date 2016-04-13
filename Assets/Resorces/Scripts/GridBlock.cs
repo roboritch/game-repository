@@ -170,7 +170,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
 		if(teamSpawn != null)
-		if((Player.Instance.playerAlliance == teamSpawn.getIndex() || Player.Instance.playerAlliance == -1) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+		if((Player.Instance.Team == teamSpawn) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
@@ -183,7 +183,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.getTeam().getIndex() == Player.Instance.playerAlliance || Player.Instance.playerAlliance == -1) //only a player can select a unit
+			if(unitInstalled.getTeam() == Player.Instance.Team) //only a player can select a unit
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	
@@ -357,7 +357,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	public void spawUnitPlayerFromNetwork(string unitName, bool Ai){//change Alliance to team.getTeamIndex
-		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridLocation.x, (ushort)gridLocation.y, (byte)Player.Instance.playerAlliance, Ai);
+		Player.Instance.thisPlayersNetworkHelper.Cmd_SendUnitSpawnEventToServer(unitName, (ushort)gridLocation.x, (ushort)gridLocation.y, (byte)Player.Instance.Team.getIndex(), Ai);
 	}
 	#endregion
 
