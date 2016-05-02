@@ -43,12 +43,6 @@ public class NetworkIO : NetworkBehaviour{
 	#endregion
 
 	#region player alliance Networking
-	public void setAlliance(){
-		if(isLocalPlayer){
-			setAllianceInPlayer(allianceNumber);
-			Cmd_IncrmentAlliance(); //all new players are set to a different alliance
-		}
-	}
 
 	/// <summary>
 	/// Sets the alliance in player.
@@ -56,8 +50,8 @@ public class NetworkIO : NetworkBehaviour{
 	/// the units under the players control
 	/// </summary>
 	/// <param name="numb">allianceNumber.</param>
-	private void setAllianceInPlayer(int numb){
-		Player.Instance.playerAlliance = allianceNumber;
+	private void setAllianceInPlayer(Team team){
+		Player.Instance.Team = team;
 	}
 
 	[Command]
@@ -73,14 +67,14 @@ public class NetworkIO : NetworkBehaviour{
 
 	#region unit spawn Networking
 	[ClientRpc]
-	private void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, ushort  x, ushort  y, byte team){
+	private void Rpc_ReciveUnitSpawnEventFromNetwork(string unitName, ushort  x, ushort  y, byte team, bool AI){
 		UnitScript unit = (Instantiate(UnitHolder.Instance.getUnitFromName(unitName)) as GameObject).GetComponent<UnitScript>();
-		localGrid.gameGrid[x, y].spawnUnit(unit);
+		localGrid.gameGrid[x, y].spawnUnit(unit, AI);
 	}
 
 	[Command]
-	public void Cmd_SendUnitSpawnEventToServer(string unitName, ushort x, ushort y, byte team){
-		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team);
+	public void Cmd_SendUnitSpawnEventToServer(string unitName, ushort x, ushort y, byte team, bool AI){
+		Rpc_ReciveUnitSpawnEventFromNetwork(unitName, x, y, team, AI);
 	}
 	#endregion
 

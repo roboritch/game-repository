@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class RightClickMenuAllianceSelect : MonoBehaviour{
 
 	void Start(){
-		setAllianceForSaving();
+		Invoke("setAllianceForSaving", 0.02f);
 	}
 
 	[SerializeField] private ContextCanvas context;

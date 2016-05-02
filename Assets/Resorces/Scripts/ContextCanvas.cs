@@ -40,6 +40,12 @@ public class ContextCanvas : MonoBehaviour{
 	/// Start this instance.
 	/// </summary>
 	void Start(){
+		Invoke("getAIandSpawnType", 0.01f);
+	}
+
+	private void getAIandSpawnType(){
+		transform.GetComponentInChildren<Toggle>().isOn = space.getAISpawn();
+		transform.GetComponentInChildren<Dropdown>().value = space.getTeamNumber();
 	}
 
 	/// <summary>

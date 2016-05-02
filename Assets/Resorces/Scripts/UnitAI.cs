@@ -259,6 +259,12 @@ public class UnitAI {
 			int maxDist = 0;
 			Position maxPos = null;
 			foreach(Position pos in positions) {
+				//Continue if position doesn't exist.
+				if(pos == null)
+					continue;
+				//Continue if gridblock doesn't exist.
+				if(pos.getGridBlock() == null)
+					continue;
 				GridLocation posLoc = pos.getGridBlock().gridLocation;
 				int dist = targetGrid[posLoc.x, posLoc.y];
 				if(dist < maxDist || maxPos == null) {

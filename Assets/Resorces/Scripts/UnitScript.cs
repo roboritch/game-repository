@@ -348,9 +348,9 @@ public class UnitScript : MonoBehaviour{
 
 	private void finishActing(){
 		//Act any ready AI units.
-		grid.actAI();
-		//TODO send info that this unit is done acting
+		//grid.actAI();
 		isActing = false;
+		resetTimer();
 		startTimerTick();
 		resetActionQueue(false); 
 		grid.gui.unitIsDoneActing();
@@ -458,8 +458,8 @@ public class UnitScript : MonoBehaviour{
 		for(int i = 0; i < attackLocations.Length; i++){
 
 			//Make sure virtual head block exists.
-			if(getVirtualBlockHeadLocation()!=null)
-			x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
+			if(getVirtualBlockHeadLocation() != null)
+				x[i] = grid.gridLocationToGameGrid(getVirtualBlockHeadLocation().gridLocation + attackLocations[i]);
 		}
 
 		return x;
@@ -525,7 +525,6 @@ public class UnitScript : MonoBehaviour{
 			readyToAct = true;
 			stopTimerTick();
 			nowReadyToAct();
-			startActing();
 		}
 	}
 
@@ -557,6 +556,8 @@ public class UnitScript : MonoBehaviour{
 			ai.aiAct();
 			//Add unit to action queue.
 			Debug.LogWarning("AI unit acting.");
+			grid.gui.unitToAct(this);
+		} else if(readyToAct){
 			grid.gui.unitToAct(this);
 		}
 	}

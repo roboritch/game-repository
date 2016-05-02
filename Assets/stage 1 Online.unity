@@ -2072,7 +2072,7 @@ MonoBehaviour:
       type: 3}
     sprite_defaultSpace: {fileID: 21300000, guid: e910e4f78038dbf4fbcbdad898836d40,
       type: 3}
-    color_defaultSpaceColor: {r: 0.8161765, g: 0.8161765, b: 0.8161765, a: 1}
+    color_defaultSpaceColor: {r: 0.492, g: 0.492, b: 0.492, a: 0.5882353}
     sprite_spawnSpace: {fileID: 21300000, guid: e910e4f78038dbf4fbcbdad898836d40,
       type: 3}
     color_spawnSpaceColor: {r: 0.72794116, g: 0.6922085, b: 0.49243078, a: 0.403}
@@ -2084,19 +2084,11 @@ MonoBehaviour:
     sprite_attack: {fileID: 21300000, guid: f463623e900a3714181bd5328cf8d496, type: 3}
     color_attack: {r: 1, g: 1, b: 1, a: 0.716}
   UnitTimerDisplay: {fileID: 0}
+  units: []
   editModeOn: 0
   gridEditMenu: {fileID: 183756, guid: 4ecb3084d15487445a98599963b546a2, type: 2}
   filepath: 
   contextMenuUp: 0
-  animationLibrarySetter:
-  - animationName: unit spawn
-    animation: {fileID: 107978, guid: f5333740bbee3a041aec59f8f71b62f8, type: 2}
-  - animationName: close attack
-    animation: {fileID: 166528, guid: d7deb2b608b9ff4418e0db117d90a6d8, type: 2}
-  - animationName: far attack out
-    animation: {fileID: 145188, guid: aec199f709b1783478a43a1a6d37dffe, type: 2}
-  - animationName: far attack in
-    animation: {fileID: 185008, guid: 350fe784ebc29624ab76e9f58a887183, type: 2}
 --- !u!95 &1384402564
 Animator:
   serializedVersion: 3

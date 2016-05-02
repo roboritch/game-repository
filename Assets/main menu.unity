@@ -3609,9 +3609,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Load TestLevel
-
-'
+  m_Text: Load Level
 --- !u!222 &1910623651
 CanvasRenderer:
   m_ObjectHideFlags: 0
