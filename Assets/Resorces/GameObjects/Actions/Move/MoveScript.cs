@@ -32,8 +32,11 @@ public class MoveScript : ActionScript{
 				validMove = true;
 		}
 
-		if(!validMove)
+		if (!validMove) {
 			Debug.LogWarning("Move not valid!");
+			unit.resetActionQueue(true);
+			return;
+		}
 
 		SerializedCompletedAction sac = new SerializedCompletedAction();
 		sac.locationToPerformAction = b.gridLocation;

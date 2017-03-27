@@ -370,6 +370,7 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 	}
 
 	private void spawnAIifAI(){
+		if(gridManager != null)
 		if(!gridManager.editModeOn && aiSpawn){
 			UnitScript aiUnit = Instantiate(UnitHolder.Instance.getUnitFromName("unit1")).GetComponent<UnitScript>();
 			spawnUnit(aiUnit, true);

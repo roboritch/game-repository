@@ -96,11 +96,6 @@ public class UnitScript : MonoBehaviour{
 		bool movedSuccess;
 		//check if grid space is already occupied
 		if(newLocation.unitInstalled == null){
-			//check if unit is already at its max length
-			if(getLength() >= MaxProgramLength){
-				//remove a block from the end
-				removeBlock();
-			}
 			//add a new unit block to given location
 			blockList.AddFirst(newLocation);
 			newLocation.unitInstalled = this;
@@ -111,21 +106,30 @@ public class UnitScript : MonoBehaviour{
 		if(animate && movedSuccess){
 			//TODO unitMoving animation
 			float animationTime = displayUnitMovementAnimation(oldLocation, newLocation);
-			Invoke("checkAllDisplay", animationTime);
+			Invoke("checkAllDisplay", animationTime - .3f);
 		} else{
 			checkAllDisplay();
 		}
-
+		//check if unit is already at its max length
+		if(getLength() > MaxProgramLength){
+			//remove a block from the end
+			removeBlock(false);
+		}
+	
 		return movedSuccess;
 	}
 
 	#region block removal
+	public bool removeBlock() {
+		return removeBlock(1, true);
+	}
+
 	/// <summary>
 	/// Remove one block from this unit, destroying it if all blocks are removed.
 	/// </summary>
 	/// <returns>Whether the unit was destroyed.</returns>
-	public bool removeBlock(){
-		return removeBlock(1);
+	public bool removeBlock(bool damageRemoval){
+		return removeBlock(1, damageRemoval);
 	}
 
 	/// <summary>
@@ -133,7 +137,7 @@ public class UnitScript : MonoBehaviour{
 	/// </summary>
 	/// <returns>Whether the unit was destroyed.</returns>
 	/// <param name="amount">The amount of blocks to remove.</param>
-	public virtual bool removeBlock(int amount){
+	public virtual bool removeBlock(int amount, bool damageRemoval){
 		//remove the given amount of blocks
 		for(int i = 0; i < amount; i++){
 			if(blockList.Last == null){
@@ -142,7 +146,11 @@ public class UnitScript : MonoBehaviour{
 			}
 			GridBlock tempBlock = blockList.Last.Value;
 			tempBlock.unitInstalled = null;
-			checkAllDisplay();
+			if(damageRemoval){
+				checkAllDisplay();
+			} else{
+				checkSingleBlock(tempBlock);
+			}
 			blockList.RemoveLast();
 		}
 		return false;
@@ -205,6 +213,18 @@ public class UnitScript : MonoBehaviour{
 		foreach( GridBlock loc in  blockList ){
 			loc.spriteDisplayScript.updateUnitSprite();
 			loc.spriteDisplayScript.checkConnection();
+		}
+	}
+
+	public void checkSingleBlock(GridBlock blc){
+		blc.spriteDisplayScript.updateUnitSprite();
+		blc.spriteDisplayScript.checkConnection();
+		GridBlock tmpblc;
+		for(int i = 0; i < 4; i++){
+			tmpblc = blc.getAdj(i);
+			if(tmpblc != null){
+				tmpblc.spriteDisplayScript.checkConnection();
+			}
 		}
 	}
 
@@ -338,11 +358,9 @@ public class UnitScript : MonoBehaviour{
 		action.act();
 		actionList.RemoveFirst();
 		if(actionList.First != null){ // only preform another action if there is one
-			float actionTime = action.getActionTime();
-			getReadyToPreformAnotherAction(actionTime); //what for the current actions animation to finish
+			getReadyToPreformAnotherAction(action.getActionTime()); //what for the current actions animation to finish
 		} else{
-			float actionTime = action.getActionTime();
-			Invoke("finishActing", actionTime);
+			Invoke("finishActing", action.getActionTime());
 		}
 	}
 
@@ -442,7 +460,7 @@ public class UnitScript : MonoBehaviour{
 		moveAnimation.setParticalColor(getUnitColor());
 		moveAnimation.setMovmentDirection(locationStart, locationStart.blockAdjDirection(locationEnd));
 		moveAnimation.transform.SetParent(null);
-		Invoke("checkAllDisplay", moveAnimation.getAnimationTime());
+		//Invoke("checkAllDisplay", moveAnimation.getAnimationTime());
 		return moveAnimation.getAnimationTime();
 	}
 
@@ -558,7 +576,7 @@ public class UnitScript : MonoBehaviour{
 			Debug.LogWarning("AI unit acting.");
 			grid.gui.unitToAct(this);
 		} else if(readyToAct){
-			grid.gui.unitToAct(this);
+			//grid.gui.unitToAct(this);
 		}
 	}
 
