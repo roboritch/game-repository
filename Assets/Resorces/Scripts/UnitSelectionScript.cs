@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 /// <summary>
-/// Gets all avalible units.
+/// Gets all available units and displays the selection UI to the user.
 /// Do not create or destroy this object, move it off and on screen insted.
 /// </summary>
 public class UnitSelectionScript : MonoBehaviour{
@@ -20,7 +20,7 @@ public class UnitSelectionScript : MonoBehaviour{
 	[SerializeField] private UnitInformationStruct[] unitInfo;
 	private Button[] unitSelections;
 	/// <summary>
-	/// if it is not posible to set a unit disable it's selection with this
+	/// if it is not possible to set a unit disable it's selection with this
 	/// </summary>
 
 	[SerializeField] private bool[] disabledUnits;
@@ -49,7 +49,7 @@ public class UnitSelectionScript : MonoBehaviour{
 				temp.transform.SetParent(transform);
 				//Transform used in gui.
 				RectTransform rct = temp.GetComponent<RectTransform>();
-				//W idth = Hight
+				//Width = Hight
 				float size = rct.sizeDelta.x;
 				rct.anchoredPosition = new Vector2(5f + (size + 5f) * x, -5f - (size - 5f) * y);
 				//Index number read left to right.
@@ -59,6 +59,7 @@ public class UnitSelectionScript : MonoBehaviour{
 				img.sprite = defaultUnitSprite;
 				img.color = unitInfo[i].unitColor; 
 				unitSelections[i].transform.GetChild(0).GetComponent<Image>().sprite = unitInfo[i].unitHeadSprite;
+				//add a listener to the unit representation 
 				unitSelections[i].onClick.AddListener(() =>{
 					//Call this when button is pressed.
 					this.createThisUnit(i);
@@ -88,6 +89,7 @@ public class UnitSelectionScript : MonoBehaviour{
 			gameObject.SetActive(false);
 			return;
 		}
+		//get unit wanted from inspector values
 		GameObject unit = Instantiate(unitInfo[unitNumberFromSelection].unit) as GameObject;
 		UnitScript su = unit.GetComponent<UnitScript>();
 		// Send to gridBlockforCreation.

@@ -174,16 +174,20 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
 		}
 		if(actionWaitingForUserInput is MoveScript){
-			actionWaitingForUserInput.userSelectedAction(this);
+			//if a move action is waiting for input on this block calling this will tell the unit the user has selected this block to move to
+			actionWaitingForUserInput.userSelectedAction(this); 
 		} else if(actionWaitingForUserInput is AttackScript){
+			//same as above but for attack actions
 			actionWaitingForUserInput.userSelectedAction(this);
 		} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
-			if(gridManager.gui.getCurUnit() != null)
+			//removes a unit from selection when an empty block is selected
+			if (gridManager.gui.getCurUnit() != null)
 				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
 			gridManager.gui.setSelectedUnit(null);
 			//Only on left click.
 		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			if(unitInstalled.getTeam() == Player.Instance.Team) //only a player can select a unit
+			//select a unit if the player is the proper team
+			if(unitInstalled.getTeam() == Player.Instance.Team) 
 				gridManager.gui.setSelectedUnit(unitInstalled);
 		}
 	

@@ -15,7 +15,7 @@ public class GUIScript : MonoBehaviour{
 	//Button attributes.
 	public ActionButtonInfo[] actionButtonInfo;
 	//All this must be set in the inspector.
-	//If there are null pointer exeptions check the refrences in unity.
+	//If there are null pointer exceptions check the references in unity.
 	public Transform[] buttonLocations;
 	//Maximum number of buttons to set.
 	private int MAX_BUTTONS = 6;
@@ -23,7 +23,7 @@ public class GUIScript : MonoBehaviour{
 	#pragma warning disable
 	[SerializeField] private defaultTextHolder buttonDescription;
 
-	//Unit infromation text attributes.
+	//Unit information text attributes.
 	//The currently selected unit will change these themselves.
 	public defaultTextHolder attack;
 	public defaultTextHolder currentSize;
@@ -69,15 +69,27 @@ public class GUIScript : MonoBehaviour{
 		}
 	}
 
+	//TODO currently uses invoke implementation, update to use coroutines 
+	/// <summary>
+	/// updates the visual representation of the timer
+	/// </summary>
 	public void updateTimer(){
 		if(currentlySelectedUnit != null)
 			timer.setTimer();
 	}
 
+	/// <summary>
+	///
+	/// </summary>
+	/// <returns>the unit currently selected by the user</returns>
 	public UnitScript getCurUnit(){
 		return currentlySelectedUnit;
 	}
 
+	/// <summary>
+	/// ether display unit information or remove it depending on 
+	/// whether a unit is selected or not
+	/// </summary>  
 	private void updateUnitInformation(){
 		if(currentlySelectedUnit != null){
 			displayUnitInformation();
@@ -86,12 +98,18 @@ public class GUIScript : MonoBehaviour{
 		}
 	}
 
+	/// <summary>
+	/// display information describing the unit
+	/// </summary>
 	private void displayUnitInformation(){
 		maxSize.addNewTextToDefalt(currentlySelectedUnit.getUnitMaxSize().ToString());
 		moveActions.addNewTextToDefalt(currentlySelectedUnit.movmentRemaning().ToString());
 		currentSize.addNewTextToDefalt(currentlySelectedUnit.getLength().ToString());
 	}
 
+	/// <summary>
+	/// reset the text describing the unit
+	/// </summary>
 	private void resetUnitInformation(){
 		maxSize.setDefault();
 		moveActions.setDefault();

@@ -4,7 +4,7 @@ using System.Collections;
 
 /// <summary>
 /// only one instance of this script can exist at a time.
-/// it can be refrenced by any other script using Manager.Instance.(nameOfThing)
+/// it can be referenced by any other script using Manager.Instance.(nameOfThing)
 /// </summary>
 public class Player : Singleton<Player>{
 	protected Player(){
