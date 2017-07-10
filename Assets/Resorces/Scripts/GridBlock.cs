@@ -170,26 +170,27 @@ public class GridBlock : MonoBehaviour,IPointerDownHandler{
 		//All previous buttons are removed when this method is called.
 		//If the mouse button is pressed, and this block is a spawn spot and is not currently occupied by a unit.
 		if(teamSpawn != null)
-		if((Player.Instance.Team == teamSpawn) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
-			gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
-		}
-		if(actionWaitingForUserInput is MoveScript){
-			//if a move action is waiting for input on this block calling this will tell the unit the user has selected this block to move to
-			actionWaitingForUserInput.userSelectedAction(this); 
-		} else if(actionWaitingForUserInput is AttackScript){
-			//same as above but for attack actions
-			actionWaitingForUserInput.userSelectedAction(this);
-		} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
-			//removes a unit from selection when an empty block is selected
-			if (gridManager.gui.getCurUnit() != null)
-				gridManager.gui.getCurUnit().removeUserSelectionDisplay();
-			gridManager.gui.setSelectedUnit(null);
-			//Only on left click.
-		} else if(unitInstalled != null && Input.GetMouseButton(0)){
-			//select a unit if the player is the proper team
-			if(unitInstalled.getTeam() == Player.Instance.Team) 
-				gridManager.gui.setSelectedUnit(unitInstalled);
-		}
+			if((Player.Instance.Team == teamSpawn || Player.Instance.debugUnitControl) && spawnSpot && unitInstalled == null && actionWaitingForUserInput == null && Input.GetMouseButton(0)){
+				//call the unit spawn gui to display the possible units the user can select
+				gridManager.gui.unitSelectionScript.enableOnGridBlock(this);
+			}
+			if(actionWaitingForUserInput is MoveScript){
+				//if a move action is waiting for input on this block calling this will tell the unit the user has selected this block to move to
+				actionWaitingForUserInput.userSelectedAction(this); 
+			} else if(actionWaitingForUserInput is AttackScript){
+				//same as above but for attack actions
+				actionWaitingForUserInput.userSelectedAction(this);
+			} else if(!GridManager.editModeOn && unitInstalled == null && Input.GetMouseButton(0)){
+				//removes a unit from selection when an empty block is selected
+				if (gridManager.gui.getCurUnit() != null)
+					gridManager.gui.getCurUnit().removeUserSelectionDisplay();
+				gridManager.gui.setSelectedUnit(null);
+				//Only on left click.
+			} else if(unitInstalled != null && Input.GetMouseButton(0)){
+				//select a unit if the player is the proper team
+				if(unitInstalled.getTeam() == Player.Instance.Team ||Player.Instance.debugUnitControl) 
+					gridManager.gui.setSelectedUnit(unitInstalled);
+			}
 	
 	}
 
