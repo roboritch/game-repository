@@ -3,6 +3,9 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// controls when a unit will act
+/// </summary>
 public class UnitActingQueue : MonoBehaviour{
 	#pragma warning disable
 	[SerializeField] private GameObject unitActingPrefab;
@@ -24,22 +27,24 @@ public class UnitActingQueue : MonoBehaviour{
 	/// Adds to unit acting queue.
 	/// </summary>
 	public void addToUnitActing(UnitScript currentlySelectedUnit){
-		UnitActingScript temp = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>();
-		temp.transform.SetParent(currentProgramStartPosition);
+		UnitActingScript currentUnitAction = Instantiate(unitActingPrefab).GetComponent<UnitActingScript>();
+		currentUnitAction.transform.SetParent(currentProgramStartPosition);
 		//Each unit acting image is 50f apart.
-		temp.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);
-		temp.setUnit(currentlySelectedUnit);
-		actingQueue.Enqueue(temp);
+		currentUnitAction.location.anchoredPosition = new Vector2(0, actingQueue.Count * -50f);
+		currentUnitAction.setUnit(currentlySelectedUnit);
+		actingQueue.Enqueue(currentUnitAction);
 		if(actingQueue.Count == 1){
 			if(Player.Instance.workingOnline){ //Online check
 				Player.Instance.thisPlayersNetworkHelper.Cmd_incNumberOfReadyClients();
 			} else{
-				if(!temp.setCurrentlyActing()){
+				if(!currentUnitAction.setCurrentlyActing()){
 					currentUnitDoneActing();
 				}
 			}
 		} else if(actingQueue.Count > maxVisibleItems){
-			temp.setVisible(false);
+			//TODO update to use canvas masks
+			//Hide the action if it goes of screen
+			currentUnitAction.setVisible(false);
 		}
 	}
 
@@ -49,14 +54,14 @@ public class UnitActingQueue : MonoBehaviour{
 	/// <param name="currentUnit">Current unit.</param>
 	public void currentUnitDoneActing(){
 		if(actingQueue.Count >= 1){
-			
+			//remove acting unit from the queue once it is done it's action
 			actingQueue.Dequeue().destroyThis();
 
 			if(actingQueue.Count != 0){
-				if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destoroyed before they can act
-					currentUnitDoneActing();
+				if(!actingQueue.Peek().checkIfUnitIsAlive()){ //gets rid of any units destroyed before they can act
+					currentUnitDoneActing(); //remove the dead unit by calling this method again
 					shiftUnitRepresentationsUpOneLevel();
-					return;
+					return; //dead units don't do anything else
 				}
 
 				shiftUnitRepresentationsUpOneLevel();
@@ -69,6 +74,9 @@ public class UnitActingQueue : MonoBehaviour{
 	}
 	#endregion
 
+	/// <summary>
+	/// shifts all unit representations up 
+	/// </summary>
 	private void shiftUnitRepresentationsUpOneLevel(){
 		int deactivatedItem = 0;
 		//Shift all images up one.

@@ -73,6 +73,10 @@ public class UnitSelectionScript : MonoBehaviour{
 		setUpUnits();
 	}
 
+	/// <summary>
+	/// called when the user selects a spawn spot on the grid
+	/// </summary>
+	/// <param name="gb"></param>
 	public void enableOnGridBlock(GridBlock gb){
 		gameObject.SetActive(true);
 		currentGridblock = gb;

@@ -157,12 +157,12 @@ public class NetworkIO : NetworkBehaviour{
 		localGrid.gui.getUnitActingQueue().addToUnitActing(localGrid.gameGrid[(int)x, (int)y].unitInstalled);
 	}
 
-	[Command] //Called by each clients action queue when a unit is ready to act
+	[Command] ///<summary>each clients action queue when a unit is ready to act</summary>  
 	public void Cmd_incNumberOfReadyClients(){
 		Player.Instance.numberOfClientsReadyToAct++;
 	}
 
-	[Server] //invoked repeatedly by the server 
+	[Server] ///<summary>invoked repeatedly by the server to check if all clients are ready to take the next action</summary> 
 	private void checkAllIfAllClientsAreReadyToAct(){
 		if(Player.Instance.numberOfClientsReadyToAct == NetworkManager.singleton.numPlayers){
 			tellTheActionQueueToRunNextActionOnAllClients(); // only called when all clients are ready to act

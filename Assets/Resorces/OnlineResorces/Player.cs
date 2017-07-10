@@ -5,6 +5,8 @@ using System.Collections;
 /// <summary>
 /// only one instance of this script can exist at a time.
 /// it can be referenced by any other script using Manager.Instance.(nameOfThing)
+/// 
+/// This class describes a player 
 /// </summary>
 public class Player : Singleton<Player>{
 	protected Player(){
@@ -61,8 +63,24 @@ public class Player : Singleton<Player>{
 		gameObject.name = "player " + name;
 	}
 
+	/// <summary>
+	/// the network object that helps this player send commands across the network
+	/// </summary>
 	public NetworkIO thisPlayersNetworkHelper;
+	/// <summary>
+	/// indicates whether or not this player is connected to an online game
+	/// </summary>
 	public bool workingOnline = false;
+	/// <summary>
+	/// used to synchronize all 
+	/// </summary>
 	public int numberOfClientsReadyToAct;
+	/// <summary>
+	/// level that all players are loading
+	/// </summary>
 	public string dataPathOfLevelTheUserWantsToLoad = "";
+	/// <summary>
+	/// this player can spawn and control all units
+	/// </summary>
+	public bool debugUnitControl = false;
 }

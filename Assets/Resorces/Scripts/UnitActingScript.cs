@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Unit acting script.
+/// holds a set of actions the unit will preform
 /// Many of these are controlled by the game GUI script.
 /// </summary>
 public class UnitActingScript : MonoBehaviour{
