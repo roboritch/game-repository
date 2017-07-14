@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// controls the display of the knife cut animation
+/// </summary>
 public class knifeCutControler : MonoBehaviour {
 	ParticleSystem PS;
 
